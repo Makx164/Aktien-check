@@ -1,0 +1,126 @@
+{
+  "trafficLight": {
+    "greenAt": 70,
+    "orangeAt": 50
+  },
+  "analystCap": {
+    "below": 5,
+    "maxPoints": 7
+  },
+  "ko": {
+    "altmanZBelow": 1.8,
+    "netDebtToEbitdaAbove": 3,
+    "restatementMonths": 24
+  },
+  "benchmark": {
+    "label": "S&P 500",
+    "stooq": "^spx",
+    "nasdaq": "SPY",
+    "assetClass": "etf",
+    "proxyLabel": "SPY (S&P-500-ETF)"
+  },
+  "valuation": {
+    "profitable": {
+      "label": "PEG",
+      "zeroAt": 3.0,
+      "tenAt": 1.0
+    },
+    "unprofitable": {
+      "label": "(EV/Umsatz) / Umsatzwachstum",
+      "zeroAt": 1.0,
+      "tenAt": 0.2,
+      "growthUnit": "percent"
+    }
+  },
+  "criteria": [
+    {
+      "id": "C_01",
+      "label": "Geschäftsmodell & Burggraben",
+      "weight": 1,
+      "metrics": [
+        {"id": "roic_2y", "label": "ROIC, 2-Jahres-Schnitt", "kind": "percent", "zeroAt": 0.05, "tenAt": 0.2},
+        {"id": "gross_margin", "label": "Bruttomarge", "kind": "percent", "zeroAt": 0.2, "tenAt": 0.6},
+        {"id": "gross_margin_stability", "label": "Stabilität der Bruttomarge", "kind": "percent", "zeroAt": 0.15, "tenAt": 0.02},
+        {"id": "operating_margin", "label": "Operative Marge", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
+        {"id": "fcf_margin", "label": "Free-Cashflow-Marge", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.2}
+      ]
+    },
+    {
+      "id": "C_02",
+      "label": "Wachstum",
+      "weight": 1,
+      "metrics": [
+        {"id": "revenue_cagr_3y", "label": "Umsatz-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
+        {"id": "revenue_cagr_5y", "label": "Umsatz-CAGR, 5 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.2},
+        {"id": "eps_cagr_3y", "label": "EPS-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
+        {"id": "fcf_cagr_3y", "label": "Free-Cashflow-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
+        {"id": "revenue_acceleration", "label": "Umsatzbeschleunigung", "kind": "ratioPp", "zeroAt": -0.1, "tenAt": 0.1}
+      ]
+    },
+    {
+      "id": "C_03",
+      "label": "Markt & Zukunftsmarkt",
+      "weight": 1,
+      "metrics": [
+        {"id": "revenue_yoy", "label": "Umsatzwachstum zum Vorjahr", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.3},
+        {"id": "rd_intensity", "label": "Forschungsquote", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.15},
+        {"id": "gross_margin_change_yoy", "label": "Veränderung der Bruttomarge", "kind": "ratioPp", "zeroAt": -0.05, "tenAt": 0.05}
+      ]
+    },
+    {
+      "id": "C_04",
+      "label": "Profitabilität & Finanzkraft",
+      "weight": 1,
+      "metrics": [
+        {"id": "operating_margin_fin", "label": "Operative Marge", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
+        {"id": "fcf_margin_fin", "label": "Free-Cashflow-Marge", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.15},
+        {"id": "roe", "label": "Eigenkapitalrendite", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
+        {"id": "net_debt_to_ebitda", "label": "Nettoverschuldung / EBITDA", "kind": "multiple", "zeroAt": 4.0, "tenAt": 0.0},
+        {"id": "current_ratio", "label": "Current Ratio", "kind": "multiple", "zeroAt": 0.8, "tenAt": 2.0},
+        {"id": "dilution_3y", "label": "Verwässerung, 3 Jahre", "kind": "percent", "zeroAt": 0.1, "tenAt": 0.0}
+      ]
+    },
+    {
+      "id": "C_05",
+      "label": "Management & große Investoren",
+      "weight": 1,
+      "metrics": [
+        {"id": "insider_net_buy_share", "label": "Insider, Anteil Käufe", "kind": "percent", "zeroAt": 0.2, "tenAt": 0.8},
+        {"id": "sbc_to_revenue", "label": "Aktienvergütung / Umsatz", "kind": "percent", "zeroAt": 0.15, "tenAt": 0.02},
+        {"id": "shareholder_yield", "label": "Aktionärsrendite", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.05},
+        {"id": "share_change_1y", "label": "Veränderung der Aktienzahl, 1 Jahr", "kind": "percent", "zeroAt": 0.05, "tenAt": -0.01}
+      ]
+    },
+    {
+      "id": "C_06",
+      "label": "Analysten & Stimmung",
+      "weight": 1,
+      "cap": "analysts",
+      "metrics": [
+        {"id": "buy_share", "label": "Anteil Kaufempfehlungen", "kind": "percent", "zeroAt": 0.3, "tenAt": 0.8},
+        {"id": "target_upside", "label": "Abstand zum mittleren Kursziel", "kind": "percent", "zeroAt": -0.1, "tenAt": 0.3},
+        {"id": "eps_revision_90d", "label": "EPS-Revision, 90 Tage", "kind": "percent", "zeroAt": -0.1, "tenAt": 0.1}
+      ]
+    },
+    {
+      "id": "C_07",
+      "label": "Kursverlauf & Momentum",
+      "weight": 0.5,
+      "metrics": [
+        {"id": "excess_return_12_1", "label": "12-1-Monats-Rendite gegen S&P 500", "kind": "pp", "zeroAt": -30, "tenAt": 30},
+        {"id": "above_sma_200", "label": "Kurs über der 200-Tage-Linie", "kind": "binary"},
+        {"id": "distance_52w_high", "label": "Abstand zum 52-Wochen-Hoch", "kind": "percent", "zeroAt": 0.5, "tenAt": 0.05}
+      ]
+    },
+    {
+      "id": "C_08",
+      "label": "Bewertung",
+      "weight": 1,
+      "metrics": [
+        {"id": "valuation_primary", "label": "Bewertung", "kind": "multiple"},
+        {"id": "fcf_yield", "label": "Free-Cashflow-Rendite", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.08},
+        {"id": "ev_to_ebitda", "label": "EV / EBITDA", "kind": "multiple", "zeroAt": 30, "tenAt": 8}
+      ]
+    }
+  ]
+}

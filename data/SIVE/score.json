@@ -2,56 +2,436 @@
   "ticker": "SIVE",
   "name": "Sivers Semiconductors",
   "asOf": null,
-  "role": null,
   "score": null,
+  "trafficLight": null,
+  "qualityScore": null,
+  "marketScore": null,
+  "dataQuality": "Nur Kursdaten. Keine SEC-Fundamentaldaten. Stooq hat den Abruf abgelehnt. 0 von 32 Metriken verfügbar",
+  "koFlags": [],
   "criteria": [
     {
       "id": "C_01",
-      "label": null,
+      "label": "Geschäftsmodell & Burggraben",
       "score": null,
-      "metrics": []
+      "weight": 1,
+      "dataQuality": "0 von 5 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "roic_2y",
+          "label": "ROIC, 2-Jahres-Schnitt",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "gross_margin",
+          "label": "Bruttomarge",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "gross_margin_stability",
+          "label": "Stabilität der Bruttomarge",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "operating_margin",
+          "label": "Operative Marge",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "fcf_margin",
+          "label": "Free-Cashflow-Marge",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        }
+      ]
     },
     {
       "id": "C_02",
-      "label": null,
+      "label": "Wachstum",
       "score": null,
-      "metrics": []
+      "weight": 1,
+      "dataQuality": "0 von 5 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "revenue_cagr_3y",
+          "label": "Umsatz-CAGR, 3 Jahre",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "revenue_cagr_5y",
+          "label": "Umsatz-CAGR, 5 Jahre",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "eps_cagr_3y",
+          "label": "EPS-CAGR, 3 Jahre",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "fcf_cagr_3y",
+          "label": "Free-Cashflow-CAGR, 3 Jahre",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "revenue_acceleration",
+          "label": "Umsatzbeschleunigung",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        }
+      ]
     },
     {
       "id": "C_03",
-      "label": null,
+      "label": "Markt & Zukunftsmarkt",
       "score": null,
-      "metrics": []
+      "weight": 1,
+      "dataQuality": "0 von 3 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "revenue_yoy",
+          "label": "Umsatzwachstum zum Vorjahr",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "rd_intensity",
+          "label": "Forschungsquote",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "gross_margin_change_yoy",
+          "label": "Veränderung der Bruttomarge",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        }
+      ]
     },
     {
       "id": "C_04",
-      "label": null,
+      "label": "Profitabilität & Finanzkraft",
       "score": null,
-      "metrics": []
+      "weight": 1,
+      "dataQuality": "0 von 6 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "operating_margin_fin",
+          "label": "Operative Marge",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "fcf_margin_fin",
+          "label": "Free-Cashflow-Marge",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "roe",
+          "label": "Eigenkapitalrendite",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "net_debt_to_ebitda",
+          "label": "Nettoverschuldung / EBITDA",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "current_ratio",
+          "label": "Current Ratio",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "dilution_3y",
+          "label": "Verwässerung, 3 Jahre",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        }
+      ]
     },
     {
       "id": "C_05",
-      "label": null,
+      "label": "Management & große Investoren",
       "score": null,
-      "metrics": []
+      "weight": 1,
+      "dataQuality": "0 von 4 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "insider_net_buy_share",
+          "label": "Insider, Anteil Käufe",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "sbc_to_revenue",
+          "label": "Aktienvergütung / Umsatz",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "shareholder_yield",
+          "label": "Aktionärsrendite",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "share_change_1y",
+          "label": "Veränderung der Aktienzahl, 1 Jahr",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        }
+      ]
     },
     {
       "id": "C_06",
-      "label": null,
+      "label": "Analysten & Stimmung",
       "score": null,
-      "metrics": []
+      "weight": 1,
+      "dataQuality": "0 von 3 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "buy_share",
+          "label": "Anteil Kaufempfehlungen",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "target_upside",
+          "label": "Abstand zum mittleren Kursziel",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "eps_revision_90d",
+          "label": "EPS-Revision, 90 Tage",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        }
+      ]
     },
     {
       "id": "C_07",
-      "label": null,
+      "label": "Kursverlauf & Momentum",
       "score": null,
-      "metrics": []
+      "weight": 0.5,
+      "dataQuality": "0 von 3 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "excess_return_12_1",
+          "label": "12-1-Monats-Rendite gegen S&P 500",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "above_sma_200",
+          "label": "Kurs über der 200-Tage-Linie",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "distance_52w_high",
+          "label": "Abstand zum 52-Wochen-Hoch",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        }
+      ]
     },
     {
       "id": "C_08",
-      "label": null,
+      "label": "Bewertung",
       "score": null,
-      "metrics": []
+      "weight": 1,
+      "dataQuality": "0 von 3 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "valuation_primary",
+          "label": "Bewertung",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "fcf_yield",
+          "label": "Free-Cashflow-Rendite",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "ev_to_ebitda",
+          "label": "EV / EBITDA",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        }
+      ]
     }
   ]
 }

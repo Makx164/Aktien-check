@@ -51,6 +51,9 @@
         --logo-stroke: #111214;
         color-scheme: dark;
       }
+
+      .light.green { color: #8dcea8; }
+      .light.orange { color: #e2a85a; }
     }
 
     * { box-sizing: border-box; }
@@ -302,6 +305,23 @@
       font-size: 12.5px;
     }
 
+    .light.green { color: #1b7a45; }
+    .light.orange { color: #a86208; }
+    .light.red { color: var(--accent); }
+
+    .ko {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .weight {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+    }
+
     @media (max-width: 800px) {
       .board { grid-template-columns: 1fr; }
       .wrap { width: min(100% - 20px, 1120px); padding-top: 18px; }
@@ -329,7 +349,7 @@
       <p class="note legal">„Keine Anlageberatung.“</p>
     </div>
 
-    <p class="lead">Acht Kriterien, je 0–10 und gleich gewichtet. Die Rolle, die am besten passt, ist Satellit, Tenbagger, Compounder oder Dividenden-Aktie. ROIC-Deckel und ROIC-Punkte gelten für den Zweijahres-Schnitt.</p>
+    <p class="lead">Aktien-Score von 0 bis 100. Jedes Kriterium ist der Mittelwert seiner Teilkennzahlen, C_07 zählt mit halbem Gewicht. Ab 70 grün, von 50 bis 69 orange, darunter rot. Phase 1 rechnet mit gemeldeten Zahlen und Kursen. Burggraben und Marktgröße ohne Textbewertung fehlen.</p>
 
     <main class="board" id="board" aria-live="polite">
       <p class="status">Daten werden geladen.</p>
@@ -377,9 +397,8 @@
       const points = [];
       if (!isBlank(score.asOf)) points.push(String(score.asOf));
       for (const criterion of score.criteria || []) {
-        if (!isBlank(criterion.asOf)) points.push(String(criterion.asOf));
         for (const metric of criterion.metrics || []) {
-          if (!isBlank(metric.fetchedAt)) points.push(String(metric.fetchedAt));
+          if (!isBlank(metric.observedAt)) points.push(String(metric.observedAt));
         }
       }
       if (!points.length) return unknown();
@@ -393,15 +412,13 @@
       return points.length === 1 ? points[0] : unknown();
     }
 
-    function scoreText(value) {
+    function scoreText(value, max) {
       if (isBlank(value) || Number.isNaN(Number(value))) return unknown();
       const number = Number(value);
-      if (number < 0 || number > 10) return unknown();
-      return Number.isInteger(number) ? String(number) : String(Math.round(number * 10) / 10);
-    }
-
-    function roleText(value) {
-      return ROLES.has(value) ? value : unknown();
+      if (number < 0 || number > max) return unknown();
+      const rounded = Math.round(number * 10) / 10;
+      const text = Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
+      return text.replace(".", ",");
     }
 
     function criteriaOf(score) {
@@ -430,15 +447,19 @@
         return [{
           label: unknown(),
           value: unknown(),
+          points: unknown(),
           source: text(unknown()),
-          fetched: unknown()
+          fetched: unknown(),
+          observed: unknown()
         }];
       }
       return metrics.map((metric) => ({
         label: isBlank(metric.label) ? unknown() : String(metric.label),
         value: isBlank(metric.value) ? unknown() : String(metric.value),
+        points: scoreText(metric.points, 10),
         source: linkCell(metric),
-        fetched: formatDate(metric.fetchedAt)
+        fetched: formatDate(metric.fetchedAt),
+        observed: formatDate(metric.observedAt)
       }));
     }
 
@@ -459,13 +480,27 @@
 
       const meta = document.createElement("p");
       meta.className = "meta";
+      const scoreLabel = labeled("Score", scoreText(score.score, 100));
+      const light = score.trafficLight;
+      if (light === "green" || light === "orange" || light === "red") {
+        scoreLabel.classList.add("light", light);
+      }
       meta.append(
         labeled("Stand der Daten", standOf(score)),
-        labeled("Score", scoreText(score.score)),
-        labeled("Passt am besten als", roleText(score.role))
+        scoreLabel,
+        labeled("Qualität", scoreText(score.qualityScore, 100)),
+        labeled("Markt", scoreText(score.marketScore, 100))
       );
+      if (ROLES.has(score.role)) meta.append(labeled("Passt am besten als", score.role));
+      meta.append(labeled("Datenqualität", isBlank(score.dataQuality) ? unknown() : String(score.dataQuality)));
 
       card.append(head, meta);
+      if (Array.isArray(score.koFlags) && score.koFlags.length) {
+        const ko = document.createElement("p");
+        ko.className = "ko";
+        ko.textContent = "K.O. " + score.koFlags.join(" · ");
+        card.append(ko);
+      }
 
       for (const criterion of criteriaOf(score)) {
         const details = document.createElement("details");
@@ -480,7 +515,13 @@
         clabel.textContent = isBlank(criterion.label) ? "" : String(criterion.label);
         const cscore = document.createElement("span");
         cscore.className = "cscore";
-        cscore.textContent = scoreText(criterion.score);
+        const bits = [];
+        if (criterion.weight != null && Number(criterion.weight) !== 1) {
+          bits.push("Gewicht " + String(criterion.weight).replace(".", ","));
+        }
+        if (criterion.capApplied) bits.push("Deckel 7");
+        bits.push(scoreText(criterion.score, 10));
+        cscore.textContent = bits.join(" · ");
         summary.append(cid, clabel, cscore);
 
         const detail = document.createElement("div");
@@ -488,7 +529,7 @@
         const table = document.createElement("table");
         const thead = document.createElement("thead");
         const hr = document.createElement("tr");
-        for (const heading of ["Kennzahl", "Wert", "Quelle", "Abruf"]) {
+        for (const heading of ["Kennzahl", "Wert", "Punkte", "Quelle", "Abruf", "Datenstand"]) {
           const th = document.createElement("th");
           th.textContent = heading;
           hr.append(th);
@@ -497,7 +538,7 @@
         const tbody = document.createElement("tbody");
         for (const row of metricRows(criterion)) {
           const tr = document.createElement("tr");
-          const cells = [row.label, row.value, row.source, row.fetched];
+          const cells = [row.label, row.value, row.points, row.source, row.fetched, row.observed];
           for (const cell of cells) {
             const td = document.createElement("td");
             if (cell instanceof Node) td.append(cell);
