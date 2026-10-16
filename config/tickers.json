@@ -83,11 +83,13 @@
     "ticker": "SIVE",
     "name": "Sivers Semiconductors",
     "sec": false,
+    "analysts": false,
     "stooq": "sive.se",
     "stooqFallbacks": ["sive.st"],
+    "yahoo": "SIVE.ST",
     "nasdaq": null,
     "assetClass": null,
-    "note": "Nur Kursdaten. Keine SEC-Fundamentaldaten."
+    "note": "Keine SEC-Fundamentaldaten. Fundamentalkennzahlen und C_06 (Analysten) sind wenig Daten."
   },
   {
     "ticker": "SPCX",

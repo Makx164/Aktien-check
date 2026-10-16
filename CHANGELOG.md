@@ -2,6 +2,28 @@
 
 ## 2026-10-16
 
+### Wenig Daten, SIVE-Kurse, Service Worker
+
+Fehlt einer Kennzahl die Basis, ist `status` „wenig Daten“ und `points` bleibt leer. Eine fehlende Kennzahl zählt nicht als 0 und fällt aus dem Mittel. Der Aktien-Score normiert die Gewichte auf die Kriterien mit Daten. Unter `minCriteriaWithData` (3) bleibt `score` leer, `status` ist „wenig Daten“, und die Karte zeigt `missingDataNote`. Dieselbe Bezeichnung steht im zugeklappten Kriterium.
+
+Lauf am 16.10.2026 ohne `FMP_API_KEY` und `FINNHUB_API_KEY`, deshalb ist C_06 bei jedem Ticker „wenig Daten“ und nicht im Score. Stooq hat den CSV-Abruf abgelehnt; US-Kurse kommen von Nasdaq, der Vergleich vom ETF SPY.
+
+- PLTR 62,8, orange, 7 Kriterien
+- OSS 41,9, rot, 6 Kriterien (C_08 zusätzlich leer)
+- AMZN 57,0, orange, 7 Kriterien
+- TSLA 30,1, rot, 7 Kriterien
+- HIMS 49,0, rot, 6 Kriterien (C_08 zusätzlich leer)
+- LMND 33,3, rot, 7 Kriterien
+- IBRX 37,2, rot, 7 Kriterien
+- MU 80,8, grün, 7 Kriterien
+- IREN 33,7, rot, 7 Kriterien
+- GRAB 46,2, rot, 6 Kriterien (C_08 zusätzlich leer)
+- SIVE „wenig Daten“ (1 Kriterium). Kurse von der Yahoo-Finance-Chart-API, Symbol SIVE.ST, 1257 Tage, Quelle in `data/SIVE/score.json`. Keine SEC-Daten. Fundamentalkennzahlen und C_06 sind „wenig Daten“. C_07 steht bei 3,3; der Markt-Teilscore daraus ist 33,0. Die Headline bleibt „wenig Daten“, weil weniger als drei Kriterien Daten haben.
+- SPCX „wenig Daten“ (1 Kriterium), vorher 0,0. 87 Kurse, keine 12-1-Rendite und keine 200-Tage-Linie, C_07 ist „wenig Daten“. C_05 ist 0,0 aus dem Insider-Kaufanteil 0 %. Das zieht die Headline nicht mehr auf 0.
+- PYPL 67,5, orange, 7 Kriterien
+
+`sw.js` und `service-worker.js` ersetzen die frühere Vite-PWA (`registerSW.js`, Scope `/`). Install ruft `skipWaiting`. Activate löscht alle Caches, hebt die Registrierung auf und lädt offene Fenster neu. `vercel.json` setzt `Cache-Control: no-cache`. `index.html` meldet vorhandene Service Worker ab.
+
 ### Phase 1, echte Kennzahlen
 
 `scripts/build_scores.py` füllt `data/<TICKER>/score.json` aus SEC EDGAR (companyfacts, submissions, eine begrenzte Form-4-Stichprobe) und Tageskursen. Schwellen stehen in `config/scoring.json`. Der Aktien-Score ist 0–100, C_07 hat Gewicht 0,5. Ab 70 grün, 50–69 orange, darunter rot. Jede Teilkennzahl trägt Wert, Punkte, Quelle, Abrufdatum und das Datum des Datenpunkts. Fehlt eine Zahl, bleibt das Feld leer und die Seite zeigt „unbekannt“.

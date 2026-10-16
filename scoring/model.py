@@ -39,7 +39,11 @@ def mean(values):
 
 
 def weighted_total(scores_and_weights):
-    """0–100 score from criterion scores. Missing criteria are left out."""
+    """0–100 score from criterion scores.
+
+    Criteria without a score are left out. The remaining weights are
+    re-normalized, so a missing criterion does not count as zero.
+    """
     num = 0.0
     den = 0.0
     for score, weight in scores_and_weights:
@@ -95,3 +99,36 @@ def apply_analyst_cap(score, analyst_count, below, max_points):
     if analyst_count < below and score > max_points:
         return float(max_points), True
     return score, False
+
+
+def coverage_decision(criteria, minimum, status_label="wenig Daten"):
+    """Headline score from criteria that have data.
+
+    A criterion with a numeric score counts, including a real zero.
+    Below `minimum` criteria the headline is the status label and no number.
+    """
+    present = [item for item in criteria if item.get("score") is not None]
+    missing_ids = [item["id"] for item in criteria if item.get("score") is None]
+    total = weighted_total((item.get("score"), item.get("weight", 1)) for item in criteria)
+    status = status_label if len(present) < minimum else None
+    if status is not None:
+        total = None
+    note = None
+    if missing_ids:
+        listed = ", ".join(missing_ids)
+        if status is not None:
+            note = (
+                f"Wenig Daten bei {listed}. "
+                f"Weniger als {minimum} Kriterien haben Daten."
+            )
+        else:
+            note = (
+                f"Wenig Daten bei {listed}. "
+                "Der Score zählt nur Kriterien mit Daten."
+            )
+    return {
+        "score": round1(total) if total is not None else None,
+        "status": status,
+        "criteriaWithData": len(present),
+        "note": note,
+    }

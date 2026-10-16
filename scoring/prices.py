@@ -1,9 +1,14 @@
-"""Daily prices. Stooq CSV is tried first. Nasdaq historical quotes are the fallback."""
+"""Daily prices.
+
+Stooq CSV is tried first. Nasdaq historical quotes are the next fallback.
+A configured Yahoo Finance chart symbol is used when both are empty.
+"""
 
 from __future__ import annotations
 
 import csv
 import hashlib
+import http.cookiejar
 import io
 import json
 import re
@@ -13,7 +18,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 
 USER_AGENT = "sidequest/1.0 (aktiencheck; maximilianhillert@mail.grokbot.com)"
 BROWSER_AGENT = (
@@ -70,7 +75,94 @@ def _nasdaq_date(value):
     return f"{int(year):04d}-{int(month):02d}-{int(day):02d}"
 
 
-def fetch_series(symbol_stooq, nasdaq_symbol, asset_class, stooq_fallbacks=None):
+def parse_yahoo_chart(payload):
+    """Daily bars from a Yahoo v8 chart payload. Null closes are skipped."""
+    chart = payload.get("chart") or {}
+    if chart.get("error"):
+        return []
+    result = chart.get("result") or []
+    if not result:
+        return []
+    block = result[0] or {}
+    timestamps = block.get("timestamp") or []
+    quotes = (block.get("indicators") or {}).get("quote") or []
+    quote = quotes[0] if quotes else {}
+    closes = quote.get("close") or []
+    highs = quote.get("high") or []
+    rows = {}
+    for index, ts in enumerate(timestamps):
+        if ts is None or index >= len(closes) or closes[index] is None:
+            continue
+        try:
+            close = float(closes[index])
+        except (TypeError, ValueError):
+            continue
+        high = None
+        if index < len(highs) and highs[index] is not None:
+            try:
+                high = float(highs[index])
+            except (TypeError, ValueError):
+                high = None
+        day = datetime.fromtimestamp(int(ts), timezone.utc).date().isoformat()
+        rows[day] = {"date": day, "close": close, "high": high}
+    return [rows[key] for key in sorted(rows)]
+
+
+def yahoo_chart_url(symbol):
+    query = urllib.parse.urlencode({"interval": "1d", "range": "5y"})
+    return (
+        "https://query1.finance.yahoo.com/v8/finance/chart/"
+        + urllib.parse.quote(symbol)
+        + "?"
+        + query
+    )
+
+
+YAHOO_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+)
+
+
+def _yahoo_open(opener, url, accept):
+    request = urllib.request.Request(url, headers={
+        "User-Agent": YAHOO_AGENT,
+        "Accept": accept,
+        "Accept-Language": "en-US,en;q=0.9",
+    })
+    with opener.open(request, timeout=40) as response:
+        return response.read()
+
+
+def _yahoo_download(symbol):
+    """Chart payload. The quote page sets the crumb cookies only for an HTML accept."""
+    url = yahoo_chart_url(symbol)
+    jar = http.cookiejar.CookieJar()
+    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
+    try:
+        _yahoo_open(
+            opener,
+            "https://finance.yahoo.com/quote/" + urllib.parse.quote(symbol),
+            "text/html,application/xhtml+xml",
+        )
+        crumb = _yahoo_open(
+            opener,
+            "https://query1.finance.yahoo.com/v1/test/getcrumb",
+            "text/plain,*/*",
+        )
+        crumb = crumb.decode("utf-8", "replace").strip()
+        if not crumb or crumb[:1] in {"<", "{"}:
+            return None, url
+        chart_url = url + "&crumb=" + urllib.parse.quote(crumb)
+        payload = json.loads(_yahoo_open(opener, chart_url, "application/json").decode("utf-8"))
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, OSError, ValueError):
+        return None, url
+    if (payload.get("chart") or {}).get("error"):
+        return None, url
+    return payload, url
+
+
+def fetch_series(symbol_stooq, nasdaq_symbol, asset_class, stooq_fallbacks=None, yahoo_symbol=None):
     """Return bars plus the source that actually answered."""
     symbols = [symbol_stooq] + list(stooq_fallbacks or [])
     denied = False
@@ -104,6 +196,20 @@ def fetch_series(symbol_stooq, nasdaq_symbol, asset_class, stooq_fallbacks=None)
                 "sourceUrl": url,
                 "note": note,
                 "provider": "nasdaq",
+            }
+    if yahoo_symbol:
+        payload, url = _yahoo_download(yahoo_symbol)
+        bars = parse_yahoo_chart(payload) if payload else []
+        if bars:
+            note = f"Kurse von Yahoo Finance Chart-API ({yahoo_symbol})."
+            if denied:
+                note += " Stooq hat den Abruf abgelehnt."
+            return {
+                "bars": bars,
+                "sourceLabel": f"Yahoo Finance Chart-API ({yahoo_symbol})",
+                "sourceUrl": url,
+                "note": note,
+                "provider": "yahoo",
             }
     note = "Stooq hat den Abruf abgelehnt." if denied else "Keine Kursdaten."
     return {"bars": [], "sourceLabel": None, "sourceUrl": None, "note": note, "provider": None}

@@ -3,6 +3,8 @@
     "greenAt": 70,
     "orangeAt": 50
   },
+  "minCriteriaWithData": 3,
+  "missingDataStatus": "wenig Daten",
   "analystCap": {
     "below": 5,
     "maxPoints": 7

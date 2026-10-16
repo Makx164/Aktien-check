@@ -1,7 +1,8 @@
 """Turn annual series and daily prices into criterion metrics.
 
 Formulas live here. The 0–10 ramps are read from config/scoring.json.
-Missing inputs stay None. Nothing is filled in with zero or a guess.
+Missing inputs stay None and are marked „wenig Daten“. Nothing is filled
+in with zero or a guess, and a missing metric never scores 0.
 """
 
 from __future__ import annotations
@@ -580,6 +581,7 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources):
     if momentum.get("benchmark_label") and momentum["benchmark_label"] != config["benchmark"]["label"]:
         pass
     raw = _raw_metrics(bundle, end, cap, last_close, momentum, analysts, config)
+    missing_label = config.get("missingDataStatus") or "wenig Daten"
     criteria = []
     metric_available = 0
     metric_total = 0
@@ -596,7 +598,9 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources):
             kind = spec.get("kind")
             if spec.get("id") == "valuation_primary":
                 kind = "multiple"
-            if value is None or spec.get("kind") == "binary" and spec["id"] == "above_sma_200":
+            if value is None:
+                scored = None
+            elif spec.get("kind") == "binary" and spec["id"] == "above_sma_200":
                 scored = 10.0 if value == 1 else (0.0 if value == 0 else None)
             elif "zeroAt" in spec and "tenAt" in spec:
                 scored = linear_points(value, spec["zeroAt"], spec["tenAt"])
@@ -612,6 +616,7 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources):
                 "value": format_value(kind, value) if not (kind == "binary" and value is not None) else format_value("binary", value),
                 "raw": None if value is None else round(float(value), 6),
                 "points": round1(scored),
+                "status": None if value is not None else missing_label,
                 "sourceLabel": source["label"],
                 "sourceUrl": source["url"],
                 "fetchedAt": fetched_at,
@@ -631,6 +636,7 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources):
             "id": criterion["id"],
             "label": criterion["label"],
             "score": round1(criterion_score),
+            "status": None if criterion_score is not None else missing_label,
             "weight": criterion["weight"],
             "dataQuality": f"{available} von {len(criterion['metrics'])} Metriken verfügbar",
             "metrics": metrics,
