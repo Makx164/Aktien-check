@@ -6,6 +6,8 @@
 
 Die Startseite zeigt 13 Kacheln: Ticker, Name, Score 0–100 in der Ampelfarbe oder „wenig Daten“, und „Stand der Daten“. Keine Beträge, keine Gewichte. Ein Klick öffnet die Analyse unter `#/TICKER`, zum Beispiel `#/PLTR`. Wortmarke, Logo und „Alle Positionen“ führen zurück. „Ich halte diese Aktien selbst.“ und „Keine Anlageberatung.“ stehen auf der Startseite und auf jeder Analyse.
 
+Die Analyse übernimmt Aufbau, Schrift und Farben der Version 3.2: rote Ticker-Zeile, runde Score-Skala, Rollen-Einordnung, Score-Matrix und Kriterienkarten. Der Aktien-Score kommt aus `score.json`. Die Rollen-Scores rechnen die Kriterien 0–10 mit den Gewichten der Version 3.2. Prototyp-Stempel, Wasserzeichen und Blöcke ohne Datengrundlage (KI-Einschätzung, Kurzfazit, X-Stimmung) entfallen. Die Wortmarke lautet „sidequest“.
+
 ### Wenig Daten, SIVE-Kurse, Service Worker
 
 Fehlt einer Kennzahl die Basis, ist `status` „wenig Daten“ und `points` bleibt leer. Eine fehlende Kennzahl zählt nicht als 0 und fällt aus dem Mittel. Der Aktien-Score normiert die Gewichte auf die Kriterien mit Daten. Unter `minCriteriaWithData` (3) bleibt `score` leer, `status` ist „wenig Daten“, und die Karte zeigt `missingDataNote`. Dieselbe Bezeichnung steht im zugeklappten Kriterium.

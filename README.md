@@ -16,7 +16,7 @@ Die Startseite ist ein Kachelraster, eine Kachel je Position: Ticker, Name, Scor
 
 Keine Beträge, Gewichte oder Kaufdaten. Oben stehen die Hinweise „Ich halte diese Aktien selbst.“ und „Keine Anlageberatung.“ „Stand der Daten“ ist das Datum des jüngsten Datenpunkts (Kursdatum oder Ende der Berichtsperiode), nicht der Tag des Abrufs. Fehlt er, steht „unbekannt“.
 
-In der Analyse sind C_01 bis C_08 zugeklappt. Ein Klick öffnet Teilkennzahlen mit Wert, Punkten, Quelle, Abrufdatum und Datenstand. C_07 zeigt das Gewicht 0,5.
+Die Analyse folgt dem Layout der Version 3.2: rote Ticker-Zeile, Aktien-Score mit Ampel, runde Skala, „Passt am besten als“ aus den Rollen-Gewichten (Satellit, Tenbagger, Compounder, Dividenden-Aktie), Score-Matrix und zugeklappte Kriterien C_01 bis C_08. Ein Klick öffnet Teilkennzahlen mit Wert, Punkten und Quelle. C_07 hat im Aktien-Score das Gewicht 0,5. Fehlt die Dividendenrendite, bleibt die Dividenden-Rolle „wenig Daten“. Kurs und Branche stehen nur, wenn sie in den Daten liegen.
 
 ## Daten
 
