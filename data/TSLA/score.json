@@ -1,0 +1,57 @@
+{
+  "ticker": "TSLA",
+  "name": "Tesla",
+  "asOf": null,
+  "role": null,
+  "score": null,
+  "criteria": [
+    {
+      "id": "C_01",
+      "label": null,
+      "score": null,
+      "metrics": []
+    },
+    {
+      "id": "C_02",
+      "label": null,
+      "score": null,
+      "metrics": []
+    },
+    {
+      "id": "C_03",
+      "label": null,
+      "score": null,
+      "metrics": []
+    },
+    {
+      "id": "C_04",
+      "label": null,
+      "score": null,
+      "metrics": []
+    },
+    {
+      "id": "C_05",
+      "label": null,
+      "score": null,
+      "metrics": []
+    },
+    {
+      "id": "C_06",
+      "label": null,
+      "score": null,
+      "metrics": []
+    },
+    {
+      "id": "C_07",
+      "label": null,
+      "score": null,
+      "metrics": []
+    },
+    {
+      "id": "C_08",
+      "label": null,
+      "score": null,
+      "metrics": []
+    }
+  ]
+}
