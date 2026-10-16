@@ -2,15 +2,22 @@
   "ticker": "LMND",
   "name": "Lemonade",
   "asOf": "2026-10-15",
-  "score": 33.3,
+  "score": 37.6,
   "status": null,
   "criteriaWithData": 7,
   "trafficLight": "red",
-  "qualityScore": 42.8,
+  "qualityScore": 48.4,
   "marketScore": 1.7,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 16 von 32 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 16 von 31 Metriken verfügbar",
   "missingDataNote": "Wenig Daten bei C_06. Der Score zählt nur Kriterien mit Daten.",
   "koFlags": [],
+  "price": {
+    "close": 45.86,
+    "currency": "USD",
+    "date": "2026-10-15",
+    "sourceLabel": "Nasdaq Historical",
+    "sourceUrl": "https://api.nasdaq.com/api/quote/LMND/historical?assetclass=stocks&fromdate=2024-04-29&todate=2026-10-16&limit=2000"
+  },
   "criteria": [
     {
       "id": "C_01",
@@ -283,58 +290,57 @@
     {
       "id": "C_05",
       "label": "Management & große Investoren",
-      "score": 2.2,
+      "score": 5.0,
       "status": null,
       "weight": 1,
-      "dataQuality": "3 von 4 Metriken verfügbar",
+      "dataQuality": "3 von 3 Metriken verfügbar. 3–10 % → 3 von 5 Netto-Verkäufe → 0 von 3 über 40 % → 2 von 2",
       "metrics": [
         {
-          "id": "insider_net_buy_share",
-          "label": "Insider, Anteil Käufe",
-          "value": "0,0 %",
-          "raw": 0.0,
+          "id": "insider_ownership",
+          "label": "Insider-Anteil",
+          "value": "8,6 %",
+          "raw": 0.08556,
+          "points": 3.0,
+          "status": null,
+          "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
+          "sourceUrl": "https://finance.yahoo.com/quote/LMND/holders",
+          "fetchedAt": "2026-10-16",
+          "observedAt": null,
+          "note": "3–10 % → 3 von 5"
+        },
+        {
+          "id": "insider_market_balance",
+          "label": "Insider-Saldo, 6 Monate",
+          "value": "Netto-Verkäufe · 0 Käufe / 11 Verkäufe",
+          "raw": null,
           "points": 0.0,
           "status": null,
-          "sourceLabel": "SEC EDGAR Form 4",
+          "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0001691421.json",
           "fetchedAt": "2026-10-16",
-          "observedAt": "2026-09-03"
+          "observedAt": "2026-09-04",
+          "note": "Netto-Verkäufe → 0 von 3",
+          "detail": {
+            "windowDays": 183,
+            "filings": 17,
+            "buys": 0,
+            "sells": 11,
+            "buyDollars": 0.0,
+            "sellDollars": 7426415.47
+          }
         },
         {
-          "id": "sbc_to_revenue",
-          "label": "Aktienvergütung / Umsatz",
-          "value": "8,3 %",
-          "raw": 0.083074,
-          "points": 5.1,
+          "id": "institutional_ownership",
+          "label": "Institutioneller Anteil",
+          "value": "61,4 %",
+          "raw": 0.61384,
+          "points": 2.0,
           "status": null,
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
+          "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
+          "sourceUrl": "https://finance.yahoo.com/quote/LMND/holders",
           "fetchedAt": "2026-10-16",
-          "observedAt": "2025-12-31"
-        },
-        {
-          "id": "shareholder_yield",
-          "label": "Aktionärsrendite",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
-          "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-16",
-          "observedAt": null
-        },
-        {
-          "id": "share_change_1y",
-          "label": "Veränderung der Aktienzahl, 1 Jahr",
-          "value": "4,1 %",
-          "raw": 0.041121,
-          "points": 1.5,
-          "status": null,
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-16",
-          "observedAt": "2025-12-31"
+          "observedAt": null,
+          "note": "über 40 % → 2 von 2"
         }
       ]
     },

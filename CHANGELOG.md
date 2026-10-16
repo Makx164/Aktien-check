@@ -2,6 +2,10 @@
 
 ## 2026-10-16
 
+### Kurszeile und C_05
+
+Die Kurszeile zeigt den letzten Schlusskurs und das Datum aus der Kursquelle (`price` in `score.json`). C_05 zählt Insider-Anteil, den Sechs-Monats-Saldo offener Marktgeschäfte und den institutionellen Anteil. Schwellen und Beträge stehen in der Datei. Eine Form-4 mit Kennzeichen 10b5-1 wirft die Käufe und Verkäufe nicht mehr weg.
+
 ### Kacheln und Analyse unter #/TICKER
 
 Die Startseite zeigt 13 Kacheln: Ticker, Name, Score 0–100 in der Ampelfarbe oder „wenig Daten“, und „Stand der Daten“. Keine Beträge, keine Gewichte. Ein Klick öffnet die Analyse unter `#/TICKER`, zum Beispiel `#/PLTR`. Wortmarke, Logo und „Alle Positionen“ führen zurück. „Ich halte diese Aktien selbst.“ und „Keine Anlageberatung.“ stehen auf der Startseite und auf jeder Analyse.

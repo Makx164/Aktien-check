@@ -87,6 +87,7 @@
     "stooq": "sive.se",
     "stooqFallbacks": ["sive.st"],
     "yahoo": "SIVE.ST",
+    "currency": "SEK",
     "nasdaq": null,
     "assetClass": null,
     "note": "Keine SEC-Fundamentaldaten. Fundamentalkennzahlen und C_06 (Analysten) sind wenig Daten."

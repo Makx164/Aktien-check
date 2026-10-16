@@ -534,7 +534,17 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     metricsOf(doc).forEach(function (m) { if (m.observedAt) points.push(m.observedAt); });
     return latest(points);
   }
+  function priceText(doc) {
+    var price = doc.price;
+    if (!price || price.close == null || price.close === "") return "wenig Daten";
+    var number = Number(price.close);
+    if (!isFinite(number)) return "wenig Daten";
+    var text = number.toFixed(2).replace(".", ",");
+    if (price.currency) text += "&nbsp;" + esc(price.currency);
+    return text;
+  }
   function kursDate(doc) {
+    if (doc.price && doc.price.date) return doc.price.date;
     var c7 = doc.criteria.filter(function (c) { return c.code === "C_07"; })[0];
     return latest((c7 && c7.metrics || []).map(function (m) { return m.observedAt; }));
   }
@@ -565,6 +575,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
       ko: score.koFlags || [],
       missingDataNote: score.missingDataNote,
       asOf: score.asOf,
+      price: score.price || null,
       criteria: CODES.map(function (code, index) {
         var found = byId[code] || {id: code, label: code, score: null, status: "wenig Daten", metrics: []};
         var missing = found.score == null || found.status;
@@ -783,7 +794,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     h += '<div class="role-title"><span class="rt-t">' + esc(doc.ticker) + '</span> · <span class="rt-r">Aktien-Score</span> <b>' + esc(scoreText) + '</b><small>/100</small> <span class="rt-sep">·</span> <span class="rt-fit' + (best.keine ? " keine" : "") + '">' + esc(fitTxt) + "</span></div>";
     h += '<div id="dyn-status">' + status(light, doc.ko.length) + "</div>";
     h += '<div class="term" style="margin-top:14px"><span class="p">&gt;</span> STAND DER DATEN <b>' + esc(dDE(standOf(doc))) + "</b><br>";
-    h += '<span class="p">&gt;</span> KURS <b>wenig Daten</b> · VOM <b>' + esc(dDE(kursDate(doc))) + "</b><br>";
+    h += '<span class="p">&gt;</span> KURS <b>' + priceText(doc) + "</b> · VOM <b>" + esc(dDE(kursDate(doc))) + "</b><br>";
     h += '<span class="p">&gt;</span> ZAHLEN BIS <b>' + esc(dDE(zahlenDate(doc))) + "</b></div></div>";
     h += '<div class="score-hub">' + ring(doc.status ? null : doc.score, light) + "</div></section>";
     if (doc.missingDataNote) h += '<p class="gap-note">' + esc(doc.missingDataNote) + "</p>";

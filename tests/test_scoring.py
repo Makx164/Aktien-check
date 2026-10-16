@@ -7,6 +7,7 @@ from scoring.edgar import parse_form4
 from scoring.metrics import annual_series, score_company
 from scoring.model import (
     apply_analyst_cap,
+    band_points,
     coverage_decision,
     linear_points,
     traffic_light,
@@ -25,6 +26,15 @@ def point(end, val, form="10-K"):
 
 class RampTests(unittest.TestCase):
     def test_higher_and_lower_are_linear(self):
+        self.assertEqual(band_points(0.03457, [
+            {"above": 0.10, "points": 5, "note": "über 10 %"},
+            {"atLeast": 0.03, "points": 3, "note": "3–10 %"},
+            {"else": True, "points": 1, "note": "unter 3 %"},
+        ]), (3, "3–10 %"))
+        self.assertEqual(band_points(0.6466, [
+            {"above": 0.40, "points": 2},
+            {"else": True, "points": 0, "note": "bis 40 %"},
+        ]), (2, None))
         self.assertEqual(linear_points(0.5, 0, 1), 5)
         self.assertEqual(linear_points(-1, 0, 1), 0)
         self.assertEqual(linear_points(2, 0, 1), 10)
@@ -161,10 +171,12 @@ class Form4Tests(unittest.TestCase):
         parsed = parse_form4(xml.encode())
         self.assertEqual(parsed["buy"], 50)
         self.assertEqual(parsed["sell"], 40)
-        self.assertEqual(parsed["trades"], 2)
+        self.assertEqual(parsed["buys"], 1)
+        self.assertEqual(parsed["sells"], 1)
         planned = xml.replace("<aff10b5One>0</aff10b5One>", "<aff10b5One>1</aff10b5One>")
-        skipped = parse_form4(planned.encode())
-        self.assertEqual(skipped["trades"], 0)
+        kept = parse_form4(planned.encode())
+        self.assertEqual(kept["buy"], 50)
+        self.assertEqual(kept["sell"], 40)
 
 
 def dated_bars(count):
@@ -180,7 +192,7 @@ class CompanyScoreTests(unittest.TestCase):
     def test_empty_company_is_unknown(self):
         scored = score_company(CONFIG, {}, {}, {}, "2026-10-16", {})
         self.assertEqual(scored["available"], 0)
-        self.assertEqual(scored["total"], 32)
+        self.assertEqual(scored["total"], sum(len(item["metrics"]) for item in CONFIG["criteria"]))
         self.assertEqual(scored["koFlags"], [])
         self.assertTrue(all(metric["points"] is None for item in scored["criteria"] for metric in item["metrics"]))
 
@@ -380,6 +392,62 @@ class MissingDataTests(unittest.TestCase):
         present = [item for item in document["criteria"] if item["score"] is not None]
         self.assertTrue(present)
         self.assertTrue(all(item["status"] == "wenig Daten" for item in document["criteria"] if item["score"] is None))
+
+
+class ManagementTests(unittest.TestCase):
+    def test_insider_and_institutions_sum_to_the_concept_points(self):
+        bundle = {
+            "holders": {
+                "insider": 0.03457,
+                "institutional": 0.6466,
+                "observed": "2026-10-16",
+            },
+            "insider": {
+                "measured": True,
+                "buy": 0,
+                "sell": 250000,
+                "buys": 0,
+                "sells": 4,
+                "observed": "2026-09-15",
+                "windowDays": 183,
+                "filings": 12,
+            },
+        }
+        sources = {
+            "holderLabel": "Yahoo Finance, Anteil Insider und Institutionen",
+            "holderUrl": "https://finance.yahoo.com/quote/PLTR/holders",
+            "insiderLabel": "SEC EDGAR Form 4",
+            "insiderUrl": "https://www.sec.gov/submissions/CIK0001321655.json",
+        }
+        scored = score_company(CONFIG, bundle, {}, {}, "2026-10-16", sources)
+        criterion = {item["id"]: item for item in scored["criteria"]}["C_05"]
+        metrics = {metric["id"]: metric for metric in criterion["metrics"]}
+        self.assertEqual(metrics["insider_ownership"]["points"], 3)
+        self.assertEqual(metrics["insider_ownership"]["note"], "3–10 % → 3 von 5")
+        self.assertEqual(metrics["institutional_ownership"]["points"], 2)
+        self.assertEqual(metrics["insider_market_balance"]["points"], 0)
+        self.assertIn("Netto-Verkäufe", metrics["insider_market_balance"]["value"])
+        self.assertEqual(metrics["insider_market_balance"]["detail"]["sells"], 4)
+        self.assertEqual(criterion["score"], 5)
+        self.assertEqual(metrics["insider_ownership"]["sourceUrl"], sources["holderUrl"])
+
+    def test_quote_uses_the_last_close(self):
+        from scripts.build_scores import price_quote
+        quote = price_quote(
+            {"bars": [{"date": "2026-10-15", "close": 178.32}], "sourceLabel": "Nasdaq", "sourceUrl": "https://api.nasdaq.com/api/quote/PLTR/historical"},
+            "USD",
+        )
+        self.assertEqual(quote["close"], 178.32)
+        self.assertEqual(quote["date"], "2026-10-15")
+        self.assertEqual(quote["currency"], "USD")
+        document = assemble("PLTR", "Palantir Technologies", None, {
+            "criteria": [],
+            "available": 0,
+            "total": 0,
+            "koFlags": [],
+            "priceNote": None,
+        }, CONFIG, quote)
+        self.assertEqual(document["price"]["close"], 178.32)
 
 
 class KillSwitchTests(unittest.TestCase):

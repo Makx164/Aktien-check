@@ -86,11 +86,37 @@
       "id": "C_05",
       "label": "Management & große Investoren",
       "weight": 1,
+      "aggregate": "sum",
       "metrics": [
-        {"id": "insider_net_buy_share", "label": "Insider, Anteil Käufe", "kind": "percent", "zeroAt": 0.2, "tenAt": 0.8},
-        {"id": "sbc_to_revenue", "label": "Aktienvergütung / Umsatz", "kind": "percent", "zeroAt": 0.15, "tenAt": 0.02},
-        {"id": "shareholder_yield", "label": "Aktionärsrendite", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.05},
-        {"id": "share_change_1y", "label": "Veränderung der Aktienzahl, 1 Jahr", "kind": "percent", "zeroAt": 0.05, "tenAt": -0.01}
+        {
+          "id": "insider_ownership",
+          "label": "Insider-Anteil",
+          "kind": "percent",
+          "bands": [
+            {"above": 0.10, "points": 5, "note": "über 10 % → 5 von 5"},
+            {"atLeast": 0.03, "points": 3, "note": "3–10 % → 3 von 5"},
+            {"else": true, "points": 1, "note": "unter 3 % → 1 von 5"}
+          ]
+        },
+        {
+          "id": "insider_market_balance",
+          "label": "Insider-Saldo, 6 Monate",
+          "kind": "text",
+          "outcomes": {
+            "buy": {"points": 3, "note": "Netto-Käufe → 3 von 3"},
+            "flat": {"points": 2, "note": "neutral → 2 von 3"},
+            "sell": {"points": 0, "note": "Netto-Verkäufe → 0 von 3"}
+          }
+        },
+        {
+          "id": "institutional_ownership",
+          "label": "Institutioneller Anteil",
+          "kind": "percent",
+          "bands": [
+            {"above": 0.40, "points": 2, "note": "über 40 % → 2 von 2"},
+            {"else": true, "points": 0, "note": "bis 40 % → 0 von 2"}
+          ]
+        }
       ]
     },
     {
