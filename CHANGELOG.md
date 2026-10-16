@@ -2,6 +2,10 @@
 
 ## 2026-10-16
 
+### Stand der Daten und Kachelfarbe
+
+Der Stand ist das jüngste Kursdatum oder Berichtsende. Bei SPCX fehlte das Kursdatum in `asOf`, deshalb zeigte die Kachel das Insidergeschäft vom 22.09.2026 (zuvor 02.04.2026). Der Nasdaq-Schluss vom 15.10.2026 ist der Stand. Ohne Kurs- und Berichtsdatum steht „wenig Daten“. Der Ticker auf der Kachel ist neutral, die Ampelfarbe bleibt am Score.
+
 ### Kurszeile und C_05
 
 Die Kurszeile zeigt den letzten Schlusskurs und das Datum aus der Kursquelle (`price` in `score.json`). C_05 zählt Insider-Anteil, den Sechs-Monats-Saldo offener Marktgeschäfte und den institutionellen Anteil. Schwellen und Beträge stehen in der Datei. Eine Form-4 mit Kennzeichen 10b5-1 wirft die Käufe und Verkäufe nicht mehr weg.

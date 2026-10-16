@@ -918,11 +918,25 @@ def _ko_flags(config, bundle, end, market_cap, sources):
 
 
 def latest_observed(criteria):
+    """Latest reporting-period or price-linked metric date. Fetch days do not count."""
     found = []
     for criterion in criteria:
         for metric in criterion["metrics"]:
             if metric.get("observedAt") and metric.get("raw") is not None:
                 found.append(metric["observedAt"])
+    if not found:
+        return None
+    return max(found)
+
+
+def data_stand(criteria, price):
+    """Stand der Daten: newest close or reporting date. A trade date alone is not one."""
+    found = []
+    metric = latest_observed(criteria)
+    if metric:
+        found.append(metric)
+    if price and price.get("date"):
+        found.append(price["date"])
     if not found:
         return None
     return max(found)

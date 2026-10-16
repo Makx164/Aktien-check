@@ -15,7 +15,7 @@ if str(ROOT) not in sys.path:
 from scoring.analysts import fetch_analysts, load_keys
 from scoring.edgar import EdgarClient
 from scoring.holders import fetch_holders
-from scoring.metrics import extract_fundamentals, latest_observed, score_company
+from scoring.metrics import data_stand, extract_fundamentals, score_company
 from scoring.model import coverage_decision, quality_phrase, round1, traffic_light, weighted_total
 from scoring.prices import fetch_series
 
@@ -64,7 +64,7 @@ def assemble(ticker, name, note, scored, config, price=None):
     return {
         "ticker": ticker,
         "name": name,
-        "asOf": latest_observed(criteria),
+        "asOf": data_stand(criteria, price),
         "score": total,
         "status": decision["status"],
         "criteriaWithData": decision["criteriaWithData"],

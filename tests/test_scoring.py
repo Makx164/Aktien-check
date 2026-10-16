@@ -449,6 +449,25 @@ class ManagementTests(unittest.TestCase):
         }, CONFIG, quote)
         self.assertEqual(document["price"]["close"], 178.32)
 
+    def test_stand_uses_the_close_and_ignores_a_trade_date_alone(self):
+        from scoring.metrics import data_stand
+        insider_only = [{
+            "metrics": [{
+                "id": "insider_market_balance",
+                "observedAt": "2026-04-02",
+                "raw": None,
+            }]
+        }]
+        self.assertIsNone(data_stand(insider_only, None))
+        self.assertEqual(data_stand(insider_only, {"date": "2026-10-15"}), "2026-10-15")
+        self.assertEqual(
+            data_stand(
+                [{"metrics": [{"observedAt": "2025-12-31", "raw": 0.1}]}],
+                {"date": "2026-10-15"},
+            ),
+            "2026-10-15",
+        )
+
 
 class KillSwitchTests(unittest.TestCase):
     def test_service_worker_and_page_unregister(self):

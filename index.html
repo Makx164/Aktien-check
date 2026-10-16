@@ -377,7 +377,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:8px 0 12px}
 .tile{display:flex;flex-direction:column;gap:6px;min-height:156px;padding:14px 14px 12px;border:1px solid var(--hair);background:var(--panel);color:inherit;text-decoration:none}
 .tile:hover{background:var(--panel2);text-decoration:none;border-color:var(--ink)}
-.tile-ticker{font:700 22px/1 "Space Mono",monospace;letter-spacing:.08em;color:var(--red)}
+.tile-ticker{font:700 22px/1 "Space Mono",monospace;letter-spacing:.08em;color:var(--ink)}
 .tile-name{font:500 12px/1.35 "JetBrains Mono",monospace;color:var(--mut);letter-spacing:.03em}
 .tile-score{margin-top:auto;padding-top:12px;font:700 30px/1 "Space Mono",monospace}
 .tile-score.gruen{color:var(--ok)}
@@ -529,10 +529,13 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     return rows;
   }
   function standOf(doc) {
-    var points = [];
-    if (doc.asOf) points.push(doc.asOf);
-    metricsOf(doc).forEach(function (m) { if (m.observedAt) points.push(m.observedAt); });
-    return latest(points);
+    if (doc.asOf) return doc.asOf;
+    if (doc.price && doc.price.date) return doc.price.date;
+    return null;
+  }
+  function standText(doc) {
+    var day = standOf(doc);
+    return day ? dDE(day) : "wenig Daten";
   }
   function priceText(doc) {
     var price = doc.price;
@@ -697,7 +700,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     stand.className = "tile-stand";
     var label = document.createElement("b");
     label.textContent = "Stand der Daten";
-    stand.append(label, document.createTextNode(dDE(standOf(doc))));
+    stand.append(label, document.createTextNode(standText(doc)));
     link.append(ticker, name, value, stand);
     return link;
   }
@@ -793,7 +796,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     h += '<div class="r-name">' + esc(doc.name) + "</div>";
     h += '<div class="role-title"><span class="rt-t">' + esc(doc.ticker) + '</span> · <span class="rt-r">Aktien-Score</span> <b>' + esc(scoreText) + '</b><small>/100</small> <span class="rt-sep">·</span> <span class="rt-fit' + (best.keine ? " keine" : "") + '">' + esc(fitTxt) + "</span></div>";
     h += '<div id="dyn-status">' + status(light, doc.ko.length) + "</div>";
-    h += '<div class="term" style="margin-top:14px"><span class="p">&gt;</span> STAND DER DATEN <b>' + esc(dDE(standOf(doc))) + "</b><br>";
+    h += '<div class="term" style="margin-top:14px"><span class="p">&gt;</span> STAND DER DATEN <b>' + esc(standText(doc)) + "</b><br>";
     h += '<span class="p">&gt;</span> KURS <b>' + priceText(doc) + "</b> · VOM <b>" + esc(dDE(kursDate(doc))) + "</b><br>";
     h += '<span class="p">&gt;</span> ZAHLEN BIS <b>' + esc(dDE(zahlenDate(doc))) + "</b></div></div>";
     h += '<div class="score-hub">' + ring(doc.status ? null : doc.score, light) + "</div></section>";
