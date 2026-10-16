@@ -403,6 +403,10 @@ class KillSwitchTests(unittest.TestCase):
         self.assertIn("unregister", html)
         self.assertIn("missingDataNote", html)
         self.assertIn("gap-note", html)
+        self.assertIn('className = "tiles"', html)
+        self.assertIn('href = "#/" + score.ticker', html)
+        self.assertIn("hashchange", html)
+        self.assertIn("Alle Positionen", html)
 
 
 if __name__ == "__main__":

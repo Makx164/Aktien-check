@@ -153,10 +153,80 @@
       font-size: 12.5px;
     }
 
-    .board {
+    .wordmark a,
+    .logo-link {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .logo-link {
+      display: flex;
+      flex: none;
+    }
+
+    .tiles {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 16px;
+    }
+
+    .tile {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-height: 148px;
+      padding: 16px 16px 14px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .tile-ticker {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    .tile-name {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .tile-score {
+      margin-top: auto;
+      padding-top: 12px;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .tile-score.sparse {
+      font-size: 18px;
+      letter-spacing: 0.06em;
+    }
+
+    .back {
+      display: inline-block;
+      margin: 0 0 14px;
+      color: var(--eyebrow);
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .tile:focus-visible,
+    .back:focus-visible,
+    .wordmark a:focus-visible,
+    .logo-link:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
     }
 
     .card {
@@ -166,7 +236,8 @@
       padding: 16px 16px 12px;
     }
 
-    .card::before {
+    .card::before,
+    .tile::before {
       content: "";
       position: absolute;
       inset: 0;
@@ -345,23 +416,28 @@
     }
 
     @media (max-width: 800px) {
-      .board { grid-template-columns: 1fr; }
+      .tiles { grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 12px; }
       .wrap { width: min(100% - 20px, 1120px); padding-top: 18px; }
       .wordmark { font-size: 24px; }
       .card-head { flex-direction: column; align-items: flex-start; }
       .name { text-align: left; }
+      .tile { min-height: 132px; padding: 14px 12px 12px; }
+      .tile-score { font-size: 24px; }
+      .tile-score.sparse { font-size: 16px; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header class="top">
-      <svg class="logo" viewBox="0 0 24 24" aria-hidden="true">
-        <rect width="24" height="24" fill="#e8305a"/>
-        <path d="M5 17l5-5 3 3 6-7" fill="none" stroke="#111214" stroke-width="2.6"/>
-      </svg>
+      <a class="logo-link" href="#/" aria-label="sidequest, alle Positionen">
+        <svg class="logo" viewBox="0 0 24 24" aria-hidden="true">
+          <rect width="24" height="24" fill="#e8305a"/>
+          <path d="M5 17l5-5 3 3 6-7" fill="none" stroke="#111214" stroke-width="2.6"/>
+        </svg>
+      </a>
       <div class="brand">
-        <h1 class="wordmark">sidequest</h1>
+        <h1 class="wordmark"><a href="#/">sidequest</a></h1>
         <p class="product">Aktien-Check</p>
       </div>
     </header>
@@ -371,9 +447,9 @@
       <p class="note legal">„Keine Anlageberatung.“</p>
     </div>
 
-    <p class="lead">Aktien-Score von 0 bis 100. Jedes Kriterium ist der Mittelwert seiner Teilkennzahlen, C_07 zählt mit halbem Gewicht. Ab 70 grün, von 50 bis 69 orange, darunter rot. Fehlt die Datenbasis, steht „wenig Daten“ und zählt nicht als 0. Der Score nutzt nur Kriterien mit Daten. Unter drei Kriterien mit Daten steht keine Zahl. Phase 1 rechnet mit gemeldeten Zahlen und Kursen. Burggraben und Marktgröße ohne Textbewertung fehlen.</p>
+    <p class="lead" id="lead">Aktien-Score von 0 bis 100. Jedes Kriterium ist der Mittelwert seiner Teilkennzahlen, C_07 zählt mit halbem Gewicht. Ab 70 grün, von 50 bis 69 orange, darunter rot. Fehlt die Datenbasis, steht „wenig Daten“ und zählt nicht als 0. Der Score nutzt nur Kriterien mit Daten. Unter drei Kriterien mit Daten steht keine Zahl. Phase 1 rechnet mit gemeldeten Zahlen und Kursen. Burggraben und Marktgröße ohne Textbewertung fehlen.</p>
 
-    <main class="board" id="board" aria-live="polite">
+    <main id="stage" aria-live="polite">
       <p class="status">Daten werden geladen.</p>
     </main>
   </div>
@@ -612,11 +688,126 @@
       return span;
     }
 
+    function paintScore(node, score) {
+      if (!isBlank(score.status)) {
+        node.classList.add("sparse");
+        return;
+      }
+      const light = score.trafficLight;
+      if (light === "green" || light === "orange" || light === "red") {
+        node.classList.add("light", light);
+      }
+    }
+
+    function renderTile(score) {
+      const link = document.createElement("a");
+      link.className = "tile";
+      link.href = "#/" + score.ticker;
+      const ticker = document.createElement("span");
+      ticker.className = "tile-ticker";
+      ticker.textContent = score.ticker;
+      const name = document.createElement("span");
+      name.className = "tile-name";
+      name.textContent = isBlank(score.name) ? "" : String(score.name);
+      const value = document.createElement("span");
+      value.className = "tile-score";
+      value.textContent = shownScore(score.score, 100, score.status);
+      paintScore(value, score);
+      link.append(ticker, name, value);
+      return link;
+    }
+
+    function renderMissing(ticker, asTile) {
+      if (asTile) {
+        const link = document.createElement("a");
+        link.className = "tile";
+        link.href = "#/" + ticker;
+        const title = document.createElement("span");
+        title.className = "tile-ticker";
+        title.textContent = ticker;
+        const status = document.createElement("span");
+        status.className = "tile-score sparse";
+        status.textContent = "Datei fehlt";
+        link.append(title, status);
+        return link;
+      }
+      const card = document.createElement("article");
+      card.className = "card";
+      const title = document.createElement("h2");
+      title.className = "ticker";
+      title.textContent = ticker;
+      const status = document.createElement("p");
+      status.className = "status";
+      status.textContent = "Datei fehlt. Stand der Daten: unbekannt.";
+      card.append(title, status);
+      return card;
+    }
+
     function openFromQuery() {
       const open = new URLSearchParams(location.search).get("open");
       if (!open) return;
       const target = document.getElementById(open);
       if (target && target.tagName === "DETAILS") target.open = true;
+    }
+
+    function tickerFromHash() {
+      const raw = decodeURIComponent(location.hash.replace(/^#/, ""));
+      const parts = raw.split("/").filter(function (part) { return part.length > 0; });
+      if (!parts.length) return null;
+      const ticker = parts[0].toUpperCase();
+      return TICKERS.indexOf(ticker) === -1 ? null : ticker;
+    }
+
+    function backLink() {
+      const link = document.createElement("a");
+      link.className = "back";
+      link.href = "#/";
+      link.textContent = "Alle Positionen";
+      return link;
+    }
+
+    function showGrid(results) {
+      document.title = "sidequest";
+      const lead = document.getElementById("lead");
+      if (lead) lead.hidden = false;
+      const grid = document.createElement("div");
+      grid.className = "tiles";
+      for (const result of results) {
+        grid.append(result.ok ? renderTile(result.score) : renderMissing(result.ticker, true));
+      }
+      document.getElementById("stage").replaceChildren(grid);
+    }
+
+    function showDetail(results, ticker) {
+      document.title = ticker + " · sidequest";
+      const lead = document.getElementById("lead");
+      if (lead) lead.hidden = true;
+      const result = results.find(function (item) {
+        return (item.ok ? item.score.ticker : item.ticker) === ticker;
+      });
+      const view = result && result.ok ? renderCard(result.score) : renderMissing(ticker, false);
+      document.getElementById("stage").replaceChildren(backLink(), view);
+      openFromQuery();
+      window.scrollTo(0, 0);
+    }
+
+    function tickerFromOpen() {
+      const open = new URLSearchParams(location.search).get("open") || "";
+      const ticker = open.split("-")[0].toUpperCase();
+      return TICKERS.indexOf(ticker) === -1 ? null : ticker;
+    }
+
+    function show(results) {
+      const ticker = tickerFromHash();
+      if (!ticker) {
+        const fromOpen = tickerFromOpen();
+        if (fromOpen && location.hash.replace(/^#/, "") === "") {
+          location.hash = "#/" + fromOpen;
+          return;
+        }
+      }
+      if (ticker) showDetail(results, ticker);
+      else showGrid(results);
     }
 
     async function loadTicker(ticker) {
@@ -628,7 +819,6 @@
     }
 
     async function main() {
-      const board = document.getElementById("board");
       const results = await Promise.all(TICKERS.map(async (ticker) => {
         try {
           return { ok: true, score: await loadTicker(ticker) };
@@ -636,24 +826,8 @@
           return { ok: false, ticker };
         }
       }));
-      board.replaceChildren();
-      for (const result of results) {
-        if (result.ok) {
-          board.append(renderCard(result.score));
-        } else {
-          const card = document.createElement("article");
-          card.className = "card";
-          const title = document.createElement("h2");
-          title.className = "ticker";
-          title.textContent = result.ticker;
-          const status = document.createElement("p");
-          status.className = "status";
-          status.textContent = "Datei fehlt. Stand der Daten: unbekannt.";
-          card.append(title, status);
-          board.append(card);
-        }
-      }
-      openFromQuery();
+      window.addEventListener("hashchange", function () { show(results); });
+      show(results);
     }
 
     main();

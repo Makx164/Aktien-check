@@ -2,6 +2,10 @@
 
 ## 2026-10-16
 
+### Kacheln und Analyse unter #/TICKER
+
+Die Startseite zeigt 13 Kacheln (Name, Ticker, Score in der Ampelfarbe oder „wenig Daten“). Ein Klick öffnet die Analyse unter `#/TICKER`, zum Beispiel `#/PLTR`. Wortmarke, Logo und „Alle Positionen“ führen zurück. Die beiden Hinweise bleiben auf beiden Ansichten. Farben, Schrift und die zugeklappten Kriterien C_01–C_08 bleiben die der öffentlichen Seite.
+
 ### Wenig Daten, SIVE-Kurse, Service Worker
 
 Fehlt einer Kennzahl die Basis, ist `status` „wenig Daten“ und `points` bleibt leer. Eine fehlende Kennzahl zählt nicht als 0 und fällt aus dem Mittel. Der Aktien-Score normiert die Gewichte auf die Kriterien mit Daten. Unter `minCriteriaWithData` (3) bleibt `score` leer, `status` ist „wenig Daten“, und die Karte zeigt `missingDataNote`. Dieselbe Bezeichnung steht im zugeklappten Kriterium.
