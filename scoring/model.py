@@ -3,6 +3,21 @@
 from __future__ import annotations
 
 
+def band_points(value, bands):
+    """First matching band wins. `above` is exclusive, `atLeast` is inclusive."""
+    if value is None or not bands:
+        return None, None
+    value = float(value)
+    for band in bands:
+        if band.get("else"):
+            return float(band["points"]), band.get("note")
+        if "above" in band and value > float(band["above"]):
+            return float(band["points"]), band.get("note")
+        if "atLeast" in band and value >= float(band["atLeast"]):
+            return float(band["points"]), band.get("note")
+    return None, None
+
+
 def linear_points(value, zero_at, ten_at):
     """Map value onto 0..10. Higher ten_at means higher is better."""
     if value is None or zero_at is None or ten_at is None:

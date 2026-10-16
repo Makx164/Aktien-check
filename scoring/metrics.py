@@ -11,7 +11,7 @@ import math
 import statistics
 from datetime import date, datetime, timedelta
 
-from scoring.model import apply_analyst_cap, format_value, linear_points, mean, round1
+from scoring.model import apply_analyst_cap, band_points, format_value, linear_points, mean, round1
 
 ANNUAL_FORMS = {"10-K", "10-K/A", "20-F", "20-F/A", "40-F", "40-F/A"}
 POSITION_FORMS = ANNUAL_FORMS | {"10-Q", "10-Q/A", "6-K"}
@@ -596,34 +596,72 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources):
             value = raw["values"].get(metric_id)
             label = raw["labels"].get(metric_id) or spec["label"]
             kind = spec.get("kind")
-            if spec.get("id") == "valuation_primary":
-                kind = "multiple"
-            if value is None:
-                scored = None
-            elif spec.get("kind") == "binary" and spec["id"] == "above_sma_200":
-                scored = 10.0 if value == 1 else (0.0 if value == 0 else None)
-            elif "zeroAt" in spec and "tenAt" in spec:
-                scored = linear_points(value, spec["zeroAt"], spec["tenAt"])
+            note = None
+            detail = None
+            display = None
+            if isinstance(value, dict) and "outcome" in value:
+                detail = value
+                display = value.get("text")
+                outcome = (spec.get("outcomes") or {}).get(value["outcome"]) or {}
+                value = None if not outcome else value["outcome"]
+                scored = None if not outcome else float(outcome["points"])
+                note = outcome.get("note")
             else:
-                scored = raw["points"].get(metric_id)
+                if spec.get("id") == "valuation_primary":
+                    kind = "multiple"
+                if value is None:
+                    scored = None
+                elif spec.get("kind") == "binary" and spec["id"] == "above_sma_200":
+                    scored = 10.0 if value == 1 else (0.0 if value == 0 else None)
+                elif spec.get("bands"):
+                    scored, note = band_points(value, spec["bands"])
+                elif "zeroAt" in spec and "tenAt" in spec:
+                    scored = linear_points(value, spec["zeroAt"], spec["tenAt"])
+                else:
+                    scored = raw["points"].get(metric_id)
             if value is not None:
                 available += 1
                 metric_available += 1
             source = _source_for(metric_id, sources, prices)
-            metrics.append({
+            if display is not None:
+                shown = display
+                raw_value = None
+            elif kind == "binary" and value is not None:
+                shown = format_value("binary", value)
+                raw_value = round(float(value), 6)
+            else:
+                shown = format_value(kind, value)
+                raw_value = None if value is None else round(float(value), 6)
+            row = {
                 "id": metric_id,
                 "label": label,
-                "value": format_value(kind, value) if not (kind == "binary" and value is not None) else format_value("binary", value),
-                "raw": None if value is None else round(float(value), 6),
+                "value": shown,
+                "raw": raw_value,
                 "points": round1(scored),
                 "status": None if value is not None else missing_label,
                 "sourceLabel": source["label"],
                 "sourceUrl": source["url"],
                 "fetchedAt": fetched_at,
                 "observedAt": observed if value is not None else None,
-            })
+            }
+            if note:
+                row["note"] = note
+            if detail and detail.get("outcome"):
+                row["detail"] = {
+                    "windowDays": detail.get("windowDays"),
+                    "filings": detail.get("filings"),
+                    "buys": detail.get("buys"),
+                    "sells": detail.get("sells"),
+                    "buyDollars": None if detail.get("buyDollars") is None else round(float(detail["buyDollars"]), 2),
+                    "sellDollars": None if detail.get("sellDollars") is None else round(float(detail["sellDollars"]), 2),
+                }
+            metrics.append(row)
             points.append(round1(scored) if scored is not None else None)
-        criterion_score = mean(points)
+        if criterion.get("aggregate") == "sum":
+            present = [point for point in points if point is not None]
+            criterion_score = sum(present) if present else None
+        else:
+            criterion_score = mean(points)
         capped = False
         if criterion.get("cap") == "analysts":
             criterion_score, capped = apply_analyst_cap(
@@ -632,13 +670,17 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources):
                 config["analystCap"]["below"],
                 config["analystCap"]["maxPoints"],
             )
+        quality = f"{available} von {len(criterion['metrics'])} Metriken verfügbar"
+        notes = [row["note"] for row in metrics if row.get("note")]
+        if notes:
+            quality = quality + ". " + " ".join(notes)
         entry = {
             "id": criterion["id"],
             "label": criterion["label"],
             "score": round1(criterion_score),
             "status": None if criterion_score is not None else missing_label,
             "weight": criterion["weight"],
-            "dataQuality": f"{available} von {len(criterion['metrics'])} Metriken verfügbar",
+            "dataQuality": quality,
             "metrics": metrics,
         }
         if capped:
@@ -673,7 +715,9 @@ def _source_for(metric_id, sources, prices):
         if prices.get("sourceLabel"):
             label = (label + "; " if label else "") + prices["sourceLabel"]
         return {"label": label or None, "url": sources.get("fundamentalUrl")}
-    if metric_id == "insider_net_buy_share":
+    if metric_id in {"insider_ownership", "institutional_ownership"}:
+        return {"label": sources.get("holderLabel"), "url": sources.get("holderUrl")}
+    if metric_id == "insider_market_balance":
         return {"label": sources.get("insiderLabel"), "url": sources.get("insiderUrl")}
     return {"label": sources.get("fundamentalLabel"), "url": sources.get("fundamentalUrl")}
 
@@ -799,9 +843,42 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config):
                             valuation["unprofitable"]["tenAt"],
                         )
     insider = bundle.get("insider")
-    if insider and insider.get("buy", 0) + insider.get("sell", 0) > 0:
-        total = insider["buy"] + insider["sell"]
-        put("insider_net_buy_share", insider["buy"] / total, insider.get("observed"))
+    if insider and insider.get("measured"):
+        buy = float(insider.get("buy") or 0)
+        sell = float(insider.get("sell") or 0)
+        if buy > sell:
+            outcome = "buy"
+            label = "Netto-Käufe"
+        elif sell > buy:
+            outcome = "sell"
+            label = "Netto-Verkäufe"
+        else:
+            outcome = "flat"
+            label = "neutral"
+        text = (
+            label
+            + " · "
+            + str(int(insider.get("buys") or 0))
+            + " Käufe / "
+            + str(int(insider.get("sells") or 0))
+            + " Verkäufe"
+        )
+        put("insider_market_balance", {
+            "outcome": outcome,
+            "text": text,
+            "windowDays": insider.get("windowDays"),
+            "filings": insider.get("filings"),
+            "buys": int(insider.get("buys") or 0),
+            "sells": int(insider.get("sells") or 0),
+            "buyDollars": buy,
+            "sellDollars": sell,
+        }, insider.get("observed"))
+        labels["insider_market_balance"] = "Insider-Saldo, 6 Monate"
+    holders = bundle.get("holders") or {}
+    if holders.get("insider") is not None:
+        put("insider_ownership", holders["insider"], holders.get("observed"))
+    if holders.get("institutional") is not None:
+        put("institutional_ownership", holders["institutional"], holders.get("observed"))
     if analysts.get("buyShare") is not None:
         put("buy_share", analysts["buyShare"], analysts.get("observed"))
     if analysts.get("targetUpside") is not None:
@@ -841,11 +918,25 @@ def _ko_flags(config, bundle, end, market_cap, sources):
 
 
 def latest_observed(criteria):
+    """Latest reporting-period or price-linked metric date. Fetch days do not count."""
     found = []
     for criterion in criteria:
         for metric in criterion["metrics"]:
             if metric.get("observedAt") and metric.get("raw") is not None:
                 found.append(metric["observedAt"])
+    if not found:
+        return None
+    return max(found)
+
+
+def data_stand(criteria, price):
+    """Stand der Daten: newest close or reporting date. A trade date alone is not one."""
+    found = []
+    metric = latest_observed(criteria)
+    if metric:
+        found.append(metric)
+    if price and price.get("date"):
+        found.append(price["date"])
     if not found:
         return None
     return max(found)

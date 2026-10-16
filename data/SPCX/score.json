@@ -1,16 +1,23 @@
 {
   "ticker": "SPCX",
   "name": "Space Exploration Technologies",
-  "asOf": "2026-04-02",
+  "asOf": "2026-10-15",
   "score": null,
   "status": "wenig Daten",
   "criteriaWithData": 1,
   "trafficLight": null,
-  "qualityScore": 0.0,
+  "qualityScore": 70.0,
   "marketScore": null,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 1 von 32 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 3 von 31 Metriken verfügbar",
   "missingDataNote": "Wenig Daten bei C_01, C_02, C_03, C_04, C_06, C_07, C_08. Weniger als 3 Kriterien haben Daten.",
   "koFlags": [],
+  "price": {
+    "close": 148.62,
+    "currency": "USD",
+    "date": "2026-10-15",
+    "sourceLabel": "Nasdaq Historical",
+    "sourceUrl": "https://api.nasdaq.com/api/quote/SPCX/historical?assetclass=stocks&fromdate=2024-04-29&todate=2026-10-16&limit=2000"
+  },
   "criteria": [
     {
       "id": "C_01",
@@ -283,58 +290,57 @@
     {
       "id": "C_05",
       "label": "Management & große Investoren",
-      "score": 0.0,
+      "score": 7.0,
       "status": null,
       "weight": 1,
-      "dataQuality": "1 von 4 Metriken verfügbar",
+      "dataQuality": "3 von 3 Metriken verfügbar. über 10 % → 5 von 5 Netto-Verkäufe → 0 von 3 über 40 % → 2 von 2",
       "metrics": [
         {
-          "id": "insider_net_buy_share",
-          "label": "Insider, Anteil Käufe",
-          "value": "0,0 %",
-          "raw": 0.0,
+          "id": "insider_ownership",
+          "label": "Insider-Anteil",
+          "value": "12,7 %",
+          "raw": 0.12732,
+          "points": 5.0,
+          "status": null,
+          "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
+          "sourceUrl": "https://finance.yahoo.com/quote/SPCX/holders",
+          "fetchedAt": "2026-10-16",
+          "observedAt": null,
+          "note": "über 10 % → 5 von 5"
+        },
+        {
+          "id": "insider_market_balance",
+          "label": "Insider-Saldo, 6 Monate",
+          "value": "Netto-Verkäufe · 0 Käufe / 6 Verkäufe",
+          "raw": null,
           "points": 0.0,
           "status": null,
-          "sourceLabel": "SEC EDGAR Form 4",
+          "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0001181412.json",
           "fetchedAt": "2026-10-16",
-          "observedAt": "2026-04-02"
+          "observedAt": "2026-09-22",
+          "note": "Netto-Verkäufe → 0 von 3",
+          "detail": {
+            "windowDays": 183,
+            "filings": 3,
+            "buys": 0,
+            "sells": 6,
+            "buyDollars": 0.0,
+            "sellDollars": 53746064.54
+          }
         },
         {
-          "id": "sbc_to_revenue",
-          "label": "Aktienvergütung / Umsatz",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
+          "id": "institutional_ownership",
+          "label": "Institutioneller Anteil",
+          "value": "48,6 %",
+          "raw": 0.48638,
+          "points": 2.0,
+          "status": null,
+          "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
+          "sourceUrl": "https://finance.yahoo.com/quote/SPCX/holders",
           "fetchedAt": "2026-10-16",
-          "observedAt": null
-        },
-        {
-          "id": "shareholder_yield",
-          "label": "Aktionärsrendite",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
-          "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-16",
-          "observedAt": null
-        },
-        {
-          "id": "share_change_1y",
-          "label": "Veränderung der Aktienzahl, 1 Jahr",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-16",
-          "observedAt": null
+          "observedAt": null,
+          "note": "über 40 % → 2 von 2"
         }
       ]
     },

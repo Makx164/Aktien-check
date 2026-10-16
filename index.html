@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-theme="light">
 <head>
   <meta charset="utf-8">
   <script>
@@ -9,8 +9,9 @@
       }).catch(function () {});
     }
   </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
+  <script>try{var t=localStorage.getItem("ac-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#c6c7c1">
   <title>sidequest</title>
   <meta name="description" content="sidequest. Ich halte diese Aktien selbst. Keine Anlageberatung.">
   <meta property="og:title" content="sidequest">
@@ -20,643 +21,862 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23e8305a'/%3E%3Cpath d='M5 17l5-5 3 3 6-7' fill='none' stroke='%23111' stroke-width='2.6'/%3E%3C/svg%3E">
   <link rel="canonical" href="https://yoursidequest.org/">
   <style>
-    @font-face {
-      font-family: "JetBrains Mono";
-      src: url("fonts/jetbrains-mono.woff2") format("woff2");
-      font-weight: 100 800;
-      font-display: swap;
-    }
 
-    :root {
-      --bg: #c6c7c1;
-      --grid: rgba(17, 18, 20, 0.045);
-      --surface: #d3d4ce;
-      --inset: #dcddd7;
-      --text: #111214;
-      --muted: #3a3c40;
-      --accent: #e8305a;
-      --eyebrow: #c41c45;
-      --line: rgba(17, 18, 20, 0.55);
-      --rule: rgba(17, 18, 20, 0.22);
-      --arm: 10px;
-      --logo-stroke: #111214;
-      color-scheme: light;
-    }
+/* Aktien-Check v1 · Design "VOID / Ops" – Prototyp */
+@font-face{font-family:"Space Mono";src:url("fonts/space-mono-400.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Space Mono";src:url("fonts/space-mono-700.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("fonts/jetbrains-mono.woff2") format("woff2");font-weight:100 800;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url("fonts/space-grotesk.woff2") format("woff2");font-weight:300 700;font-display:swap}
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #141516;
-        --grid: rgba(230, 228, 222, 0.05);
-        --surface: #1c1e22;
-        --inset: #24262b;
-        --text: #e6e4de;
-        --muted: #a7a59e;
-        --accent: #e8305a;
-        --eyebrow: #ff5a7a;
-        --line: rgba(230, 228, 222, 0.38);
-        --rule: rgba(230, 228, 222, 0.16);
-        --logo-stroke: #111214;
-        color-scheme: dark;
-      }
+:root,[data-theme="light"]{
+  --bg:#c6c7c1; --bg2:#cfd0ca; --panel:#d3d4ce; --panel2:#dcddd7; --ink:#111214; --ink2:#3a3c40; --mut:#5f625f;
+  --hair:rgba(17,18,20,.55); --hair2:rgba(17,18,20,.22); --grid:rgba(17,18,20,.045);
+  --red:#e8305a; --red-ink:#c41c45; --purple:#6d3ae0; --blue:#2b55e0;
+  --ok:#0e7a3b; --warn:#a35f00; --bad:#c41c3a; --ok-bg:rgba(14,122,59,.10); --warn-bg:rgba(163,95,0,.11); --bad-bg:rgba(196,28,58,.10);
+  --wm:none;
+  --scan:none;
+  color-scheme:light;
+}
+[data-theme="dark"]{
+  --bg:#0a0b0c; --bg2:#0f1012; --panel:#111316; --panel2:#171a1e; --ink:#eceeee; --ink2:#c3c6c8; --mut:#8a8f93;
+  --hair:rgba(236,238,238,.42); --hair2:rgba(236,238,238,.16); --grid:rgba(236,238,238,.035);
+  --red:#ff3b63; --red-ink:#ff5a7c; --purple:#a888ff; --blue:#6f93ff;
+  --ok:#36e07a; --warn:#ffb21f; --bad:#ff4d66; --ok-bg:rgba(54,224,122,.09); --warn-bg:rgba(255,178,31,.10); --bad-bg:rgba(255,77,102,.10);
+  --wm:none;
+  --scan:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 "Space Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;
+  background-image:var(--scan),linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:auto,32px 32px,32px 32px}
+.mono,.mlabel,code{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.disp{font-family:"Space Mono",ui-monospace,monospace}
+a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+.muted{color:var(--mut)}
+.mlabel{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
 
-      .light.green { color: #8dcea8; }
-      .light.orange { color: #e2a85a; }
-    }
+/* Banner */
+.proto-banner{position:sticky;top:0;z-index:60;background:var(--red);color:#111;text-align:center;font:600 11.5px/1.3 "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;border-bottom:1px solid #111}
+.proto-banner .sep{margin:0 8px;opacity:.6}
+.pb-blink{margin-right:6px;animation:blink 1.4s steps(2,start) infinite}
+@keyframes blink{to{visibility:hidden}}
+@media (prefers-reduced-motion:reduce){.pb-blink{animation:none}}
 
-    * { box-sizing: border-box; }
+/* Frame */
+.shell{position:relative;max-width:1060px;margin:26px auto 34px;border:1px solid var(--hair);background:color-mix(in srgb,var(--bg) 80%,transparent)}
+.cx{position:absolute;width:19px;height:19px;pointer-events:none}
+.cx::before,.cx::after{content:"";position:absolute;background:var(--ink)}
+.cx::before{left:9px;top:0;width:1px;height:19px} .cx::after{top:9px;left:0;height:1px;width:19px}
+.cx.tl{left:-10px;top:-10px} .cx.tr{right:-10px;top:-10px} .cx.bl{left:-10px;bottom:-10px} .cx.br{right:-10px;bottom:-10px}
 
-    html {
-      background: var(--bg);
-      background-image:
-        linear-gradient(var(--grid) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-      background-size: 32px 32px;
-      color: var(--text);
-    }
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 26px;border-bottom:1px solid var(--hair2)}
+.brand{display:flex;align-items:center;gap:12px;color:var(--ink)} .brand:hover{text-decoration:none}
+.logo{width:26px;height:26px;color:var(--ink)} .logo svg{width:100%;height:100%}
+.brand-t{font:700 16px/1.1 "Space Mono",monospace;letter-spacing:.08em}
+.brand-t small{display:block;font:500 10.5px "JetBrains Mono",monospace;letter-spacing:.14em;color:var(--mut);margin-top:3px}
+.top-r{display:flex;align-items:center;gap:10px}
+.badge-proto{font:700 10.5px "JetBrains Mono",monospace;letter-spacing:.2em;color:var(--red-ink);border:1px solid var(--red);padding:5px 8px}
+.theme-tg{display:flex;border:1px solid var(--hair);background:transparent;padding:0;cursor:pointer;font:600 10.5px "JetBrains Mono",monospace;letter-spacing:.14em}
+.theme-tg span{padding:5px 9px;color:var(--mut)}
+[data-theme="light"] .theme-tg [data-v="light"],[data-theme="dark"] .theme-tg [data-v="dark"]{background:var(--ink);color:var(--bg)}
 
-    body {
-      margin: 0;
-      min-height: 100%;
-      font-family: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
-      font-size: 14px;
-      line-height: 1.45;
-    }
+main{position:relative;padding:8px 26px 30px;outline:none}
+.footer{padding:0 26px 22px}
+.disclaimer{border:1px solid var(--bad);background:var(--bad-bg);padding:12px 14px;font-size:13px;color:var(--ink2)}
+.disclaimer .mlabel{color:var(--bad);margin-bottom:4px}
+.disclaimer p{margin:2px 0 0}
+.foot-url{text-align:center;font:500 11px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--ink2);margin:18px 0 0}
 
-    a { color: inherit; }
+/* Typo blocks */
+.h-red{font:700 clamp(40px,8.4vw,86px)/.95 "Space Mono",monospace;color:var(--red);letter-spacing:.01em;margin:0;text-transform:uppercase}
+.h-ink{font:700 clamp(20px,4.1vw,40px)/1.1 "Space Mono",monospace;color:var(--ink);letter-spacing:.06em;margin:10px 0 0;text-transform:uppercase}
+.lead{font-size:clamp(15px,2vw,18px);color:var(--ink2);margin:18px 0 0;max-width:640px}
+.lead em{color:var(--purple);font-style:italic;font-weight:700}
+.sec-t{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:34px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--hair2)}
+.sec-t h2{margin:0;font:700 15px "Space Mono",monospace;letter-spacing:.1em;text-transform:uppercase}
+.sec-t .mlabel{color:var(--mut)}
 
-    .wrap {
-      width: min(1120px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 28px 0 64px;
-    }
+/* Tags */
+.tag{display:inline-block;font:600 10.5px/1.2 "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;padding:2px 6px;border:1px solid currentColor;vertical-align:middle;white-space:nowrap}
+.tag.ki{color:var(--purple)} .tag.daten{color:var(--blue)} .tag.bsp{color:var(--warn);background:var(--warn-bg)}
+.tag.warn{color:var(--warn);background:var(--warn-bg)} .tag.red{color:var(--red-ink)}
+.st{display:inline-flex;align-items:center;gap:8px;font:700 12px/1 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;padding:8px 11px;border:1px solid currentColor}
+.st i{width:9px;height:9px;background:currentColor;display:block}
+.st.gruen{color:var(--ok);background:var(--ok-bg)} .st.gelb{color:var(--warn);background:var(--warn-bg)} .st.rot{color:var(--bad);background:var(--bad-bg)}
+.sq{display:inline-block;width:8px;height:8px;vertical-align:middle}
+.sq.gruen{background:var(--ok)} .sq.gelb{background:var(--warn)} .sq.rot{background:var(--bad)}
 
-    .top {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 18px;
-    }
+/* Start */
+.hero{padding:34px 0 6px}
+.search{position:relative;max-width:620px;margin-top:30px}
+.search form{display:flex;border:1px solid var(--hair);background:var(--panel)}
+.prompt{display:flex;align-items:center;padding:0 0 0 14px;font:700 18px "JetBrains Mono",monospace;color:var(--red)}
+.search input{flex:1;min-width:0;font:600 19px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;padding:15px 12px;border:0;background:transparent;color:var(--ink)}
+.search input::placeholder{color:var(--mut);letter-spacing:.08em}
+.search input:focus{outline:none}
+.search form:focus-within{outline:2px solid var(--red);outline-offset:2px}
+.btn{font:700 14px "Space Mono",monospace;letter-spacing:.14em;text-transform:uppercase;padding:0 22px;border:0;background:var(--red);color:#111;cursor:pointer}
+.btn:hover{filter:brightness(1.07)}
+.ac{position:absolute;left:0;right:0;top:calc(100% + 4px);background:var(--panel2);border:1px solid var(--hair);z-index:30;box-shadow:0 14px 30px rgba(0,0,0,.18)}
+.ac button{display:flex;width:100%;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;background:none;border:0;border-bottom:1px solid var(--hair2);color:var(--ink);font:500 13px "JetBrains Mono",monospace;letter-spacing:.06em;cursor:pointer;text-align:left}
+.ac button:last-child{border-bottom:0}
+.ac button:hover,.ac button.sel{background:var(--panel)}
+.ac b{color:var(--red-ink)}
+.note-demo{margin-top:10px;font:500 11.5px "JetBrains Mono",monospace;letter-spacing:.1em;color:var(--warn);text-transform:uppercase}
 
-    .logo {
-      width: 36px;
-      height: 36px;
-      flex: none;
-    }
+/* Diagram (boxed modules → bracket → hub) */
+.diagram{display:grid;grid-template-columns:minmax(0,1fr) 300px;column-gap:56px;align-items:center;margin-top:26px}
+.mods{position:relative;display:flex;flex-direction:column;gap:10px}
+.mods::after{content:"";position:absolute;right:-28px;top:19px;bottom:19px;border-right:1px solid var(--hair)}
+.mod{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;min-height:38px;padding:8px 12px;border:1px solid var(--hair);background:var(--panel);color:var(--ink);font:500 12.5px "JetBrains Mono",monospace;letter-spacing:.06em;text-transform:uppercase}
+.mod::after{content:"";position:absolute;left:100%;top:50%;width:28px;border-top:1px solid var(--hair)}
+a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink)}
+.mod .ml{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mod .ml small{color:var(--mut);margin-left:6px}
+.mod .mr{display:flex;align-items:center;gap:10px;font-weight:700}
+.hub{position:relative;border:1px solid var(--hair);background:var(--panel);padding:16px}
+.hub::before{content:"";position:absolute;right:100%;top:50%;width:28px;border-top:1px solid var(--hair)}
+.hub-h{display:flex;justify-content:space-between;gap:8px}
+.hub .big{font:700 34px/1 "Space Mono",monospace;letter-spacing:.04em;margin:14px 0 10px;display:flex;align-items:center;gap:10px}
+.hub .url{border:1px solid var(--hair);padding:6px 9px;font:500 12px "JetBrains Mono",monospace;display:inline-block}
+.legend{display:grid;gap:6px;margin-top:12px;font:500 11.5px "JetBrains Mono",monospace;letter-spacing:.06em;color:var(--ink2);text-transform:uppercase}
 
-    .brand { min-width: 0; }
+/* Segment bars */
+.seg{display:inline-flex;gap:2px}
+.seg i{width:6px;height:12px;background:var(--hair2);display:block}
+.seg i.on{background:var(--ink)}
+.seg.gruen i.on{background:var(--ok)} .seg.gelb i.on{background:var(--warn)} .seg.rot i.on{background:var(--bad)}
 
-    .wordmark {
-      margin: 0;
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      text-transform: lowercase;
-      color: var(--accent);
-      line-height: 1;
-    }
+/* Result */
+.result{position:relative}
+.watermark{position:absolute;inset:-8px -26px 0;pointer-events:none;z-index:5;background-image:var(--wm);background-repeat:repeat}
+.back{display:inline-block;margin:10px 0 4px;font:600 11.5px "JetBrains Mono",monospace;letter-spacing:.14em;color:var(--ink2);text-transform:uppercase}
+.r-head{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;padding:18px 0 22px;border-bottom:1px solid var(--hair2)}
+.r-head .h-red{font-size:clamp(54px,11vw,104px)}
+.r-name{font:700 clamp(15px,2.4vw,21px)/1.25 "Space Mono",monospace;letter-spacing:.06em;text-transform:uppercase;margin:8px 0 14px}
+.r-name small{display:block;font:500 11.5px "JetBrains Mono",monospace;letter-spacing:.12em;color:var(--mut);margin-top:4px}
+.stamp{position:absolute;top:12px;right:0;transform:rotate(5deg);border:2px solid var(--red);color:var(--red-ink);font:700 12px/1.2 "Space Mono",monospace;letter-spacing:.2em;padding:4px 9px;text-align:center;background:color-mix(in srgb,var(--bg) 70%,transparent);z-index:6}
+.stamp small{display:block;font:500 9.5px "JetBrains Mono",monospace;letter-spacing:.12em}
+.term{font:500 12.5px/1.75 "JetBrains Mono",monospace;color:var(--ink2)}
+.term b{color:var(--ink);font-weight:700}
+.term .p{color:var(--red)}
+.warnline{margin-top:14px;border:1px solid var(--warn);background:var(--warn-bg);padding:9px 12px;font:500 12.5px "JetBrains Mono",monospace;letter-spacing:.04em}
+.warnline a{margin-left:8px}
+.ko{margin-top:14px;border:1px solid var(--bad);background:var(--bad-bg);padding:11px 13px;font-size:14px}
+.ko ul{margin:6px 0 0;padding-left:18px}
 
-    .product {
-      margin: 6px 0 0;
-      font-size: 10.5px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--eyebrow);
-    }
+.ring{position:relative;width:216px;height:216px;flex:none}
+.ring svg{width:100%;height:100%}
+.ring .val{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring .val b{display:block;font:700 66px/1 "Space Mono",monospace;letter-spacing:-.02em}
+.ring .val small{display:block;font:500 11px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--mut);margin-top:6px}
+.score-hub{display:flex;flex-direction:column;align-items:center;gap:12px}
 
-    .notes {
-      display: grid;
-      gap: 8px;
-      margin: 0 0 18px;
-    }
+.verdict{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:22px;border:1px solid var(--hair)}
+.verdict>div{padding:13px 14px;font-size:14px;border-right:1px solid var(--hair2);background:var(--panel)}
+.verdict>div:last-child{border-right:0}
+.verdict h4{margin:0 0 6px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font:700 11.5px "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase}
+.verdict .bull h4{color:var(--ok)} .verdict .bear h4{color:var(--bad)} .verdict .multi h4{color:var(--blue)}
 
-    .note {
-      margin: 0;
-      padding: 12px 14px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      font-weight: 800;
-      letter-spacing: 0.04em;
-    }
+.diagram.crits{grid-template-columns:minmax(0,1fr) 270px}
+.crit-hub .big{font-size:56px;margin:8px 0 6px}
+.crit-hub .big small{font:500 14px "JetBrains Mono",monospace;color:var(--mut)}
 
-    .note.hold { color: var(--text); }
+.crit{border:1px solid var(--hair);background:var(--panel);margin-bottom:10px}
+.crit summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto 16px;gap:14px;align-items:center;padding:12px 14px}
+.crit summary::-webkit-details-marker{display:none}
+.crit .cid{font:600 10.5px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--red-ink);text-transform:uppercase}
+.crit .cn{display:block;font:700 15px "Space Mono",monospace;letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
+.crit .ctags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.crit .score{font:700 22px "Space Mono",monospace;text-align:right;white-space:nowrap}
+.crit .score small{font:500 12px "JetBrains Mono",monospace;color:var(--mut)}
+.crit .score .seg{display:flex;justify-content:flex-end;margin-top:4px}
+.crit .chev{font:700 14px "JetBrains Mono",monospace;color:var(--mut);transition:transform .15s}
+.crit[open] .chev{transform:rotate(90deg)}
+.crit[open]{border-color:var(--ink)}
+.crit .body{padding:4px 14px 14px;border-top:1px dashed var(--hair2)}
+.kv{margin:10px 0 6px;font:500 12.5px/1.5 "JetBrains Mono",monospace}
+.kv .row{display:flex;align-items:baseline;gap:8px;padding:4px 0}
+.kv .k{color:var(--mut);text-transform:uppercase;letter-spacing:.04em;flex:none;max-width:58%}
+.kv .k::before{content:"> ";color:var(--red)}
+.kv .lead-d{flex:1;min-width:16px;border-bottom:1px dotted var(--hair);transform:translateY(-4px)}
+.kv .v{color:var(--ink);font-weight:600;text-align:right;max-width:52%}
+.kv .row.long{display:block}
+.kv .row.long .lead-d{display:none}
+.kv .row.long .v{display:block;text-align:left;max-width:none;padding-left:16px;margin-top:2px;font-weight:500}
+.kv .v.nd{color:var(--warn)}
+.expl{font-size:14px;color:var(--ink2);margin:10px 0}
+.src{font:500 11.5px "JetBrains Mono",monospace;color:var(--mut);margin-top:8px;word-break:break-word;letter-spacing:.04em}
+.src a{margin-right:12px}
+.spark{margin-top:10px;border:1px solid var(--hair2);padding:8px 8px 4px;background:var(--bg2)}
+.spark .mlabel{font-size:10px;color:var(--mut)}
+.xs{margin-top:12px;border:1px solid var(--hair2);background:var(--bg2);padding:10px 12px;font-size:14px}
+.xs h5{margin:0 0 4px;font:700 11.5px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
+.xs p{margin:4px 0}
+.xs-list{margin:4px 0 0;padding-left:18px;font-size:13.5px}
+.xs-positiv{color:var(--ok);font-weight:700} .xs-negativ{color:var(--bad);font-weight:700}
+.xs-neutral,.xs-gemischt,.xs-keine-Aussage{color:var(--warn);font-weight:700}
 
-    .note.legal {
-      color: var(--eyebrow);
-      letter-spacing: 0.04em;
-      font-size: 15px;
-    }
+.risks{display:grid;gap:10px}
+.risk{position:relative;border:1px solid var(--hair);background:var(--panel);padding:12px 14px 12px 18px;font-size:14px}
+.risk::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--bad)}
+.risk.tagged::before{background:var(--warn)}
+.risk b{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:3px;font:700 13.5px "Space Mono",monospace;letter-spacing:.04em;text-transform:uppercase}
+.risk .rid{font:600 10.5px "JetBrains Mono",monospace;color:var(--red-ink);letter-spacing:.14em}
+.pos{margin-top:12px;font:500 12px "JetBrains Mono",monospace;color:var(--mut)}
+.discl-big{margin-top:26px;border:1px solid var(--bad);background:var(--bad-bg);padding:13px 15px;font-size:14px}
+.discl-big .mlabel{color:var(--bad);display:block;margin-bottom:4px}
+.notfound{padding:40px 0 20px}
+.notfound .h-red{font-size:clamp(40px,8vw,72px)}
 
-    .lead {
-      margin: 0 0 22px;
-      max-width: 68ch;
-      color: var(--muted);
-      font-size: 12.5px;
-    }
+@media (max-width:820px){
+  .diagram,.diagram.crits{grid-template-columns:1fr;row-gap:22px}
+  .mods::after{display:none}
+  .mod::after,.hub::before{display:none}
+  .hub{order:-1}
+  .mods{padding-left:16px;border-left:1px solid var(--hair)}
+  .mods .mod::before{content:"";position:absolute;right:100%;top:50%;width:16px;border-top:1px solid var(--hair)}
+  .verdict{grid-template-columns:1fr}
+  .verdict>div{border-right:0;border-bottom:1px solid var(--hair2)} .verdict>div:last-child{border-bottom:0}
+}
+@media (max-width:640px){
+  body{font-size:14.5px;background-size:auto,24px 24px,24px 24px}
+  .shell{margin:14px 10px 24px}
+  .topbar{padding:12px 14px;flex-wrap:wrap} main{padding:4px 14px 24px} .footer{padding:0 14px 18px}
+  .brand-t{font-size:14px}
+  .r-head{grid-template-columns:1fr;justify-items:start}
+  .score-hub{width:100%;align-items:center}
+  .ring{width:190px;height:190px} .ring .val b{font-size:56px}
+  .stamp{top:6px}
+  .mod{font-size:11.5px;padding:8px 10px}
+  .mod .ml small{display:none}
+  .seg i{width:5px}
+  .kv .row{display:block}
+  .kv .lead-d{display:none}
+  .kv .v{display:block;text-align:left;max-width:none;padding-left:16px}
+  .kv .k{max-width:none}
+  .btn{padding:0 14px;letter-spacing:.08em}
+  .search input{font-size:17px;padding:14px 8px}
+  .proto-banner{font-size:10.5px;letter-spacing:.08em}
+}
 
-    .board {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
+/* Polish */
+.hub .st{font-size:11px;letter-spacing:.08em;line-height:1.35;padding:7px 9px}
+.hub .url{text-transform:uppercase;font-size:11px;letter-spacing:.08em}
+@media (max-width:640px){
+  .watermark{inset:-4px -14px 0}
+  .topbar{flex-wrap:nowrap}
+  .brand{gap:9px} .logo{width:22px;height:22px}
+  .brand-t{font-size:13px;letter-spacing:.05em}
+  .brand-t small{font-size:9.5px;letter-spacing:.08em}
+  .top-r{gap:6px}
+  .badge-proto{font-size:9.5px;letter-spacing:.12em;padding:4px 6px}
+  .theme-tg span{padding:4px 7px;font-size:9.5px}
+  .r-head{padding-top:12px}
+  .stamp{top:58px;right:2px;font-size:11px}
+  .st{font-size:10.5px;letter-spacing:.07em;line-height:1.35;padding:7px 9px}
+  .term{font-size:11.5px}
+}
+@media (max-width:380px){ .brand-t small{display:none} }
+.tag.warn,.warnline .tag.warn,.risk .tag.warn{background:var(--warn);color:#111;border-color:var(--warn);font-weight:700}
+[data-theme="dark"] .tag.warn{color:#0a0b0c}
+.warnline{font-weight:600}
+@media (max-width:820px){ .diagram.start .hub{order:0} }
+@media (max-width:640px){ .search input::placeholder{font-size:14px;letter-spacing:.04em} }
 
-    .card {
-      position: relative;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      padding: 16px 16px 12px;
-    }
+/* ---------- v2.1: Rollen, Gewichte, Ersatzwerte, KI-Hook ---------- */
+.tag.est{color:var(--ok);background:var(--ok-bg)} .tag.role{color:var(--red-ink)} .tag.off{color:var(--mut)}
+.roles{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--hair);background:var(--panel)}
+.roles button{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 12px;border:0;border-right:1px solid var(--hair2);background:transparent;color:var(--ink);font:600 12px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.roles button:last-child{border-right:0}
+.roles button:hover{background:var(--panel2)}
+.roles button.on{background:var(--ink);color:var(--bg)}
+.roles button[disabled]{cursor:default}
+.roles .em{font-size:16px;line-height:1}
+.role-title{margin-top:12px;font:700 clamp(17px,2.6vw,24px)/1.25 "Space Mono",monospace;letter-spacing:.02em;color:var(--ink2)}
+.role-title .rt-t{color:var(--red)} .role-title .rt-r{color:var(--ink)} .role-title b{color:var(--ink);font-size:1.25em}
+.role-title small{font:500 12px "JetBrains Mono",monospace;color:var(--mut)}
+#dyn-status .st{margin-top:10px}
+.wpanel{display:grid;gap:10px}
+.whint{margin:0;font:500 12.5px "JetBrains Mono",monospace;color:var(--ink2);letter-spacing:.03em}
+.wedit{border:1px solid var(--hair);background:var(--panel)}
+.wedit summary{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;cursor:pointer;list-style:none}
+.wedit summary::-webkit-details-marker{display:none}
+.wedit summary .mlabel:first-child::before{content:"› ";color:var(--red)}
+.wedit[open] summary .mlabel:first-child::before{content:"⌄ "}
+.wrows{border-top:1px dashed var(--hair2);padding:6px 14px 12px}
+.wrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,240px) 52px;gap:12px;align-items:center;padding:6px 0;border-bottom:1px solid var(--hair2);font:500 12px "JetBrains Mono",monospace;letter-spacing:.04em;text-transform:uppercase}
+.wrow.off .wchk span,.wrow.off .wv{color:var(--mut)}
+.wchk{display:flex;align-items:center;gap:8px;cursor:pointer;min-width:0}
+.wchk input{accent-color:var(--red);width:16px;height:16px;flex:none}
+.wrow input[type=range]{width:100%;accent-color:var(--red)}
+.wv{text-align:right;font-weight:700}
+.wfoot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:center;margin-top:10px}
+.wreset{border:1px solid var(--hair);background:transparent;color:var(--ink);font:600 11px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;padding:7px 10px;cursor:pointer}
+.mod .mfx{font-size:11px;color:var(--mut);min-width:34px;text-align:right}
+.mod.off{opacity:.45} .crit.off{opacity:.6}
+.rated{margin:8px 0 0;color:var(--mut)}
+.variant,.kiprev{margin-top:10px;padding:10px 12px;border:1px dashed var(--hair)}
+.variant{border-color:var(--red)}
+.kiprev .tag{margin-right:6px}
+.verdict.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.kihook{margin-top:22px;border:1px dashed var(--purple);padding:13px 15px;font-size:14px;color:var(--ink2)}
+.kihook .kh-h{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.kihook .kh-h b{font:700 13px "Space Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.kihook p{margin:8px 0 10px}
+.kh-in{display:flex;border:1px solid var(--hair2);opacity:.6}
+.kh-in input{flex:1;min-width:0;border:0;background:transparent;padding:10px 12px;font:500 12px "JetBrains Mono",monospace;letter-spacing:.1em;color:var(--ink)}
+.kh-in .btn{cursor:not-allowed;padding:0 16px}
+@media (max-width:820px){
+  .verdict.two{grid-template-columns:1fr}
+  .roles button{flex:1 1 45%;border-bottom:1px solid var(--hair2)}
+  .wrow{grid-template-columns:minmax(0,1fr) 52px;row-gap:4px}
+  .wrow input[type=range]{grid-column:1 / -1;grid-row:2}
+}
+.crit .ctags .tag{white-space:normal;max-width:100%}
+.ring .val small.rn{margin-top:2px;font-size:10px;letter-spacing:.1em}
+/* v2.3: nicht anwendbar (grau) + Deckel */
+.st.na{color:var(--mut);background:color-mix(in srgb,var(--mut) 12%,transparent)} .sq.na{background:var(--mut)}
+.role-title .rt-na{color:var(--mut);text-transform:lowercase}
+.na-box{margin-top:12px;border:1px solid var(--mut);background:color-mix(in srgb,var(--mut) 10%,transparent);padding:10px 12px;font-size:14px;color:var(--ink2);max-width:560px}
+.na-box p{margin:4px 0 0}
+.role-link{border:1px solid var(--hair);background:var(--panel);color:var(--ink);font:600 12px "JetBrains Mono",monospace;letter-spacing:.06em;padding:3px 8px;cursor:pointer;margin:2px 0}
+.role-link:hover{border-color:var(--red);color:var(--red-ink)}
+.cap-box{margin-top:12px;border:1px solid var(--warn);background:var(--warn-bg);padding:8px 12px;font:500 12.5px/1.5 "JetBrains Mono",monospace;color:var(--ink2);max-width:560px}
+/* v3: Aktien-Score + „Passt am besten als“ */
+.role-title .rt-sep{color:var(--mut)} .role-title .rt-fit{color:var(--ink);font-size:.8em} .role-title .rt-fit.keine{color:var(--mut)}
+.fit{border:1px solid var(--ink);background:var(--panel);padding:14px 16px}
+.fit.keine{border-color:var(--mut)}
+.fit-main{font:700 clamp(22px,3.6vw,34px)/1.15 "Space Mono",monospace;letter-spacing:.02em;margin:6px 0 4px;color:var(--ink)}
+.fit.keine .fit-main{color:var(--mut)}
+.fit-sub{margin:0;font:500 12.5px/1.5 "JetBrains Mono",monospace;color:var(--ink2)}
+.fit-list{display:grid;gap:0;margin-top:10px;border:1px solid var(--hair)}
+.fit-row{border-bottom:1px solid var(--hair2);background:var(--panel)}
+.fit-row:last-child{border-bottom:0}
+.fit-row summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(150px,1.2fr) 90px minmax(0,1.4fr);gap:6px 14px;align-items:center;padding:9px 14px;font:500 12.5px "JetBrains Mono",monospace;letter-spacing:.04em}
+.fit-row summary::-webkit-details-marker{display:none}
+.fit-row .fr-n{font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.fit-row .fr-s{font:700 16px "Space Mono",monospace;display:flex;align-items:center;gap:8px}
+.fit-row .fr-s small{font:500 11px "JetBrains Mono",monospace;color:var(--mut)}
+.fit-row .fr-l{color:var(--ink2)}
+.fit-row .fr-r{grid-column:1 / -1;color:var(--ink2);font-size:12px}
+.fit-row.na{opacity:.75} .fit-row.na .fr-s,.fit-row.na .fr-l{color:var(--mut)}
+.fit-row.best{background:var(--panel2)}
+.fit-row .body{padding:4px 14px 12px;border-top:1px dashed var(--hair2)}
+.fit-row .rw{margin:6px 0 0;color:var(--mut)}
+@media (max-width:820px){ .fit-row summary{grid-template-columns:minmax(0,1fr) auto} .fit-row .fr-l{grid-column:1 / -1} }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(var(--accent), var(--accent)) left top / var(--arm) 1px no-repeat,
-        linear-gradient(var(--accent), var(--accent)) left top / 1px var(--arm) no-repeat,
-        linear-gradient(var(--accent), var(--accent)) right top / var(--arm) 1px no-repeat,
-        linear-gradient(var(--accent), var(--accent)) right top / 1px var(--arm) no-repeat,
-        linear-gradient(var(--accent), var(--accent)) left bottom / var(--arm) 1px no-repeat,
-        linear-gradient(var(--accent), var(--accent)) left bottom / 1px var(--arm) no-repeat,
-        linear-gradient(var(--accent), var(--accent)) right bottom / var(--arm) 1px no-repeat,
-        linear-gradient(var(--accent), var(--accent)) right bottom / 1px var(--arm) no-repeat;
-    }
 
-    .card-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: baseline;
-      margin-bottom: 8px;
-    }
+.brand-t{text-transform:none}
+.watermark{display:none}
+.hold-notes{display:grid;gap:8px;padding:14px 26px 0}
+.hold-notes p{margin:0;padding:10px 12px;border:1px solid var(--hair);background:var(--panel);font:700 13px/1.4 "JetBrains Mono",monospace;letter-spacing:.03em}
+.hold-notes .legal{color:var(--red-ink)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:8px 0 12px}
+.tile{display:flex;flex-direction:column;gap:6px;min-height:156px;padding:14px 14px 12px;border:1px solid var(--hair);background:var(--panel);color:inherit;text-decoration:none}
+.tile:hover{background:var(--panel2);text-decoration:none;border-color:var(--ink)}
+.tile-ticker{font:700 22px/1 "Space Mono",monospace;letter-spacing:.08em;color:var(--ink)}
+.tile-name{font:500 12px/1.35 "JetBrains Mono",monospace;color:var(--mut);letter-spacing:.03em}
+.tile-score{margin-top:auto;padding-top:12px;font:700 30px/1 "Space Mono",monospace}
+.tile-score.gruen{color:var(--ok)}
+.tile-score.gelb{color:var(--warn)}
+.tile-score.rot{color:var(--bad)}
+.tile-score.na{color:var(--mut);font-size:18px;letter-spacing:.04em}
+.tile-stand{padding-top:8px;font:500 11px/1.35 "JetBrains Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.tile-stand b{display:block;margin-bottom:2px;color:var(--red-ink);font-size:10px;letter-spacing:.12em}
+.gap-note{margin:14px 0 0;border:1px solid var(--warn);background:var(--warn-bg);padding:9px 12px;font:600 12.5px "JetBrains Mono",monospace}
+.ring .val b.long{font-size:42px}
+.page-kicker{margin:22px 0 4px}
+@media (max-width:640px){
+  .hold-notes{padding:12px 14px 0}
+  .tiles{grid-template-columns:1fr 1fr;gap:8px}
+  .tile{min-height:132px;padding:12px 10px}
+  .tile-ticker{font-size:16px}
+  .tile-score{font-size:24px}
+  .tile-score.na{font-size:14px}
+}
 
-    .ticker {
-      margin: 0;
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-    }
-
-    .name {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-      text-align: right;
-    }
-
-    .meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 16px;
-      margin: 0 0 12px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--rule);
-      font-size: 12px;
-    }
-
-    .meta b {
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--eyebrow);
-      font-size: 10.5px;
-    }
-
-    .crit {
-      border-top: 1px solid var(--rule);
-    }
-
-    .crit summary {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 2px;
-      cursor: pointer;
-      list-style: none;
-    }
-
-    .crit summary::-webkit-details-marker { display: none; }
-
-    .crit summary::after {
-      content: "";
-      width: 7px;
-      height: 7px;
-      margin-left: auto;
-      border-right: 1.5px solid var(--text);
-      border-bottom: 1.5px solid var(--text);
-      transform: rotate(45deg) translateY(-2px);
-      flex: none;
-    }
-
-    .crit[open] summary::after {
-      transform: rotate(225deg) translateY(-2px);
-    }
-
-    .cid {
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      min-width: 3.2em;
-    }
-
-    .clabel {
-      color: var(--text);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .cscore {
-      margin-left: auto;
-      font-variant-numeric: tabular-nums;
-      color: var(--muted);
-    }
-
-    .detail {
-      margin: 0 0 10px;
-      background: var(--inset);
-      border: 1px solid var(--rule);
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
-
-    th, td {
-      padding: 8px 10px;
-      text-align: left;
-      vertical-align: top;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    th {
-      font-size: 10.5px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--eyebrow);
-      font-weight: 800;
-    }
-
-    tr:last-child td { border-bottom: 0; }
-
-    .src {
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .status {
-      color: var(--muted);
-      font-size: 12.5px;
-    }
-
-    .light.green { color: #1b7a45; }
-    .light.orange { color: #a86208; }
-    .light.red { color: var(--accent); }
-
-    .ko {
-      margin: 0 0 10px;
-      color: var(--accent);
-      font-weight: 800;
-      font-size: 12px;
-    }
-
-    .gap-note {
-      margin: 0 0 10px;
-      padding: 8px 10px;
-      background: var(--inset);
-      border-left: 3px solid var(--eyebrow);
-      color: var(--text);
-      font-weight: 700;
-      font-size: 12px;
-    }
-
-    .sparse {
-      color: var(--eyebrow);
-      font-weight: 800;
-    }
-
-    .weight {
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: 0.04em;
-    }
-
-    @media (max-width: 800px) {
-      .board { grid-template-columns: 1fr; }
-      .wrap { width: min(100% - 20px, 1120px); padding-top: 18px; }
-      .wordmark { font-size: 24px; }
-      .card-head { flex-direction: column; align-items: flex-start; }
-      .name { text-align: left; }
-    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="top">
-      <svg class="logo" viewBox="0 0 24 24" aria-hidden="true">
-        <rect width="24" height="24" fill="#e8305a"/>
-        <path d="M5 17l5-5 3 3 6-7" fill="none" stroke="#111214" stroke-width="2.6"/>
-      </svg>
-      <div class="brand">
-        <h1 class="wordmark">sidequest</h1>
-        <p class="product">Aktien-Check</p>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="#/" aria-label="sidequest, alle Positionen">
+        <span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 22 20H2Z" fill="currentColor"/><path d="M12 11 15.5 17h-7Z" fill="var(--bg)"/></svg></span>
+        <span class="brand-t">sidequest<small>AKTIEN-CHECK</small></span>
+      </a>
+      <div class="top-r">
+        <button class="theme-tg" id="theme-tg" type="button" aria-label="Farbschema wechseln">
+          <span data-v="light">LIGHT</span><span data-v="dark">OPS</span>
+        </button>
       </div>
     </header>
-
-    <div class="notes">
-      <p class="note hold">„Ich halte diese Aktien selbst.“</p>
-      <p class="note legal">„Keine Anlageberatung.“</p>
+    <div class="hold-notes">
+      <p>Ich halte diese Aktien selbst.</p>
+      <p class="legal">Keine Anlageberatung.</p>
     </div>
-
-    <p class="lead">Aktien-Score von 0 bis 100. Jedes Kriterium ist der Mittelwert seiner Teilkennzahlen, C_07 zählt mit halbem Gewicht. Ab 70 grün, von 50 bis 69 orange, darunter rot. Fehlt die Datenbasis, steht „wenig Daten“ und zählt nicht als 0. Der Score nutzt nur Kriterien mit Daten. Unter drei Kriterien mit Daten steht keine Zahl. Phase 1 rechnet mit gemeldeten Zahlen und Kursen. Burggraben und Marktgröße ohne Textbewertung fehlen.</p>
-
-    <main class="board" id="board" aria-live="polite">
-      <p class="status">Daten werden geladen.</p>
-    </main>
+    <main id="app" tabindex="-1"><p class="mlabel">Daten werden geladen.</p></main>
+    <footer class="footer">
+      <p class="foot-url">sidequest · AKTIEN-CHECK</p>
+    </footer>
+    <i class="cx tl"></i><i class="cx tr"></i><i class="cx bl"></i><i class="cx br"></i>
   </div>
-
   <script>
-    const TICKERS = ["PLTR","OSS","AMZN","TSLA","HIMS","LMND","IBRX","MU","IREN","GRAB","SIVE","SPCX","PYPL"];
-    const CRITERIA = ["C_01","C_02","C_03","C_04","C_05","C_06","C_07","C_08"];
-    const QUALITY = ["C_01","C_02","C_03","C_04","C_05"];
-    const MARKET = ["C_06","C_07","C_08"];
-    const ROLES = new Set(["Satellit","Tenbagger","Compounder","Dividenden-Aktie"]);
+(function () {
+  "use strict";
+  var TICKERS = ["PLTR","OSS","AMZN","TSLA","HIMS","LMND","IBRX","MU","IREN","GRAB","SIVE","SPCX","PYPL"];
+  var CODES = ["C_01","C_02","C_03","C_04","C_05","C_06","C_07","C_08"];
+  var CFG = {
+    scoreName: "Aktien-Score",
+    hauptPreset: "ausgewogen",
+    rollenAnalyse: ["satellit", "tenbagger", "compounder", "dividende"],
+    rollenFit: {minScore: 50, gleichstand: 3, keineText: "Passt in keine Rolle klar"},
+    presets: {
+      ausgewogen: {emoji: "⚖️", label: "Ausgewogen", scoreLabel: "Aktien-Score", hinweis: "Standard: alle 8 Punkte, C_07 mit halbem Gewicht",
+        ampel: {gruen: "Starkes Gesamtprofil", gelb: "Gemischtes Gesamtprofil", rot: "Schwaches Gesamtprofil"},
+        w: {"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 1, "7": 1, "8": 1, "9": 0}},
+      satellit: {emoji: "🛰️", label: "Satellit", scoreLabel: "Satellit-Score", hinweis: "Wachstum zählt am stärksten, Bewertung als Gegencheck",
+        ampel: {gruen: "Starkes Wachstumsprofil", gelb: "Gemischtes Wachstumsprofil", rot: "Schwaches Wachstumsprofil"},
+        w: {"1": 1.5, "2": 2.5, "3": 1.5, "4": 1, "5": 1, "6": 1, "7": 0.5, "8": 1, "9": 0}},
+      tenbagger: {emoji: "🚀", label: "Tenbagger", scoreLabel: "Tenbagger-Score", hinweis: "Wachstum und Markt zählen am stärksten, Bewertung zählt nicht",
+        ampel: {gruen: "Hohes Vervielfachungspotenzial", gelb: "Mittleres Vervielfachungspotenzial", rot: "Geringes Vervielfachungspotenzial"},
+        w: {"1": 1, "2": 3, "3": 2.5, "4": 0.5, "5": 1.5, "6": 1, "7": 0.5, "8": 0, "9": 0}},
+      compounder: {emoji: "💎", label: "Compounder", scoreLabel: "Compounder-Score", hinweis: "Burggraben und Kapitalrendite im Fokus",
+        ampel: {gruen: "Hohe Qualität", gelb: "Mittlere Qualität", rot: "Geringe Qualität"},
+        w: {"1": 2.5, "2": 1.5, "3": 1, "4": 2, "5": 1.5, "6": 0.5, "7": 0, "8": 1, "9": 0},
+        deckel: [{kennzahl: "roic_2y", unter: 0, max: 49, hinweis: "Kapitalrendite negativ", info: "ROIC, 2-Jahres-Schnitt"},
+                 {kennzahl: "roic_2y", unter: 0.10, max: 69, hinweis: "Kapitalrendite unter 10 %", info: "ROIC, 2-Jahres-Schnitt"}]},
+      dividende: {emoji: "💰", label: "Dividenden-Aktie", scoreLabel: "Dividenden-Score", hinweis: "Dividende zählt nur mit einer gemessenen Rendite",
+        ampel: {gruen: "Solide Dividende", gelb: "Durchwachsene Dividende", rot: "Schwache Dividende"},
+        w: {"1": 1.5, "2": 0.5, "3": 0.5, "4": 2, "5": 0.5, "6": 0.5, "7": 0, "8": 1.5, "9": 3},
+        nichtAnwendbar: {kennzahl: "dividendenrendite", unter: 0.005, hinweisNiedrig: "Dividendenrendite unter 0,5 %"}}
+    },
+    ampel: {gruen: {ab: 70}, gelb: {ab: 50}, na: {label: "nicht anwendbar"}, ko: {label: "Warnsignal"}}
+  };
 
-    function text(value) {
-      const node = document.createElement("span");
-      node.textContent = value == null || value === "" ? "" : String(value);
-      return node;
+  var app = document.getElementById("app");
+  var loaded = [];
+
+  var tg = document.getElementById("theme-tg");
+  function setTheme(t) {
+    document.documentElement.setAttribute("data-theme", t);
+    try { localStorage.setItem("ac-theme", t); } catch (e) {}
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = t === "dark" ? "#0a0b0c" : "#c6c7c1";
+  }
+  tg.addEventListener("click", function () {
+    setTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+  var qt = (location.search.match(/[?&]theme=(light|dark)/) || [])[1];
+  if (qt) setTheme(qt);
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c];
+    });
+  }
+  function dDE(iso) {
+    if (!iso) return "–";
+    var p = String(iso).slice(0, 10).split("-");
+    return p.length === 3 ? p[2] + "." + p[1] + "." + p[0] : String(iso);
+  }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function n1(x) {
+    if (x == null || Number.isNaN(Number(x))) return "–";
+    return (Math.round(Number(x) * 10) / 10).toFixed(1).replace(".", ",");
+  }
+  function host(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return "Quelle"; } }
+  function lvl(p) { return p >= 0.7 ? "gruen" : p >= 0.4 ? "gelb" : "rot"; }
+  function seg(points, max) {
+    var n = 10, known = points != null && !Number.isNaN(Number(points));
+    var on = known ? Math.round(Number(points) / max * n) : 0;
+    var tone = known ? lvl(Number(points) / max) : "na";
+    var h = '<span class="seg ' + tone + '" aria-hidden="true">';
+    for (var i = 0; i < n; i++) h += '<i class="' + (i < on ? "on" : "") + '"></i>';
+    return h + "</span>";
+  }
+  function lightOf(doc) {
+    if (doc.status || doc.score == null) return "na";
+    var map = {green: "gruen", orange: "gelb", red: "rot"};
+    return map[doc.trafficLight] || (doc.score >= 70 ? "gruen" : doc.score >= 50 ? "gelb" : "rot");
+  }
+  function lab(light, presetKey) {
+    var p = CFG.presets[presetKey || CFG.hauptPreset];
+    if (light === "na") return CFG.ampel.na.label;
+    return (p.ampel && p.ampel[light]) || "";
+  }
+  function status(light, ko) {
+    var name = {gruen: "GRÜN", gelb: "GELB", rot: "ROT", na: "GRAU"}[light];
+    var text = light === "na" ? "wenig Daten" : (ko ? CFG.ampel.ko.label + " (K.-O.)" : lab(light));
+    return '<span class="st ' + light + '"><i></i>STATUS: ' + name + " · " + esc(text) + "</span>";
+  }
+  function dateKey(value) {
+    if (value == null || value === "") return null;
+    var iso = String(value).trim().match(/^(\d{4})-(\d{2})-(\d{2})/);
+    return iso ? iso[1] + iso[2] + iso[3] : null;
+  }
+  function latest(values) {
+    var keyed = values.map(function (value) { return {value: value, key: dateKey(value)}; }).filter(function (item) { return item.key; });
+    if (!keyed.length) return null;
+    keyed.sort(function (a, b) { return a.key < b.key ? -1 : a.key > b.key ? 1 : 0; });
+    return keyed[keyed.length - 1].value;
+  }
+  function metricsOf(doc) {
+    var rows = [];
+    doc.criteria.forEach(function (c) { (c.metrics || []).forEach(function (m) { rows.push(m); }); });
+    return rows;
+  }
+  function standOf(doc) {
+    if (doc.asOf) return doc.asOf;
+    if (doc.price && doc.price.date) return doc.price.date;
+    return null;
+  }
+  function standText(doc) {
+    var day = standOf(doc);
+    return day ? dDE(day) : "wenig Daten";
+  }
+  function priceText(doc) {
+    var price = doc.price;
+    if (!price || price.close == null || price.close === "") return "wenig Daten";
+    var number = Number(price.close);
+    if (!isFinite(number)) return "wenig Daten";
+    var text = number.toFixed(2).replace(".", ",");
+    if (price.currency) text += "&nbsp;" + esc(price.currency);
+    return text;
+  }
+  function kursDate(doc) {
+    if (doc.price && doc.price.date) return doc.price.date;
+    var c7 = doc.criteria.filter(function (c) { return c.code === "C_07"; })[0];
+    return latest((c7 && c7.metrics || []).map(function (m) { return m.observedAt; }));
+  }
+  function zahlenDate(doc) {
+    var points = [];
+    doc.criteria.forEach(function (c) {
+      if (c.code === "C_07") return;
+      (c.metrics || []).forEach(function (m) { if (m.observedAt) points.push(m.observedAt); });
+    });
+    return latest(points);
+  }
+  function findMetric(doc, id) {
+    var found = null;
+    doc.criteria.forEach(function (c) {
+      (c.metrics || []).forEach(function (m) { if (m.id === id) found = m; });
+    });
+    return found;
+  }
+  function adapt(score) {
+    var byId = {};
+    (score.criteria || []).forEach(function (c) { byId[c.id] = c; });
+    return {
+      ticker: score.ticker,
+      name: score.name || "",
+      score: score.score,
+      status: score.status,
+      trafficLight: score.trafficLight,
+      ko: score.koFlags || [],
+      missingDataNote: score.missingDataNote,
+      asOf: score.asOf,
+      price: score.price || null,
+      criteria: CODES.map(function (code, index) {
+        var found = byId[code] || {id: code, label: code, score: null, status: "wenig Daten", metrics: []};
+        var missing = found.score == null || found.status;
+        return {
+          id: index + 1,
+          code: code,
+          name: found.label || code,
+          wert: missing ? null : found.score,
+          bewertet: !missing,
+          status: missing ? (found.status || "wenig Daten") : null,
+          weight: found.weight,
+          metrics: found.metrics || [],
+          dataQuality: found.dataQuality || ""
+        };
+      })
+    };
+  }
+  function calcRole(doc, key) {
+    var p = CFG.presets[key];
+    var w = p.w;
+    if (p.nichtAnwendbar) {
+      var metric = findMetric(doc, p.nichtAnwendbar.kennzahl);
+      var raw = metric && metric.raw != null ? Number(metric.raw) : null;
+      if (raw == null || raw < p.nichtAnwendbar.unter) {
+        return {score: null, light: "na", na: true, hinweis: raw == null ? "Dividendenrendite: wenig Daten" : p.nichtAnwendbar.hinweisNiedrig, rated: 0, used: 0, deckel: null};
+      }
     }
-
-    function unknown() {
-      return "unbekannt";
-    }
-
-    function isBlank(value) {
-      return value == null || value === "";
-    }
-
-    function formatDate(value) {
-      if (isBlank(value)) return unknown();
-      const raw = String(value).trim();
-      const iso = raw.match(/^(\d{4})-(\d{2})-(\d{2})/);
-      if (iso) return iso[3] + "." + iso[2] + "." + iso[1];
-      return raw;
-    }
-
-    function dateKey(value) {
-      if (isBlank(value)) return null;
-      const raw = String(value).trim();
-      const iso = raw.match(/^(\d{4})-(\d{2})-(\d{2})/);
-      if (iso) return iso[1] + iso[2] + iso[3];
-      const de = raw.match(/^(\d{2})\.(\d{2})\.(\d{4})/);
-      if (de) return de[3] + de[2] + de[1];
-      return null;
-    }
-
-    function standOf(score) {
-      const points = [];
-      if (!isBlank(score.asOf)) points.push(String(score.asOf));
-      for (const criterion of score.criteria || []) {
-        for (const metric of criterion.metrics || []) {
-          if (!isBlank(metric.observedAt)) points.push(String(metric.observedAt));
+    var num = 0, den = 0, rated = 0, used = 0;
+    doc.criteria.forEach(function (c) {
+      var f = +w[String(c.id)] || 0;
+      if (f <= 0) return;
+      used++;
+      if (!c.bewertet) return;
+      rated++;
+      num += c.wert * f;
+      den += f;
+    });
+    var score = den ? Math.floor(num / den * 10 + 0.5) : null;
+    var roh = score;
+    var deckel = null;
+    if (p.deckel) {
+      for (var i = 0; i < p.deckel.length; i++) {
+        var rule = p.deckel[i];
+        var probe = findMetric(doc, rule.kennzahl);
+        var value = probe && probe.raw != null ? Number(probe.raw) : null;
+        if (value != null && value < rule.unter) {
+          deckel = {max: rule.max, hinweis: rule.hinweis, info: rule.info, wert: value, roh: roh, gegriffen: score != null && score > rule.max};
+          if (score != null) score = Math.min(score, rule.max);
+          break;
         }
       }
-      if (!points.length) return unknown();
-      const keyed = points
-        .map((value) => ({ value, key: dateKey(value) }))
-        .filter((item) => item.key);
-      if (keyed.length) {
-        keyed.sort((a, b) => a.key < b.key ? -1 : a.key > b.key ? 1 : 0);
-        return formatDate(keyed[keyed.length - 1].value);
+    }
+    var light = score == null ? "na" : score < CFG.ampel.gelb.ab ? "rot" : score >= CFG.ampel.gruen.ab ? "gruen" : "gelb";
+    return {score: score, light: light, na: false, hinweis: "", rated: rated, used: used, deckel: deckel};
+  }
+  function rollen(doc) {
+    return CFG.rollenAnalyse.map(function (key, index) {
+      return {key: key, index: index, result: calcRole(doc, key)};
+    });
+  }
+  function beste(rows) {
+    var fit = CFG.rollenFit;
+    var ranked = rows.filter(function (row) { return row.result.score != null; })
+      .sort(function (a, b) { return b.result.score - a.result.score || a.index - b.index; });
+    if (!ranked.length || ranked[0].result.score < fit.minScore) return {rows: [], text: fit.keineText, keine: true};
+    var best = [ranked[0]];
+    if (ranked.length > 1 && ranked[0].result.score - ranked[1].result.score <= fit.gleichstand && ranked[1].result.score >= fit.minScore) best.push(ranked[1]);
+    return {rows: best, text: best.map(function (row) { return CFG.presets[row.key].emoji + " " + CFG.presets[row.key].label; }).join(" / "), keine: false};
+  }
+  function ring(score, light) {
+    var n = 48, pct = score == null ? 0 : Math.max(0, Math.min(100, Number(score)));
+    var on = Math.round(pct / 100 * n), h = "", tone = {gruen: "ok", gelb: "warn", rot: "bad", na: "mut"}[light];
+    for (var i = 0; i < n; i++) {
+      var a = (i / n) * 2 * Math.PI - Math.PI / 2;
+      var c = Math.cos(a), s = Math.sin(a);
+      h += '<line x1="' + (108 + 86 * c).toFixed(1) + '" y1="' + (108 + 86 * s).toFixed(1) + '" x2="' + (108 + 102 * c).toFixed(1) + '" y2="' + (108 + 102 * s).toFixed(1) + '" stroke="' + (i < on ? "var(--" + tone + ")" : "var(--hair2)") + '" stroke-width="6"/>';
+    }
+    h += '<circle cx="108" cy="108" r="78" fill="none" stroke="var(--hair2)" stroke-width="1"/>';
+    var shown = score == null ? "–" : n1(score);
+    return '<div class="ring" role="img" aria-label="' + esc(CFG.scoreName) + " " + esc(shown) + ' von 100"><svg viewBox="0 0 216 216">' + h +
+      '</svg><div class="val"><div><b class="' + (shown.length > 2 ? "long" : "") + '">' + esc(shown) + '</b><small>/ 100</small><small class="rn">AKTIEN-SCORE</small></div></div></div>';
+  }
+  function legend() {
+    return '<div class="legend"><span><span class="sq gruen"></span> ≥ 70 · ' + esc(lab("gruen")) + '</span><span><span class="sq gelb"></span> 50–69 · ' + esc(lab("gelb")) +
+      '</span><span><span class="sq rot"></span> &lt; 50 · ' + esc(lab("rot")) + "</span></div>";
+  }
+  function srcLinks(urls) {
+    var seen = {};
+    var list = urls.filter(function (url) {
+      if (!url || seen[url]) return false;
+      seen[url] = 1;
+      return /^https?:\/\//i.test(url);
+    });
+    if (!list.length) return "";
+    return '<div class="src">SRC: ' + list.map(function (url) {
+      return '<a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + esc(host(url)) + "</a>";
+    }).join("") + "</div>";
+  }
+  function shownScore(doc) {
+    if (doc.status) return String(doc.status);
+    return n1(doc.score);
+  }
+
+  function renderTile(score) {
+    var doc = adapt(score);
+    var link = document.createElement("a");
+    link.className = "tile";
+    link.href = "#/" + score.ticker;
+    var ticker = document.createElement("span");
+    ticker.className = "tile-ticker";
+    ticker.textContent = score.ticker;
+    var name = document.createElement("span");
+    name.className = "tile-name";
+    name.textContent = score.name || "";
+    var value = document.createElement("span");
+    value.className = "tile-score " + lightOf(doc);
+    value.textContent = shownScore(doc);
+    var stand = document.createElement("span");
+    stand.className = "tile-stand";
+    var label = document.createElement("b");
+    label.textContent = "Stand der Daten";
+    stand.append(label, document.createTextNode(standText(doc)));
+    link.append(ticker, name, value, stand);
+    return link;
+  }
+
+  function showGrid() {
+    document.title = "sidequest";
+    var grid = document.createElement("div");
+    grid.className = "tiles";
+    loaded.forEach(function (item) {
+      if (item.ok) grid.append(renderTile(item.score));
+    });
+    var kicker = document.createElement("div");
+    kicker.className = "sec-t page-kicker";
+    kicker.innerHTML = "<h2>Positionen</h2><span class=\"mlabel\">" + loaded.length + " TICKER · SCORE 0–100</span>";
+    app.replaceChildren(kicker, grid);
+  }
+
+  function rolesSection(doc) {
+    var rows = rollen(doc);
+    var best = beste(rows);
+    var bestKeys = best.rows.map(function (row) { return row.key; });
+    var h = '<div class="sec-t" id="rolle"><h2>Passt_am_besten_als</h2><span class="mlabel">EINORDNUNG AUS DEN ROLLEN-GEWICHTEN · KEINE EMPFEHLUNG</span></div>';
+    h += '<div class="fit' + (best.keine ? " keine" : "") + '"><span class="mlabel">' + (best.keine ? "ERGEBNIS" : "PASST AM BESTEN ALS") + '</span><div class="fit-main">' + esc(best.text) + "</div>";
+    h += best.keine ? '<p class="fit-sub">Bester Rollen-Score unter ' + CFG.rollenFit.minScore + ".</p>"
+      : '<p class="fit-sub">' + best.rows.map(function (row) {
+          return esc(CFG.presets[row.key].scoreLabel) + " " + row.result.score + "/100 · " + esc(lab(row.result.light, row.key));
+        }).join(" &nbsp;|&nbsp; ") + (best.rows.length > 1 ? " · liegen höchstens " + CFG.rollenFit.gleichstand + " Punkte auseinander" : "") + "</p>";
+    h += "</div>";
+    var sorted = rows.slice().sort(function (a, b) {
+      return (b.result.score == null ? -1 : b.result.score) - (a.result.score == null ? -1 : a.result.score) || a.index - b.index;
+    });
+    h += '<div class="fit-list">' + sorted.map(function (row) {
+      var preset = CFG.presets[row.key];
+      var sc = row.result.score == null ? "–" : pad(row.result.score);
+      var isBest = bestKeys.indexOf(row.key) !== -1;
+      var note = row.result.na ? '<span class="tag off">wenig Daten</span> ' + esc(row.result.hinweis) : "";
+      if (row.result.deckel) {
+        var cap = row.result.deckel;
+        note = '<span class="tag warn">⚠ ' + esc(cap.hinweis) + "</span> Deckel: höchstens " + cap.max + "/100 (" + esc(cap.info) + " " + n1(cap.wert * 100) + " %)" + (cap.gegriffen ? " · ohne Deckel " + cap.roh + "/100" : " · greift nicht");
       }
-      return points.length === 1 ? points[0] : unknown();
-    }
+      var weights = doc.criteria.filter(function (c) { return (+preset.w[String(c.id)] || 0) > 0; })
+        .map(function (c) { return esc(c.name.split(" ")[0]) + " ×" + String(preset.w[String(c.id)]).replace(".", ","); }).join(" · ");
+      return '<details class="fit-row' + (isBest ? " best" : "") + (row.result.score == null ? " na" : "") + '"><summary><span class="fr-n">' + esc(preset.emoji + " " + preset.label) +
+        (isBest ? ' <span class="tag est">beste Rolle</span>' : "") + '</span><span class="fr-s"><span class="sq ' + row.result.light + '"></span>' + sc +
+        '<small>/100</small></span><span class="fr-l">' + esc(row.result.score == null ? "nicht anwendbar" : lab(row.result.light, row.key)) + "</span>" +
+        (note ? '<span class="fr-r">' + note + "</span>" : "") + '</summary><div class="body"><p class="whint">' + esc(preset.hinweis) + '</p><p class="rw mlabel">GEWICHTE: ' + weights + "</p></div></details>";
+    }).join("") + "</div>";
+    return h;
+  }
 
-    function scoreText(value, max) {
-      if (isBlank(value) || Number.isNaN(Number(value))) return unknown();
-      const number = Number(value);
-      if (number < 0 || number > max) return unknown();
-      const rounded = Math.round(number * 10) / 10;
-      const text = Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
-      return text.replace(".", ",");
-    }
+  function matrix(doc) {
+    var light = lightOf(doc);
+    var rated = doc.criteria.filter(function (c) { return c.bewertet; }).length;
+    var h = '<div class="sec-t"><h2>Score_Matrix</h2><span class="mlabel">8 PUNKTE · JE 0–10 · C_07 × 0,5 · FEHLENDE ZÄHLEN NICHT</span></div>';
+    h += '<div class="diagram crits"><div class="mods">' + doc.criteria.map(function (c) {
+      var mark = c.bewertet ? n1(c.wert) : "wenig Daten";
+      return '<a class="mod" href="#c' + c.id + '" data-open="c' + c.id + '"><span class="ml">C_' + pad(c.id) + " · " + esc(c.name) + '</span><span class="mr">' + seg(c.wert, 10) + "<span>" + esc(mark) + "</span></span></a>";
+    }).join("") + '</div><div class="hub crit-hub"><div class="hub-h"><span class="mlabel">' + esc(doc.ticker) + ' · AKTIEN-SCORE</span><span class="mlabel">MAX 100</span></div><div class="big">' +
+      esc(shownScore(doc)) + '<small>/100</small></div>' + status(light, doc.ko.length) +
+      '<p class="rated mlabel">' + rated + " VON 8 KRITERIEN MIT DATEN</p>" + legend() + "</div></div>";
+    return h;
+  }
 
-    function shownScore(value, max, status) {
-      if (!isBlank(status)) return String(status);
-      return scoreText(value, max);
-    }
+  function criteriaDetail(doc) {
+    var h = '<div class="sec-t"><h2>Criteria_Detail</h2><span class="mlabel">ANTIPPEN FÜR DETAILS</span></div>';
+    doc.criteria.forEach(function (c) {
+      var tag = c.bewertet ? '<span class="tag daten">Daten</span>' : '<span class="tag bsp">wenig Daten</span>';
+      var rows = (c.metrics || []).map(function (metric) {
+        var missing = metric.status || metric.value == null || metric.value === "";
+        var value = missing ? "wenig Daten" : String(metric.value);
+        var points = metric.status ? "wenig Daten" : n1(metric.points);
+        var long = value.length > 40;
+        return '<div class="row' + (long ? " long" : "") + '"><span class="k">' + esc(metric.label || metric.id) + '</span><span class="lead-d"></span><span class="v' + (missing ? " nd" : "") + '">' + esc(value) + " · " + esc(points) + "</span></div>";
+      }).join("");
+      var quality = c.dataQuality ? '<p class="expl">' + esc(c.dataQuality) + "</p>" : "";
+      var urls = (c.metrics || []).map(function (metric) { return metric.sourceUrl; });
+      h += '<details class="crit" id="c' + c.id + '"><summary><span><span class="cid">CRITERION_' + pad(c.id) + '</span><span class="cn">' + esc(c.name) + '</span><span class="ctags">' + tag + '</span></span><span class="score">' +
+        esc(c.bewertet ? n1(c.wert) : "wenig Daten") + "<small>/10</small>" + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body"><div class="kv">' + rows + "</div>" + quality + srcLinks(urls) + "</div></details>";
+    });
+    return h;
+  }
 
-    function groupShown(score, ids, value) {
-      if (!isBlank(value) && !Number.isNaN(Number(value))) return scoreText(value, 100);
-      const rows = (score.criteria || []).filter(function (item) {
-        return ids.indexOf(item.id) !== -1;
-      });
-      if (rows.length && rows.every(function (item) { return !isBlank(item.status); })) {
-        return String(rows[0].status);
+  function showDetail(score) {
+    var doc = adapt(score);
+    var light = lightOf(doc);
+    var best = beste(rollen(doc));
+    var fitTxt = best.keine ? best.text.charAt(0).toLowerCase() + best.text.slice(1) : "passt am besten als " + best.text;
+    var scoreText = shownScore(doc);
+    document.title = doc.ticker + " · " + CFG.scoreName + " " + scoreText + " · sidequest";
+    var h = '<a class="back" href="#/">← Alle Positionen</a>';
+    h += '<section class="r-head"><div><span class="mlabel">CHECK_RESULT // ' + esc(doc.ticker) + '</span>';
+    h += '<h1 class="h-red" style="margin-top:8px">' + esc(doc.ticker) + "</h1>";
+    h += '<div class="r-name">' + esc(doc.name) + "</div>";
+    h += '<div class="role-title"><span class="rt-t">' + esc(doc.ticker) + '</span> · <span class="rt-r">Aktien-Score</span> <b>' + esc(scoreText) + '</b><small>/100</small> <span class="rt-sep">·</span> <span class="rt-fit' + (best.keine ? " keine" : "") + '">' + esc(fitTxt) + "</span></div>";
+    h += '<div id="dyn-status">' + status(light, doc.ko.length) + "</div>";
+    h += '<div class="term" style="margin-top:14px"><span class="p">&gt;</span> STAND DER DATEN <b>' + esc(standText(doc)) + "</b><br>";
+    h += '<span class="p">&gt;</span> KURS <b>' + priceText(doc) + "</b> · VOM <b>" + esc(dDE(kursDate(doc))) + "</b><br>";
+    h += '<span class="p">&gt;</span> ZAHLEN BIS <b>' + esc(dDE(zahlenDate(doc))) + "</b></div></div>";
+    h += '<div class="score-hub">' + ring(doc.status ? null : doc.score, light) + "</div></section>";
+    if (doc.missingDataNote) h += '<p class="gap-note">' + esc(doc.missingDataNote) + "</p>";
+    if (doc.ko.length) {
+      h += '<div class="ko"><span class="mlabel" style="color:var(--bad)">K.-O._FLAG · ' + esc(CFG.ampel.ko.label.toUpperCase()) + "</span><ul>" +
+        doc.ko.map(function (flag) { return "<li>" + esc(flag) + "</li>"; }).join("") + "</ul></div>";
+    }
+    h += rolesSection(doc) + matrix(doc) + criteriaDetail(doc);
+    h += '<div class="discl-big"><span class="mlabel">KEINE ANLAGEBERATUNG</span>Ich halte diese Aktien selbst. Keine Kauf- oder Verkaufsempfehlung. „Passt am besten als“ ist eine rechnerische Einordnung aus den Rollen-Gewichten. Fehlende Kennzahlen stehen als „wenig Daten“ und zählen nicht als 0.</div>';
+    app.innerHTML = '<article class="result">' + h + "</article>";
+    openFromQuery(doc.ticker);
+    window.scrollTo(0, 0);
+  }
+
+  function openFromQuery(ticker) {
+    var open = new URLSearchParams(location.search).get("open") || "";
+    var parts = open.split("-");
+    if (parts[0] && parts[0].toUpperCase() !== ticker) return;
+    var code = parts.slice(1).join("-");
+    var index = CODES.indexOf(code);
+    if (index < 0) return;
+    var el = document.getElementById("c" + (index + 1));
+    if (el && el.tagName === "DETAILS") el.open = true;
+  }
+
+  function tickerFromHash() {
+    var raw = decodeURIComponent(location.hash.replace(/^#/, ""));
+    var part = raw.split("/").filter(Boolean)[0];
+    if (!part) return null;
+    var ticker = part.toUpperCase();
+    return TICKERS.indexOf(ticker) === -1 ? null : ticker;
+  }
+
+  function show() {
+    var ticker = tickerFromHash();
+    if (!ticker) {
+      var open = new URLSearchParams(location.search).get("open") || "";
+      var fromOpen = open.split("-")[0].toUpperCase();
+      if (TICKERS.indexOf(fromOpen) !== -1 && location.hash.replace(/^#/, "") === "") {
+        location.hash = "#/" + fromOpen;
+        return;
       }
-      return scoreText(value, 100);
+      showGrid();
+      return;
     }
+    var item = loaded.filter(function (row) { return row.ok && row.score.ticker === ticker; })[0];
+    if (item) showDetail(item.score);
+    else showGrid();
+  }
 
-    function criteriaOf(score) {
-      const byId = new Map((score.criteria || []).map((item) => [item.id, item]));
-      return CRITERIA.map((id) => byId.get(id) || { id, label: null, score: null, metrics: [] });
-    }
+  app.addEventListener("click", function (e) {
+    var link = e.target.closest("[data-open]");
+    if (!link) return;
+    e.preventDefault();
+    var el = document.getElementById(link.getAttribute("data-open"));
+    if (!el) return;
+    if (el.tagName === "DETAILS") el.open = true;
+    el.scrollIntoView({behavior: "smooth", block: "start"});
+  });
 
-    function linkCell(metric) {
-      const url = typeof metric.sourceUrl === "string" ? metric.sourceUrl.trim() : "";
-      const label = isBlank(metric.sourceLabel) ? url : String(metric.sourceLabel);
-      if (/^https?:\/\//i.test(url)) {
-        const anchor = document.createElement("a");
-        anchor.className = "src";
-        anchor.href = url;
-        anchor.rel = "noreferrer";
-        anchor.target = "_blank";
-        anchor.textContent = label || url;
-        return anchor;
-      }
-      return text(isBlank(label) ? unknown() : label);
-    }
-
-    function metricRows(criterion) {
-      const metrics = Array.isArray(criterion.metrics) ? criterion.metrics : [];
-      if (!metrics.length) {
-        return [{
-          label: unknown(),
-          value: unknown(),
-          points: unknown(),
-          source: text(unknown()),
-          fetched: unknown(),
-          observed: unknown()
-        }];
-      }
-      return metrics.map((metric) => ({
-        label: isBlank(metric.label) ? unknown() : String(metric.label),
-        value: isBlank(metric.value) ? shownScore(null, 10, metric.status) : String(metric.value),
-        points: shownScore(metric.points, 10, metric.status),
-        source: linkCell(metric),
-        fetched: formatDate(metric.fetchedAt),
-        observed: formatDate(metric.observedAt)
-      }));
-    }
-
-    function renderCard(score) {
-      const card = document.createElement("article");
-      card.className = "card";
-      card.id = "ticker-" + score.ticker;
-
-      const head = document.createElement("div");
-      head.className = "card-head";
-      const ticker = document.createElement("h2");
-      ticker.className = "ticker";
-      ticker.textContent = score.ticker;
-      const name = document.createElement("p");
-      name.className = "name";
-      name.textContent = isBlank(score.name) ? "" : String(score.name);
-      head.append(ticker, name);
-
-      const meta = document.createElement("p");
-      meta.className = "meta";
-      const scoreLabel = labeled("Score", shownScore(score.score, 100, score.status));
-      const light = score.trafficLight;
-      if (isBlank(score.status) && (light === "green" || light === "orange" || light === "red")) {
-        scoreLabel.classList.add("light", light);
-      }
-      if (!isBlank(score.status)) scoreLabel.classList.add("sparse");
-      meta.append(
-        labeled("Stand der Daten", standOf(score)),
-        scoreLabel,
-        labeled("Qualität", groupShown(score, QUALITY, score.qualityScore)),
-        labeled("Markt", groupShown(score, MARKET, score.marketScore))
-      );
-      if (ROLES.has(score.role)) meta.append(labeled("Passt am besten als", score.role));
-      meta.append(labeled("Datenqualität", isBlank(score.dataQuality) ? unknown() : String(score.dataQuality)));
-
-      card.append(head, meta);
-      if (!isBlank(score.missingDataNote)) {
-        const gap = document.createElement("p");
-        gap.className = "gap-note";
-        gap.textContent = String(score.missingDataNote);
-        card.append(gap);
-      }
-      if (Array.isArray(score.koFlags) && score.koFlags.length) {
-        const ko = document.createElement("p");
-        ko.className = "ko";
-        ko.textContent = "K.O. " + score.koFlags.join(" · ");
-        card.append(ko);
-      }
-
-      for (const criterion of criteriaOf(score)) {
-        const details = document.createElement("details");
-        details.className = "crit";
-        details.id = score.ticker + "-" + criterion.id;
-        const summary = document.createElement("summary");
-        const cid = document.createElement("span");
-        cid.className = "cid";
-        cid.textContent = criterion.id;
-        const clabel = document.createElement("span");
-        clabel.className = "clabel";
-        clabel.textContent = isBlank(criterion.label) ? "" : String(criterion.label);
-        const cscore = document.createElement("span");
-        cscore.className = "cscore";
-        if (!isBlank(criterion.status)) cscore.classList.add("sparse");
-        const bits = [];
-        if (criterion.weight != null && Number(criterion.weight) !== 1) {
-          bits.push("Gewicht " + String(criterion.weight).replace(".", ","));
-        }
-        if (criterion.capApplied) bits.push("Deckel 7");
-        bits.push(shownScore(criterion.score, 10, criterion.status));
-        cscore.textContent = bits.join(" · ");
-        summary.append(cid, clabel, cscore);
-
-        const detail = document.createElement("div");
-        detail.className = "detail";
-        const table = document.createElement("table");
-        const thead = document.createElement("thead");
-        const hr = document.createElement("tr");
-        for (const heading of ["Kennzahl", "Wert", "Punkte", "Quelle", "Abruf", "Datenstand"]) {
-          const th = document.createElement("th");
-          th.textContent = heading;
-          hr.append(th);
-        }
-        thead.append(hr);
-        const tbody = document.createElement("tbody");
-        for (const row of metricRows(criterion)) {
-          const tr = document.createElement("tr");
-          const cells = [row.label, row.value, row.points, row.source, row.fetched, row.observed];
-          for (const cell of cells) {
-            const td = document.createElement("td");
-            if (cell instanceof Node) td.append(cell);
-            else td.textContent = cell;
-            tr.append(td);
-          }
-          tbody.append(tr);
-        }
-        table.append(thead, tbody);
-        detail.append(table);
-        details.append(summary, detail);
-        card.append(details);
-      }
-
-      return card;
-    }
-
-    function labeled(label, value) {
-      const span = document.createElement("span");
-      const strong = document.createElement("b");
-      strong.textContent = label + " ";
-      span.append(strong, text(value));
-      return span;
-    }
-
-    function openFromQuery() {
-      const open = new URLSearchParams(location.search).get("open");
-      if (!open) return;
-      const target = document.getElementById(open);
-      if (target && target.tagName === "DETAILS") target.open = true;
-    }
-
-    async function loadTicker(ticker) {
-      const response = await fetch("data/" + ticker + "/score.json");
+  function loadTicker(ticker) {
+    return fetch("data/" + ticker + "/score.json").then(function (response) {
       if (!response.ok) throw new Error(String(response.status));
-      const score = await response.json();
+      return response.json();
+    }).then(function (score) {
       if (!score || score.ticker !== ticker) throw new Error("ticker");
       return score;
-    }
+    });
+  }
 
-    async function main() {
-      const board = document.getElementById("board");
-      const results = await Promise.all(TICKERS.map(async (ticker) => {
-        try {
-          return { ok: true, score: await loadTicker(ticker) };
-        } catch (error) {
-          return { ok: false, ticker };
-        }
-      }));
-      board.replaceChildren();
-      for (const result of results) {
-        if (result.ok) {
-          board.append(renderCard(result.score));
-        } else {
-          const card = document.createElement("article");
-          card.className = "card";
-          const title = document.createElement("h2");
-          title.className = "ticker";
-          title.textContent = result.ticker;
-          const status = document.createElement("p");
-          status.className = "status";
-          status.textContent = "Datei fehlt. Stand der Daten: unbekannt.";
-          card.append(title, status);
-          board.append(card);
-        }
-      }
-      openFromQuery();
-    }
+  Promise.all(TICKERS.map(function (ticker) {
+    return loadTicker(ticker).then(function (score) { return {ok: true, score: score}; }, function () { return {ok: false, ticker: ticker}; });
+  })).then(function (results) {
+    loaded = results;
+    window.addEventListener("hashchange", show);
+    show();
+  });
+})();
 
-    main();
   </script>
 </body>
 </html>

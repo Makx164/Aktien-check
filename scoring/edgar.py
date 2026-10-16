@@ -12,7 +12,8 @@ from pathlib import Path
 
 USER_AGENT = "sidequest/1.0 (aktiencheck; maximilianhillert@mail.grokbot.com)"
 TICKER_URL = "https://www.sec.gov/files/company_tickers.json"
-MAX_FORM4 = 12
+INSIDER_WINDOW_DAYS = 183
+MAX_FORM4 = 250
 
 
 class EdgarClient:
@@ -56,26 +57,34 @@ class EdgarClient:
                 return True
         return False
 
-    def insider_flows(self, cik, submissions, today):
-        """Open-market buys and sells in dollars. 10b5-1 plan filings are skipped."""
+    def insider_flows(self, cik, submissions, today, window_days=INSIDER_WINDOW_DAYS):
+        """Open-market buys and sells (codes P and S) over the last six months.
+
+        Grants, exercises and gifts stay out. A filing-level 10b5-1 flag does
+        not drop the market trades: those sales are still sales.
+        """
         recent = (submissions.get("filings") or {}).get("recent") or {}
         forms = recent.get("form") or []
         dates = recent.get("filingDate") or []
         accessions = recent.get("accessionNumber") or []
         documents = recent.get("primaryDocument") or []
-        start = (today - timedelta(days=365)).isoformat()
+        start = (today - timedelta(days=window_days)).isoformat()
         chosen = []
+        truncated = False
         for index, form in enumerate(forms):
             if form != "4" or index >= len(dates):
                 continue
             if dates[index] < start:
                 continue
-            chosen.append(index)
             if len(chosen) >= MAX_FORM4:
+                truncated = True
                 break
+            chosen.append(index)
         buy = 0.0
         sell = 0.0
-        trades = 0
+        buys = 0
+        sells = 0
+        parsed_any = False
         latest = None
         for index in chosen:
             accession = accessions[index].replace("-", "")
@@ -88,14 +97,27 @@ class EdgarClient:
             parsed = parse_form4(xml_bytes)
             if parsed is None:
                 continue
+            parsed_any = True
             buy += parsed["buy"]
             sell += parsed["sell"]
-            trades += parsed["trades"]
+            buys += parsed["buys"]
+            sells += parsed["sells"]
             if parsed.get("observed") and (latest is None or parsed["observed"] > latest):
                 latest = parsed["observed"]
-        if trades == 0:
+        if chosen and not parsed_any:
             return None
-        return {"buy": buy, "sell": sell, "trades": trades, "observed": latest}
+        return {
+            "buy": buy,
+            "sell": sell,
+            "buys": buys,
+            "sells": sells,
+            "trades": buys + sells,
+            "observed": latest,
+            "filings": len(chosen),
+            "windowDays": window_days,
+            "truncated": truncated,
+            "measured": True,
+        }
 
     def _get_json(self, url, path):
         if path.exists():
@@ -130,13 +152,11 @@ def parse_form4(xml_bytes):
         return None
     if _local(root.tag) != "ownershipDocument":
         return None
-    plan = _text(root, "aff10b5One")
-    if plan in {"1", "true", "True"}:
-        return {"buy": 0.0, "sell": 0.0, "trades": 0, "observed": None}
     buy = 0.0
     sell = 0.0
-    trades = 0
-    observed = None
+    buys = 0
+    sells = 0
+    observed = _text(root, "periodOfReport") or None
     for node in root.iter():
         if _local(node.tag) != "nonDerivativeTransaction":
             continue
@@ -149,12 +169,20 @@ def parse_form4(xml_bytes):
         dollars = shares * price
         if code == "P":
             buy += dollars
+            buys += 1
         else:
             sell += dollars
-        trades += 1
+            sells += 1
         if when and (observed is None or when > observed):
             observed = when
-    return {"buy": buy, "sell": sell, "trades": trades, "observed": observed}
+    return {
+        "buy": buy,
+        "sell": sell,
+        "buys": buys,
+        "sells": sells,
+        "trades": buys + sells,
+        "observed": observed,
+    }
 
 
 def _local(tag):
