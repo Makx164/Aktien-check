@@ -12,7 +12,7 @@ Bis zum Umschalten bleibt GitHub Pages unter https://makx164.github.io/Aktien-ch
 
 Nur diese Ticker, in dieser Reihenfolge: PLTR, OSS, AMZN, TSLA, HIMS, LMND, IBRX, MU, IREN, GRAB, SIVE, SPCX, PYPL.
 
-Die Startseite ist ein Kachelraster, eine Kachel je Position: Name, Ticker und Score in der Ampelfarbe, oder „wenig Daten“ statt einer Zahl. Ein Klick öffnet die Analyse unter `#/TICKER`, zum Beispiel `#/PLTR`. „Alle Positionen“ und die Wortmarke führen zurück zum Raster.
+Die Startseite ist ein Kachelraster, eine Kachel je Position: Ticker, Name, Score von 0 bis 100 in der Ampelfarbe (oder „wenig Daten“) und „Stand der Daten“. Keine Beträge und keine Gewichte. Ein Klick öffnet die Analyse unter `#/TICKER`, zum Beispiel `#/PLTR`. „Alle Positionen“ und die Wortmarke führen zurück zum Raster. Die Hinweise „Ich halte diese Aktien selbst.“ und „Keine Anlageberatung.“ stehen auf der Startseite und auf jeder Analyse.
 
 Keine Beträge, Gewichte oder Kaufdaten. Oben stehen die Hinweise „Ich halte diese Aktien selbst.“ und „Keine Anlageberatung.“ „Stand der Daten“ ist das Datum des jüngsten Datenpunkts (Kursdatum oder Ende der Berichtsperiode), nicht der Tag des Abrufs. Fehlt er, steht „unbekannt“.
 

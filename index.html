@@ -197,7 +197,7 @@
 
     .tile-score {
       margin-top: auto;
-      padding-top: 12px;
+      padding-top: 14px;
       font-size: 28px;
       font-weight: 800;
       letter-spacing: 0.04em;
@@ -208,6 +208,23 @@
     .tile-score.sparse {
       font-size: 18px;
       letter-spacing: 0.06em;
+    }
+
+    .tile-stand {
+      padding-top: 8px;
+      color: var(--text);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tile-stand b {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--eyebrow);
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .back {
@@ -713,7 +730,12 @@
       value.className = "tile-score";
       value.textContent = shownScore(score.score, 100, score.status);
       paintScore(value, score);
-      link.append(ticker, name, value);
+      const stand = document.createElement("span");
+      stand.className = "tile-stand";
+      const standLabel = document.createElement("b");
+      standLabel.textContent = "Stand der Daten";
+      stand.append(standLabel, document.createTextNode(standOf(score)));
+      link.append(ticker, name, value, stand);
       return link;
     }
 
@@ -728,7 +750,12 @@
         const status = document.createElement("span");
         status.className = "tile-score sparse";
         status.textContent = "Datei fehlt";
-        link.append(title, status);
+        const stand = document.createElement("span");
+        stand.className = "tile-stand";
+        const standLabel = document.createElement("b");
+        standLabel.textContent = "Stand der Daten";
+        stand.append(standLabel, document.createTextNode(unknown()));
+        link.append(title, status, stand);
         return link;
       }
       const card = document.createElement("article");

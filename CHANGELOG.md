@@ -4,7 +4,7 @@
 
 ### Kacheln und Analyse unter #/TICKER
 
-Die Startseite zeigt 13 Kacheln (Name, Ticker, Score in der Ampelfarbe oder „wenig Daten“). Ein Klick öffnet die Analyse unter `#/TICKER`, zum Beispiel `#/PLTR`. Wortmarke, Logo und „Alle Positionen“ führen zurück. Die beiden Hinweise bleiben auf beiden Ansichten. Farben, Schrift und die zugeklappten Kriterien C_01–C_08 bleiben die der öffentlichen Seite.
+Die Startseite zeigt 13 Kacheln: Ticker, Name, Score 0–100 in der Ampelfarbe oder „wenig Daten“, und „Stand der Daten“. Keine Beträge, keine Gewichte. Ein Klick öffnet die Analyse unter `#/TICKER`, zum Beispiel `#/PLTR`. Wortmarke, Logo und „Alle Positionen“ führen zurück. „Ich halte diese Aktien selbst.“ und „Keine Anlageberatung.“ stehen auf der Startseite und auf jeder Analyse.
 
 ### Wenig Daten, SIVE-Kurse, Service Worker
 
