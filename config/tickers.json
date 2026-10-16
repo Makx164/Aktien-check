@@ -1,0 +1,108 @@
+[
+  {
+    "ticker": "PLTR",
+    "name": "Palantir Technologies",
+    "sec": true,
+    "stooq": "pltr.us",
+    "nasdaq": "PLTR",
+    "assetClass": "stocks"
+  },
+  {
+    "ticker": "OSS",
+    "name": "One Stop Systems",
+    "sec": true,
+    "stooq": "oss.us",
+    "nasdaq": "OSS",
+    "assetClass": "stocks"
+  },
+  {
+    "ticker": "AMZN",
+    "name": "Amazon",
+    "sec": true,
+    "stooq": "amzn.us",
+    "nasdaq": "AMZN",
+    "assetClass": "stocks"
+  },
+  {
+    "ticker": "TSLA",
+    "name": "Tesla",
+    "sec": true,
+    "stooq": "tsla.us",
+    "nasdaq": "TSLA",
+    "assetClass": "stocks"
+  },
+  {
+    "ticker": "HIMS",
+    "name": "Hims & Hers Health",
+    "sec": true,
+    "stooq": "hims.us",
+    "nasdaq": "HIMS",
+    "assetClass": "stocks"
+  },
+  {
+    "ticker": "LMND",
+    "name": "Lemonade",
+    "sec": true,
+    "stooq": "lmnd.us",
+    "nasdaq": "LMND",
+    "assetClass": "stocks"
+  },
+  {
+    "ticker": "IBRX",
+    "name": "ImmunityBio",
+    "sec": true,
+    "stooq": "ibrx.us",
+    "nasdaq": "IBRX",
+    "assetClass": "stocks"
+  },
+  {
+    "ticker": "MU",
+    "name": "Micron Technology",
+    "sec": true,
+    "stooq": "mu.us",
+    "nasdaq": "MU",
+    "assetClass": "stocks"
+  },
+  {
+    "ticker": "IREN",
+    "name": "IREN Limited",
+    "sec": true,
+    "stooq": "iren.us",
+    "nasdaq": "IREN",
+    "assetClass": "stocks"
+  },
+  {
+    "ticker": "GRAB",
+    "name": "Grab Holdings",
+    "sec": true,
+    "stooq": "grab.us",
+    "nasdaq": "GRAB",
+    "assetClass": "stocks"
+  },
+  {
+    "ticker": "SIVE",
+    "name": "Sivers Semiconductors",
+    "sec": false,
+    "stooq": "sive.se",
+    "stooqFallbacks": ["sive.st"],
+    "nasdaq": null,
+    "assetClass": null,
+    "note": "Nur Kursdaten. Keine SEC-Fundamentaldaten."
+  },
+  {
+    "ticker": "SPCX",
+    "name": "Space Exploration Technologies",
+    "sec": true,
+    "stooq": "spcx.us",
+    "nasdaq": "SPCX",
+    "assetClass": "stocks"
+  },
+  {
+    "ticker": "PYPL",
+    "name": "PayPal",
+    "sec": true,
+    "stooq": "pypl.us",
+    "nasdaq": "PYPL",
+    "assetClass": "stocks"
+  }
+]

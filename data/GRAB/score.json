@@ -1,0 +1,437 @@
+{
+  "ticker": "GRAB",
+  "name": "Grab Holdings",
+  "asOf": "2026-10-15",
+  "score": 46.2,
+  "trafficLight": "red",
+  "qualityScore": 50.8,
+  "marketScore": 0.0,
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 19 von 32 Metriken verfügbar",
+  "koFlags": [],
+  "criteria": [
+    {
+      "id": "C_01",
+      "label": "Geschäftsmodell & Burggraben",
+      "score": 0.3,
+      "weight": 1,
+      "dataQuality": "3 von 5 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "roic_2y",
+          "label": "ROIC, 2-Jahres-Schnitt",
+          "value": "-15,0 %",
+          "raw": -0.150058,
+          "points": 0.0,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        },
+        {
+          "id": "gross_margin",
+          "label": "Bruttomarge",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "gross_margin_stability",
+          "label": "Stabilität der Bruttomarge",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "operating_margin",
+          "label": "Operative Marge",
+          "value": "1,9 %",
+          "raw": 0.019288,
+          "points": 0.8,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        },
+        {
+          "id": "fcf_margin",
+          "label": "Free-Cashflow-Marge",
+          "value": "-0,5 %",
+          "raw": -0.005341,
+          "points": 0.0,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        }
+      ]
+    },
+    {
+      "id": "C_02",
+      "label": "Wachstum",
+      "score": 8.7,
+      "weight": 1,
+      "dataQuality": "3 von 5 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "revenue_cagr_3y",
+          "label": "Umsatz-CAGR, 3 Jahre",
+          "value": "33,0 %",
+          "raw": 0.329739,
+          "points": 10.0,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        },
+        {
+          "id": "revenue_cagr_5y",
+          "label": "Umsatz-CAGR, 5 Jahre",
+          "value": "48,4 %",
+          "raw": 0.483593,
+          "points": 10.0,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        },
+        {
+          "id": "eps_cagr_3y",
+          "label": "EPS-CAGR, 3 Jahre",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "fcf_cagr_3y",
+          "label": "Free-Cashflow-CAGR, 3 Jahre",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "revenue_acceleration",
+          "label": "Umsatzbeschleunigung",
+          "value": "1,9 Pp",
+          "raw": 0.01919,
+          "points": 6.0,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        }
+      ]
+    },
+    {
+      "id": "C_03",
+      "label": "Markt & Zukunftsmarkt",
+      "score": 7.7,
+      "weight": 1,
+      "dataQuality": "2 von 3 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "revenue_yoy",
+          "label": "Umsatzwachstum zum Vorjahr",
+          "value": "20,5 %",
+          "raw": 0.204862,
+          "points": 6.8,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        },
+        {
+          "id": "rd_intensity",
+          "label": "Forschungsquote",
+          "value": "12,7 %",
+          "raw": 0.127003,
+          "points": 8.5,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        },
+        {
+          "id": "gross_margin_change_yoy",
+          "label": "Veränderung der Bruttomarge",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        }
+      ]
+    },
+    {
+      "id": "C_04",
+      "label": "Profitabilität & Finanzkraft",
+      "score": 3.4,
+      "weight": 1,
+      "dataQuality": "5 von 6 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "operating_margin_fin",
+          "label": "Operative Marge",
+          "value": "1,9 %",
+          "raw": 0.019288,
+          "points": 0.8,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        },
+        {
+          "id": "fcf_margin_fin",
+          "label": "Free-Cashflow-Marge",
+          "value": "-0,5 %",
+          "raw": -0.005341,
+          "points": 0.0,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        },
+        {
+          "id": "roe",
+          "label": "Eigenkapitalrendite",
+          "value": "3,0 %",
+          "raw": 0.030472,
+          "points": 1.2,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        },
+        {
+          "id": "net_debt_to_ebitda",
+          "label": "Nettoverschuldung / EBITDA",
+          "value": "1,24",
+          "raw": 1.239669,
+          "points": 6.9,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        },
+        {
+          "id": "current_ratio",
+          "label": "Current Ratio",
+          "value": "1,75",
+          "raw": 1.746272,
+          "points": 7.9,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        },
+        {
+          "id": "dilution_3y",
+          "label": "Verwässerung, 3 Jahre",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        }
+      ]
+    },
+    {
+      "id": "C_05",
+      "label": "Management & große Investoren",
+      "score": 5.3,
+      "weight": 1,
+      "dataQuality": "3 von 4 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "insider_net_buy_share",
+          "label": "Insider, Anteil Käufe",
+          "value": "100,0 %",
+          "raw": 1.0,
+          "points": 10.0,
+          "sourceLabel": "SEC EDGAR Form 4",
+          "sourceUrl": "https://data.sec.gov/submissions/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2026-09-21"
+        },
+        {
+          "id": "sbc_to_revenue",
+          "label": "Aktienvergütung / Umsatz",
+          "value": "7,2 %",
+          "raw": 0.071513,
+          "points": 6.0,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        },
+        {
+          "id": "shareholder_yield",
+          "label": "Aktionärsrendite",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "share_change_1y",
+          "label": "Veränderung der Aktienzahl, 1 Jahr",
+          "value": "5,3 %",
+          "raw": 0.052775,
+          "points": 0.0,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2025-12-31"
+        }
+      ]
+    },
+    {
+      "id": "C_06",
+      "label": "Analysten & Stimmung",
+      "score": null,
+      "weight": 1,
+      "dataQuality": "0 von 3 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "buy_share",
+          "label": "Anteil Kaufempfehlungen",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "target_upside",
+          "label": "Abstand zum mittleren Kursziel",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "eps_revision_90d",
+          "label": "EPS-Revision, 90 Tage",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        }
+      ]
+    },
+    {
+      "id": "C_07",
+      "label": "Kursverlauf & Momentum",
+      "score": 0.0,
+      "weight": 0.5,
+      "dataQuality": "3 von 3 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "excess_return_12_1",
+          "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
+          "value": "-65,3 Pp",
+          "raw": -65.303514,
+          "points": 0.0,
+          "sourceLabel": "Nasdaq Historical",
+          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-04-29&todate=2026-10-16&limit=2000",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2026-10-15"
+        },
+        {
+          "id": "above_sma_200",
+          "label": "Kurs über der 200-Tage-Linie",
+          "value": "nein",
+          "raw": 0.0,
+          "points": 0.0,
+          "sourceLabel": "Nasdaq Historical",
+          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-04-29&todate=2026-10-16&limit=2000",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2026-10-15"
+        },
+        {
+          "id": "distance_52w_high",
+          "label": "Abstand zum 52-Wochen-Hoch",
+          "value": "51,9 %",
+          "raw": 0.519231,
+          "points": 0.0,
+          "sourceLabel": "Nasdaq Historical",
+          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-04-29&todate=2026-10-16&limit=2000",
+          "fetchedAt": "2026-10-16",
+          "observedAt": "2026-10-15"
+        }
+      ]
+    },
+    {
+      "id": "C_08",
+      "label": "Bewertung",
+      "score": null,
+      "weight": 1,
+      "dataQuality": "0 von 3 Metriken verfügbar",
+      "metrics": [
+        {
+          "id": "valuation_primary",
+          "label": "Bewertung",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "fcf_yield",
+          "label": "Free-Cashflow-Rendite",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        },
+        {
+          "id": "ev_to_ebitda",
+          "label": "EV / EBITDA",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
+          "fetchedAt": "2026-10-16",
+          "observedAt": null
+        }
+      ]
+    }
+  ]
+}
