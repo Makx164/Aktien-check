@@ -14,7 +14,8 @@ if str(ROOT) not in sys.path:
 
 from scoring.analysts import fetch_analysts, load_keys
 from scoring.edgar import EdgarClient
-from scoring.metrics import extract_fundamentals, latest_observed, score_company
+from scoring.holders import fetch_holders
+from scoring.metrics import data_stand, extract_fundamentals, score_company
 from scoring.model import coverage_decision, quality_phrase, round1, traffic_light, weighted_total
 from scoring.prices import fetch_series
 
@@ -31,7 +32,21 @@ def group_score(criteria, ids):
     return round1(weighted_total(pairs))
 
 
-def assemble(ticker, name, note, scored, config):
+def price_quote(prices, currency):
+    bars = (prices or {}).get("bars") or []
+    if not bars or bars[-1].get("close") is None:
+        return None
+    last = bars[-1]
+    return {
+        "close": round(float(last["close"]), 4),
+        "currency": currency or "USD",
+        "date": last.get("date"),
+        "sourceLabel": prices.get("sourceLabel"),
+        "sourceUrl": prices.get("sourceUrl"),
+    }
+
+
+def assemble(ticker, name, note, scored, config, price=None):
     criteria = scored["criteria"]
     decision = coverage_decision(
         criteria,
@@ -49,7 +64,7 @@ def assemble(ticker, name, note, scored, config):
     return {
         "ticker": ticker,
         "name": name,
-        "asOf": latest_observed(criteria),
+        "asOf": data_stand(criteria, price),
         "score": total,
         "status": decision["status"],
         "criteriaWithData": decision["criteriaWithData"],
@@ -59,6 +74,7 @@ def assemble(ticker, name, note, scored, config):
         "dataQuality": " ".join(parts),
         "missingDataNote": decision["note"],
         "koFlags": scored["koFlags"],
+        "price": price,
         "criteria": criteria,
     }
 
@@ -104,6 +120,17 @@ def main():
             "restatement": False,
         }
         last_close = prices["bars"][-1]["close"] if prices["bars"] else None
+        holder_symbol = spec.get("yahoo") or ticker
+        holders = fetch_holders(holder_symbol, ROOT / "cache" / "yahoo")
+        if holders:
+            print(
+                "  holders insider="
+                + str(holders.get("insider"))
+                + " institutional="
+                + str(holders.get("institutional"))
+            )
+        else:
+            print("  holders unavailable")
         if spec.get("sec"):
             cik = edgar.cik_for(ticker)
             if cik is None:
@@ -120,8 +147,13 @@ def main():
                 )
                 sources["fundamentalLabel"] = "SEC EDGAR companyfacts"
                 sources["fundamentalUrl"] = facts_url
-                sources["insiderLabel"] = "SEC EDGAR Form 4"
+                sources["insiderLabel"] = "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate"
                 sources["insiderUrl"] = sub_url
+        if holders:
+            bundle["holders"] = dict(holders)
+            bundle["holders"]["observed"] = None
+        sources["holderLabel"] = holders.get("label")
+        sources["holderUrl"] = holders.get("url")
         if spec.get("analysts", True):
             analysts = fetch_analysts(ticker, last_close, today, keys)
         else:
@@ -137,7 +169,14 @@ def main():
             "benchmark": bench_payload,
         }
         scored = score_company(config, bundle, price_input, analysts, today, sources)
-        document = assemble(ticker, spec["name"], spec.get("note"), scored, config)
+        document = assemble(
+            ticker,
+            spec["name"],
+            spec.get("note"),
+            scored,
+            config,
+            price_quote(prices, spec.get("currency") or "USD"),
+        )
         target = ROOT / "data" / ticker / "score.json"
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

@@ -2,6 +2,20 @@
 
 ## 2026-10-16
 
+### Stand der Daten und Kachelfarbe
+
+Der Stand ist das jüngste Kursdatum oder Berichtsende. Bei SPCX fehlte das Kursdatum in `asOf`, deshalb zeigte die Kachel das Insidergeschäft vom 22.09.2026 (zuvor 02.04.2026). Der Nasdaq-Schluss vom 15.10.2026 ist der Stand. Ohne Kurs- und Berichtsdatum steht „wenig Daten“. Der Ticker auf der Kachel ist neutral, die Ampelfarbe bleibt am Score.
+
+### Kurszeile und C_05
+
+Die Kurszeile zeigt den letzten Schlusskurs und das Datum aus der Kursquelle (`price` in `score.json`). C_05 zählt Insider-Anteil, den Sechs-Monats-Saldo offener Marktgeschäfte und den institutionellen Anteil. Schwellen und Beträge stehen in der Datei. Eine Form-4 mit Kennzeichen 10b5-1 wirft die Käufe und Verkäufe nicht mehr weg.
+
+### Kacheln und Analyse unter #/TICKER
+
+Die Startseite zeigt 13 Kacheln: Ticker, Name, Score 0–100 in der Ampelfarbe oder „wenig Daten“, und „Stand der Daten“. Keine Beträge, keine Gewichte. Ein Klick öffnet die Analyse unter `#/TICKER`, zum Beispiel `#/PLTR`. Wortmarke, Logo und „Alle Positionen“ führen zurück. „Ich halte diese Aktien selbst.“ und „Keine Anlageberatung.“ stehen auf der Startseite und auf jeder Analyse.
+
+Die Analyse übernimmt Aufbau, Schrift und Farben der Version 3.2: rote Ticker-Zeile, runde Score-Skala, Rollen-Einordnung, Score-Matrix und Kriterienkarten. Der Aktien-Score kommt aus `score.json`. Die Rollen-Scores rechnen die Kriterien 0–10 mit den Gewichten der Version 3.2. Prototyp-Stempel, Wasserzeichen und Blöcke ohne Datengrundlage (KI-Einschätzung, Kurzfazit, X-Stimmung) entfallen. Die Wortmarke lautet „sidequest“.
+
 ### Wenig Daten, SIVE-Kurse, Service Worker
 
 Fehlt einer Kennzahl die Basis, ist `status` „wenig Daten“ und `points` bleibt leer. Eine fehlende Kennzahl zählt nicht als 0 und fällt aus dem Mittel. Der Aktien-Score normiert die Gewichte auf die Kriterien mit Daten. Unter `minCriteriaWithData` (3) bleibt `score` leer, `status` ist „wenig Daten“, und die Karte zeigt `missingDataNote`. Dieselbe Bezeichnung steht im zugeklappten Kriterium.

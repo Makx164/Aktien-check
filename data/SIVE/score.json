@@ -4,13 +4,20 @@
   "asOf": "2026-10-16",
   "score": null,
   "status": "wenig Daten",
-  "criteriaWithData": 1,
+  "criteriaWithData": 2,
   "trafficLight": null,
-  "qualityScore": null,
+  "qualityScore": 50.0,
   "marketScore": 33.0,
-  "dataQuality": "Keine SEC-Fundamentaldaten. Fundamentalkennzahlen und C_06 (Analysten) sind wenig Daten. Kurse von Yahoo Finance Chart-API (SIVE.ST). Stooq hat den Abruf abgelehnt. 3 von 32 Metriken verfügbar",
-  "missingDataNote": "Wenig Daten bei C_01, C_02, C_03, C_04, C_05, C_06, C_08. Weniger als 3 Kriterien haben Daten.",
+  "dataQuality": "Keine SEC-Fundamentaldaten. Fundamentalkennzahlen und C_06 (Analysten) sind wenig Daten. Kurse von Yahoo Finance Chart-API (SIVE.ST). Stooq hat den Abruf abgelehnt. 5 von 31 Metriken verfügbar",
+  "missingDataNote": "Wenig Daten bei C_01, C_02, C_03, C_04, C_06, C_08. Weniger als 3 Kriterien haben Daten.",
   "koFlags": [],
+  "price": {
+    "close": 23.72,
+    "currency": "SEK",
+    "date": "2026-10-16",
+    "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
+    "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y"
+  },
   "criteria": [
     {
       "id": "C_01",
@@ -283,14 +290,27 @@
     {
       "id": "C_05",
       "label": "Management & große Investoren",
-      "score": null,
-      "status": "wenig Daten",
+      "score": 5.0,
+      "status": null,
       "weight": 1,
-      "dataQuality": "0 von 4 Metriken verfügbar",
+      "dataQuality": "2 von 3 Metriken verfügbar. über 10 % → 5 von 5 bis 40 % → 0 von 2",
       "metrics": [
         {
-          "id": "insider_net_buy_share",
-          "label": "Insider, Anteil Käufe",
+          "id": "insider_ownership",
+          "label": "Insider-Anteil",
+          "value": "21,3 %",
+          "raw": 0.21341,
+          "points": 5.0,
+          "status": null,
+          "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST/holders",
+          "fetchedAt": "2026-10-16",
+          "observedAt": null,
+          "note": "über 10 % → 5 von 5"
+        },
+        {
+          "id": "insider_market_balance",
+          "label": "Insider-Saldo, 6 Monate",
           "value": null,
           "raw": null,
           "points": null,
@@ -301,40 +321,17 @@
           "observedAt": null
         },
         {
-          "id": "sbc_to_revenue",
-          "label": "Aktienvergütung / Umsatz",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "id": "institutional_ownership",
+          "label": "Institutioneller Anteil",
+          "value": "15,3 %",
+          "raw": 0.15279,
+          "points": 0.0,
+          "status": null,
+          "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST/holders",
           "fetchedAt": "2026-10-16",
-          "observedAt": null
-        },
-        {
-          "id": "shareholder_yield",
-          "label": "Aktionärsrendite",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
-          "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
-          "sourceUrl": null,
-          "fetchedAt": "2026-10-16",
-          "observedAt": null
-        },
-        {
-          "id": "share_change_1y",
-          "label": "Veränderung der Aktienzahl, 1 Jahr",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
-          "sourceLabel": null,
-          "sourceUrl": null,
-          "fetchedAt": "2026-10-16",
-          "observedAt": null
+          "observedAt": null,
+          "note": "bis 40 % → 0 von 2"
         }
       ]
     },
@@ -419,8 +416,8 @@
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "78,1 %",
-          "raw": 0.781273,
+          "value": "78,4 %",
+          "raw": 0.784364,
           "points": 0.0,
           "status": null,
           "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
