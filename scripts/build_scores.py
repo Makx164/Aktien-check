@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build data/<TICKER>/score.json from EDGAR, Stooq and optional analyst keys."""
+"""Build data/<TICKER>/score.json from EDGAR, prices and optional analyst keys."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ if str(ROOT) not in sys.path:
 from scoring.analysts import fetch_analysts, load_keys
 from scoring.edgar import EdgarClient
 from scoring.metrics import extract_fundamentals, latest_observed, score_company
-from scoring.model import quality_phrase, round1, traffic_light, weighted_total
+from scoring.model import coverage_decision, quality_phrase, round1, traffic_light, weighted_total
 from scoring.prices import fetch_series
 
 QUALITY = {"C_01", "C_02", "C_03", "C_04", "C_05"}
@@ -33,7 +33,12 @@ def group_score(criteria, ids):
 
 def assemble(ticker, name, note, scored, config):
     criteria = scored["criteria"]
-    total = round1(weighted_total((item["score"], item["weight"]) for item in criteria))
+    decision = coverage_decision(
+        criteria,
+        config["minCriteriaWithData"],
+        config.get("missingDataStatus") or "wenig Daten",
+    )
+    total = decision["score"]
     parts = []
     if note:
         parts.append(note)
@@ -46,10 +51,13 @@ def assemble(ticker, name, note, scored, config):
         "name": name,
         "asOf": latest_observed(criteria),
         "score": total,
+        "status": decision["status"],
+        "criteriaWithData": decision["criteriaWithData"],
         "trafficLight": traffic_light(total, lights["greenAt"], lights["orangeAt"]),
         "qualityScore": group_score(criteria, QUALITY),
         "marketScore": group_score(criteria, MARKET),
         "dataQuality": " ".join(parts),
+        "missingDataNote": decision["note"],
         "koFlags": scored["koFlags"],
         "criteria": criteria,
     }
@@ -82,6 +90,7 @@ def main():
             spec.get("nasdaq"),
             spec.get("assetClass"),
             spec.get("stooqFallbacks"),
+            spec.get("yahoo"),
         )
         print(f"  prices {len(prices['bars'])} via {prices['provider']} {prices.get('note') or ''}")
         bundle = {}
@@ -113,7 +122,11 @@ def main():
                 sources["fundamentalUrl"] = facts_url
                 sources["insiderLabel"] = "SEC EDGAR Form 4"
                 sources["insiderUrl"] = sub_url
-        analysts = fetch_analysts(ticker, last_close, today, keys)
+        if spec.get("analysts", True):
+            analysts = fetch_analysts(ticker, last_close, today, keys)
+        else:
+            analysts = {}
+            print("  analysts skipped")
         sources["analystLabel"] = analysts.get("label")
         sources["analystUrl"] = analysts.get("url")
         price_input = {
@@ -132,7 +145,8 @@ def main():
             f"{item['id']}={item['score'] if item['score'] is not None else 'null'}"
             for item in document["criteria"]
         )
-        print(f"  score={document['score']} {document['trafficLight']} {document['dataQuality']}")
+        shown = document["status"] or document["score"]
+        print(f"  score={shown} status={document['status']} {document['trafficLight']} {document['dataQuality']}")
         print(f"  {points}")
 
 

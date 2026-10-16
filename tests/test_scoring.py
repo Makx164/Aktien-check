@@ -7,11 +7,13 @@ from scoring.edgar import parse_form4
 from scoring.metrics import annual_series, score_company
 from scoring.model import (
     apply_analyst_cap,
+    coverage_decision,
     linear_points,
     traffic_light,
     weighted_total,
 )
-from scoring.prices import parse_nasdaq_payload, parse_stooq_csv, solve_pow
+from scoring.prices import parse_nasdaq_payload, parse_stooq_csv, parse_yahoo_chart, solve_pow, yahoo_chart_url
+from scripts.build_scores import assemble
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = json.loads((ROOT / "config" / "scoring.json").read_text(encoding="utf-8"))
@@ -100,6 +102,25 @@ class PriceParseTests(unittest.TestCase):
         parsed = parse_nasdaq_payload(payload)
         self.assertEqual(parsed[0]["date"], "2026-10-14")
         self.assertEqual(parsed[1]["close"], 254.76)
+
+    def test_yahoo_chart_skips_nulls_and_sorts(self):
+        payload = {"chart": {"result": [{
+            "timestamp": [1634540400, 1634626800, None],
+            "indicators": {"quote": [{
+                "close": [None, 11.5, 9],
+                "high": [10.2, 12.0, None],
+            }]},
+        }]}}
+        bars = parse_yahoo_chart(payload)
+        self.assertEqual(len(bars), 1)
+        self.assertEqual(bars[0]["date"], "2021-10-19")
+        self.assertEqual(bars[0]["close"], 11.5)
+        self.assertEqual(bars[0]["high"], 12.0)
+        self.assertEqual(parse_yahoo_chart({"chart": {"error": {"code": "Not Found"}}}), [])
+        self.assertEqual(parse_yahoo_chart({}), [])
+        url = yahoo_chart_url("SIVE.ST")
+        self.assertIn("/chart/SIVE.ST?", url)
+        self.assertNotIn("crumb", url)
 
     def test_pow_finds_a_prefix(self):
         nonce = solve_pow("sidequest", 1)
@@ -283,6 +304,105 @@ class CompanyScoreTests(unittest.TestCase):
         self.assertTrue(any(flag.startswith("Altman Z") for flag in scored["koFlags"]))
         missing = score_company(CONFIG, bundle, {}, {}, "2026-10-16", {})
         self.assertFalse(any(flag.startswith("Altman Z") for flag in missing["koFlags"]))
+
+
+class MissingDataTests(unittest.TestCase):
+    def test_missing_metrics_are_not_scored_as_zero(self):
+        bundle = {
+            "revenue": [point("2024-12-31", 100), point("2025-12-31", 110)],
+            "gross_profit": [point("2025-12-31", 66)],
+        }
+        scored = score_company(CONFIG, bundle, {}, {}, "2026-10-16", {})
+        by_id = {item["id"]: item for item in scored["criteria"]}
+        metrics = {metric["id"]: metric for metric in by_id["C_01"]["metrics"]}
+        self.assertEqual(metrics["gross_margin"]["points"], 10)
+        self.assertIsNone(metrics["gross_margin"]["status"])
+        self.assertIsNone(metrics["roic_2y"]["points"])
+        self.assertNotEqual(metrics["roic_2y"]["points"], 0)
+        self.assertEqual(metrics["roic_2y"]["status"], "wenig Daten")
+        self.assertEqual(by_id["C_01"]["score"], 10)
+        self.assertIsNone(by_id["C_01"]["status"])
+        self.assertEqual(by_id["C_06"]["status"], "wenig Daten")
+        self.assertIsNone(by_id["C_06"]["score"])
+
+        zero = {
+            "revenue": [point("2025-12-31", 100)],
+            "gross_profit": [point("2025-12-31", 20)],
+        }
+        scored_zero = score_company(CONFIG, zero, {}, {}, "2026-10-16", {})
+        gross = {m["id"]: m for c in scored_zero["criteria"] if c["id"] == "C_01" for m in c["metrics"]}
+        self.assertEqual(gross["gross_margin"]["points"], 0.0)
+        self.assertIsNone(gross["gross_margin"]["status"])
+        self.assertEqual(gross["fcf_margin"]["status"], "wenig Daten")
+        self.assertIsNone(gross["fcf_margin"]["points"])
+
+    def test_weights_are_renormalized_and_thin_coverage_hides_the_number(self):
+        full = [
+            {"id": "C_01", "score": 10, "weight": 1},
+            {"id": "C_02", "score": 10, "weight": 1},
+            {"id": "C_07", "score": 10, "weight": 0.5},
+            {"id": "C_06", "score": None, "weight": 1},
+        ]
+        decision = coverage_decision(full, 3, "wenig Daten")
+        self.assertEqual(decision["score"], 100)
+        self.assertIsNone(decision["status"])
+        self.assertEqual(decision["criteriaWithData"], 3)
+        self.assertIn("C_06", decision["note"])
+        self.assertIn("nur Kriterien mit Daten", decision["note"])
+        diluted = weighted_total([(10, 1), (10, 1), (10, 0.5), (0, 1)])
+        self.assertNotEqual(round(diluted, 1), decision["score"])
+
+        thin = [
+            {"id": "C_05", "score": 0, "weight": 1},
+            {"id": "C_01", "score": None, "weight": 1},
+            {"id": "C_07", "score": None, "weight": 0.5},
+        ]
+        hidden = coverage_decision(thin, CONFIG["minCriteriaWithData"], CONFIG["missingDataStatus"])
+        self.assertIsNone(hidden["score"])
+        self.assertNotEqual(hidden["score"], 0)
+        self.assertEqual(hidden["status"], "wenig Daten")
+        self.assertEqual(hidden["criteriaWithData"], 1)
+        self.assertIn("Weniger als 3", hidden["note"])
+
+    def test_assemble_marks_a_thin_stock(self):
+        bundle = {
+            "revenue": [point("2024-12-31", 100), point("2025-12-31", 110)],
+            "gross_profit": [point("2025-12-31", 66)],
+        }
+        scored = score_company(CONFIG, bundle, {}, {}, "2026-10-16", {})
+        document = assemble("SPCX", "Space Exploration Technologies", None, scored, CONFIG)
+        self.assertIsNone(document["score"])
+        self.assertEqual(document["status"], "wenig Daten")
+        self.assertLess(document["criteriaWithData"], 3)
+        self.assertGreaterEqual(document["criteriaWithData"], 1)
+        self.assertIn("wenig daten", document["missingDataNote"].lower())
+        self.assertIsNone(document["trafficLight"])
+        present = [item for item in document["criteria"] if item["score"] is not None]
+        self.assertTrue(present)
+        self.assertTrue(all(item["status"] == "wenig Daten" for item in document["criteria"] if item["score"] is None))
+
+
+class KillSwitchTests(unittest.TestCase):
+    def test_service_worker_and_page_unregister(self):
+        root_worker = (ROOT / "sw.js").read_text(encoding="utf-8")
+        alias = (ROOT / "service-worker.js").read_text(encoding="utf-8")
+        self.assertEqual(root_worker, alias)
+        self.assertLess(root_worker.index("skipWaiting"), root_worker.index("caches.delete"))
+        activate = root_worker.split("activate", 1)[1]
+        self.assertLess(activate.index("caches.delete"), activate.index("unregister"))
+        self.assertLess(activate.index("unregister"), activate.index("matchAll"))
+        self.assertLess(activate.index("matchAll"), activate.index("navigate"))
+        self.assertIn("client.url", root_worker)
+        vercel = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
+        headers = {item["source"]: item["headers"] for item in vercel["headers"]}
+        for path in ("/sw.js", "/service-worker.js"):
+            values = [header["value"] for header in headers[path] if header["key"] == "Cache-Control"]
+            self.assertIn("no-cache", values)
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertIn("serviceWorker", html)
+        self.assertIn("unregister", html)
+        self.assertIn("missingDataNote", html)
+        self.assertIn("gap-note", html)
 
 
 if __name__ == "__main__":

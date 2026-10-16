@@ -2,6 +2,13 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (registrations) {
+        registrations.forEach(function (registration) { registration.unregister(); });
+      }).catch(function () {});
+    }
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>sidequest</title>
@@ -316,6 +323,21 @@
       font-size: 12px;
     }
 
+    .gap-note {
+      margin: 0 0 10px;
+      padding: 8px 10px;
+      background: var(--inset);
+      border-left: 3px solid var(--eyebrow);
+      color: var(--text);
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .sparse {
+      color: var(--eyebrow);
+      font-weight: 800;
+    }
+
     .weight {
       color: var(--muted);
       font-size: 11px;
@@ -349,7 +371,7 @@
       <p class="note legal">„Keine Anlageberatung.“</p>
     </div>
 
-    <p class="lead">Aktien-Score von 0 bis 100. Jedes Kriterium ist der Mittelwert seiner Teilkennzahlen, C_07 zählt mit halbem Gewicht. Ab 70 grün, von 50 bis 69 orange, darunter rot. Phase 1 rechnet mit gemeldeten Zahlen und Kursen. Burggraben und Marktgröße ohne Textbewertung fehlen.</p>
+    <p class="lead">Aktien-Score von 0 bis 100. Jedes Kriterium ist der Mittelwert seiner Teilkennzahlen, C_07 zählt mit halbem Gewicht. Ab 70 grün, von 50 bis 69 orange, darunter rot. Fehlt die Datenbasis, steht „wenig Daten“ und zählt nicht als 0. Der Score nutzt nur Kriterien mit Daten. Unter drei Kriterien mit Daten steht keine Zahl. Phase 1 rechnet mit gemeldeten Zahlen und Kursen. Burggraben und Marktgröße ohne Textbewertung fehlen.</p>
 
     <main class="board" id="board" aria-live="polite">
       <p class="status">Daten werden geladen.</p>
@@ -359,6 +381,8 @@
   <script>
     const TICKERS = ["PLTR","OSS","AMZN","TSLA","HIMS","LMND","IBRX","MU","IREN","GRAB","SIVE","SPCX","PYPL"];
     const CRITERIA = ["C_01","C_02","C_03","C_04","C_05","C_06","C_07","C_08"];
+    const QUALITY = ["C_01","C_02","C_03","C_04","C_05"];
+    const MARKET = ["C_06","C_07","C_08"];
     const ROLES = new Set(["Satellit","Tenbagger","Compounder","Dividenden-Aktie"]);
 
     function text(value) {
@@ -421,6 +445,22 @@
       return text.replace(".", ",");
     }
 
+    function shownScore(value, max, status) {
+      if (!isBlank(status)) return String(status);
+      return scoreText(value, max);
+    }
+
+    function groupShown(score, ids, value) {
+      if (!isBlank(value) && !Number.isNaN(Number(value))) return scoreText(value, 100);
+      const rows = (score.criteria || []).filter(function (item) {
+        return ids.indexOf(item.id) !== -1;
+      });
+      if (rows.length && rows.every(function (item) { return !isBlank(item.status); })) {
+        return String(rows[0].status);
+      }
+      return scoreText(value, 100);
+    }
+
     function criteriaOf(score) {
       const byId = new Map((score.criteria || []).map((item) => [item.id, item]));
       return CRITERIA.map((id) => byId.get(id) || { id, label: null, score: null, metrics: [] });
@@ -455,8 +495,8 @@
       }
       return metrics.map((metric) => ({
         label: isBlank(metric.label) ? unknown() : String(metric.label),
-        value: isBlank(metric.value) ? unknown() : String(metric.value),
-        points: scoreText(metric.points, 10),
+        value: isBlank(metric.value) ? shownScore(null, 10, metric.status) : String(metric.value),
+        points: shownScore(metric.points, 10, metric.status),
         source: linkCell(metric),
         fetched: formatDate(metric.fetchedAt),
         observed: formatDate(metric.observedAt)
@@ -480,21 +520,28 @@
 
       const meta = document.createElement("p");
       meta.className = "meta";
-      const scoreLabel = labeled("Score", scoreText(score.score, 100));
+      const scoreLabel = labeled("Score", shownScore(score.score, 100, score.status));
       const light = score.trafficLight;
-      if (light === "green" || light === "orange" || light === "red") {
+      if (isBlank(score.status) && (light === "green" || light === "orange" || light === "red")) {
         scoreLabel.classList.add("light", light);
       }
+      if (!isBlank(score.status)) scoreLabel.classList.add("sparse");
       meta.append(
         labeled("Stand der Daten", standOf(score)),
         scoreLabel,
-        labeled("Qualität", scoreText(score.qualityScore, 100)),
-        labeled("Markt", scoreText(score.marketScore, 100))
+        labeled("Qualität", groupShown(score, QUALITY, score.qualityScore)),
+        labeled("Markt", groupShown(score, MARKET, score.marketScore))
       );
       if (ROLES.has(score.role)) meta.append(labeled("Passt am besten als", score.role));
       meta.append(labeled("Datenqualität", isBlank(score.dataQuality) ? unknown() : String(score.dataQuality)));
 
       card.append(head, meta);
+      if (!isBlank(score.missingDataNote)) {
+        const gap = document.createElement("p");
+        gap.className = "gap-note";
+        gap.textContent = String(score.missingDataNote);
+        card.append(gap);
+      }
       if (Array.isArray(score.koFlags) && score.koFlags.length) {
         const ko = document.createElement("p");
         ko.className = "ko";
@@ -515,12 +562,13 @@
         clabel.textContent = isBlank(criterion.label) ? "" : String(criterion.label);
         const cscore = document.createElement("span");
         cscore.className = "cscore";
+        if (!isBlank(criterion.status)) cscore.classList.add("sparse");
         const bits = [];
         if (criterion.weight != null && Number(criterion.weight) !== 1) {
           bits.push("Gewicht " + String(criterion.weight).replace(".", ","));
         }
         if (criterion.capApplied) bits.push("Deckel 7");
-        bits.push(scoreText(criterion.score, 10));
+        bits.push(shownScore(criterion.score, 10, criterion.status));
         cscore.textContent = bits.join(" · ");
         summary.append(cid, clabel, cscore);
 

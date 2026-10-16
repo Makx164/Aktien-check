@@ -1,6 +1,6 @@
 # sidequest
 
-Öffentliche Seite der Marke sidequest. Acht Kriterien, jedes 0–10 als Mittelwert seiner Teilkennzahlen. Der Aktien-Score ist der gewichtete Mittelwert mal 10, also 0–100. C_07 zählt mit Gewicht 0,5, die übrigen Kriterien mit 1. Ab 70 grün, von 50 bis 69 orange, darunter rot. K.O.-Hinweise stehen getrennt vom Schnitt. Fehlende Werte bleiben leer und erscheinen als „unbekannt“.
+Öffentliche Seite der Marke sidequest. Acht Kriterien, jedes 0–10 als Mittelwert seiner Teilkennzahlen. Der Aktien-Score ist der gewichtete Mittelwert mal 10, also 0–100. C_07 zählt mit Gewicht 0,5, die übrigen Kriterien mit 1. Ab 70 grün, von 50 bis 69 orange, darunter rot. K.O.-Hinweise stehen getrennt vom Schnitt. Fehlt einer Kennzahl die Datenbasis, bleibt der Wert leer, das Feld `status` ist „wenig Daten“ und die Punkte sind nicht 0. Dieselbe Bezeichnung steht im zugeklappten Kriterium. Der Score zählt nur Kriterien mit Daten und normiert deren Gewichte neu. Liegen für weniger als drei Kriterien Daten vor (`minCriteriaWithData` in `config/scoring.json`), ist `score` leer und `status` „wenig Daten“. Die Karte zeigt dann den Hinweis `missingDataNote`, sobald mindestens ein Kriterium fehlt. Ein Datum ohne Quelle bleibt „unbekannt“.
 
 Ich halte diese Aktien selbst. Keine Anlageberatung.
 
@@ -20,9 +20,9 @@ In der Übersicht sind C_01 bis C_08 zugeklappt. Ein Klick öffnet Teilkennzahle
 
 Pro Ticker eine Datei `data/<TICKER>/score.json`. Schwellen stehen in `config/scoring.json`, die Ticker in `config/tickers.json`. Die Rechnung macht `python3 scripts/build_scores.py`.
 
-Phase 1 holt Jahreszahlen aus der SEC-EDGAR-API `companyfacts` (10-K, 20-F, 40-F) und Kurse zuerst als Stooq-CSV. Lehnt Stooq den Abruf ab, springt der Lauf auf die öffentliche Nasdaq-Historie und schreibt das in die Datenqualität. Der S&P-500-Vergleich nutzt dann den ETF SPY und benennt ihn so. SIVE hat keine SEC-Meldung: nur Kurse, mit dem Hinweis auf die dünne Datenbasis. SPCX bleibt im Datensatz, auch wenn die Historie kurz ist.
+Phase 1 holt Jahreszahlen aus der SEC-EDGAR-API `companyfacts` (10-K, 20-F, 40-F) und Kurse zuerst als Stooq-CSV. Lehnt Stooq den Abruf ab, springt der Lauf auf die öffentliche Nasdaq-Historie und schreibt das in die Datenqualität. Der S&P-500-Vergleich nutzt dann den ETF SPY und benennt ihn so. SIVE (Sivers Semiconductors, Stockholm) hat keine SEC-Meldung: Fundamentalkennzahlen und C_06 (Analysten) sind „wenig Daten“. Die Kurse kommen von der Yahoo-Finance-Chart-API, Symbol `SIVE.ST`, weil Stooq blockiert. Quelle, Symbol und URL stehen in `data/SIVE/score.json`. SPCX ist frisch gelistet, ohne 12-Monats-Historie und ohne 200-Tage-Linie; fehlende Kennzahlen bleiben „wenig Daten“ und ziehen den Score nicht auf 0.
 
-`FMP_API_KEY` und `FINNHUB_API_KEY` sind optional. Ohne Schlüssel bleiben die Analysten-Kennzahlen leer, der Lauf bricht nicht ab. Eine aktuelle Schätzung ohne Verlauf ist keine 90-Tage-Revision und bleibt leer. API-Schlüssel stehen nicht in den Quell-URLs.
+`FMP_API_KEY` und `FINNHUB_API_KEY` sind optional. Ohne Schlüssel bleiben die Analysten-Kennzahlen „wenig Daten“, der Lauf bricht nicht ab. Eine aktuelle Schätzung ohne Verlauf ist keine 90-Tage-Revision und bleibt leer. SIVE setzt `analysts` auf false, damit C_06 nicht aus einer US-Quelle geraten wird. API-Schlüssel stehen nicht in den Quell-URLs.
 
 K.O., nur wenn die Eingaben wirklich da sind: Altman Z unter 1,8, negativer Free Cashflow bei Nettoverschuldung/EBITDA über 3, 8-K Item 4.02 in den letzten 24 Monaten. Ein Going-Concern-Hinweis wird nicht geraten.
 
@@ -35,3 +35,5 @@ Der Workflow `.github/workflows/scores.yml` läuft montags und donnerstags um 05
 ## Deployment
 
 Statische Dateien, kein Build. `vercel.json` setzt `cleanUrls`. Vercel nimmt das Repository-Root. GitHub Pages weiter aus `main` / Root; `.nojekyll` bleibt.
+
+Die Domain hat früher eine Vite-PWA ausgeliefert: `registerSW.js` hat `/sw.js` mit Scope `/` registriert. Zurückkehrende Browser können die alte App aus dem Cache zeigen. `sw.js` und `service-worker.js` im Root sind derselbe Kill-Switch. Beim Install ruft er `skipWaiting` auf. Beim Activate löscht er alle Caches, hebt die Registrierung mit `self.registration.unregister()` auf und lädt danach jedes Fenster über `clients.matchAll()` neu auf seine URL. `vercel.json` setzt für beide Dateien `Cache-Control: no-cache`. `index.html` meldet vorhandene Service Worker ab.
