@@ -1,22 +1,22 @@
 {
   "ticker": "AMZN",
   "name": "Amazon",
-  "asOf": "2026-10-15",
-  "score": 52.2,
+  "asOf": "2026-10-16",
+  "score": 52.3,
   "status": null,
   "criteriaWithData": 7,
   "trafficLight": "orange",
   "qualityScore": 54.4,
-  "marketScore": 45.0,
+  "marketScore": 45.3,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 24 von 31 Metriken verfügbar",
   "missingDataNote": "Wenig Daten bei C_06. Der Score zählt nur Kriterien mit Daten.",
   "koFlags": [],
   "price": {
-    "close": 254.76,
+    "close": 250.0,
     "currency": "USD",
-    "date": "2026-10-15",
+    "date": "2026-10-16",
     "sourceLabel": "Nasdaq Historical",
-    "sourceUrl": "https://api.nasdaq.com/api/quote/AMZN/historical?assetclass=stocks&fromdate=2024-04-29&todate=2026-10-16&limit=2000"
+    "sourceUrl": "https://api.nasdaq.com/api/quote/AMZN/historical?assetclass=stocks&fromdate=2024-05-02&todate=2026-10-19&limit=2000"
   },
   "criteria": [
     {
@@ -36,7 +36,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         },
         {
@@ -48,7 +48,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         },
         {
@@ -60,7 +60,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         },
         {
@@ -72,7 +72,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         },
         {
@@ -84,7 +84,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         }
       ]
@@ -106,7 +106,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         },
         {
@@ -118,7 +118,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         },
         {
@@ -130,7 +130,7 @@
           "status": "wenig Daten",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": null
         },
         {
@@ -142,7 +142,7 @@
           "status": "wenig Daten",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": null
         },
         {
@@ -154,7 +154,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         }
       ]
@@ -176,7 +176,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         },
         {
@@ -188,7 +188,7 @@
           "status": "wenig Daten",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": null
         },
         {
@@ -200,7 +200,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         }
       ]
@@ -222,7 +222,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         },
         {
@@ -234,7 +234,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         },
         {
@@ -246,7 +246,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         },
         {
@@ -258,7 +258,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         },
         {
@@ -270,7 +270,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         },
         {
@@ -282,7 +282,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2025-12-31"
         }
       ]
@@ -304,41 +304,41 @@
           "status": null,
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/AMZN/holders",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": null,
           "note": "3–10 % → 3 von 5"
         },
         {
           "id": "insider_market_balance",
           "label": "Insider-Saldo, 6 Monate",
-          "value": "Netto-Verkäufe · 0 Käufe / 64 Verkäufe",
+          "value": "Netto-Verkäufe · 0 Käufe / 63 Verkäufe",
           "raw": null,
           "points": 0.0,
           "status": null,
           "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": "2026-10-01",
           "note": "Netto-Verkäufe → 0 von 3",
           "detail": {
             "windowDays": 183,
-            "filings": 34,
+            "filings": 33,
             "buys": 0,
-            "sells": 64,
+            "sells": 63,
             "buyDollars": 0.0,
-            "sellDollars": 416677472.01
+            "sellDollars": 411654972.01
           }
         },
         {
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
           "value": "68,8 %",
-          "raw": 0.68819,
+          "raw": 0.6882,
           "points": 2.0,
           "status": null,
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/AMZN/holders",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": null,
           "note": "über 40 % → 2 von 2"
         }
@@ -361,7 +361,7 @@
           "status": "wenig Daten",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": null
         },
         {
@@ -373,7 +373,7 @@
           "status": "wenig Daten",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": null
         },
         {
@@ -385,7 +385,7 @@
           "status": "wenig Daten",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": null
         }
       ]
@@ -393,7 +393,7 @@
     {
       "id": "C_07",
       "label": "Kursverlauf & Momentum",
-      "score": 7.9,
+      "score": 7.8,
       "status": null,
       "weight": 0.5,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -401,14 +401,14 @@
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
-          "value": "-0,2 Pp",
-          "raw": -0.200132,
-          "points": 5.0,
+          "value": "1,9 Pp",
+          "raw": 1.876252,
+          "points": 5.3,
           "status": null,
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/AMZN/historical?assetclass=stocks&fromdate=2024-04-29&todate=2026-10-16&limit=2000",
-          "fetchedAt": "2026-10-16",
-          "observedAt": "2026-10-15"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/AMZN/historical?assetclass=stocks&fromdate=2024-05-02&todate=2026-10-19&limit=2000",
+          "fetchedAt": "2026-10-19",
+          "observedAt": "2026-10-16"
         },
         {
           "id": "above_sma_200",
@@ -418,28 +418,28 @@
           "points": 10.0,
           "status": null,
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/AMZN/historical?assetclass=stocks&fromdate=2024-04-29&todate=2026-10-16&limit=2000",
-          "fetchedAt": "2026-10-16",
-          "observedAt": "2026-10-15"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/AMZN/historical?assetclass=stocks&fromdate=2024-05-02&todate=2026-10-19&limit=2000",
+          "fetchedAt": "2026-10-19",
+          "observedAt": "2026-10-16"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "11,3 %",
-          "raw": 0.112953,
-          "points": 8.6,
+          "value": "13,0 %",
+          "raw": 0.129526,
+          "points": 8.2,
           "status": null,
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/AMZN/historical?assetclass=stocks&fromdate=2024-04-29&todate=2026-10-16&limit=2000",
-          "fetchedAt": "2026-10-16",
-          "observedAt": "2026-10-15"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/AMZN/historical?assetclass=stocks&fromdate=2024-05-02&todate=2026-10-19&limit=2000",
+          "fetchedAt": "2026-10-19",
+          "observedAt": "2026-10-16"
         }
       ]
     },
     {
       "id": "C_08",
       "label": "Bewertung",
-      "score": 2.8,
+      "score": 2.9,
       "status": null,
       "weight": 1,
       "dataQuality": "2 von 3 Metriken verfügbar",
@@ -453,32 +453,32 @@
           "status": "wenig Daten",
           "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
+          "fetchedAt": "2026-10-19",
           "observedAt": null
         },
         {
           "id": "fcf_yield",
           "label": "Free-Cashflow-Rendite",
           "value": "0,3 %",
-          "raw": 0.0028,
+          "raw": 0.002854,
           "points": 0.4,
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
-          "observedAt": "2026-10-15"
+          "fetchedAt": "2026-10-19",
+          "observedAt": "2026-10-16"
         },
         {
           "id": "ev_to_ebitda",
           "label": "EV / EBITDA",
-          "value": "18,74",
-          "raw": 18.735906,
-          "points": 5.1,
+          "value": "18,38",
+          "raw": 18.383593,
+          "points": 5.3,
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-16",
-          "observedAt": "2026-10-15"
+          "fetchedAt": "2026-10-19",
+          "observedAt": "2026-10-16"
         }
       ]
     }
