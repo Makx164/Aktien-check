@@ -2,13 +2,13 @@
   "ticker": "AMZN",
   "name": "Amazon",
   "asOf": "2026-10-19",
-  "score": 68.5,
+  "score": 72.7,
   "status": null,
   "criteriaWithData": 8,
-  "trafficLight": "orange",
-  "qualityScore": 66.4,
-  "marketScore": 76.3,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 34 von 34 Metriken verfügbar",
+  "trafficLight": "green",
+  "qualityScore": 69.6,
+  "marketScore": 84.3,
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 32 von 32 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [],
   "price": {
@@ -37,10 +37,10 @@
     {
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
-      "score": 7.6,
+      "score": 7.0,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "5 von 5 Metriken verfügbar. TTM bis 2026-06-30 TTM bis 2026-06-30 TTM bis 2026-06-30",
+      "dataQuality": "4 von 4 Metriken verfügbar. TTM bis 2026-06-30 TTM bis 2026-06-30 TTM bis 2026-06-30",
       "metrics": [
         {
           "id": "roic_2y",
@@ -100,25 +100,25 @@
         {
           "id": "net_cash_or_runway",
           "label": "Netto-Cash oder Cash-Reichweite",
-          "value": "> 36 Monate",
+          "value": null,
           "raw": null,
-          "points": 10.0,
-          "status": null,
+          "points": null,
+          "status": "nicht anwendbar",
           "scale": "Netto-Cash oder mindestens 36 Monate = 10, unter 12 Monaten = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-06-30"
+          "observedAt": null
         }
       ]
     },
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 5.7,
+      "score": 6.5,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "8 von 8 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist TTM bis 2026-06-30",
+      "dataQuality": "7 von 7 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist TTM bis 2026-06-30",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
@@ -204,17 +204,16 @@
         },
         {
           "id": "fcf_cagr_3y",
-          "label": "Free-Cashflow-CAGR, 2 Jahre",
-          "value": "-51,1 %",
-          "raw": -0.511039,
-          "points": 0.0,
-          "status": null,
+          "label": "Free-Cashflow-CAGR, 3 Jahre",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "nicht anwendbar",
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2025-12-31",
-          "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
+          "observedAt": null
         },
         {
           "id": "revenue_acceleration",
@@ -286,7 +285,7 @@
     {
       "id": "C_04",
       "label": "Profitabilität & Finanzkraft",
-      "score": 6.0,
+      "score": 7.1,
       "status": null,
       "weight": 0.75,
       "dataQuality": "7 von 7 Metriken verfügbar. TTM bis 2026-06-30",
@@ -320,42 +319,42 @@
         },
         {
           "id": "fcf_margin_3y",
-          "label": "Free-Cashflow-Marge, 3-Jahres-Schnitt",
-          "value": "3,9 %",
-          "raw": 0.03944,
-          "points": 2.6,
+          "label": "Free-Cashflow-Marge (operativer Cashflow, hohe Investitionen)",
+          "value": "20,8 %",
+          "raw": 0.208079,
+          "points": 10.0,
           "status": null,
           "scale": "≥ 15 % = 10, 0 % = 0",
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-06-30"
+        },
+        {
+          "id": "roe",
+          "label": "Eigenkapitalrendite",
+          "value": "32,3 %",
+          "raw": 0.323024,
+          "points": 10.0,
+          "status": null,
+          "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2025-12-31"
         },
         {
-          "id": "roe",
-          "label": "Eigenkapitalrendite",
+          "id": "cash_runway_months",
+          "label": "Cash Runway",
           "value": null,
           "raw": null,
           "points": null,
           "status": "nicht anwendbar",
-          "scale": "≥ 25 % = 10, 0 % = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-          "fetchedAt": "2026-10-20",
-          "observedAt": null
-        },
-        {
-          "id": "cash_runway_months",
-          "label": "Cash Runway",
-          "value": "> 36 Monate",
-          "raw": null,
-          "points": 10.0,
-          "status": null,
           "scale": "≥ 36 Monate = 10, 12 Monate = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-06-30"
+          "observedAt": null
         },
         {
           "id": "net_debt_to_ebitda",
@@ -618,7 +617,7 @@
     {
       "id": "C_08",
       "label": "Bewertung",
-      "score": 5.3,
+      "score": 7.7,
       "status": null,
       "weight": 0.5,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -638,10 +637,10 @@
         },
         {
           "id": "fcf_yield",
-          "label": "Free-Cashflow-Rendite",
-          "value": "-0,4 %",
-          "raw": -0.004107,
-          "points": 0.0,
+          "label": "Free-Cashflow-Rendite (operativer Cashflow, hohe Investitionen)",
+          "value": "5,7 %",
+          "raw": 0.057015,
+          "points": 7.1,
           "status": null,
           "scale": "≥ 8 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",

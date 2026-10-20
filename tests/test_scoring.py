@@ -1069,14 +1069,12 @@ class RoundThreeTests(unittest.TestCase):
         self.assertIn("Ohne Daten:", html)
         self.assertIn(">Skala<", html)
         self.assertIn("Eine Metrik ohne Daten zählt nicht als 0.", html)
-        self.assertIn('data-x2="', html)
-        self.assertIn("isCriterionX2", html)
-        self.assertIn("copy.weight = weight * 2", html)
-        self.assertNotIn('c.code + ":" + metric.id', html)
-        self.assertIn("angepasster Score", html)
-        self.assertIn("Zurücksetzen", html)
-        self.assertIn("x2StorageKey", html)
-        self.assertIn('"ac-x2:" + ticker', html)
+        self.assertNotIn("data-x2", html)
+        self.assertNotIn("isCriterionX2", html)
+        self.assertNotIn("angepasster Score", html)
+        self.assertNotIn("x2-reset", html)
+        self.assertNotIn("ac-x2:", html)
+        self.assertNotIn("withVisitorWeights", html)
         self.assertIn("function sourceBlock", html)
         self.assertNotIn("gewichtetes Mittel", html)
 
@@ -1104,7 +1102,7 @@ class RoundThreeTests(unittest.TestCase):
 class RoundFiveTests(unittest.TestCase):
     def test_ttm_acceleration_uses_the_prior_window_and_a_gap_stays_blank(self):
         rows = []
-        values = [100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230]
+        values = [v * 20000 for v in (100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230)]
         starts = [
             "2023-01-01", "2023-04-01", "2023-07-01", "2023-10-01",
             "2024-01-01", "2024-04-01", "2024-07-01", "2024-10-01",
@@ -1124,13 +1122,14 @@ class RoundFiveTests(unittest.TestCase):
         facts = {"us-gaap": {"RevenueFromContractWithCustomerExcludingAssessedTax": {"units": {"USD": rows}}}}
         bundle = extract_fundamentals(facts)
         snap = bundle["snapshot"]
-        self.assertEqual(snap["revenue"], 860)
-        self.assertEqual(snap["revenue_prior"], 700)
-        self.assertEqual(snap["revenue_prior_prior"], 540)
+        self.assertEqual(snap["revenue"], 860 * 20000)
+        self.assertEqual(snap["revenue_prior"], 700 * 20000)
+        self.assertEqual(snap["revenue_prior_prior"], 540 * 20000)
         scored = score_company(CONFIG, bundle, {}, {}, "2026-10-20", {})
         acceleration = metric_map(scored, "C_02")[1]["revenue_acceleration"]
         self.assertAlmostEqual(acceleration["raw"], 860 / 700 - 700 / 540, places=6)
-        self.assertEqual(acceleration["points"], 1.6)
+        self.assertEqual(acceleration["points"], 5.0)
+        self.assertIn("mindestens 5 Punkte", acceleration["note"])
         self.assertIsNone(acceleration["status"])
 
         gap = score_company(CONFIG, {"snapshot": {
@@ -1205,6 +1204,124 @@ class RoundFiveTests(unittest.TestCase):
         facts["us-gaap"]["ResearchAndDevelopmentExpense"] = {"units": {"USD": gaap}}
         preferred = extract_fundamentals(facts)
         self.assertEqual(preferred["snapshot"]["rd"], 4_000_000_000)
+
+
+class RoundSixTests(unittest.TestCase):
+    def _investor(self, net_income=80, fcf=-50, ocf=200, revenue_prior=800, revenue_base=640):
+        bundle = {
+            "revenue": [point("2024-12-31", 800), point("2025-12-31", 1000)],
+            "operating_income": [point("2025-12-31", 120)],
+            "net_income": [point("2024-12-31", 70), point("2025-12-31", net_income)],
+            "equity": [point("2024-12-31", 360), point("2025-12-31", 400)],
+            "fcf": [point("2023-12-31", 40), point("2025-12-31", 20)],
+            "cash": [point("2025-12-31", 100)],
+            "debt": [point("2025-12-31", 300)],
+            "eps": [point("2022-12-31", 1), point("2025-12-31", 2)],
+            "shares_out": [point("2025-12-31", 10)],
+            "snapshot": {
+                "end": "2026-06-30",
+                "label": "TTM bis 2026-06-30",
+                "months": 12,
+                "revenue": 1000,
+                "revenue_prior": revenue_prior,
+                "revenue_prior_prior": revenue_base,
+                "operating_income": 120,
+                "net_income": net_income,
+                "cfo": ocf,
+                "fcf": fcf,
+                "equity": 400,
+                "cash": 100,
+                "debt": 300,
+                "sourceLabel": "SEC EDGAR companyfacts",
+            },
+        }
+        bars = [{"date": "2026-10-15", "close": 50.0, "high": 50.0}]
+        return score_company(CONFIG, bundle, {"bars": bars}, {}, "2026-10-20", {})
+
+    def test_profitable_investor_substitutes_operating_cash_flow(self):
+        scored = self._investor()
+        growth = metric_map(scored, "C_02")[1]
+        self.assertEqual(growth["fcf_cagr_3y"]["status"], "nicht anwendbar")
+        self.assertIsNone(growth["fcf_cagr_3y"]["points"])
+        finance = metric_map(scored, "C_04")[1]
+        self.assertIsNone(finance["roe"]["status"])
+        self.assertAlmostEqual(finance["roe"]["raw"], 80 / 380, places=6)
+        self.assertEqual(finance["cash_runway_months"]["status"], "nicht anwendbar")
+        self.assertIn("(operativer Cashflow, hohe Investitionen)", finance["fcf_margin_3y"]["label"])
+        self.assertAlmostEqual(finance["fcf_margin_3y"]["raw"], 0.2, places=6)
+        self.assertEqual(finance["fcf_margin_3y"]["points"], 10)
+        model = metric_map(scored, "C_01")[1]["net_cash_or_runway"]
+        self.assertEqual(model["status"], "nicht anwendbar")
+        valuation = metric_map(scored, "C_08")[1]["fcf_yield"]
+        self.assertIn("(operativer Cashflow, hohe Investitionen)", valuation["label"])
+        self.assertAlmostEqual(valuation["raw"], 200 / 500, places=6)
+        self.assertEqual(valuation["points"], 10)
+        self.assertIsNone(valuation["status"])
+
+    def test_loss_maker_keeps_the_runway_even_with_operating_cash_flow(self):
+        scored = self._investor(net_income=-5)
+        finance = metric_map(scored, "C_04")[1]
+        self.assertEqual(finance["roe"]["status"], "nicht anwendbar")
+        self.assertEqual(finance["cash_runway_months"]["points"], 5.0)
+        self.assertEqual(finance["cash_runway_months"]["value"], "24,0 Monate")
+        self.assertNotIn("operativer Cashflow", finance["fcf_margin_3y"]["label"])
+        valuation = metric_map(scored, "C_08")[1]["fcf_yield"]
+        self.assertEqual(valuation["status"], "nicht anwendbar")
+
+    def test_thresholds_and_acceleration_rules_come_from_config(self):
+        strict = json.loads(json.dumps(CONFIG))
+        strict["investing"]["minOcfMargin"] = 0.5
+        scored = score_company(strict, {
+            "revenue": [point("2024-12-31", 800), point("2025-12-31", 1000)],
+            "net_income": [point("2025-12-31", 80)],
+            "equity": [point("2024-12-31", 360), point("2025-12-31", 400)],
+            "cash": [point("2025-12-31", 100)],
+            "debt": [point("2025-12-31", 300)],
+            "snapshot": {
+                "end": "2026-06-30", "months": 12, "revenue": 1000,
+                "operating_income": 120, "net_income": 80, "cfo": 200, "fcf": -50,
+                "equity": 400, "cash": 100, "debt": 300,
+            },
+        }, {}, {}, "2026-10-20", {})
+        finance = metric_map(scored, "C_04")[1]
+        self.assertEqual(finance["roe"]["status"], "nicht anwendbar")
+        self.assertEqual(finance["cash_runway_months"]["points"], 5.0)
+
+        def acceleration(prior_revenue, prior_base, current=100):
+            gap = score_company(CONFIG, {"snapshot": {
+                "end": "2026-06-30",
+                "label": "TTM bis 2026-06-30",
+                "months": 12,
+                "revenue": current,
+                "revenue_prior": prior_revenue,
+                "revenue_prior_prior": prior_base,
+            }}, {}, {}, "2026-10-20", {})
+            return metric_map(gap, "C_02")[1]["revenue_acceleration"]
+
+        capped = acceleration(20_000_000, 10_000_000, 25_000_000)
+        self.assertEqual(capped["raw"], -0.3)
+        self.assertEqual(capped["points"], 5.0)
+        self.assertIn("±30 Pp", capped["note"])
+        self.assertIn("mindestens 5 Punkte", capped["note"])
+
+        tiny = acceleration(5_000_000, 4_000_000, 20_000_000)
+        self.assertEqual(tiny["status"], "nicht anwendbar")
+        self.assertIsNone(tiny["points"])
+
+        spike = acceleration(100_000_000, 20_000_000, 130_000_000)
+        self.assertEqual(spike["status"], "nicht anwendbar")
+        self.assertIsNone(spike["points"])
+
+        loose = json.loads(json.dumps(CONFIG))
+        loose["acceleration"]["capPp"] = 0.05
+        loose["acceleration"]["minCurrentGrowth"] = 9
+        narrowed = score_company(loose, {"snapshot": {
+            "end": "2026-06-30", "months": 12, "revenue": 25_000_000,
+            "revenue_prior": 20_000_000, "revenue_prior_prior": 10_000_000,
+        }}, {}, {}, "2026-10-20", {})
+        metric = metric_map(narrowed, "C_02")[1]["revenue_acceleration"]
+        self.assertEqual(metric["raw"], -0.05)
+        self.assertEqual(metric["points"], 2.5)
 
 
 if __name__ == "__main__":

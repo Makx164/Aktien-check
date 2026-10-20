@@ -105,6 +105,18 @@
       "proxyLabel": "OMXS30"
     }
   },
+  "investing": {
+    "minOperatingMargin": 0.0,
+    "minOcfMargin": 0.10,
+    "substituteMark": "(operativer Cashflow, hohe Investitionen)"
+  },
+  "acceleration": {
+    "capPp": 0.30,
+    "minCurrentGrowth": 0.20,
+    "floorPoints": 5,
+    "miniBaseRevenueUsd": 10000000,
+    "miniBasePriorGrowth": 2.0
+  },
   "valuation": {
     "profitable": {
       "label": "PEG",

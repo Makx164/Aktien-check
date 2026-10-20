@@ -118,7 +118,7 @@
       "score": 5.6,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "7 von 9 Metriken verfügbar. H1 bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr H1 bis 2026-06-30",
+      "dataQuality": "7 von 9 Metriken verfügbar. H1 bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr H1 bis 2026-06-30 Differenz auf ±30 Pp gekappt",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
@@ -217,8 +217,8 @@
         {
           "id": "revenue_acceleration",
           "label": "Umsatzbeschleunigung",
-          "value": "116,4 Pp",
-          "raw": 1.163934,
+          "value": "30,0 Pp",
+          "raw": 0.3,
           "points": 10.0,
           "status": null,
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
@@ -226,7 +226,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001394056.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-06-30",
-          "note": "H1 bis 2026-06-30"
+          "note": "H1 bis 2026-06-30 Differenz auf ±30 Pp gekappt"
         },
         {
           "id": "operating_margin_change_yoy",

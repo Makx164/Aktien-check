@@ -207,10 +207,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
 .kv .row.long .lead-d{display:none}
 .kv .row.long .v{display:block;text-align:left;max-width:none;padding-left:16px;margin-top:2px;font-weight:500}
 .kv .v.nd{color:var(--warn)}
-.x2{display:inline-flex;align-items:center;gap:4px;margin-left:8px;font:500 10.5px "JetBrains Mono",monospace;letter-spacing:.04em;color:var(--mut);text-transform:none;cursor:pointer}
-.x2 input{width:11px;height:11px;margin:0;accent-color:var(--ink)}
-.x2-bar{display:flex;align-items:center;gap:10px;margin-top:8px}
-.x2-reset{border:1px solid var(--hair2);background:transparent;color:var(--ink2);font:500 10.5px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;cursor:pointer}
 .mtbl{width:100%;border-collapse:collapse;margin:10px 0 4px;font:500 12.5px/1.45 "JetBrains Mono",monospace}
 .mtbl th{text-align:left;font:500 10px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);padding:4px 10px 4px 0;border-bottom:1px solid var(--hair)}
 .mtbl td{padding:6px 10px 6px 0;border-bottom:1px solid var(--hair2);vertical-align:baseline}
@@ -672,7 +668,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
       var tag = c.bewertet
         ? '<span class="tag daten">Daten</span>'
         : '<span class="' + (excluded ? "tag off" : "tag bsp") + '">' + esc(gap) + "</span>";
-      var doubled = doc.doubled || {};
       var present = [];
       var absent = [];
       (c.metrics || []).forEach(function (metric) {
@@ -696,14 +691,11 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
       var meanLine = '<p class="expl">Kriterium = ' + how + present.length + " Werten</p>";
       var quality = c.dataQuality ? '<p class="expl">' + esc(c.dataQuality) + "</p>" : "";
       var summary = c.code === "C_06" ? analystSummary(c.summary) : "";
-      var box = /^C_0[1-8]$/.test(c.code)
-        ? '<label class="x2" onclick="event.stopPropagation()"><input type="checkbox" data-x2="' + esc(c.code) + '"' + (doubled[c.code] ? " checked" : "") + "> ×2</label>"
-        : "";
       var scoreText = c.bewertet
         ? esc(n1(c.wert)) + "<small>/10</small>"
         : (excluded ? '<span class="mlabel">' + esc(gap) + "</span>" : esc(gap) + "<small>/10</small>");
       h += '<details class="crit" id="c' + c.id + '"><summary><span><span class="cid">CRITERION_' + pad(c.id) + '</span><span class="cn">' + esc(c.name) + '</span><span class="ctags">' + tag + '</span></span><span class="score">' +
-        box + scoreText + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body">' + table + gapLine + meanLine + summary + quality + "</div></details>";
+        scoreText + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body">' + table + gapLine + meanLine + summary + quality + "</div></details>";
     });
     return h;
   }
@@ -787,74 +779,8 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     return '<div class="src">' + lines.join("<br>") + "</div>";
   }
 
-  function x2StorageKey(ticker) { return "ac-x2:" + ticker; }
-  function isCriterionX2(id) { return /^C_0[1-8]$/.test(id); }
-  function loadX2(ticker) {
-    try {
-      var parsed = JSON.parse(localStorage.getItem(x2StorageKey(ticker)) || "[]");
-      return Array.isArray(parsed) ? parsed.filter(isCriterionX2) : [];
-    } catch (e) { return []; }
-  }
-  function saveX2(ticker, ids) {
-    try {
-      if (!ids.length) localStorage.removeItem(x2StorageKey(ticker));
-      else localStorage.setItem(x2StorageKey(ticker), JSON.stringify(ids));
-    } catch (e) {}
-  }
-  function roundScore(value) {
-    if (value == null || !isFinite(value)) return null;
-    return Math.round(value * 10) / 10;
-  }
-  function headlineFrom(criteria) {
-    var numerator = 0;
-    var denominator = 0;
-    var present = 0;
-    criteria.forEach(function (criterion) {
-      if (criterion.wert == null) return;
-      var weight = Number(criterion.weight);
-      if (!isFinite(weight) || weight <= 0) return;
-      numerator += Number(criterion.wert) * weight;
-      denominator += weight;
-      present += 1;
-    });
-    if (present < 3 || !denominator) return {score: null, status: "wenig Daten"};
-    return {score: roundScore((numerator / denominator) * 10), status: null};
-  }
-  function withVisitorWeights(doc, ids) {
-    var known = {};
-    doc.criteria.forEach(function (criterion) { known[criterion.code] = criterion; });
-    var selected = ids.filter(function (id) { return known[id]; });
-    if (!selected.length) return doc;
-    var doubled = {};
-    selected.forEach(function (id) { doubled[id] = true; });
-    var touched = false;
-    var criteria = doc.criteria.map(function (criterion) {
-      if (!doubled[criterion.code] || criterion.wert == null) return criterion;
-      var weight = Number(criterion.weight);
-      if (!isFinite(weight) || weight <= 0) return criterion;
-      touched = true;
-      var copy = {};
-      for (var key in criterion) copy[key] = criterion[key];
-      copy.weight = weight * 2;
-      return copy;
-    });
-    var next = {};
-    for (var key in doc) next[key] = doc[key];
-    next.doubled = doubled;
-    next.criteria = criteria;
-    if (!touched) return next;
-    var head = headlineFrom(criteria);
-    next.score = head.score;
-    next.status = head.status;
-    if (head.score == null) next.trafficLight = null;
-    else if (head.score >= 70) next.trafficLight = "green";
-    else if (head.score >= 50) next.trafficLight = "orange";
-    else next.trafficLight = "red";
-    return next;
-  }
-
-  function showDetail(score, keep) {
-    var doc = withVisitorWeights(adapt(score), loadX2(score.ticker));
+  function showDetail(score) {
+    var doc = adapt(score);
     var light = lightOf(doc);
     var scoreText = shownScore(doc);
     document.title = doc.ticker + " · " + CFG.scoreName + " " + scoreText + " · sidequest";
@@ -863,7 +789,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     h += '<h1 class="h-red" style="margin-top:8px">' + esc(doc.ticker) + "</h1>";
     h += '<div class="r-name">' + esc(doc.name) + "</div>";
     h += '<div class="role-title"><span class="rt-t">' + esc(doc.ticker) + '</span> <b>' + esc(scoreText) + '</b><small>/100</small></div>';
-    if (doc.doubled) h += '<div class="x2-bar"><span class="mlabel">angepasster Score</span><button type="button" class="x2-reset" id="x2-reset">Zurücksetzen</button></div>';
     h += '<p class="expl">Der Aktien-Score ist der gewichtete Mittelwert der Kriterien mit Daten, neu auf 100 skaliert. Jedes Kriterium ist der Mittelwert seiner Metriken mit Daten, C_05 die Summe der Teilpunkte. Eine Metrik ohne Daten zählt nicht als 0.</p>';
     h += '<div id="dyn-status">' + status(light, doc.ko.length) + "</div>";
     h += '<div class="term" style="margin-top:14px"><span class="p">&gt;</span> STAND DER DATEN <b>' + esc(standText(doc)) + "</b><br>";
@@ -878,20 +803,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     h += sourceBlock(doc);
     h += disclaimer();
     app.innerHTML = '<article class="result">' + h + "</article>";
-    if (keep) {
-      (keep.open || []).forEach(function (id) {
-        var el = document.getElementById(id);
-        if (el) el.open = true;
-      });
-      window.scrollTo(0, keep.scroll || 0);
-      if (keep.focus) {
-        var boxes = app.querySelectorAll("input[data-x2]");
-        for (var i = 0; i < boxes.length; i++) {
-          if (boxes[i].getAttribute("data-x2") === keep.focus) boxes[i].focus();
-        }
-      }
-      return;
-    }
     openFromQuery(doc.ticker);
     window.scrollTo(0, 0);
   }
@@ -932,33 +843,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     else showGrid();
   }
 
-  function reloadDetail(keepFocus) {
-    var ticker = tickerFromHash();
-    var item = loaded.filter(function (row) { return row.ok && row.score.ticker === ticker; })[0];
-    if (!item) return;
-    var open = [];
-    app.querySelectorAll("details.crit[open]").forEach(function (el) { open.push(el.id); });
-    showDetail(item.score, {open: open, scroll: window.scrollY, focus: keepFocus || ""});
-  }
-  app.addEventListener("change", function (e) {
-    var box = e.target;
-    if (!box || !box.getAttribute || !box.getAttribute("data-x2")) return;
-    var ticker = tickerFromHash();
-    if (!ticker) return;
-    var ids = [];
-    app.querySelectorAll("input[data-x2]").forEach(function (input) {
-      if (input.checked) ids.push(input.getAttribute("data-x2"));
-    });
-    saveX2(ticker, ids);
-    reloadDetail(box.getAttribute("data-x2"));
-  });
-  app.addEventListener("click", function (e) {
-    if (!e.target || e.target.id !== "x2-reset") return;
-    var ticker = tickerFromHash();
-    if (!ticker) return;
-    saveX2(ticker, []);
-    reloadDetail("");
-  });
   app.addEventListener("click", function (e) {
     var link = e.target.closest("[data-open]");
     if (!link) return;

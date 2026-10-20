@@ -1037,6 +1037,9 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
                     scored = linear_points(value, spec["zeroAt"], spec["tenAt"])
                 else:
                     scored = raw["points"].get(metric_id)
+            floor = (raw.get("floors") or {}).get(metric_id)
+            if floor is not None and scored is not None:
+                scored = max(float(scored), float(floor))
             extra_note = raw["labels"].get(metric_id + "_note")
             if extra_note:
                 note = ((note + " ") if note else "") + extra_note
@@ -1171,7 +1174,8 @@ def _apply_provenance(sources_by_metric, labels, observed, snap):
         "revenue_ttm_yoy": "revenue",
         "revenue_acceleration": "revenue",
         "revenue_quarter_yoy": "revenue_quarter",
-        "fcf_yield": "fcf",
+        "fcf_yield": "cfo" if labels.get("fcf_yield_substitute") else "fcf",
+        "fcf_margin_3y": "cfo" if labels.get("fcf_margin_3y_substitute") else None,
         "valuation_primary": "revenue",
         "net_debt_to_ebitda": "debt",
         "current_ratio": "current_ratio",
@@ -1182,6 +1186,8 @@ def _apply_provenance(sources_by_metric, labels, observed, snap):
     }
     provenance = (snap or {}).get("provenance") or {}
     for metric_id, field in fields.items():
+        if not field:
+            continue
         src = provenance.get(field)
         if metric_id == "net_debt_to_ebitda":
             src = _join_sources(provenance.get("cash"), provenance.get("debt")) or src
@@ -1251,12 +1257,87 @@ def _source_for(metric_id, sources, prices):
     return {"label": sources.get("fundamentalLabel"), "url": sources.get("fundamentalUrl")}
 
 
+def _investing_rules(config):
+    rules = config.get("investing") or {}
+    return {
+        "min_op": float(rules.get("minOperatingMargin", 0.0)),
+        "min_ocf": float(rules.get("minOcfMargin", 0.10)),
+        "mark": rules.get("substituteMark") or "(operativer Cashflow, hohe Investitionen)",
+    }
+
+
+def _acceleration_rules(config):
+    rules = config.get("acceleration") or {}
+    return {
+        "cap": float(rules.get("capPp", 0.30)),
+        "floor_growth": float(rules.get("minCurrentGrowth", 0.20)),
+        "floor_points": float(rules.get("floorPoints", 5)),
+        "mini_revenue": float(rules.get("miniBaseRevenueUsd", 10000000)),
+        "mini_growth": float(rules.get("miniBasePriorGrowth", 2.0)),
+    }
+
+
+def _pp_text(value):
+    text = f"{round(float(value) * 100.0, 1):.1f}".replace(".", ",")
+    if text.endswith(",0"):
+        text = text[:-2]
+    return text
+
+
+def _record_acceleration(config, growth, prior_growth, prior_revenue, when, note, put, reasons, values, observed, labels, floors, na):
+    """Cap the gap, floor fast growers, and drop a mini base entirely."""
+    rules = _acceleration_rules(config)
+    if prior_revenue is not None and prior_revenue < rules["mini_revenue"]:
+        _not_applicable(reasons, values, observed, "revenue_acceleration", na)
+        return
+    if prior_growth is not None and prior_growth > rules["mini_growth"]:
+        _not_applicable(reasons, values, observed, "revenue_acceleration", na)
+        return
+    if growth is None or prior_growth is None:
+        return
+    diff = growth - prior_growth
+    cap = rules["cap"]
+    capped = max(-cap, min(cap, diff))
+    put("revenue_acceleration", capped, when)
+    notes = [note] if note else []
+    if abs(diff - capped) > 1e-12:
+        notes.append("Differenz auf ±" + _pp_text(cap) + " Pp gekappt")
+    if growth >= rules["floor_growth"]:
+        spec = _metric_spec(config, "revenue_acceleration")
+        scored = linear_points(capped, spec.get("zeroAt"), spec.get("tenAt")) if spec else None
+        if scored is not None and scored < rules["floor_points"]:
+            floors["revenue_acceleration"] = rules["floor_points"]
+            notes.append(
+                "aktuelles Wachstum mindestens "
+                + _pp_text(rules["floor_growth"])
+                + " %, deshalb mindestens "
+                + _pp_text(rules["floor_points"] / 100.0)
+                + " Punkte"
+            )
+    if notes:
+        labels["revenue_acceleration_note"] = " ".join(notes)
+
+
+def _metric_spec(config, metric_id):
+    for criterion in config.get("criteria") or []:
+        for spec in criterion.get("metrics") or []:
+            if spec.get("id") == metric_id:
+                return spec
+    return None
+
+
+def _mark_cash_substitute(labels, metric_id, base_label, mark):
+    labels[metric_id] = base_label + " " + mark
+    labels[metric_id + "_substitute"] = True
+
+
 def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, profile=None):
     values = {}
     observed = {}
     labels = {}
     points = {}
     reasons = {}
+    floors = {}
     sources_by_metric = {}
     dividend_points = {}
     na = _status_text(config, "notApplicable", "nicht anwendbar")
@@ -1377,15 +1458,19 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
             base = snap.get("revenue_prior_prior")
             if base:
                 prior_growth = snap["revenue_prior"] / base - 1.0
-                put("revenue_acceleration", growth - prior_growth, snap["end"])
-                if snap.get("label"):
-                    labels["revenue_acceleration_note"] = snap.get("label")
+                _record_acceleration(
+                    config, growth, prior_growth, snap.get("revenue_prior"), snap["end"], snap.get("label"),
+                    put, reasons, values, observed, labels, floors, na,
+                )
         else:
             growth = yoy(revenue, end)
             put("revenue_yoy", growth, end if growth is not None else None)
             prior_growth = yoy(revenue, prior_end["end"]) if prior_end else None
             if growth is not None and prior_growth is not None:
-                put("revenue_acceleration", growth - prior_growth, end)
+                _record_acceleration(
+                    config, growth, prior_growth, prior_end.get("val") if prior_end else None, end, None,
+                    put, reasons, values, observed, labels, floors, na,
+                )
         if snap.get("revenue_quarter_yoy") is not None:
             put("revenue_quarter_yoy", snap["revenue_quarter_yoy"], snap.get("revenue_quarter_end"))
             if snap.get("revenue_quarter_label"):
@@ -1447,7 +1532,33 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         cash = snap.get("cash") if snap.get("cash") is not None else value_at(bundle["cash"], end)
         fcf_value = snap.get("fcf") if snap.get("fcf") is not None else value_at(bundle["fcf"], end)
         period_months = snap.get("months") or 12.0
-        if fcf_value is not None and fcf_value < 0:
+        cfo_value = snap.get("cfo") if snap.get("cfo") is not None else value_at(bundle.get("cfo") or [], end)
+        investing_rules = _investing_rules(config)
+        investing = (
+            profit
+            and op_now is not None
+            and op_now > investing_rules["min_op"]
+            and values.get("ocf_margin") is not None
+            and values["ocf_margin"] >= investing_rules["min_ocf"]
+            and fcf_value is not None
+            and fcf_value < 0
+            and cfo_value is not None
+            and cfo_value > 0
+        )
+        if investing:
+            _not_applicable(reasons, values, observed, "fcf_cagr_3y", na)
+            labels.pop("fcf_cagr_3y", None)
+            labels.pop("fcf_cagr_3y_note", None)
+            _not_applicable(reasons, values, observed, "cash_runway_months", na)
+            put(
+                "fcf_margin_3y",
+                values["ocf_margin"],
+                observed.get("ocf_margin") or snap.get("cfo_end") or snap.get("end") or end,
+            )
+            _mark_cash_substitute(
+                labels, "fcf_margin_3y", "Free-Cashflow-Marge", investing_rules["mark"],
+            )
+        elif fcf_value is not None and fcf_value < 0:
             _not_applicable(reasons, values, observed, "roe", na)
             if cash is not None and cash >= 0 and fcf_value != 0:
                 put("cash_runway_months", (cash / abs(fcf_value)) * period_months, snap.get("end") or end)
@@ -1476,6 +1587,8 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
             if values["cash_runway_months"] >= 36:
                 runway_text = "> 36 Monate"
             labels["net_cash_or_runway_display"] = runway_text
+        elif investing:
+            _not_applicable(reasons, values, observed, "net_cash_or_runway", na)
         current_assets = snap.get("assets_current") if snap.get("assets_current") is not None else value_at(bundle["assets_current"], end)
         current_liabilities = snap.get("liabilities_current") if snap.get("liabilities_current") is not None else value_at(bundle["liabilities_current"], end)
         if snap.get("current_ratio") is not None:
@@ -1500,8 +1613,16 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         yield_fcf = fcf_value
         if snap.get("fcf") is not None and snap.get("months") and snap["months"] > 0:
             yield_fcf = fcf_value * (12.0 / snap["months"]) if fcf_value is not None else None
+        yield_ocf = cfo_value
+        if snap.get("cfo") is not None and snap.get("months") and snap["months"] > 0:
+            yield_ocf = cfo_value * (12.0 / snap["months"]) if cfo_value is not None else None
         if loss:
             _not_applicable(reasons, values, observed, "fcf_yield", na)
+        elif investing and market_cap and yield_ocf is not None:
+            put("fcf_yield", yield_ocf / market_cap, momentum.get("observed_price") or snap.get("cfo_end") or snap.get("end") or end)
+            _mark_cash_substitute(
+                labels, "fcf_yield", "Free-Cashflow-Rendite", investing_rules["mark"],
+            )
         elif market_cap and yield_fcf is not None:
             put("fcf_yield", yield_fcf / market_cap, momentum.get("observed_price") or snap.get("end") or end)
         dividend_points = _dividend_facts(bundle, market_cap, end)
@@ -1586,6 +1707,7 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         "labels": labels,
         "points": points,
         "reasons": reasons,
+        "floors": floors,
         "sources": sources_by_metric,
         "dividend": dividend_points if end else {},
     }

@@ -2,11 +2,11 @@
   "ticker": "HIMS",
   "name": "Hims & Hers Health",
   "asOf": "2026-10-19",
-  "score": 54.1,
+  "score": 55.8,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
-  "qualityScore": 58.8,
+  "qualityScore": 60.9,
   "marketScore": 36.3,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 30 von 34 Metriken verfügbar",
   "missingDataNote": null,
@@ -115,10 +115,10 @@
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 6.5,
+      "score": 7.1,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "8 von 9 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist TTM bis 2026-06-30",
+      "dataQuality": "8 von 9 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist TTM bis 2026-06-30 Differenz auf ±30 Pp gekappt aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
@@ -218,16 +218,16 @@
         {
           "id": "revenue_acceleration",
           "label": "Umsatzbeschleunigung",
-          "value": "-60,6 Pp",
-          "raw": -0.606471,
-          "points": 0.0,
+          "value": "-30,0 Pp",
+          "raw": -0.3,
+          "points": 5.0,
           "status": null,
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30"
+          "note": "TTM bis 2026-06-30 Differenz auf ±30 Pp gekappt aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte"
         },
         {
           "id": "operating_margin_change_yoy",

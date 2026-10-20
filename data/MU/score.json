@@ -120,7 +120,7 @@
       "score": 9.4,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "8 von 8 Metriken verfügbar. TTM bis 2026-09-03 Quartal bis 2026-09-03 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist TTM bis 2026-09-03",
+      "dataQuality": "8 von 8 Metriken verfügbar. TTM bis 2026-09-03 Quartal bis 2026-09-03 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist TTM bis 2026-09-03 Differenz auf ±30 Pp gekappt",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
@@ -221,8 +221,8 @@
         {
           "id": "revenue_acceleration",
           "label": "Umsatzbeschleunigung",
-          "value": "207,5 Pp",
-          "raw": 2.074762,
+          "value": "30,0 Pp",
+          "raw": 0.3,
           "points": 10.0,
           "status": null,
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
@@ -230,7 +230,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03",
-          "note": "TTM bis 2026-09-03"
+          "note": "TTM bis 2026-09-03 Differenz auf ±30 Pp gekappt"
         },
         {
           "id": "operating_margin_change_yoy",
