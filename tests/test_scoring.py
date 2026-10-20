@@ -4,7 +4,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 from scoring.edgar import parse_form4
-from scoring.metrics import annual_series, score_company
+from scoring.metrics import annual_series, extract_fundamentals, score_company
 from scoring.model import (
     apply_analyst_cap,
     band_points,
@@ -171,12 +171,24 @@ class Form4Tests(unittest.TestCase):
         parsed = parse_form4(xml.encode())
         self.assertEqual(parsed["buy"], 50)
         self.assertEqual(parsed["sell"], 40)
+        self.assertEqual(parsed["planSell"], 0)
+        self.assertIs(parsed["planFlag"], False)
         self.assertEqual(parsed["buys"], 1)
         self.assertEqual(parsed["sells"], 1)
         planned = xml.replace("<aff10b5One>0</aff10b5One>", "<aff10b5One>1</aff10b5One>")
         kept = parse_form4(planned.encode())
         self.assertEqual(kept["buy"], 50)
-        self.assertEqual(kept["sell"], 40)
+        self.assertEqual(kept["sell"], 0)
+        self.assertEqual(kept["planSell"], 40)
+        self.assertEqual(kept["planSells"], 1)
+        self.assertIs(kept["planFlag"], True)
+        spelled = xml.replace("<aff10b5One>0</aff10b5One>", "<aff10b5One>true</aff10b5One>")
+        self.assertEqual(parse_form4(spelled.encode())["planSell"], 40)
+        absent = xml.replace("<aff10b5One>0</aff10b5One>", "")
+        plain = parse_form4(absent.encode())
+        self.assertIsNone(plain["planFlag"])
+        self.assertEqual(plain["sell"], 40)
+        self.assertEqual(plain["planSell"], 0)
 
 
 def dated_bars(count):
@@ -220,8 +232,11 @@ class CompanyScoreTests(unittest.TestCase):
         self.assertEqual(metrics["excess_return_12_1"]["sourceUrl"], prices["sourceUrl"])
         self.assertEqual(metrics["excess_return_12_1"]["fetchedAt"], "2026-10-16")
         self.assertEqual(metrics["excess_return_12_1"]["observedAt"], bars[-1]["date"])
+        self.assertEqual(by_id["C_02"]["weight"], 1.5)
         self.assertEqual(by_id["C_07"]["weight"], 0.5)
+        self.assertEqual(by_id["C_08"]["weight"], 0.5)
         self.assertIsNone(by_id["C_06"]["score"])
+        self.assertEqual(by_id["C_06"]["status"], "ausgeblendet, zählt nicht")
 
     def test_peg_unprofitable_switch_cap_and_ko(self):
         ends = ["2022-12-31", "2023-12-31", "2024-12-31", "2025-12-31"]
@@ -334,7 +349,7 @@ class MissingDataTests(unittest.TestCase):
         self.assertEqual(metrics["roic_2y"]["status"], "wenig Daten")
         self.assertEqual(by_id["C_01"]["score"], 10)
         self.assertIsNone(by_id["C_01"]["status"])
-        self.assertEqual(by_id["C_06"]["status"], "wenig Daten")
+        self.assertEqual(by_id["C_06"]["status"], "ausgeblendet, zählt nicht")
         self.assertIsNone(by_id["C_06"]["score"])
 
         zero = {
@@ -391,7 +406,15 @@ class MissingDataTests(unittest.TestCase):
         self.assertIsNone(document["trafficLight"])
         present = [item for item in document["criteria"] if item["score"] is not None]
         self.assertTrue(present)
-        self.assertTrue(all(item["status"] == "wenig Daten" for item in document["criteria"] if item["score"] is None))
+        self.assertTrue(all(
+            item["status"] in {
+                "wenig Daten", "ausgeblendet, zählt nicht", "zu kurze Historie",
+                "nicht anwendbar", "keine US-Meldepflicht",
+            }
+            for item in document["criteria"] if item["score"] is None
+        ))
+        hidden_c06 = {item["id"]: item for item in document["criteria"]}["C_06"]
+        self.assertEqual(hidden_c06["status"], "ausgeblendet, zählt nicht")
 
 
 class ManagementTests(unittest.TestCase):
@@ -497,6 +520,238 @@ class KillSwitchTests(unittest.TestCase):
         self.assertIn('href = "#/" + score.ticker', html)
         self.assertIn("hashchange", html)
         self.assertIn("Alle Positionen", html)
+        self.assertIn("Übersicht Aktienportfolio", html)
+        self.assertIn("ausgeblendet, zählt nicht", html)
+
+
+def metric_map(scored, criterion_id):
+    criterion = {item["id"]: item for item in scored["criteria"]}[criterion_id]
+    return criterion, {metric["id"]: metric for metric in criterion["metrics"]}
+
+
+class ReviewRuleTests(unittest.TestCase):
+    def test_loss_maker_margin_progress_and_cash_runway(self):
+        ends = ["2024-12-31", "2025-12-31"]
+        bundle = {
+            "revenue": [point(end, 100) for end in ends],
+            "operating_income": [point("2024-12-31", -20), point("2025-12-31", -5)],
+            "net_income": [point(end, -8) for end in ends],
+            "equity": [point(end, 40) for end in ends],
+            "fcf": [point("2025-12-31", -10)],
+            "cash": [point("2025-12-31", 30)],
+            "debt": [point("2025-12-31", 0)],
+            "eps": [point("2025-12-31", -0.2)],
+        }
+        scored = score_company(CONFIG, bundle, {}, {}, "2026-10-16", {})
+        growth, growth_metrics = metric_map(scored, "C_02")
+        change = growth_metrics["operating_margin_change_yoy"]
+        self.assertEqual(change["raw"], 0.15)
+        self.assertEqual(change["points"], 10)
+        self.assertIsNone(change["status"])
+        finance, finance_metrics = metric_map(scored, "C_04")
+        self.assertEqual(finance_metrics["roe"]["status"], "nicht anwendbar")
+        self.assertIsNone(finance_metrics["roe"]["points"])
+        self.assertNotEqual(finance_metrics["roe"]["points"], 0)
+        runway = finance_metrics["cash_runway_months"]
+        self.assertEqual(runway["points"], 10)
+        self.assertEqual(runway["value"], "36,0 Monate")
+        valuation = metric_map(scored, "C_08")[1]["fcf_yield"]
+        self.assertEqual(valuation["status"], "nicht anwendbar")
+        self.assertIsNone(valuation["points"])
+        self.assertIsNotNone(finance["score"])
+
+    def test_profitable_company_keeps_roe_and_skips_the_loss_maker_signals(self):
+        ends = ["2024-12-31", "2025-12-31"]
+        bundle = {
+            "revenue": [point("2024-12-31", 100), point("2025-12-31", 110)],
+            "operating_income": [point("2024-12-31", 10), point("2025-12-31", 20)],
+            "net_income": [point("2024-12-31", 8), point("2025-12-31", 12)],
+            "equity": [point("2024-12-31", 40), point("2025-12-31", 50)],
+            "fcf": [point("2025-12-31", 15)],
+            "cash": [point("2025-12-31", 30)],
+            "debt": [point("2025-12-31", 0)],
+            "eps": [point("2022-12-31", 1), point("2025-12-31", 2)],
+            "shares_out": [point("2025-12-31", 10)],
+        }
+        bars = [{"date": "2026-10-15", "close": 20.0, "high": 20.0}]
+        scored = score_company(CONFIG, bundle, {"bars": bars}, {}, "2026-10-16", {})
+        growth = metric_map(scored, "C_02")[1]["operating_margin_change_yoy"]
+        self.assertEqual(growth["status"], "nicht anwendbar")
+        self.assertIsNone(growth["points"])
+        finance = metric_map(scored, "C_04")[1]
+        self.assertIsNone(finance["roe"]["status"])
+        self.assertIsNotNone(finance["roe"]["points"])
+        self.assertEqual(finance["cash_runway_months"]["status"], "nicht anwendbar")
+        valuation = metric_map(scored, "C_08")[1]
+        self.assertEqual(valuation["valuation_primary"]["label"], "PEG")
+        self.assertIsNone(valuation["fcf_yield"]["status"])
+        self.assertIsNotNone(valuation["fcf_yield"]["points"])
+
+    def test_peg_fallback_uses_ev_sales_over_revenue_growth(self):
+        bundle = {
+            "revenue": [point("2024-12-31", 100), point("2025-12-31", 150)],
+            "operating_income": [point("2025-12-31", 20)],
+            "net_income": [point("2025-12-31", 10)],
+            "eps": [point("2022-12-31", 2), point("2025-12-31", 1)],
+            "fcf": [point("2025-12-31", 5)],
+            "equity": [point("2024-12-31", 40), point("2025-12-31", 50)],
+            "cash": [point("2025-12-31", 0)],
+            "debt": [point("2025-12-31", 0)],
+            "shares_out": [point("2025-12-31", 10)],
+            "da": [point("2025-12-31", 1)],
+        }
+        bars = [{"date": "2026-10-15", "close": 20.0, "high": 20.0}]
+        scored = score_company(CONFIG, bundle, {"bars": bars}, {}, "2026-10-16", {})
+        valuation = metric_map(scored, "C_08")[1]["valuation_primary"]
+        self.assertEqual(valuation["label"], "(EV/Umsatz) / Umsatzwachstum")
+        self.assertEqual(valuation["points"], 10)
+        self.assertIn("Ersatz für PEG", valuation["note"])
+
+    def test_insurer_ratios_are_not_applicable(self):
+        bundle = {
+            "revenue": [point("2025-12-31", 100)],
+            "operating_income": [point("2025-12-31", 10)],
+            "net_income": [point("2025-12-31", 5)],
+            "assets_current": [point("2025-12-31", 10)],
+            "liabilities_current": [point("2025-12-31", 100)],
+            "debt": [point("2025-12-31", 80)],
+            "cash": [point("2025-12-31", 0)],
+            "da": [point("2025-12-31", 5)],
+            "fcf": [point("2025-12-31", 4)],
+            "equity": [point("2024-12-31", 40), point("2025-12-31", 50)],
+        }
+        scored = score_company(CONFIG, bundle, {}, {}, "2026-10-16", {}, {"sector": "insurer"})
+        finance = metric_map(scored, "C_04")[1]
+        for metric_id in ("current_ratio", "net_debt_to_ebitda"):
+            self.assertEqual(finance[metric_id]["status"], "nicht anwendbar")
+            self.assertIsNone(finance[metric_id]["points"])
+            self.assertNotEqual(finance[metric_id]["points"], 0)
+
+    def test_plan_sales_purchases_and_small_net_selling(self):
+        bars = [{"date": "2026-10-15", "close": 100.0, "high": 100.0}]
+        shares = {"shares_out": [point("2025-12-31", 1_000_000)]}
+        neutral = score_company(CONFIG, {
+            **shares,
+            "insider": {
+                "measured": True, "buy": 0, "sell": 50_000, "planSell": 0,
+                "buys": 0, "sells": 2, "planSells": 0, "buyers": [],
+                "observed": "2026-09-01", "windowDays": 183, "filings": 2,
+            },
+        }, {"bars": bars}, {}, "2026-10-16", {})
+        balance = metric_map(neutral, "C_05")[1]["insider_market_balance"]
+        self.assertEqual(balance["points"], 2)
+        self.assertIn("neutral", balance["value"])
+        self.assertIn("0,1 %", balance["value"])
+
+        planned = score_company(CONFIG, {
+            **shares,
+            "insider": {
+                "measured": True, "buy": 0, "sell": 0, "planSell": 200_000,
+                "buys": 0, "sells": 0, "planSells": 3, "buyers": [],
+                "observed": "2026-09-01", "windowDays": 183, "filings": 3,
+            },
+        }, {"bars": bars}, {}, "2026-10-16", {})
+        plan_balance = metric_map(planned, "C_05")[1]["insider_market_balance"]
+        self.assertEqual(plan_balance["points"], 2)
+        self.assertIn("10b5-1-Plan", plan_balance["value"])
+
+        heavy = score_company(CONFIG, {
+            **shares,
+            "insider": {
+                "measured": True, "buy": 0, "sell": 200_000, "planSell": 0,
+                "buys": 0, "sells": 1, "planSells": 0, "buyers": [],
+                "observed": "2026-09-01", "windowDays": 183, "filings": 1,
+            },
+        }, {"bars": bars}, {}, "2026-10-16", {})
+        self.assertEqual(metric_map(heavy, "C_05")[1]["insider_market_balance"]["points"], 0)
+
+        doubled = score_company(CONFIG, {
+            **shares,
+            "insider": {
+                "measured": True, "buy": 100_000, "sell": 150_000, "planSell": 0,
+                "buys": 2, "sells": 1, "planSells": 0, "buyers": ["0001", "0002"],
+                "observed": "2026-09-01", "windowDays": 183, "filings": 3,
+            },
+        }, {"bars": bars}, {}, "2026-10-16", {})
+        bought = metric_map(doubled, "C_05")[1]["insider_market_balance"]
+        self.assertEqual(bought["points"], 3)
+        self.assertIn("Netto-Käufe", bought["value"])
+        self.assertIn("mehrere", bought["note"])
+
+    def test_short_history_and_missing_us_filing_are_not_zero(self):
+        bars = dated_bars(80)
+        short = score_company(CONFIG, {}, {"bars": bars}, {}, "2026-10-16", {})
+        prices = metric_map(short, "C_07")[1]
+        for metric_id in ("excess_return_12_1", "above_sma_200", "distance_52w_high"):
+            self.assertEqual(prices[metric_id]["status"], "zu kurze Historie")
+            self.assertIsNone(prices[metric_id]["points"])
+            self.assertNotEqual(prices[metric_id]["points"], 0)
+        swedish = score_company(CONFIG, {}, {}, {}, "2026-10-16", {}, {"sec": False})
+        fundamentals = metric_map(swedish, "C_01")[1]
+        self.assertTrue(all(metric["status"] == "keine US-Meldepflicht" for metric in fundamentals.values()))
+        self.assertEqual(metric_map(swedish, "C_01")[0]["status"], "keine US-Meldepflicht")
+        self.assertIsNone(metric_map(swedish, "C_01")[0]["score"])
+        self.assertEqual(metric_map(swedish, "C_06")[0]["status"], "ausgeblendet, zählt nicht")
+
+    def test_quarterly_only_history_is_too_short(self):
+        facts = {
+            "us-gaap": {
+                "RevenueFromContractWithCustomerExcludingAssessedTax": {
+                    "units": {
+                        "USD": [
+                            {"start": "2025-01-01", "end": "2025-06-30", "val": 8, "form": "10-Q", "fp": "Q2", "filed": "2026-08-04"},
+                            {"start": "2026-01-01", "end": "2026-06-30", "val": 12, "form": "10-Q", "fp": "Q2", "filed": "2026-08-04"},
+                        ]
+                    }
+                }
+            }
+        }
+        bundle = extract_fundamentals(facts)
+        self.assertEqual(bundle["revenue"], [])
+        self.assertEqual(bundle["_history_start"], "2025-01-01")
+        self.assertEqual(bundle["_history_end"], "2026-06-30")
+        scored = score_company(CONFIG, bundle, {}, {}, "2026-10-16", {})
+        growth = metric_map(scored, "C_02")[1]
+        for metric_id in (
+            "revenue_cagr_3y", "revenue_cagr_5y", "eps_cagr_3y", "fcf_cagr_3y",
+            "revenue_acceleration", "operating_margin_change_yoy",
+        ):
+            self.assertEqual(growth[metric_id]["status"], "zu kurze Historie", metric_id)
+            self.assertIsNone(growth[metric_id]["points"])
+            self.assertNotEqual(growth[metric_id]["points"], 0)
+
+    def test_long_reporting_window_without_annuals_stays_missing(self):
+        scored = score_company(CONFIG, {
+            "_history_start": "2016-01-01",
+            "_history_end": "2025-12-31",
+        }, {}, {}, "2026-10-16", {})
+        growth = metric_map(scored, "C_02")[1]["revenue_cagr_3y"]
+        self.assertEqual(growth["status"], "wenig Daten")
+        self.assertIsNone(growth["points"])
+
+    def test_peg_fallback_uses_three_year_cagr_when_the_latest_year_shrinks(self):
+        bundle = {
+            "revenue": [
+                point("2022-12-31", 100),
+                point("2024-12-31", 120),
+                point("2025-12-31", 116),
+            ],
+            "operating_income": [point("2025-12-31", 20)],
+            "net_income": [point("2025-12-31", 10)],
+            "eps": [point("2022-12-31", 2), point("2025-12-31", 1)],
+            "fcf": [point("2025-12-31", 5)],
+            "equity": [point("2025-12-31", 50)],
+            "cash": [point("2025-12-31", 0)],
+            "debt": [point("2025-12-31", 0)],
+            "shares_out": [point("2025-12-31", 10)],
+        }
+        bars = [{"date": "2026-10-15", "close": 20.0, "high": 20.0}]
+        scored = score_company(CONFIG, bundle, {"bars": bars}, {}, "2026-10-16", {})
+        valuation = metric_map(scored, "C_08")[1]["valuation_primary"]
+        self.assertEqual(valuation["label"], "(EV/Umsatz) / Umsatzwachstum")
+        self.assertIn("3-Jahres-CAGR", valuation["note"])
+        self.assertIsNotNone(valuation["points"])
+        self.assertNotEqual(valuation["points"], 0)
 
 
 if __name__ == "__main__":

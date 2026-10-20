@@ -1,20 +1,20 @@
 {
   "ticker": "SIVE",
   "name": "Sivers Semiconductors",
-  "asOf": "2026-10-19",
+  "asOf": "2026-10-20",
   "score": null,
   "status": "wenig Daten",
   "criteriaWithData": 2,
   "trafficLight": null,
   "qualityScore": 50.0,
   "marketScore": 33.0,
-  "dataQuality": "Keine SEC-Fundamentaldaten. Fundamentalkennzahlen und C_06 (Analysten) sind wenig Daten. Kurse von Yahoo Finance Chart-API (SIVE.ST). Stooq hat den Abruf abgelehnt. 5 von 31 Metriken verfügbar",
-  "missingDataNote": "Wenig Daten bei C_01, C_02, C_03, C_04, C_06, C_08. Weniger als 3 Kriterien haben Daten.",
+  "dataQuality": "Keine SEC-Fundamentaldaten. Fundamentalkennzahlen: keine US-Meldepflicht. C_06 ist ausgeblendet und zählt nicht. Kurse von Yahoo Finance Chart-API (SIVE.ST). Stooq hat den Abruf abgelehnt. 5 von 33 Metriken verfügbar",
+  "missingDataNote": "keine US-Meldepflicht bei C_01, C_02, C_03, C_04, C_08. ausgeblendet, zählt nicht bei C_06. Weniger als 3 Kriterien haben Daten.",
   "koFlags": [],
   "price": {
-    "close": 23.6,
+    "close": 23.5,
     "currency": "SEK",
-    "date": "2026-10-19",
+    "date": "2026-10-20",
     "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
     "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y"
   },
@@ -23,7 +23,7 @@
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
       "score": null,
-      "status": "wenig Daten",
+      "status": "keine US-Meldepflicht",
       "weight": 1,
       "dataQuality": "0 von 5 Metriken verfügbar",
       "metrics": [
@@ -33,10 +33,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -45,10 +45,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -57,10 +57,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -69,10 +69,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -81,10 +81,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         }
       ]
@@ -93,9 +93,9 @@
       "id": "C_02",
       "label": "Wachstum",
       "score": null,
-      "status": "wenig Daten",
-      "weight": 1,
-      "dataQuality": "0 von 5 Metriken verfügbar",
+      "status": "keine US-Meldepflicht",
+      "weight": 1.5,
+      "dataQuality": "0 von 6 Metriken verfügbar",
       "metrics": [
         {
           "id": "revenue_cagr_3y",
@@ -103,10 +103,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -115,10 +115,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -127,10 +127,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -139,10 +139,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -151,10 +151,22 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
+          "observedAt": null
+        },
+        {
+          "id": "operating_margin_change_yoy",
+          "label": "Operative Marge gegenüber Vorjahr",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "keine US-Meldepflicht",
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         }
       ]
@@ -163,7 +175,7 @@
       "id": "C_03",
       "label": "Markt & Zukunftsmarkt",
       "score": null,
-      "status": "wenig Daten",
+      "status": "keine US-Meldepflicht",
       "weight": 1,
       "dataQuality": "0 von 3 Metriken verfügbar",
       "metrics": [
@@ -173,10 +185,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -185,10 +197,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -197,10 +209,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         }
       ]
@@ -209,9 +221,9 @@
       "id": "C_04",
       "label": "Profitabilität & Finanzkraft",
       "score": null,
-      "status": "wenig Daten",
+      "status": "keine US-Meldepflicht",
       "weight": 1,
-      "dataQuality": "0 von 6 Metriken verfügbar",
+      "dataQuality": "0 von 7 Metriken verfügbar",
       "metrics": [
         {
           "id": "operating_margin_fin",
@@ -219,10 +231,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -231,10 +243,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -243,10 +255,22 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
+          "observedAt": null
+        },
+        {
+          "id": "cash_runway_months",
+          "label": "Cash Runway",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "keine US-Meldepflicht",
+          "sourceLabel": null,
+          "sourceUrl": null,
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -255,10 +279,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -267,10 +291,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -279,10 +303,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         }
       ]
@@ -304,7 +328,7 @@
           "status": null,
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST/holders",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null,
           "note": "über 10 % → 5 von 5"
         },
@@ -314,22 +338,22 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
           "value": "17,5 %",
-          "raw": 0.17516,
+          "raw": 0.17544,
           "points": 0.0,
           "status": null,
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST/holders",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null,
           "note": "bis 40 % → 0 von 2"
         }
@@ -339,7 +363,7 @@
       "id": "C_06",
       "label": "Analysten & Stimmung",
       "score": null,
-      "status": "wenig Daten",
+      "status": "ausgeblendet, zählt nicht",
       "weight": 1,
       "dataQuality": "0 von 3 Metriken verfügbar",
       "metrics": [
@@ -349,10 +373,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "ausgeblendet, zählt nicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -361,10 +385,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "ausgeblendet, zählt nicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -373,10 +397,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "ausgeblendet, zählt nicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         }
       ]
@@ -391,15 +415,15 @@
       "metrics": [
         {
           "id": "excess_return_12_1",
-          "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
-          "value": "613,2 Pp",
-          "raw": 613.188915,
+          "label": "12-1-Monats-Rendite gegen OMXS30",
+          "value": "608,5 Pp",
+          "raw": 608.482424,
           "points": 10.0,
           "status": null,
           "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
           "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y",
-          "fetchedAt": "2026-10-19",
-          "observedAt": "2026-10-19"
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-10-20"
         },
         {
           "id": "above_sma_200",
@@ -410,20 +434,20 @@
           "status": null,
           "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
           "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y",
-          "fetchedAt": "2026-10-19",
-          "observedAt": "2026-10-19"
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-10-20"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "78,5 %",
-          "raw": 0.785455,
+          "value": "78,6 %",
+          "raw": 0.786364,
           "points": 0.0,
           "status": null,
           "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
           "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y",
-          "fetchedAt": "2026-10-19",
-          "observedAt": "2026-10-19"
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-10-20"
         }
       ]
     },
@@ -431,8 +455,8 @@
       "id": "C_08",
       "label": "Bewertung",
       "score": null,
-      "status": "wenig Daten",
-      "weight": 1,
+      "status": "keine US-Meldepflicht",
+      "weight": 0.5,
       "dataQuality": "0 von 3 Metriken verfügbar",
       "metrics": [
         {
@@ -441,10 +465,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -453,10 +477,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -465,10 +489,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "keine US-Meldepflicht",
           "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         }
       ]

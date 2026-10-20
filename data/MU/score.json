@@ -1,22 +1,22 @@
 {
   "ticker": "MU",
   "name": "Micron Technology",
-  "asOf": "2026-10-16",
-  "score": 77.5,
+  "asOf": "2026-10-19",
+  "score": 82.2,
   "status": null,
   "criteriaWithData": 7,
   "trafficLight": "green",
-  "qualityScore": 75.6,
-  "marketScore": 84.0,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 25 von 31 Metriken verfügbar",
-  "missingDataNote": "Wenig Daten bei C_06. Der Score zählt nur Kriterien mit Daten.",
+  "qualityScore": 81.5,
+  "marketScore": 86.0,
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 26 von 31 Metriken verfügbar",
+  "missingDataNote": "ausgeblendet, zählt nicht bei C_06. Der Score zählt nur Kriterien mit Daten.",
   "koFlags": [],
   "price": {
-    "close": 878.84,
+    "close": 904.9,
     "currency": "USD",
-    "date": "2026-10-16",
+    "date": "2026-10-19",
     "sourceLabel": "Nasdaq Historical",
-    "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-02&todate=2026-10-19&limit=2000"
+    "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000"
   },
   "criteria": [
     {
@@ -36,7 +36,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         },
         {
@@ -48,7 +48,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         },
         {
@@ -60,7 +60,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         },
         {
@@ -72,7 +72,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         },
         {
@@ -84,7 +84,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         }
       ]
@@ -94,7 +94,7 @@
       "label": "Wachstum",
       "score": 10.0,
       "status": null,
-      "weight": 1,
+      "weight": 1.5,
       "dataQuality": "3 von 5 Metriken verfügbar",
       "metrics": [
         {
@@ -106,7 +106,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         },
         {
@@ -118,7 +118,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         },
         {
@@ -130,7 +130,7 @@
           "status": "wenig Daten",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -142,7 +142,7 @@
           "status": "wenig Daten",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -154,8 +154,20 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
+        },
+        {
+          "id": "operating_margin_change_yoy",
+          "label": "Operative Marge gegenüber Vorjahr",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "nicht anwendbar",
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
+          "fetchedAt": "2026-10-20",
+          "observedAt": null
         }
       ]
     },
@@ -176,7 +188,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         },
         {
@@ -188,7 +200,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         },
         {
@@ -200,7 +212,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         }
       ]
@@ -222,7 +234,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         },
         {
@@ -234,7 +246,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         },
         {
@@ -246,8 +258,20 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
+        },
+        {
+          "id": "cash_runway_months",
+          "label": "Cash Runway",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "nicht anwendbar",
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
+          "fetchedAt": "2026-10-20",
+          "observedAt": null
         },
         {
           "id": "net_debt_to_ebitda",
@@ -258,7 +282,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         },
         {
@@ -270,7 +294,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         },
         {
@@ -282,7 +306,7 @@
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
         }
       ]
@@ -290,36 +314,36 @@
     {
       "id": "C_05",
       "label": "Management & große Investoren",
-      "score": 3.0,
+      "score": 5.0,
       "status": null,
       "weight": 1,
-      "dataQuality": "3 von 3 Metriken verfügbar. unter 3 % → 1 von 5 Netto-Verkäufe → 0 von 3 über 40 % → 2 von 2",
+      "dataQuality": "3 von 3 Metriken verfügbar. unter 3 % → 1 von 5 neutral → 2 von 3 10b5-1-Planverkäufe zählen mit einem Viertel Netto-Verkauf unter 0,1 % der Marktkapitalisierung ist neutral über 40 % → 2 von 2",
       "metrics": [
         {
           "id": "insider_ownership",
           "label": "Insider-Anteil",
           "value": "0,2 %",
-          "raw": 0.00243,
+          "raw": 0.00244,
           "points": 1.0,
           "status": null,
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/MU/holders",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null,
           "note": "unter 3 % → 1 von 5"
         },
         {
           "id": "insider_market_balance",
           "label": "Insider-Saldo, 6 Monate",
-          "value": "Netto-Verkäufe · 0 Käufe / 258 Verkäufe",
+          "value": "neutral · 0 Käufe / 258 Verkäufe, davon 252 im 10b5-1-Plan · unter 0,1 % der Marktkapitalisierung",
           "raw": null,
-          "points": 0.0,
+          "points": 2.0,
           "status": null,
           "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": "2026-10-14",
-          "note": "Netto-Verkäufe → 0 von 3",
+          "note": "neutral → 2 von 3 10b5-1-Planverkäufe zählen mit einem Viertel Netto-Verkauf unter 0,1 % der Marktkapitalisierung ist neutral",
           "detail": {
             "windowDays": 183,
             "filings": 39,
@@ -333,12 +357,12 @@
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
           "value": "80,0 %",
-          "raw": 0.80042,
+          "raw": 0.80044,
           "points": 2.0,
           "status": null,
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/MU/holders",
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null,
           "note": "über 40 % → 2 von 2"
         }
@@ -348,7 +372,7 @@
       "id": "C_06",
       "label": "Analysten & Stimmung",
       "score": null,
-      "status": "wenig Daten",
+      "status": "ausgeblendet, zählt nicht",
       "weight": 1,
       "dataQuality": "0 von 3 Metriken verfügbar",
       "metrics": [
@@ -358,10 +382,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "ausgeblendet, zählt nicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -370,10 +394,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "ausgeblendet, zählt nicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
@@ -382,10 +406,10 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "ausgeblendet, zählt nicht",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-19",
+          "fetchedAt": "2026-10-20",
           "observedAt": null
         }
       ]
@@ -393,7 +417,7 @@
     {
       "id": "C_07",
       "label": "Kursverlauf & Momentum",
-      "score": 8.2,
+      "score": 8.3,
       "status": null,
       "weight": 0.5,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -401,14 +425,14 @@
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
-          "value": "394,6 Pp",
-          "raw": 394.626348,
+          "value": "386,3 Pp",
+          "raw": 386.259551,
           "points": 10.0,
           "status": null,
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-02&todate=2026-10-19&limit=2000",
-          "fetchedAt": "2026-10-19",
-          "observedAt": "2026-10-16"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000",
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-10-19"
         },
         {
           "id": "above_sma_200",
@@ -418,67 +442,68 @@
           "points": 10.0,
           "status": null,
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-02&todate=2026-10-19&limit=2000",
-          "fetchedAt": "2026-10-19",
-          "observedAt": "2026-10-16"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000",
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-10-19"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "30,0 %",
-          "raw": 0.299729,
-          "points": 4.5,
+          "value": "27,9 %",
+          "raw": 0.278964,
+          "points": 4.9,
           "status": null,
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-02&todate=2026-10-19&limit=2000",
-          "fetchedAt": "2026-10-19",
-          "observedAt": "2026-10-16"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000",
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-10-19"
         }
       ]
     },
     {
       "id": "C_08",
       "label": "Bewertung",
-      "score": 8.5,
+      "score": 8.9,
       "status": null,
-      "weight": 1,
-      "dataQuality": "2 von 3 Metriken verfügbar",
+      "weight": 0.5,
+      "dataQuality": "3 von 3 Metriken verfügbar. Ersatz für PEG, weil das EPS-Wachstum nicht positiv ist",
       "metrics": [
         {
           "id": "valuation_primary",
-          "label": "Bewertung",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
+          "label": "(EV/Umsatz) / Umsatzwachstum",
+          "value": "0,03",
+          "raw": 0.028947,
+          "points": 10.0,
+          "status": null,
           "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
-          "observedAt": null
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-10-19",
+          "note": "Ersatz für PEG, weil das EPS-Wachstum nicht positiv ist"
         },
         {
           "id": "fcf_yield",
           "label": "Free-Cashflow-Rendite",
-          "value": "5,9 %",
-          "raw": 0.059299,
-          "points": 7.4,
+          "value": "5,8 %",
+          "raw": 0.057591,
+          "points": 7.2,
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
-          "observedAt": "2026-10-16"
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-10-19"
         },
         {
           "id": "ev_to_ebitda",
           "label": "EV / EBITDA",
-          "value": "8,81",
-          "raw": 8.808724,
-          "points": 9.6,
+          "value": "9,08",
+          "raw": 9.079618,
+          "points": 9.5,
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-19",
-          "observedAt": "2026-10-16"
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-10-19"
         }
       ]
     }

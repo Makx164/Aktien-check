@@ -60,8 +60,9 @@ class EdgarClient:
     def insider_flows(self, cik, submissions, today, window_days=INSIDER_WINDOW_DAYS):
         """Open-market buys and sells (codes P and S) over the last six months.
 
-        Grants, exercises and gifts stay out. A filing-level 10b5-1 flag does
-        not drop the market trades: those sales are still sales.
+        Grants, exercises and gifts stay out. Sales on a filing whose
+        `aff10b5One` checkbox is set are returned as `planSell` so the scorer
+        can weight them. Filings without that element keep the full sale.
         """
         recent = (submissions.get("filings") or {}).get("recent") or {}
         forms = recent.get("form") or []
@@ -82,8 +83,11 @@ class EdgarClient:
             chosen.append(index)
         buy = 0.0
         sell = 0.0
+        plan_sell = 0.0
         buys = 0
         sells = 0
+        plan_sells = 0
+        buyers = []
         parsed_any = False
         latest = None
         for index in chosen:
@@ -100,8 +104,13 @@ class EdgarClient:
             parsed_any = True
             buy += parsed["buy"]
             sell += parsed["sell"]
+            plan_sell += parsed.get("planSell") or 0.0
             buys += parsed["buys"]
             sells += parsed["sells"]
+            plan_sells += parsed.get("planSells") or 0
+            for owner in parsed.get("buyers") or []:
+                if owner not in buyers:
+                    buyers.append(owner)
             if parsed.get("observed") and (latest is None or parsed["observed"] > latest):
                 latest = parsed["observed"]
         if chosen and not parsed_any:
@@ -109,9 +118,12 @@ class EdgarClient:
         return {
             "buy": buy,
             "sell": sell,
+            "planSell": plan_sell,
             "buys": buys,
             "sells": sells,
-            "trades": buys + sells,
+            "planSells": plan_sells,
+            "buyers": buyers,
+            "trades": buys + sells + plan_sells,
             "observed": latest,
             "filings": len(chosen),
             "windowDays": window_days,
@@ -145,6 +157,42 @@ class EdgarClient:
         self._last = time.monotonic()
 
 
+def aff10b5_one(root):
+    """Rule 10b5-1 checkbox on the Form 4 document.
+
+    The element is `aff10b5One` (SEC ownership XML, filings after the 2023
+    amendment). It is document-level, not per transaction. Values seen in
+    filings are 1/0 and true/false. None means the element is absent, so the
+    sale is not treated as a plan sale.
+    """
+    found = None
+    for node in root.iter():
+        if _local(node.tag) != "aff10b5One":
+            continue
+        found = (node.text or "").strip().lower()
+        break
+    if found is None:
+        return None
+    if found in {"1", "true"}:
+        return True
+    if found in {"0", "false"}:
+        return False
+    return None
+
+
+def _owners(root):
+    owners = []
+    for node in root.iter():
+        if _local(node.tag) != "reportingOwner":
+            continue
+        cik = _nested(node, "reportingOwnerId", "rptOwnerCik")
+        name = _nested(node, "reportingOwnerId", "rptOwnerName")
+        token = cik or name
+        if token and token not in owners:
+            owners.append(token)
+    return owners
+
+
 def parse_form4(xml_bytes):
     try:
         root = ET.fromstring(xml_bytes)
@@ -152,10 +200,15 @@ def parse_form4(xml_bytes):
         return None
     if _local(root.tag) != "ownershipDocument":
         return None
+    # TODO: lock-up sales (SPCX) need a lock-up end date. Form 4 has no field for it.
+    planned = aff10b5_one(root) is True
     buy = 0.0
     sell = 0.0
+    plan_sell = 0.0
     buys = 0
     sells = 0
+    plan_sells = 0
+    had_purchase = False
     observed = _text(root, "periodOfReport") or None
     for node in root.iter():
         if _local(node.tag) != "nonDerivativeTransaction":
@@ -170,6 +223,10 @@ def parse_form4(xml_bytes):
         if code == "P":
             buy += dollars
             buys += 1
+            had_purchase = True
+        elif planned:
+            plan_sell += dollars
+            plan_sells += 1
         else:
             sell += dollars
             sells += 1
@@ -178,9 +235,13 @@ def parse_form4(xml_bytes):
     return {
         "buy": buy,
         "sell": sell,
+        "planSell": plan_sell,
         "buys": buys,
         "sells": sells,
-        "trades": buys + sells,
+        "planSells": plan_sells,
+        "buyers": _owners(root) if had_purchase else [],
+        "planFlag": aff10b5_one(root),
+        "trades": buys + sells + plan_sells,
         "observed": observed,
     }
 

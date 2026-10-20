@@ -74,6 +74,40 @@ def annual_series(facts, concepts, units):
     return chosen
 
 
+def reported_window(facts, concepts, units):
+    """Earliest period start and latest period end, including quarterly filings.
+
+    Used when the annual series is empty, so a newly listed issuer is not
+    treated as a failed fetch. Instant facts (no duration) are ignored.
+    """
+    chosen = []
+    chosen_key = None
+    for rank, name in enumerate(concepts):
+        concept = _find_concept(facts, name)
+        if not concept:
+            continue
+        rows = []
+        for row in _rows(concept, units):
+            if row.get("form") not in POSITION_FORMS:
+                continue
+            start = row.get("start")
+            end = row.get("end")
+            if not start or not end or start >= end:
+                continue
+            if not isinstance(row.get("val"), (int, float)) or isinstance(row.get("val"), bool):
+                continue
+            rows.append(row)
+        if not rows:
+            continue
+        key = (max(row["end"] for row in rows), -rank)
+        if chosen_key is None or key > chosen_key:
+            chosen = rows
+            chosen_key = key
+    if not chosen:
+        return None, None
+    return min(row["start"] for row in chosen), max(row["end"] for row in chosen)
+
+
 def latest_position(facts, concepts, units):
     """Most recent balance-sheet or share-count point, including 10-Q."""
     chosen = []
@@ -339,14 +373,16 @@ def build_liabilities_series(facts, assets, equity):
 
 def extract_fundamentals(facts):
     """Annual series used by the scorers. facts is a companyfacts `facts` object."""
-    revenue = annual_series(facts, [
+    revenue_concepts = [
         "RevenueFromContractWithCustomerExcludingAssessedTax",
         "RevenueFromContractWithCustomerIncludingAssessedTax",
         "Revenue",
         "RevenueFromContractsWithCustomers",
         "SalesRevenueNet",
         "Revenues",
-    ], ["USD"])
+    ]
+    revenue = annual_series(facts, revenue_concepts, ["USD"])
+    history_start, history_end = reported_window(facts, revenue_concepts, ["USD"])
     cogs = annual_series(facts, [
         "CostOfRevenue",
         "CostOfGoodsAndServicesSold",
@@ -454,6 +490,8 @@ def extract_fundamentals(facts):
         "dividends": dividends,
         "buybacks": buybacks,
         "retained_earnings": retained,
+        "_history_start": history_start,
+        "_history_end": history_end,
     }
 
 
@@ -499,7 +537,7 @@ def close_on_or_before(bars, day):
 def momentum_inputs(bars, benchmark):
     """12-1 excess return in percentage points, SMA flag, distance to 52-week high."""
     result = {"excess_return_12_1": None, "above_sma_200": None, "distance_52w_high": None,
-              "observed_price": None, "benchmark_label": None}
+              "observed_price": None, "benchmark_label": None, "barCount": len(bars or [])}
     if not bars:
         return result
     result["observed_price"] = bars[-1]["date"]
@@ -557,7 +595,176 @@ def market_cap_of(price, shares):
     return price * shares
 
 
-def score_company(config, bundle, prices, analysts, fetched_at, sources):
+def _status_text(config, key, default):
+    return ((config.get("statuses") or {}).get(key) or default)
+
+
+def _not_applicable(reasons, values, observed, metric_id, status):
+    values.pop(metric_id, None)
+    observed.pop(metric_id, None)
+    reasons[metric_id] = status
+
+
+def _history_short(series, end, years, tolerance):
+    if not end or not series:
+        return False
+    return year_gap(end, series[0]["end"]) < (float(years) - float(tolerance))
+
+
+EDGAR_METRIC_IDS = {
+    "roic_2y", "gross_margin", "gross_margin_stability", "operating_margin", "fcf_margin",
+    "revenue_cagr_3y", "revenue_cagr_5y", "eps_cagr_3y", "fcf_cagr_3y", "revenue_acceleration",
+    "operating_margin_change_yoy",
+    "revenue_yoy", "rd_intensity", "gross_margin_change_yoy",
+    "operating_margin_fin", "fcf_margin_fin", "roe", "cash_runway_months",
+    "net_debt_to_ebitda", "current_ratio", "dilution_3y",
+    "insider_market_balance",
+    "valuation_primary", "fcf_yield", "ev_to_ebitda", "shareholder_yield",
+}
+ANALYST_METRIC_IDS = {"buy_share", "target_upside", "eps_revision_90d"}
+
+
+def _mark_structural(reasons, values, observed, config, bundle, end, bar_count, profile):
+    """Labels for gaps that are not a missing fetch: sector, filing duty, short history."""
+    na = _status_text(config, "notApplicable", "nicht anwendbar")
+    sector = (profile or {}).get("sector")
+    for metric_id in ((config.get("notApplicableBySector") or {}).get(sector) or []):
+        _not_applicable(reasons, values, observed, metric_id, na)
+    if not (profile or {}).get("sec", True):
+        filing = _status_text(config, "noUsFiling", "keine US-Meldepflicht")
+        for metric_id in EDGAR_METRIC_IDS:
+            if values.get(metric_id) is None and metric_id not in reasons:
+                reasons[metric_id] = filing
+    short = _status_text(config, "shortHistory", "zu kurze Historie")
+    history = config.get("shortHistory") or {}
+    for metric_id, need in (history.get("priceBars") or {}).items():
+        if values.get(metric_id) is not None or metric_id in reasons:
+            continue
+        if bar_count and bar_count < int(need):
+            reasons[metric_id] = short
+    for metric_id, rule in (history.get("seriesYears") or {}).items():
+        if values.get(metric_id) is not None or metric_id in reasons:
+            continue
+        series = bundle.get(rule.get("series")) or []
+        years = rule.get("years") or 0
+        if _history_short(series, end, years, rule.get("tolerance", 0.6)):
+            reasons[metric_id] = short
+            continue
+        # No annual points, but the issuer has only a short reporting window (IPO).
+        if series:
+            continue
+        window_start = bundle.get("_history_start")
+        window_end = bundle.get("_history_end")
+        limit = rule.get("emptyBelow", years)
+        if window_start and window_end and year_gap(window_end, window_start) < float(limit):
+            reasons[metric_id] = short
+    if not any(values.get(metric_id) is not None for metric_id in ANALYST_METRIC_IDS):
+        excluded = _status_text(config, "excluded", "ausgeblendet, zählt nicht")
+        for metric_id in ANALYST_METRIC_IDS:
+            if metric_id not in reasons:
+                reasons[metric_id] = excluded
+
+
+def _positive_growth(values):
+    """YoY revenue growth, or the 3-year CAGR when the latest year is not growing."""
+    yoy_growth = values.get("revenue_yoy")
+    if yoy_growth and yoy_growth > 0:
+        return yoy_growth, False
+    cagr_growth = values.get("revenue_cagr_3y")
+    if cagr_growth and cagr_growth > 0:
+        return cagr_growth, True
+    return None, False
+
+
+def _ev_sales_growth(values, labels, points, market_cap, debt, cash, sales, observed, valuation, growth, note=None):
+    if not (market_cap and sales and growth and growth > 0 and debt is not None and cash is not None):
+        return False
+    enterprise = market_cap + debt - cash
+    growth_percent = growth * 100.0
+    if valuation.get("growthUnit") != "percent" or growth_percent <= 0:
+        return False
+    multiple = (enterprise / sales) / growth_percent
+    values["valuation_primary"] = multiple
+    labels["valuation_primary"] = valuation["label"]
+    points["valuation_primary"] = linear_points(multiple, valuation["zeroAt"], valuation["tenAt"])
+    if note:
+        labels["valuation_primary_note"] = note
+    return observed
+
+
+def _insider_balance(insider, market_cap, config):
+    rules = config.get("insider") or {}
+    purchase_weight = float(rules.get("purchaseWeight", 2))
+    plan_weight = float(rules.get("planSaleWeight", 0.25))
+    neutral_ratio = float(rules.get("neutralNetSellToMarketCap", 0.001))
+    bonus = rules.get("distinctBuyerBonus") or {}
+    buy = float(insider.get("buy") or 0)
+    sell = float(insider.get("sell") or 0)
+    plan = float(insider.get("planSell") or 0)
+    weighted_buy = buy * purchase_weight
+    weighted_sell = sell + plan * plan_weight
+    net_sell = weighted_sell - weighted_buy
+    neutralized = False
+    if net_sell < 0:
+        outcome = "buy"
+        label = "Netto-Käufe"
+    elif net_sell == 0:
+        outcome = "flat"
+        label = "neutral"
+    elif market_cap and market_cap > 0 and (net_sell / market_cap) < neutral_ratio:
+        outcome = "flat"
+        label = "neutral"
+        neutralized = True
+    else:
+        outcome = "sell"
+        label = "Netto-Verkäufe"
+    buyers = []
+    for owner in insider.get("buyers") or []:
+        if owner not in buyers:
+            buyers.append(owner)
+    plan_sells = int(insider.get("planSells") or 0)
+    open_sells = int(insider.get("sells") or 0)
+    text = (
+        label
+        + " · "
+        + str(int(insider.get("buys") or 0))
+        + " Käufe / "
+        + str(open_sells + plan_sells)
+        + " Verkäufe"
+    )
+    if plan_sells:
+        text += ", davon " + str(plan_sells) + " im 10b5-1-Plan"
+    if neutralized:
+        text += " · unter 0,1 % der Marktkapitalisierung"
+    notes = []
+    if plan > 0:
+        notes.append("10b5-1-Planverkäufe zählen mit einem Viertel")
+    if buy > 0:
+        notes.append("offene Käufe zählen doppelt")
+    if neutralized:
+        notes.append("Netto-Verkauf unter 0,1 % der Marktkapitalisierung ist neutral")
+    points_override = None
+    if len(buyers) >= int(bonus.get("atLeast", 2)):
+        notes.append("Bonus für mehrere verschiedene Käufer")
+        base = {"buy": 3.0, "flat": 2.0, "sell": 0.0}[outcome]
+        points_override = min(base + float(bonus.get("points", 1)), float(bonus.get("cap", 3)))
+    return {
+        "outcome": outcome,
+        "text": text,
+        "windowDays": insider.get("windowDays"),
+        "filings": insider.get("filings"),
+        "buys": int(insider.get("buys") or 0),
+        "sells": open_sells + plan_sells,
+        "planSells": plan_sells,
+        "buyers": len(buyers),
+        "buyDollars": buy,
+        "sellDollars": sell + plan,
+        "pointsOverride": points_override,
+        "extraNote": " ".join(notes) or None,
+    }
+
+
+def score_company(config, bundle, prices, analysts, fetched_at, sources, profile=None):
     """Return criteria, score, flags and quality counts. bundle may be empty."""
     bundle = bundle or {}
     for key in (
@@ -580,8 +787,9 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources):
     momentum = momentum_inputs(bars, benchmark)
     if momentum.get("benchmark_label") and momentum["benchmark_label"] != config["benchmark"]["label"]:
         pass
-    raw = _raw_metrics(bundle, end, cap, last_close, momentum, analysts, config)
-    missing_label = config.get("missingDataStatus") or "wenig Daten"
+    raw = _raw_metrics(bundle, end, cap, last_close, momentum, analysts, config, profile)
+    missing_label = _status_text(config, "missing", config.get("missingDataStatus") or "wenig Daten")
+    na_label = _status_text(config, "notApplicable", "nicht anwendbar")
     criteria = []
     metric_available = 0
     metric_total = 0
@@ -589,11 +797,14 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources):
         metrics = []
         points = []
         available = 0
+        applicable = 0
         for spec in criterion["metrics"]:
-            metric_total += 1
             metric_id = spec["id"]
             observed = raw["observed"].get(metric_id)
             value = raw["values"].get(metric_id)
+            reason = raw["reasons"].get(metric_id)
+            if reason:
+                value = None
             label = raw["labels"].get(metric_id) or spec["label"]
             kind = spec.get("kind")
             note = None
@@ -603,9 +814,15 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources):
                 detail = value
                 display = value.get("text")
                 outcome = (spec.get("outcomes") or {}).get(value["outcome"]) or {}
+                detail = value
                 value = None if not outcome else value["outcome"]
-                scored = None if not outcome else float(outcome["points"])
+                if detail.get("pointsOverride") is not None and outcome:
+                    scored = float(detail["pointsOverride"])
+                else:
+                    scored = None if not outcome else float(outcome["points"])
                 note = outcome.get("note")
+                if detail.get("extraNote"):
+                    note = ((note + " ") if note else "") + detail["extraNote"]
             else:
                 if spec.get("id") == "valuation_primary":
                     kind = "multiple"
@@ -619,9 +836,17 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources):
                     scored = linear_points(value, spec["zeroAt"], spec["tenAt"])
                 else:
                     scored = raw["points"].get(metric_id)
-            if value is not None:
-                available += 1
-                metric_available += 1
+            extra_note = raw["labels"].get(metric_id + "_note")
+            if extra_note:
+                note = ((note + " ") if note else "") + extra_note
+            row_status = reason if reason else (None if value is not None else missing_label)
+            counts = row_status != na_label
+            if counts:
+                applicable += 1
+                metric_total += 1
+                if value is not None:
+                    available += 1
+                    metric_available += 1
             source = _source_for(metric_id, sources, prices)
             if display is not None:
                 shown = display
@@ -637,8 +862,8 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources):
                 "label": label,
                 "value": shown,
                 "raw": raw_value,
-                "points": round1(scored),
-                "status": None if value is not None else missing_label,
+                "points": None if not counts else round1(scored),
+                "status": row_status,
                 "sourceLabel": source["label"],
                 "sourceUrl": source["url"],
                 "fetchedAt": fetched_at,
@@ -656,7 +881,8 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources):
                     "sellDollars": None if detail.get("sellDollars") is None else round(float(detail["sellDollars"]), 2),
                 }
             metrics.append(row)
-            points.append(round1(scored) if scored is not None else None)
+            if counts:
+                points.append(round1(scored) if scored is not None else None)
         if criterion.get("aggregate") == "sum":
             present = [point for point in points if point is not None]
             criterion_score = sum(present) if present else None
@@ -670,15 +896,20 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources):
                 config["analystCap"]["below"],
                 config["analystCap"]["maxPoints"],
             )
-        quality = f"{available} von {len(criterion['metrics'])} Metriken verfügbar"
+        quality = f"{available} von {applicable} Metriken verfügbar"
         notes = [row["note"] for row in metrics if row.get("note")]
         if notes:
             quality = quality + ". " + " ".join(notes)
+        if criterion_score is None:
+            gap_labels = {row["status"] for row in metrics if row.get("status")}
+            criterion_status = gap_labels.pop() if len(gap_labels) == 1 else missing_label
+        else:
+            criterion_status = None
         entry = {
             "id": criterion["id"],
             "label": criterion["label"],
             "score": round1(criterion_score),
-            "status": None if criterion_score is not None else missing_label,
+            "status": criterion_status,
             "weight": criterion["weight"],
             "dataQuality": quality,
             "metrics": metrics,
@@ -722,11 +953,13 @@ def _source_for(metric_id, sources, prices):
     return {"label": sources.get("fundamentalLabel"), "url": sources.get("fundamentalUrl")}
 
 
-def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config):
+def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, profile=None):
     values = {}
     observed = {}
     labels = {}
     points = {}
+    reasons = {}
+    na = _status_text(config, "notApplicable", "nicht anwendbar")
     revenue = bundle["revenue"]
     gross_margins = gross_margin_series(revenue, bundle["gross_profit"])
 
@@ -780,6 +1013,14 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config):
             put("gross_margin_change_yoy", gm_now - gm_then, end)
         equity = value_at(bundle["equity"], end)
         net_income = value_at(bundle["net_income"], end)
+        loss = net_income is not None and net_income <= 0
+        profit = net_income is not None and net_income > 0
+        op_now = values.get("operating_margin")
+        op_then = _margin(bundle["operating_income"], revenue, prior_end["end"]) if prior_end else None
+        if profit:
+            _not_applicable(reasons, values, observed, "operating_margin_change_yoy", na)
+        elif loss and op_now is not None and op_then is not None:
+            put("operating_margin_change_yoy", op_now - op_then, end)
         prior_equity_point = point_years_before(bundle["equity"], end, 1, 0.4)
         if net_income is not None and equity and prior_equity_point and prior_equity_point["val"]:
             average_equity = (equity + prior_equity_point["val"]) / 2.0
@@ -788,6 +1029,13 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config):
         ebitda = ebitda_at(end, bundle)
         debt = value_at(bundle["debt"], end)
         cash = value_at(bundle["cash"], end)
+        fcf_value = value_at(bundle["fcf"], end)
+        if fcf_value is not None and fcf_value < 0:
+            _not_applicable(reasons, values, observed, "roe", na)
+            if cash is not None and cash >= 0 and fcf_value != 0:
+                put("cash_runway_months", (cash / abs(fcf_value)) * 12.0, end)
+        elif fcf_value is not None:
+            _not_applicable(reasons, values, observed, "cash_runway_months", na)
         if ebitda is not None and ebitda > 0 and debt is not None and cash is not None:
             put("net_debt_to_ebitda", (debt - cash) / ebitda, end)
         current_assets = value_at(bundle["assets_current"], end)
@@ -809,70 +1057,46 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config):
         if market_cap and (dividends is not None or buybacks is not None):
             payout = (abs(dividends) if dividends is not None else 0.0) + (abs(buybacks) if buybacks is not None else 0.0)
             put("shareholder_yield", payout / market_cap, momentum.get("observed_price") or end)
-        fcf_value = value_at(bundle["fcf"], end)
-        if market_cap and fcf_value is not None:
+        if loss:
+            _not_applicable(reasons, values, observed, "fcf_yield", na)
+        elif market_cap and fcf_value is not None:
             put("fcf_yield", fcf_value / market_cap, momentum.get("observed_price") or end)
         if market_cap and debt is not None and cash is not None and sales:
-            enterprise = market_cap + debt - cash
             if ebitda is not None and ebitda > 0:
+                enterprise = market_cap + debt - cash
                 put("ev_to_ebitda", enterprise / ebitda, momentum.get("observed_price") or end)
-            profitable = net_income is not None and net_income > 0 and eps_now is not None and eps_now["val"] > 0
             valuation = config["valuation"]
-            if profitable:
+            observed_value = momentum.get("observed_price") or end
+            if profit:
                 growth_eps = values.get("eps_cagr_3y")
-                if price and growth_eps and growth_eps > 0:
+                if price and eps_now is not None and eps_now["val"] > 0 and growth_eps and growth_eps > 0:
                     peg = (price / eps_now["val"]) / (growth_eps * 100.0)
-                    put("valuation_primary", peg, momentum.get("observed_price") or end)
+                    put("valuation_primary", peg, observed_value)
                     labels["valuation_primary"] = valuation["profitable"]["label"]
                     points["valuation_primary"] = linear_points(
                         peg, valuation["profitable"]["zeroAt"], valuation["profitable"]["tenAt"]
                     )
-            elif net_income is not None and net_income <= 0:
-                revenue_growth = values.get("revenue_yoy")
-                if sales and revenue_growth and revenue_growth > 0 and debt is not None and cash is not None:
-                    enterprise = market_cap + debt - cash
-                    ev_sales = enterprise / sales
-                    growth_percent = revenue_growth * 100.0
-                    if valuation["unprofitable"].get("growthUnit") == "percent" and growth_percent > 0:
-                        multiple = ev_sales / growth_percent
-                        put("valuation_primary", multiple, momentum.get("observed_price") or end)
-                        labels["valuation_primary"] = valuation["unprofitable"]["label"]
-                        points["valuation_primary"] = linear_points(
-                            multiple,
-                            valuation["unprofitable"]["zeroAt"],
-                            valuation["unprofitable"]["tenAt"],
-                        )
+                else:
+                    growth, used_cagr = _positive_growth(values)
+                    note = "Ersatz für PEG, weil das EPS-Wachstum nicht positiv ist"
+                    if used_cagr:
+                        note += ". Umsatzwachstum ist der 3-Jahres-CAGR"
+                    _ev_sales_growth(
+                        values, labels, points, market_cap, debt, cash, sales, observed_value,
+                        valuation["unprofitable"], growth, note,
+                    )
+                    if values.get("valuation_primary") is not None:
+                        observed["valuation_primary"] = observed_value
+            elif loss:
+                _ev_sales_growth(
+                    values, labels, points, market_cap, debt, cash, sales, observed_value,
+                    valuation["unprofitable"], values.get("revenue_yoy"),
+                )
+                if values.get("valuation_primary") is not None:
+                    observed["valuation_primary"] = observed_value
     insider = bundle.get("insider")
     if insider and insider.get("measured"):
-        buy = float(insider.get("buy") or 0)
-        sell = float(insider.get("sell") or 0)
-        if buy > sell:
-            outcome = "buy"
-            label = "Netto-Käufe"
-        elif sell > buy:
-            outcome = "sell"
-            label = "Netto-Verkäufe"
-        else:
-            outcome = "flat"
-            label = "neutral"
-        text = (
-            label
-            + " · "
-            + str(int(insider.get("buys") or 0))
-            + " Käufe / "
-            + str(int(insider.get("sells") or 0))
-            + " Verkäufe"
-        )
-        put("insider_market_balance", {
-            "outcome": outcome,
-            "text": text,
-            "windowDays": insider.get("windowDays"),
-            "filings": insider.get("filings"),
-            "buys": int(insider.get("buys") or 0),
-            "sells": int(insider.get("sells") or 0),
-            "buyDollars": buy,
-            "sellDollars": sell,
-        }, insider.get("observed"))
+        put("insider_market_balance", _insider_balance(insider, market_cap, config), insider.get("observed"))
         labels["insider_market_balance"] = "Insider-Saldo, 6 Monate"
     holders = bundle.get("holders") or {}
     if holders.get("insider") is not None:
@@ -893,7 +1117,11 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config):
         put("above_sma_200", momentum["above_sma_200"], momentum.get("observed_price"))
     if momentum.get("distance_52w_high") is not None:
         put("distance_52w_high", momentum["distance_52w_high"], momentum.get("observed_price"))
-    return {"values": values, "observed": observed, "labels": labels, "points": points}
+    _mark_structural(
+        reasons, values, observed, config, bundle, end,
+        momentum.get("barCount") or 0, profile,
+    )
+    return {"values": values, "observed": observed, "labels": labels, "points": points, "reasons": reasons}
 
 
 def _ko_flags(config, bundle, end, market_cap, sources):

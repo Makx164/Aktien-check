@@ -681,6 +681,9 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     if (doc.status) return String(doc.status);
     return n1(doc.score);
   }
+  function gapLabel(status) {
+    return status || "wenig Daten";
+  }
 
   function renderTile(score) {
     var doc = adapt(score);
@@ -714,7 +717,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     });
     var kicker = document.createElement("div");
     kicker.className = "sec-t page-kicker";
-    kicker.innerHTML = "<h2>Positionen</h2><span class=\"mlabel\">" + loaded.length + " TICKER · SCORE 0–100</span>";
+    kicker.innerHTML = "<h2>Übersicht Aktienportfolio</h2><span class=\"mlabel\">" + loaded.length + " TICKER · SCORE 0–100</span>";
     app.replaceChildren(kicker, grid);
   }
 
@@ -756,7 +759,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     var rated = doc.criteria.filter(function (c) { return c.bewertet; }).length;
     var h = '<div class="sec-t"><h2>Score_Matrix</h2><span class="mlabel">8 PUNKTE · JE 0–10 · C_07 × 0,5 · FEHLENDE ZÄHLEN NICHT</span></div>';
     h += '<div class="diagram crits"><div class="mods">' + doc.criteria.map(function (c) {
-      var mark = c.bewertet ? n1(c.wert) : "wenig Daten";
+      var mark = c.bewertet ? n1(c.wert) : gapLabel(c.status);
       return '<a class="mod" href="#c' + c.id + '" data-open="c' + c.id + '"><span class="ml">C_' + pad(c.id) + " · " + esc(c.name) + '</span><span class="mr">' + seg(c.wert, 10) + "<span>" + esc(mark) + "</span></span></a>";
     }).join("") + '</div><div class="hub crit-hub"><div class="hub-h"><span class="mlabel">' + esc(doc.ticker) + ' · AKTIEN-SCORE</span><span class="mlabel">MAX 100</span></div><div class="big">' +
       esc(shownScore(doc)) + '<small>/100</small></div>' + status(light, doc.ko.length) +
@@ -767,18 +770,26 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
   function criteriaDetail(doc) {
     var h = '<div class="sec-t"><h2>Criteria_Detail</h2><span class="mlabel">ANTIPPEN FÜR DETAILS</span></div>';
     doc.criteria.forEach(function (c) {
-      var tag = c.bewertet ? '<span class="tag daten">Daten</span>' : '<span class="tag bsp">wenig Daten</span>';
+      var gap = gapLabel(c.status);
+      var excluded = gap === "ausgeblendet, zählt nicht";
+      var tag = c.bewertet
+        ? '<span class="tag daten">Daten</span>'
+        : '<span class="' + (excluded ? "tag off" : "tag bsp") + '">' + esc(gap) + "</span>";
       var rows = (c.metrics || []).map(function (metric) {
         var missing = metric.status || metric.value == null || metric.value === "";
-        var value = missing ? "wenig Daten" : String(metric.value);
-        var points = metric.status ? "wenig Daten" : n1(metric.points);
+        var label = gapLabel(metric.status);
+        var value = missing ? label : String(metric.value);
+        var points = metric.status ? label : n1(metric.points);
         var long = value.length > 40;
         return '<div class="row' + (long ? " long" : "") + '"><span class="k">' + esc(metric.label || metric.id) + '</span><span class="lead-d"></span><span class="v' + (missing ? " nd" : "") + '">' + esc(value) + " · " + esc(points) + "</span></div>";
       }).join("");
       var quality = c.dataQuality ? '<p class="expl">' + esc(c.dataQuality) + "</p>" : "";
       var urls = (c.metrics || []).map(function (metric) { return metric.sourceUrl; });
+      var scoreText = c.bewertet
+        ? esc(n1(c.wert)) + "<small>/10</small>"
+        : (excluded ? '<span class="mlabel">' + esc(gap) + "</span>" : esc(gap) + "<small>/10</small>");
       h += '<details class="crit" id="c' + c.id + '"><summary><span><span class="cid">CRITERION_' + pad(c.id) + '</span><span class="cn">' + esc(c.name) + '</span><span class="ctags">' + tag + '</span></span><span class="score">' +
-        esc(c.bewertet ? n1(c.wert) : "wenig Daten") + "<small>/10</small>" + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body"><div class="kv">' + rows + "</div>" + quality + srcLinks(urls) + "</div></details>";
+        scoreText + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body"><div class="kv">' + rows + "</div>" + quality + srcLinks(urls) + "</div></details>";
     });
     return h;
   }

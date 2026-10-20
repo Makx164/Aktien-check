@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-20
+
+### Fachlicher Check, Scoring
+
+Gewichte in `config/scoring.json`: C_02 = 1,5, C_07 und C_08 = 0,5. Verlustbringer bekommen bei C_02 die Veränderung der operativen Marge zum Vorjahr (−5 Pp = 0, +10 Pp = 10). Negativer Free Cashflow ersetzt die Eigenkapitalrendite durch die Cash Runway (unter 12 Monaten = 0, ab 36 Monaten = 10). Lemonade ist als Versicherer markiert: Current Ratio und Nettoverschuldung/EBITDA sind „nicht anwendbar“. Die Free-Cashflow-Rendite ist bei Verlustbringern „nicht anwendbar“. Fehlt das PEG bei einem Gewinnunternehmen, weil das EPS-Wachstum nicht positiv ist, steht (EV/Umsatz) / Umsatzwachstum (10 unter 0,2, 0 über 1,0); schrumpft das letzte Jahr, zählt der 3-Jahres-CAGR.
+
+Form-4-Feld `aff10b5One` kennzeichnet 10b5-1-Planverkäufe. Sie zählen mit einem Viertel, offene Käufe (Code P) doppelt, mehrere verschiedene Käufer mit Bonus. Netto-Verkauf unter 0,1 % der Marktkapitalisierung ist neutral. C_06 ohne API-Schlüssel ist „ausgeblendet, zählt nicht“. SIVE zeigt „keine US-Meldepflicht“, das Momentum gegen OMXS30. SPCX zeigt „zu kurze Historie“, wo die Reihe strukturell fehlt. Die Übersicht heißt „Übersicht Aktienportfolio“.
+
 ## 2026-10-16
 
 ### Stand der Daten und Kachelfarbe

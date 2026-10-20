@@ -5,6 +5,37 @@
   },
   "minCriteriaWithData": 3,
   "missingDataStatus": "wenig Daten",
+  "statuses": {
+    "missing": "wenig Daten",
+    "notApplicable": "nicht anwendbar",
+    "noUsFiling": "keine US-Meldepflicht",
+    "shortHistory": "zu kurze Historie",
+    "excluded": "ausgeblendet, zählt nicht"
+  },
+  "insider": {
+    "planSaleWeight": 0.25,
+    "purchaseWeight": 2,
+    "neutralNetSellToMarketCap": 0.001,
+    "distinctBuyerBonus": {"atLeast": 2, "points": 1, "cap": 3}
+  },
+  "notApplicableBySector": {
+    "insurer": ["current_ratio", "net_debt_to_ebitda"]
+  },
+  "shortHistory": {
+    "priceBars": {
+      "excess_return_12_1": 252,
+      "above_sma_200": 200,
+      "distance_52w_high": 252
+    },
+    "seriesYears": {
+      "revenue_cagr_3y": {"series": "revenue", "years": 3},
+      "revenue_cagr_5y": {"series": "revenue", "years": 5},
+      "eps_cagr_3y": {"series": "eps", "years": 3},
+      "fcf_cagr_3y": {"series": "fcf", "years": 3},
+      "operating_margin_change_yoy": {"series": "operating_income", "years": 1, "tolerance": 0.4, "emptyBelow": 2},
+      "revenue_acceleration": {"series": "revenue", "years": 2, "emptyBelow": 2}
+    }
+  },
   "analystCap": {
     "below": 5,
     "maxPoints": 7
@@ -20,6 +51,15 @@
     "nasdaq": "SPY",
     "assetClass": "etf",
     "proxyLabel": "SPY (S&P-500-ETF)"
+  },
+  "benchmarks": {
+    "omxs30": {
+      "label": "OMXS30",
+      "stooq": "^omx",
+      "stooqFallbacks": ["^omxs30", "omxs30.se"],
+      "yahoo": "^OMX",
+      "proxyLabel": "OMXS30"
+    }
   },
   "valuation": {
     "profitable": {
@@ -50,13 +90,14 @@
     {
       "id": "C_02",
       "label": "Wachstum",
-      "weight": 1,
+      "weight": 1.5,
       "metrics": [
         {"id": "revenue_cagr_3y", "label": "Umsatz-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
         {"id": "revenue_cagr_5y", "label": "Umsatz-CAGR, 5 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.2},
         {"id": "eps_cagr_3y", "label": "EPS-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
         {"id": "fcf_cagr_3y", "label": "Free-Cashflow-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
-        {"id": "revenue_acceleration", "label": "Umsatzbeschleunigung", "kind": "ratioPp", "zeroAt": -0.1, "tenAt": 0.1}
+        {"id": "revenue_acceleration", "label": "Umsatzbeschleunigung", "kind": "ratioPp", "zeroAt": -0.1, "tenAt": 0.1},
+        {"id": "operating_margin_change_yoy", "label": "Operative Marge gegenüber Vorjahr", "kind": "ratioPp", "zeroAt": -0.05, "tenAt": 0.1}
       ]
     },
     {
@@ -77,6 +118,7 @@
         {"id": "operating_margin_fin", "label": "Operative Marge", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
         {"id": "fcf_margin_fin", "label": "Free-Cashflow-Marge", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.15},
         {"id": "roe", "label": "Eigenkapitalrendite", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
+        {"id": "cash_runway_months", "label": "Cash Runway", "kind": "months", "zeroAt": 12, "tenAt": 36},
         {"id": "net_debt_to_ebitda", "label": "Nettoverschuldung / EBITDA", "kind": "multiple", "zeroAt": 4.0, "tenAt": 0.0},
         {"id": "current_ratio", "label": "Current Ratio", "kind": "multiple", "zeroAt": 0.8, "tenAt": 2.0},
         {"id": "dilution_3y", "label": "Verwässerung, 3 Jahre", "kind": "percent", "zeroAt": 0.1, "tenAt": 0.0}
@@ -143,7 +185,7 @@
     {
       "id": "C_08",
       "label": "Bewertung",
-      "weight": 1,
+      "weight": 0.5,
       "metrics": [
         {"id": "valuation_primary", "label": "Bewertung", "kind": "multiple"},
         {"id": "fcf_yield", "label": "Free-Cashflow-Rendite", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.08},

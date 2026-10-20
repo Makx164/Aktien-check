@@ -97,6 +97,30 @@ def main():
         print(f"  {len(benchmark['bars'])} bars via {benchmark['provider']} ({bench_label})")
     else:
         print("  no benchmark:", benchmark.get("note"))
+    custom_benchmarks = {}
+    for spec in tickers:
+        key = spec.get("benchmark")
+        if not key or key in custom_benchmarks:
+            continue
+        custom = (config.get("benchmarks") or {}).get(key)
+        if not custom:
+            continue
+        print("Fetching benchmark", custom.get("stooq") or custom.get("yahoo"), "for", key)
+        series = fetch_series(
+            custom.get("stooq"),
+            custom.get("nasdaq"),
+            custom.get("assetClass"),
+            custom.get("stooqFallbacks"),
+            custom.get("yahoo"),
+        )
+        if series["bars"]:
+            label = custom["label"] if series["provider"] == "stooq" else (custom.get("proxyLabel") or custom["label"])
+            custom_benchmarks[key] = {"bars": series["bars"], "label": label}
+            print(f"  {len(series['bars'])} bars via {series['provider']} ({label})")
+        else:
+            # TODO: SIVE momentum versus OMXS30. This run got no index bars, so the S&P stays.
+            custom_benchmarks[key] = None
+            print("  TODO: benchmark", key, "unavailable; momentum stays versus the S&P")
 
     for spec in tickers:
         ticker = spec["ticker"]
@@ -161,14 +185,21 @@ def main():
             print("  analysts skipped")
         sources["analystLabel"] = analysts.get("label")
         sources["analystUrl"] = analysts.get("url")
+        ticker_bench = bench_payload
+        custom_key = spec.get("benchmark")
+        if custom_key and custom_benchmarks.get(custom_key):
+            ticker_bench = custom_benchmarks[custom_key]
         price_input = {
             "bars": prices["bars"],
             "sourceLabel": prices.get("sourceLabel"),
             "sourceUrl": prices.get("sourceUrl"),
             "note": prices.get("note"),
-            "benchmark": bench_payload,
+            "benchmark": ticker_bench,
         }
-        scored = score_company(config, bundle, price_input, analysts, today, sources)
+        scored = score_company(
+            config, bundle, price_input, analysts, today, sources,
+            {"sec": bool(spec.get("sec")), "sector": spec.get("sector")},
+        )
         document = assemble(
             ticker,
             spec["name"],

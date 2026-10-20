@@ -43,6 +43,7 @@
     "ticker": "LMND",
     "name": "Lemonade",
     "sec": true,
+    "sector": "insurer",
     "stooq": "lmnd.us",
     "nasdaq": "LMND",
     "assetClass": "stocks"
@@ -84,13 +85,14 @@
     "name": "Sivers Semiconductors",
     "sec": false,
     "analysts": false,
+    "benchmark": "omxs30",
     "stooq": "sive.se",
     "stooqFallbacks": ["sive.st"],
     "yahoo": "SIVE.ST",
     "currency": "SEK",
     "nasdaq": null,
     "assetClass": null,
-    "note": "Keine SEC-Fundamentaldaten. Fundamentalkennzahlen und C_06 (Analysten) sind wenig Daten."
+    "note": "Keine SEC-Fundamentaldaten. Fundamentalkennzahlen: keine US-Meldepflicht. C_06 ist ausgeblendet und zählt nicht."
   },
   {
     "ticker": "SPCX",
