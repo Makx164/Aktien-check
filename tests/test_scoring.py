@@ -1064,14 +1064,21 @@ class RoundThreeTests(unittest.TestCase):
         self.assertNotIn("GEWICHTE", html)
         self.assertNotIn('id="rolle"', html)
         self.assertIn("Kriterium = ", html)
-        self.assertIn("Skala:", html)
+        self.assertIn("Mittel aus ", html)
+        self.assertIn("Summe aus ", html)
+        self.assertIn("Ohne Daten:", html)
+        self.assertIn(">Skala<", html)
         self.assertIn("Eine Metrik ohne Daten zählt nicht als 0.", html)
         self.assertIn('data-x2="', html)
+        self.assertIn("isCriterionX2", html)
+        self.assertIn("copy.weight = weight * 2", html)
+        self.assertNotIn('c.code + ":" + metric.id', html)
         self.assertIn("angepasster Score", html)
         self.assertIn("Zurücksetzen", html)
-        self.assertIn('x2StorageKey', html)
+        self.assertIn("x2StorageKey", html)
         self.assertIn('"ac-x2:" + ticker', html)
-        self.assertIn("gewichtetes Mittel", html)
+        self.assertIn("function sourceBlock", html)
+        self.assertNotIn("gewichtetes Mittel", html)
 
     def test_published_score_stays_standard_until_the_visitor_doubles(self):
         for criterion in CONFIG["criteria"]:
@@ -1080,29 +1087,124 @@ class RoundThreeTests(unittest.TestCase):
             for metric in criterion["metrics"]:
                 self.assertNotIn("weight", metric)
         oss = json.loads((ROOT / "data" / "OSS" / "score.json").read_text(encoding="utf-8"))
-        self.assertEqual(oss["score"], 63.2)
+        self.assertEqual(oss["score"], 65.4)
         growth = next(item for item in oss["criteria"] if item["id"] == "C_02")
-        self.assertEqual(growth["score"], 4.8)
-        doubled = {"revenue_ttm_yoy", "revenue_quarter_yoy"}
-        numerator = 0.0
-        denominator = 0.0
-        for metric in growth["metrics"]:
-            if metric.get("points") is None or metric.get("status"):
-                continue
-            weight = 2 if metric["id"] in doubled else 1
-            numerator += metric["points"] * weight
-            denominator += weight
-        c02 = round(numerator / denominator + 1e-9, 1)
-        self.assertEqual(c02, 6.1)
+        self.assertEqual(growth["score"], 5.6)
         num = 0.0
         den = 0.0
         for item in oss["criteria"]:
-            score = c02 if item["id"] == "C_02" else item["score"]
-            if score is None:
+            if item.get("score") is None:
                 continue
-            num += score * item["weight"]
-            den += item["weight"]
-        self.assertEqual(round((num / den) * 10 + 1e-9, 1), 66.8)
+            weight = item["weight"] * (2 if item["id"] == "C_02" else 1)
+            num += item["score"] * weight
+            den += weight
+        self.assertEqual(round((num / den) * 10 + 1e-9, 1), 63.4)
+
+
+class RoundFiveTests(unittest.TestCase):
+    def test_ttm_acceleration_uses_the_prior_window_and_a_gap_stays_blank(self):
+        rows = []
+        values = [100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230]
+        starts = [
+            "2023-01-01", "2023-04-01", "2023-07-01", "2023-10-01",
+            "2024-01-01", "2024-04-01", "2024-07-01", "2024-10-01",
+            "2025-01-01", "2025-04-01", "2025-07-01", "2025-10-01",
+            "2026-01-01", "2026-04-01",
+        ]
+        ends = [
+            "2023-03-31", "2023-06-30", "2023-09-30", "2023-12-31",
+            "2024-03-31", "2024-06-30", "2024-09-30", "2024-12-31",
+            "2025-03-31", "2025-06-30", "2025-09-30", "2025-12-31",
+            "2026-03-31", "2026-06-30",
+        ]
+        for start, end, val in zip(starts, ends, values):
+            rows.append({
+                "start": start, "end": end, "val": val, "form": "10-Q", "filed": "2026-07-31", "fp": "Q2",
+            })
+        facts = {"us-gaap": {"RevenueFromContractWithCustomerExcludingAssessedTax": {"units": {"USD": rows}}}}
+        bundle = extract_fundamentals(facts)
+        snap = bundle["snapshot"]
+        self.assertEqual(snap["revenue"], 860)
+        self.assertEqual(snap["revenue_prior"], 700)
+        self.assertEqual(snap["revenue_prior_prior"], 540)
+        scored = score_company(CONFIG, bundle, {}, {}, "2026-10-20", {})
+        acceleration = metric_map(scored, "C_02")[1]["revenue_acceleration"]
+        self.assertAlmostEqual(acceleration["raw"], 860 / 700 - 700 / 540, places=6)
+        self.assertEqual(acceleration["points"], 1.6)
+        self.assertIsNone(acceleration["status"])
+
+        gap = score_company(CONFIG, {"snapshot": {
+            "end": "2026-06-30",
+            "label": "TTM bis 2026-06-30",
+            "months": 12,
+            "revenue": 100,
+            "revenue_prior": 80,
+            "sourceLabel": "SEC EDGAR companyfacts",
+        }}, {}, {}, "2026-10-20", {})
+        missing = metric_map(gap, "C_02")[1]["revenue_acceleration"]
+        self.assertIsNone(missing["points"])
+        self.assertNotEqual(missing["points"], 0)
+        self.assertIsNotNone(missing["status"])
+
+    def test_technology_and_infrastructure_fills_research_when_gaap_rd_is_absent(self):
+        from scoring.edgar import parse_extension_instance
+
+        xml = """<?xml version="1.0"?>
+        <xbrl xmlns:amzn="http://example.com/amzn">
+          <context id="q"><period><startDate>2026-04-01</startDate><endDate>2026-06-30</endDate></period></context>
+          <context id="seg"><entity><segment><explicitMember dimension="x">amzn:AWS</explicitMember></segment></entity>
+            <period><startDate>2026-04-01</startDate><endDate>2026-06-30</endDate></period></context>
+          <amzn:TechnologyAndInfrastructureExpense contextRef="q" unitRef="usd">33158000000</amzn:TechnologyAndInfrastructureExpense>
+          <amzn:TechnologyAndInfrastructureExpense contextRef="seg" unitRef="usd">1</amzn:TechnologyAndInfrastructureExpense>
+        </xbrl>""".encode()
+        parsed = parse_extension_instance(xml, ("TechnologyAndInfrastructureExpense",), "10-Q", "2026-07-31")
+        self.assertEqual(len(parsed), 1)
+        self.assertEqual(parsed[0][1]["val"], 33158000000)
+
+        def row(start, end, val, form="10-Q", filed="2026-07-31", fp=None):
+            item = {"start": start, "end": end, "val": val, "form": form, "filed": filed}
+            if fp:
+                item["fp"] = fp
+            return item
+
+        tech = [
+            row("2025-07-01", "2025-09-30", 28_962_000_000, filed="2025-10-31"),
+            row("2025-01-01", "2025-09-30", 79_122_000_000, filed="2025-10-31"),
+            row("2025-01-01", "2025-12-31", 108_521_000_000, form="10-K", filed="2026-02-06", fp="FY"),
+            row("2026-01-01", "2026-03-31", 29_567_000_000, filed="2026-04-30"),
+            row("2026-04-01", "2026-06-30", 33_158_000_000),
+        ]
+        revenue = [
+            row("2025-07-01", "2025-09-30", 180_000_000_000),
+            row("2025-10-01", "2025-12-31", 190_000_000_000),
+            row("2026-01-01", "2026-03-31", 200_000_000_000),
+            row("2026-04-01", "2026-06-30", 205_680_000_000),
+        ]
+        facts = {"us-gaap": {
+            "RevenueFromContractWithCustomerExcludingAssessedTax": {"units": {"USD": revenue}},
+            "TechnologyAndInfrastructureExpense": {"units": {"USD": tech}},
+        }}
+        bundle = extract_fundamentals(facts)
+        self.assertEqual(bundle["snapshot"]["rd"], 121_086_000_000)
+        scored = score_company(CONFIG, bundle, {}, {}, "2026-10-20", {
+            "fundamentalLabel": "SEC EDGAR companyfacts",
+            "fundamentalUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+        })
+        research = metric_map(scored, "C_03")[1]["rd_intensity"]
+        self.assertEqual(research["label"], "Forschungsquote, Technology and infrastructure")
+        self.assertIn("Technology and infrastructure", research["sourceLabel"])
+        self.assertEqual(research["points"], 10)
+        self.assertAlmostEqual(research["raw"], 121_086_000_000 / 775_680_000_000, places=6)
+
+        gaap = [
+            row("2025-07-01", "2025-09-30", 1_000_000_000),
+            row("2025-10-01", "2025-12-31", 1_000_000_000),
+            row("2026-01-01", "2026-03-31", 1_000_000_000),
+            row("2026-04-01", "2026-06-30", 1_000_000_000),
+        ]
+        facts["us-gaap"]["ResearchAndDevelopmentExpense"] = {"units": {"USD": gaap}}
+        preferred = extract_fundamentals(facts)
+        self.assertEqual(preferred["snapshot"]["rd"], 4_000_000_000)
 
 
 if __name__ == "__main__":

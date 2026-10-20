@@ -219,7 +219,12 @@ def main():
             else:
                 facts, facts_url = edgar.companyfacts(cik)
                 submissions, sub_url = edgar.submissions(cik)
-                bundle = extract_fundamentals(facts.get("facts") or {})
+                body = facts.get("facts") or {}
+                try:
+                    edgar.merge_rd_extension(body, cik, submissions)
+                except (OSError, ValueError, TypeError):
+                    print("  extension facts unavailable")
+                bundle = extract_fundamentals(body)
                 insider = edgar.insider_flows(cik, submissions, date.today())
                 if insider:
                     bundle["insider"] = insider

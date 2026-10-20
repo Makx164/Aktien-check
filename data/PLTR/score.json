@@ -8,7 +8,7 @@
   "trafficLight": "green",
   "qualityScore": 90.0,
   "marketScore": 55.5,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 32 von 34 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 33 von 34 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [],
   "price": {
@@ -118,7 +118,7 @@
       "score": 10.0,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "7 von 8 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist",
+      "dataQuality": "8 von 8 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist TTM bis 2026-06-30",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
@@ -218,15 +218,16 @@
         {
           "id": "revenue_acceleration",
           "label": "Umsatzbeschleunigung",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
+          "value": "40,1 Pp",
+          "raw": 0.401309,
+          "points": 10.0,
+          "status": null,
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001321655.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": "2026-06-30",
+          "note": "TTM bis 2026-06-30"
         },
         {
           "id": "operating_margin_change_yoy",

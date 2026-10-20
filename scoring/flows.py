@@ -14,6 +14,7 @@ from scoring.metrics import (
     _rows,
     latest_position,
     parse_date,
+    research_concepts,
     year_gap,
 )
 
@@ -197,6 +198,74 @@ def _stub_pair(rows):
     return current, prior
 
 
+def _index_years_before(quarters, end, years=1.0, tolerance=0.12):
+    best = None
+    best_dist = None
+    for index, quarter in enumerate(quarters):
+        if quarter["end"] >= end:
+            continue
+        dist = abs(year_gap(end, quarter["end"]) - years)
+        if dist > tolerance:
+            continue
+        if best_dist is None or dist < best_dist:
+            best = index
+            best_dist = dist
+    return best
+
+
+def _row_years_before(rows, anchor, years=1.0, tolerance=0.12):
+    """Same-length reported flow ending one year before anchor. No annual stand-in."""
+    if not anchor or not anchor.get("end"):
+        return None
+    days = _days(anchor.get("start"), anchor.get("end"))
+    best = None
+    best_dist = None
+    for row in rows:
+        if not row.get("end") or row["end"] >= anchor["end"]:
+            continue
+        dist = abs(year_gap(anchor["end"], row["end"]) - years)
+        if dist > tolerance:
+            continue
+        other_days = _days(row.get("start"), row.get("end"))
+        if days is not None and other_days is not None and abs(other_days - days) > 25:
+            continue
+        if anchor.get("start") and row.get("start") and abs(year_gap(anchor["start"], row["start"]) - years) > tolerance:
+            continue
+        if best_dist is None or dist < best_dist or (
+            dist == best_dist and (row.get("filed") or "") >= (best.get("filed") or "")
+        ):
+            best = row
+            best_dist = dist
+    return best
+
+
+def _earlier_value(facts, concepts, units, current, prior):
+    """Revenue of the window one year before `prior`, same length.
+
+    A TTM comparison uses the earlier TTM. A half-year or quarter uses the
+    matching stub. An annual figure is not mixed into a shorter window.
+    """
+    if not current or not prior or not prior.get("end") or not prior.get("val"):
+        return None
+    rows = _concept_rows(facts, concepts, units)
+    if (current.get("months") or 0) >= 11:
+        quarters = _quarters(rows, allow_negative_derived=False)
+        index = _index_years_before(quarters, prior["end"])
+        if index is None:
+            return None
+        window = _continuous(quarters, index, 4)
+        if not window:
+            return None
+        summed = _sum_window(window)
+        if abs(year_gap(prior["end"], summed["end"]) - 1.0) > 0.12 or summed["val"] <= 0:
+            return None
+        return summed["val"]
+    match = _row_years_before(rows, prior)
+    if match is None or match.get("val") is None or float(match["val"]) <= 0:
+        return None
+    return float(match["val"])
+
+
 def _aligned(flow, anchor):
     if not flow or not anchor or flow.get("end") != anchor.get("end"):
         return False
@@ -304,10 +373,11 @@ def build_snapshot(facts, annual):
         "DepreciationAndAmortization",
         "DepreciationAndAmortisationExpense",
     ], ["USD"], revenue)
-    research, _rd_prior = flow_matching(facts, [
-        "ResearchAndDevelopmentExpense",
-        "ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost",
-    ], ["USD"], revenue, allow_negative_derived=False)
+    rd_concepts = research_concepts(facts)
+    research, _rd_prior = flow_matching(
+        facts, rd_concepts, ["USD"], revenue, allow_negative_derived=False,
+    )
+    revenue_prior_prior = _earlier_value(facts, revenue_concepts, ["USD"], revenue, revenue_prior)
     cash = _point(latest_position(facts, [
         "CashAndCashEquivalentsAtCarryingValue",
         "CashAndCashEquivalents",
@@ -341,6 +411,7 @@ def build_snapshot(facts, annual):
         "months": revenue["months"],
         "revenue": revenue["val"],
         "revenue_prior": None if revenue_prior is None else revenue_prior["val"],
+        "revenue_prior_prior": revenue_prior_prior,
         "operating_income": None if operating is None or operating["end"] != revenue["end"] else operating["val"],
         "operating_income_prior": None if operating_prior is None or revenue_prior is None or operating_prior["end"] != revenue_prior["end"] else operating_prior["val"],
         "net_income": None if net_income is None or net_income["end"] != revenue["end"] else net_income["val"],
@@ -389,7 +460,10 @@ def build_snapshot(facts, annual):
     ):
         if point is None:
             continue
-        provenance[field] = {"label": sec, "url": None, "end": point.get("end")}
+        label = sec
+        if field == "rd" and rd_concepts[-1] == "TechnologyAndInfrastructureExpense":
+            label = "SEC EDGAR, Technology and infrastructure"
+        provenance[field] = {"label": label, "url": None, "end": point.get("end")}
     if quarter is not None:
         provenance["revenue_quarter"] = {"label": sec, "url": None, "end": quarter["end"]}
     snapshot["provenance"] = provenance

@@ -197,6 +197,24 @@ def _find_concept(facts, name):
     return None
 
 
+def _concept_has_usd(facts, name):
+    concept = _find_concept(facts, name)
+    if not concept:
+        return False
+    return bool(_rows(concept, ["USD"]))
+
+
+def research_concepts(facts):
+    """GAAP research expense, or Amazon's technology-and-infrastructure line when GAAP R&D is absent."""
+    standard = [
+        "ResearchAndDevelopmentExpense",
+        "ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost",
+    ]
+    if any(_concept_has_usd(facts, name) for name in standard):
+        return standard
+    return standard + ["TechnologyAndInfrastructureExpense"]
+
+
 def _rows(concept, units):
     available = concept.get("units") or {}
     for unit in units:
@@ -495,9 +513,7 @@ def extract_fundamentals(facts):
         "AllocatedShareBasedCompensationExpense",
         "AdjustmentsForSharebasedPayments",
     ], ["USD"])
-    rd = annual_series(facts, [
-        "ResearchAndDevelopmentExpense",
-    ], ["USD"])
+    rd = annual_series(facts, research_concepts(facts), ["USD"])
     tax = annual_series(facts, [
         "IncomeTaxExpenseBenefit",
         "IncomeTaxExpenseContinuingOperations",
@@ -1153,6 +1169,7 @@ def _apply_provenance(sources_by_metric, labels, observed, snap):
         "ocf_margin": "cfo",
         "revenue_yoy": "revenue",
         "revenue_ttm_yoy": "revenue",
+        "revenue_acceleration": "revenue",
         "revenue_quarter_yoy": "revenue_quarter",
         "fcf_yield": "fcf",
         "valuation_primary": "revenue",
@@ -1174,6 +1191,8 @@ def _apply_provenance(sources_by_metric, labels, observed, snap):
             src = provenance.get("equity")
         if not src or not src.get("label"):
             continue
+        if metric_id == "rd_intensity" and "Technology and infrastructure" in str(src.get("label")):
+            labels["rd_intensity"] = "Forschungsquote, Technology and infrastructure"
         sources_by_metric[metric_id] = {
             "label": src.get("label"),
             "url": src.get("url") or (snap or {}).get("sourceUrl"),
@@ -1355,7 +1374,12 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
             else:
                 labels["revenue_ttm_yoy"] = "Umsatzwachstum, Quartal zum Vorjahr"
             labels["revenue_ttm_yoy_note"] = snap.get("label")
-            prior_growth = None
+            base = snap.get("revenue_prior_prior")
+            if base:
+                prior_growth = snap["revenue_prior"] / base - 1.0
+                put("revenue_acceleration", growth - prior_growth, snap["end"])
+                if snap.get("label"):
+                    labels["revenue_acceleration_note"] = snap.get("label")
         else:
             growth = yoy(revenue, end)
             put("revenue_yoy", growth, end if growth is not None else None)

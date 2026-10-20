@@ -2,13 +2,13 @@
   "ticker": "AMZN",
   "name": "Amazon",
   "asOf": "2026-10-19",
-  "score": 64.3,
+  "score": 68.5,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
-  "qualityScore": 61.2,
+  "qualityScore": 66.4,
   "marketScore": 76.3,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 32 von 34 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 34 von 34 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [],
   "price": {
@@ -115,10 +115,10 @@
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 5.4,
+      "score": 5.7,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "7 von 8 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist",
+      "dataQuality": "8 von 8 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist TTM bis 2026-06-30",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
@@ -219,15 +219,16 @@
         {
           "id": "revenue_acceleration",
           "label": "Umsatzbeschleunigung",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
+          "value": "4,9 Pp",
+          "raw": 0.048944,
+          "points": 7.4,
+          "status": null,
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": "2026-06-30",
+          "note": "TTM bis 2026-06-30"
         },
         {
           "id": "operating_margin_change_yoy",
@@ -247,10 +248,10 @@
     {
       "id": "C_03",
       "label": "Markt & Zukunftsmarkt",
-      "score": 5.3,
+      "score": 7.7,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "1 von 2 Metriken verfügbar. TTM bis 2026-06-30",
+      "dataQuality": "2 von 2 Metriken verfügbar. TTM bis 2026-06-30 TTM bis 2026-06-30",
       "metrics": [
         {
           "id": "revenue_yoy",
@@ -268,16 +269,17 @@
         },
         {
           "id": "rd_intensity",
-          "label": "Forschungsquote",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
+          "label": "Forschungsquote, Technology and infrastructure",
+          "value": "15,6 %",
+          "raw": 0.156103,
+          "points": 10.0,
+          "status": null,
           "scale": "≥ 15 % = 10, 0 % = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceLabel": "SEC EDGAR, Technology and infrastructure",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": "2026-06-30",
+          "note": "TTM bis 2026-06-30"
         }
       ]
     },

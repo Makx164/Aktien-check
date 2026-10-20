@@ -131,6 +131,61 @@ class EdgarClient:
             "measured": True,
         }
 
+    def merge_rd_extension(self, facts, cik, submissions):
+        """Fill TechnologyAndInfrastructureExpense when GAAP research expense is absent.
+
+        companyfacts drops custom namespaces. The line is read from the latest
+        10-Q and 10-K instance documents and cached. A failed filing is skipped.
+        """
+        if not isinstance(facts, dict):
+            return facts
+        if _usd_concept(facts, "ResearchAndDevelopmentExpense") or _usd_concept(
+            facts, "ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost"
+        ):
+            return facts
+        payload = self._extension_payload(cik, submissions, RD_EXTENSION_NAMES)
+        gaap = facts.setdefault("us-gaap", {})
+        for name, concept in (payload.get("concepts") or {}).items():
+            units = ((concept or {}).get("units") or {}).get("USD") or []
+            if not units or _usd_concept(facts, name):
+                continue
+            gaap[name] = {"units": {"USD": units}}
+        return facts
+
+    def _extension_payload(self, cik, submissions, names):
+        filings = _statement_filings(submissions)
+        latest = filings[0]["filed"] if filings else ""
+        path = self.cache_dir / f"ext-{int(cik):010d}.json"
+        if path.exists():
+            cached = json.loads(path.read_text(encoding="utf-8"))
+            if (cached.get("filedThrough") or "") >= latest and latest:
+                return cached
+        grouped = {name: {} for name in names}
+        for filing in filings:
+            primary = (filing.get("primary") or "").split("/")[-1]
+            stem = primary.rsplit(".", 1)[0]
+            filename = primary if primary.endswith(".xml") else stem + "_htm.xml"
+            accession = (filing.get("accession") or "").replace("-", "")
+            if not accession or not filename:
+                continue
+            url = f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{accession}/{filename}"
+            try:
+                xml_bytes = self._get_bytes(url, self.cache_dir / f"xbrl-{accession}.xml")
+            except (urllib.error.URLError, TimeoutError, OSError, ValueError):
+                continue
+            for name, row in parse_extension_instance(xml_bytes, names, filing["form"], filing["filed"]):
+                slot = (row["start"], row["end"])
+                current = grouped[name].get(slot)
+                if current is None or (row.get("filed") or "") >= (current.get("filed") or ""):
+                    grouped[name][slot] = row
+        concepts = {}
+        for name, slots in grouped.items():
+            if slots:
+                concepts[name] = {"units": {"USD": list(slots.values())}}
+        payload = {"filedThrough": latest, "concepts": concepts}
+        path.write_text(json.dumps(payload), encoding="utf-8")
+        return payload
+
     def _get_json(self, url, path):
         if path.exists():
             return json.loads(path.read_text(encoding="utf-8"))
@@ -244,6 +299,92 @@ def parse_form4(xml_bytes):
         "trades": buys + sells + plan_sells,
         "observed": observed,
     }
+
+
+RD_EXTENSION_NAMES = ("TechnologyAndInfrastructureExpense",)
+
+
+def parse_extension_instance(xml_bytes, names, form, filed):
+    """Duration facts for extension concepts. Segment members and text blocks stay out."""
+    try:
+        root = ET.fromstring(xml_bytes)
+    except ET.ParseError:
+        return []
+    contexts = {}
+    for element in root.iter():
+        if _local(element.tag) != "context":
+            continue
+        start = end = None
+        dimensional = False
+        for child in element.iter():
+            name = _local(child.tag)
+            if name == "startDate" and child.text:
+                start = child.text.strip()[:10]
+            elif name == "endDate" and child.text:
+                end = child.text.strip()[:10]
+            elif name == "explicitMember":
+                dimensional = True
+        contexts[element.attrib.get("id")] = (start, end, dimensional)
+    wanted = set(names)
+    rows = []
+    for element in root.iter():
+        local = _local(element.tag)
+        if local not in wanted:
+            continue
+        if (element.attrib.get("unitRef") or "").lower() not in {"usd", "iso4217:usd"}:
+            continue
+        value = _float((element.text or "").strip() or None)
+        if value is None:
+            continue
+        start, end, dimensional = contexts.get(element.attrib.get("contextRef"), (None, None, True))
+        if dimensional or not start or not end or start >= end:
+            continue
+        row = {
+            "start": start,
+            "end": end,
+            "val": value,
+            "form": form,
+            "filed": filed or "",
+        }
+        try:
+            days = (date.fromisoformat(end) - date.fromisoformat(start)).days
+        except ValueError:
+            continue
+        if form.startswith("10-K") and days > 300:
+            row["fp"] = "FY"
+        rows.append((local, row))
+    return rows
+
+
+def _statement_filings(submissions, limit=8):
+    recent = ((submissions or {}).get("filings") or {}).get("recent") or {}
+    forms = recent.get("form") or []
+    filed = recent.get("filingDate") or []
+    accessions = recent.get("accessionNumber") or []
+    documents = recent.get("primaryDocument") or []
+    chosen = []
+    for index, form in enumerate(forms):
+        if form not in {"10-Q", "10-K", "10-Q/A", "10-K/A"}:
+            continue
+        if index >= len(accessions) or index >= len(documents):
+            continue
+        chosen.append({
+            "form": "10-K" if str(form).startswith("10-K") else "10-Q",
+            "filed": filed[index] if index < len(filed) else "",
+            "accession": accessions[index],
+            "primary": documents[index],
+        })
+        if len(chosen) >= limit:
+            break
+    return chosen
+
+
+def _usd_concept(facts, name):
+    for namespace in ("us-gaap", "ifrs-full"):
+        concept = ((facts or {}).get(namespace) or {}).get(name) or {}
+        if ((concept.get("units") or {}).get("USD")):
+            return True
+    return False
 
 
 def _local(tag):

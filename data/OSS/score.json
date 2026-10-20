@@ -2,13 +2,13 @@
   "ticker": "OSS",
   "name": "One Stop Systems",
   "asOf": "2026-10-19",
-  "score": 63.2,
+  "score": 65.4,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
-  "qualityScore": 58.7,
+  "qualityScore": 61.4,
   "marketScore": 80.8,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 28 von 34 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 29 von 34 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [],
   "price": {
@@ -115,10 +115,10 @@
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 4.8,
+      "score": 5.6,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "6 von 9 Metriken verfügbar. H1 bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr",
+      "dataQuality": "7 von 9 Metriken verfügbar. H1 bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr H1 bis 2026-06-30",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
@@ -217,15 +217,16 @@
         {
           "id": "revenue_acceleration",
           "label": "Umsatzbeschleunigung",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
+          "value": "116,4 Pp",
+          "raw": 1.163934,
+          "points": 10.0,
+          "status": null,
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001394056.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": "2026-06-30",
+          "note": "H1 bis 2026-06-30"
         },
         {
           "id": "operating_margin_change_yoy",

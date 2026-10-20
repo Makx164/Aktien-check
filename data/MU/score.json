@@ -2,13 +2,13 @@
   "ticker": "MU",
   "name": "Micron Technology",
   "asOf": "2026-10-19",
-  "score": 84.5,
+  "score": 84.8,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "green",
-  "qualityScore": 81.7,
+  "qualityScore": 82.0,
   "marketScore": 95.2,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 33 von 34 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 34 von 34 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [
     "Plausibilitätswarnung: 12-1 über +300 Pp"
@@ -117,10 +117,10 @@
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 9.3,
+      "score": 9.4,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "7 von 8 Metriken verfügbar. TTM bis 2026-09-03 Quartal bis 2026-09-03 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist",
+      "dataQuality": "8 von 8 Metriken verfügbar. TTM bis 2026-09-03 Quartal bis 2026-09-03 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist TTM bis 2026-09-03",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
@@ -221,15 +221,16 @@
         {
           "id": "revenue_acceleration",
           "label": "Umsatzbeschleunigung",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
+          "value": "207,5 Pp",
+          "raw": 2.074762,
+          "points": 10.0,
+          "status": null,
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": "2026-09-03",
+          "note": "TTM bis 2026-09-03"
         },
         {
           "id": "operating_margin_change_yoy",

@@ -211,6 +211,13 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
 .x2 input{width:11px;height:11px;margin:0;accent-color:var(--ink)}
 .x2-bar{display:flex;align-items:center;gap:10px;margin-top:8px}
 .x2-reset{border:1px solid var(--hair2);background:transparent;color:var(--ink2);font:500 10.5px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;cursor:pointer}
+.mtbl{width:100%;border-collapse:collapse;margin:10px 0 4px;font:500 12.5px/1.45 "JetBrains Mono",monospace}
+.mtbl th{text-align:left;font:500 10px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);padding:4px 10px 4px 0;border-bottom:1px solid var(--hair)}
+.mtbl td{padding:6px 10px 6px 0;border-bottom:1px solid var(--hair2);vertical-align:baseline}
+.mtbl td.val{font-weight:700;font-size:14.5px;color:var(--ink);white-space:nowrap}
+.mtbl td.pts{font-weight:600;white-space:nowrap}
+.mtbl td.scale{font-size:11px;color:var(--mut);font-weight:400}
+.mtbl-gap{margin:8px 0 0;font:500 12px "JetBrains Mono",monospace;color:var(--mut)}
 .expl{font-size:14px;color:var(--ink2);margin:10px 0}
 .src{font:500 11.5px "JetBrains Mono",monospace;color:var(--mut);margin-top:8px;word-break:break-word;letter-spacing:.04em}
 .src a{margin-right:12px}
@@ -463,7 +470,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     if (x == null || Number.isNaN(Number(x))) return "–";
     return (Math.round(Number(x) * 10) / 10).toFixed(1).replace(".", ",");
   }
-  function host(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return "Quelle"; } }
   function lvl(p) { return p >= 0.7 ? "gruen" : p >= 0.4 ? "gelb" : "rot"; }
   function seg(points, max) {
     var n = 10, known = points != null && !Number.isNaN(Number(points));
@@ -594,18 +600,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     return '<div class="legend"><span><span class="sq gruen"></span> ≥ 70 · ' + esc(lab("gruen")) + '</span><span><span class="sq gelb"></span> 50–69 · ' + esc(lab("gelb")) +
       '</span><span><span class="sq rot"></span> &lt; 50 · ' + esc(lab("rot")) + "</span></div>";
   }
-  function srcLinks(urls) {
-    var seen = {};
-    var list = urls.filter(function (url) {
-      if (!url || seen[url]) return false;
-      seen[url] = 1;
-      return /^https?:\/\//i.test(url);
-    });
-    if (!list.length) return "";
-    return '<div class="src">SRC: ' + list.map(function (url) {
-      return '<a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + esc(host(url)) + "</a>";
-    }).join("") + "</div>";
-  }
   function shownScore(doc) {
     if (doc.status) return String(doc.status);
     return n1(doc.score);
@@ -679,37 +673,37 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
         ? '<span class="tag daten">Daten</span>'
         : '<span class="' + (excluded ? "tag off" : "tag bsp") + '">' + esc(gap) + "</span>";
       var doubled = doc.doubled || {};
-      var rows = (c.metrics || []).map(function (metric) {
-        var missing = metric.status || metric.value == null || metric.value === "";
-        var label = gapLabel(metric.status);
-        var value = missing ? label : String(metric.value);
-        var points = metric.status ? label : n1(metric.points);
-        var parts = [value];
-        if (metric.scale) parts.push("Skala: " + metric.scale);
-        parts.push(points);
-        var boxKey = c.code + ":" + metric.id;
-        var box = '<label class="x2"><input type="checkbox" data-x2="' + esc(boxKey) + '"' + (doubled[boxKey] ? " checked" : "") + "> ×2</label>";
-        var sourceName = metric.sourceLabel || "Quelle fehlt";
-        var source = metric.sourceUrl && /^https?:\/\//i.test(metric.sourceUrl)
-          ? '<a href="' + esc(metric.sourceUrl) + '" target="_blank" rel="noopener noreferrer">' + esc(sourceName) + "</a>"
-          : esc(sourceName);
-        var dated = [];
-        if (metric.observedAt) dated.push("Stichtag " + dDE(metric.observedAt));
-        if (metric.fetchedAt) dated.push("Abruf " + dDE(metric.fetchedAt));
-        var meta = source + (dated.length ? " · " + esc(dated.join(" · ")) : "");
-        return '<div class="row long"><span class="k">' + esc(metric.label || metric.id) + box + '</span><span class="lead-d"></span><span class="v' + (missing ? " nd" : "") + '">' + esc(parts.join(" · ")) + '</span></div><p class="expl">' + meta + "</p>";
+      var present = [];
+      var absent = [];
+      (c.metrics || []).forEach(function (metric) {
+        if (metric.status || metric.points == null) absent.push(metric);
+        else present.push(metric);
+      });
+      var rows = present.map(function (metric) {
+        var tip = sourceTitle(metric);
+        return "<tr><td>" + esc(metric.label || metric.id) + '</td><td class="val"' + (tip ? ' title="' + esc(tip) + '"' : "") + ">" + esc(String(metric.value)) + '</td><td class="pts">' + esc(n1(metric.points)) + '</td><td class="scale">' + esc(metric.scale || "") + "</td></tr>";
       }).join("");
-      var counted = (c.metrics || []).filter(function (metric) { return !metric.status && metric.points != null; }).length;
-      var how = c.aggregate === "sum" ? (c.visitorWeighted ? "gewichtete Summe" : "Summe") : (c.visitorWeighted ? "gewichtetes Mittel" : "Mittel");
-      var meanLine = '<p class="expl">Kriterium = ' + how + " aus " + counted + " Metriken mit Daten</p>";
+      var table = present.length
+        ? '<table class="mtbl"><thead><tr><th>Metrik</th><th>Wert</th><th>Punkte</th><th>Skala</th></tr></thead><tbody>' + rows + "</tbody></table>"
+        : "";
+      var gapLine = absent.length
+        ? '<p class="mtbl-gap">Ohne Daten: ' + absent.map(function (metric) {
+          var name = metric.label || metric.id;
+          return esc(name) + (metric.status ? " (" + esc(metric.status) + ")" : "");
+        }).join(", ") + "</p>"
+        : "";
+      var how = c.aggregate === "sum" ? "Summe aus " : "Mittel aus ";
+      var meanLine = '<p class="expl">Kriterium = ' + how + present.length + " Werten</p>";
       var quality = c.dataQuality ? '<p class="expl">' + esc(c.dataQuality) + "</p>" : "";
       var summary = c.code === "C_06" ? analystSummary(c.summary) : "";
-      var urls = (c.metrics || []).map(function (metric) { return metric.sourceUrl; });
+      var box = /^C_0[1-8]$/.test(c.code)
+        ? '<label class="x2" onclick="event.stopPropagation()"><input type="checkbox" data-x2="' + esc(c.code) + '"' + (doubled[c.code] ? " checked" : "") + "> ×2</label>"
+        : "";
       var scoreText = c.bewertet
         ? esc(n1(c.wert)) + "<small>/10</small>"
         : (excluded ? '<span class="mlabel">' + esc(gap) + "</span>" : esc(gap) + "<small>/10</small>");
       h += '<details class="crit" id="c' + c.id + '"><summary><span><span class="cid">CRITERION_' + pad(c.id) + '</span><span class="cn">' + esc(c.name) + '</span><span class="ctags">' + tag + '</span></span><span class="score">' +
-        scoreText + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body"><div class="kv">' + rows + "</div>" + meanLine + summary + quality + srcLinks(urls) + "</div></details>";
+        box + scoreText + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body">' + table + gapLine + meanLine + summary + quality + "</div></details>";
     });
     return h;
   }
@@ -745,15 +739,60 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
         return esc((row.date || "–") + " · " + (row.firm || "–") + " · " + (row.grade || "–") + " · " + price);
       }).join("<br>") + "</p>";
     }
-    h += "<p>" + esc((summary.sourceLabel || "Quelle") + (summary.fetchedAt ? " · " + summary.fetchedAt : "")) + "</p></div>";
+    h += "</div>";
     return h;
   }
 
+  function sourceTitle(metric) {
+    var parts = [];
+    if (metric.sourceLabel) parts.push(metric.sourceLabel);
+    if (metric.observedAt) parts.push("Stichtag " + dDE(metric.observedAt));
+    if (metric.fetchedAt) parts.push("Abruf " + dDE(metric.fetchedAt));
+    return parts.join(" · ");
+  }
+
+  function sourceBlock(doc) {
+    var buckets = {
+      SEC: {obs: [], fetch: []},
+      "Yahoo Finance": {obs: [], fetch: []},
+      Nasdaq: {obs: [], fetch: []}
+    };
+    function add(label, url, observed, fetched) {
+      var text = (label || "") + " " + (url || "");
+      var names = [];
+      if (/yahoo/i.test(text)) names.push("Yahoo Finance");
+      if (/nasdaq/i.test(text)) names.push("Nasdaq");
+      if (/sec|edgar/i.test(text)) names.push("SEC");
+      names.forEach(function (name) {
+        if (observed) buckets[name].obs.push(observed);
+        if (fetched) buckets[name].fetch.push(fetched);
+      });
+    }
+    metricsOf(doc).forEach(function (metric) {
+      add(metric.sourceLabel, metric.sourceUrl, metric.observedAt, metric.fetchedAt);
+    });
+    if (doc.price) add(doc.price.sourceLabel, doc.price.sourceUrl, doc.price.date, null);
+    var lines = [];
+    ["SEC", "Yahoo Finance", "Nasdaq"].forEach(function (name) {
+      var bucket = buckets[name];
+      if (!bucket.obs.length && !bucket.fetch.length) return;
+      var parts = [name];
+      var observed = latest(bucket.obs);
+      var fetched = latest(bucket.fetch);
+      if (observed) parts.push("Stichtag " + dDE(observed));
+      if (fetched) parts.push("Abruf " + dDE(fetched));
+      lines.push(esc(parts.join(" · ")));
+    });
+    if (!lines.length) return "";
+    return '<div class="src">' + lines.join("<br>") + "</div>";
+  }
+
   function x2StorageKey(ticker) { return "ac-x2:" + ticker; }
+  function isCriterionX2(id) { return /^C_0[1-8]$/.test(id); }
   function loadX2(ticker) {
     try {
       var parsed = JSON.parse(localStorage.getItem(x2StorageKey(ticker)) || "[]");
-      return Array.isArray(parsed) ? parsed.filter(function (id) { return typeof id === "string"; }) : [];
+      return Array.isArray(parsed) ? parsed.filter(isCriterionX2) : [];
     } catch (e) { return []; }
   }
   function saveX2(ticker, ids) {
@@ -762,26 +801,9 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
       else localStorage.setItem(x2StorageKey(ticker), JSON.stringify(ids));
     } catch (e) {}
   }
-  function metricCounts(metric) {
-    return !metric.status && metric.points != null && metric.points !== "";
-  }
   function roundScore(value) {
     if (value == null || !isFinite(value)) return null;
     return Math.round(value * 10) / 10;
-  }
-  function weightedCriterion(criterion, doubled) {
-    var rows = (criterion.metrics || []).filter(metricCounts);
-    if (!rows.length) return null;
-    var numerator = 0;
-    var denominator = 0;
-    rows.forEach(function (metric) {
-      var weight = doubled[criterion.code + ":" + metric.id] ? 2 : 1;
-      numerator += Number(metric.points) * weight;
-      denominator += weight;
-    });
-    var score = criterion.aggregate === "sum" ? numerator : numerator / denominator;
-    if (criterion.capApplied && score > 7) score = 7;
-    return roundScore(score);
   }
   function headlineFrom(criteria) {
     var numerator = 0;
@@ -800,27 +822,20 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
   }
   function withVisitorWeights(doc, ids) {
     var known = {};
-    doc.criteria.forEach(function (criterion) {
-      (criterion.metrics || []).forEach(function (metric) { known[criterion.code + ":" + metric.id] = true; });
-    });
+    doc.criteria.forEach(function (criterion) { known[criterion.code] = criterion; });
     var selected = ids.filter(function (id) { return known[id]; });
     if (!selected.length) return doc;
     var doubled = {};
     selected.forEach(function (id) { doubled[id] = true; });
     var touched = false;
     var criteria = doc.criteria.map(function (criterion) {
-      var active = (criterion.metrics || []).some(function (metric) {
-        return doubled[criterion.code + ":" + metric.id] && metricCounts(metric);
-      });
-      if (!active) return criterion;
+      if (!doubled[criterion.code] || criterion.wert == null) return criterion;
+      var weight = Number(criterion.weight);
+      if (!isFinite(weight) || weight <= 0) return criterion;
       touched = true;
-      var wert = weightedCriterion(criterion, doubled);
       var copy = {};
       for (var key in criterion) copy[key] = criterion[key];
-      copy.wert = wert;
-      copy.bewertet = wert != null;
-      copy.status = wert == null ? (criterion.status || "wenig Daten") : null;
-      copy.visitorWeighted = true;
+      copy.weight = weight * 2;
       return copy;
     });
     var next = {};
@@ -860,6 +875,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
         doc.ko.map(function (flag) { return "<li>" + esc(flag) + "</li>"; }).join("") + "</ul></div>";
     }
     h += matrix(doc) + criteriaDetail(doc);
+    h += sourceBlock(doc);
     h += disclaimer();
     app.innerHTML = '<article class="result">' + h + "</article>";
     if (keep) {

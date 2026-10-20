@@ -2,13 +2,13 @@
   "ticker": "PYPL",
   "name": "PayPal",
   "asOf": "2026-10-19",
-  "score": 47.7,
+  "score": 48.6,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "red",
-  "qualityScore": 45.7,
+  "qualityScore": 46.7,
   "marketScore": 55.5,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 30 von 34 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 31 von 34 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [],
   "price": {
@@ -115,10 +115,10 @@
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 3.4,
+      "score": 3.7,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "7 von 8 Metriken verfügbar. TTM bis 2026-03-31 Quartal bis 2026-03-31 Analystenschätzung, nächstes Jahr",
+      "dataQuality": "8 von 8 Metriken verfügbar. TTM bis 2026-03-31 Quartal bis 2026-03-31 Analystenschätzung, nächstes Jahr TTM bis 2026-03-31",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
@@ -217,15 +217,16 @@
         {
           "id": "revenue_acceleration",
           "label": "Umsatzbeschleunigung",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
+          "value": "1,0 Pp",
+          "raw": 0.009911,
+          "points": 5.5,
+          "status": null,
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": "2026-03-31",
+          "note": "TTM bis 2026-03-31"
         },
         {
           "id": "operating_margin_change_yoy",

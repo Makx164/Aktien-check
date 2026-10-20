@@ -2,13 +2,13 @@
   "ticker": "IBRX",
   "name": "ImmunityBio",
   "asOf": "2026-10-19",
-  "score": 82.4,
+  "score": 77.7,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "green",
-  "qualityScore": 83.3,
+  "qualityScore": 77.3,
   "marketScore": 79.2,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 27 von 34 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 28 von 34 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [
     "Altman Z -5,9 unter 1,8"
@@ -117,10 +117,10 @@
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 10.0,
+      "score": 8.3,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "5 von 9 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr",
+      "dataQuality": "6 von 9 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr TTM bis 2026-06-30",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
@@ -219,15 +219,16 @@
         {
           "id": "revenue_acceleration",
           "label": "Umsatzbeschleunigung",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
+          "value": "-4034,3 Pp",
+          "raw": -40.342984,
+          "points": 0.0,
+          "status": null,
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": "2026-06-30",
+          "note": "TTM bis 2026-06-30"
         },
         {
           "id": "operating_margin_change_yoy",

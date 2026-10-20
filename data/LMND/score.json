@@ -8,7 +8,7 @@
   "trafficLight": "green",
   "qualityScore": 80.4,
   "marketScore": 60.0,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 24 von 32 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 25 von 32 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [],
   "price": {
@@ -118,7 +118,7 @@
       "score": 10.0,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "5 von 9 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr",
+      "dataQuality": "6 von 9 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr TTM bis 2026-06-30",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
@@ -217,15 +217,16 @@
         {
           "id": "revenue_acceleration",
           "label": "Umsatzbeschleunigung",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
+          "value": "34,8 Pp",
+          "raw": 0.348006,
+          "points": 10.0,
+          "status": null,
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": "2026-06-30",
+          "note": "TTM bis 2026-06-30"
         },
         {
           "id": "operating_margin_change_yoy",
