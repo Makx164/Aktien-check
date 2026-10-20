@@ -2,11 +2,11 @@
   "ticker": "MU",
   "name": "Micron Technology",
   "asOf": "2026-10-19",
-  "score": 83.7,
+  "score": 84.5,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "green",
-  "qualityScore": 80.7,
+  "qualityScore": 81.7,
   "marketScore": 95.2,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 33 von 34 Metriken verfügbar",
   "missingDataNote": null,
@@ -117,7 +117,7 @@
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 9.0,
+      "score": 9.3,
       "status": null,
       "weight": 2.0,
       "dataQuality": "7 von 8 Metriken verfügbar. TTM bis 2026-09-03 Quartal bis 2026-09-03 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist",
@@ -134,8 +134,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03",
-          "note": "TTM bis 2026-09-03",
-          "weight": 2.0
+          "note": "TTM bis 2026-09-03"
         },
         {
           "id": "revenue_quarter_yoy",
@@ -149,8 +148,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03",
-          "note": "Quartal bis 2026-09-03",
-          "weight": 2.0
+          "note": "Quartal bis 2026-09-03"
         },
         {
           "id": "revenue_estimate_yoy",
@@ -164,8 +162,7 @@
           "sourceUrl": "https://finance.yahoo.com/quote/MU",
           "fetchedAt": "2026-10-20",
           "observedAt": null,
-          "note": "Analystenschätzung, nächstes Jahr",
-          "weight": 2.0
+          "note": "Analystenschätzung, nächstes Jahr"
         },
         {
           "id": "revenue_cagr_3y",
@@ -178,8 +175,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-09-03",
-          "weight": 1.0
+          "observedAt": "2026-09-03"
         },
         {
           "id": "revenue_cagr_5y",
@@ -192,8 +188,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-09-03",
-          "weight": 1.0
+          "observedAt": "2026-09-03"
         },
         {
           "id": "eps_cagr_3y",
@@ -207,8 +202,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03",
-          "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist",
-          "weight": 1.0
+          "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
         },
         {
           "id": "fcf_cagr_3y",
@@ -222,8 +216,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03",
-          "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist",
-          "weight": 1.0
+          "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
         },
         {
           "id": "revenue_acceleration",
@@ -236,8 +229,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null,
-          "weight": 1.0
+          "observedAt": null
         },
         {
           "id": "operating_margin_change_yoy",
@@ -250,8 +242,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null,
-          "weight": 1.0
+          "observedAt": null
         }
       ]
     },

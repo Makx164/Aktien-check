@@ -2,11 +2,11 @@
   "ticker": "SPCX",
   "name": "Space Exploration Technologies",
   "asOf": "2026-10-19",
-  "score": 79.6,
+  "score": 76.5,
   "status": null,
   "criteriaWithData": 7,
   "trafficLight": "green",
-  "qualityScore": 84.0,
+  "qualityScore": 80.2,
   "marketScore": 59.4,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 23 von 34 Metriken verfügbar",
   "missingDataNote": "zu kurze Historie bei C_07. Der Score zählt nur Kriterien mit Daten.",
@@ -115,7 +115,7 @@
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 8.6,
+      "score": 7.5,
       "status": null,
       "weight": 2.0,
       "dataQuality": "4 von 9 Metriken verfügbar. H1 bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr",
@@ -132,8 +132,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-06-30",
-          "note": "H1 bis 2026-06-30",
-          "weight": 2.0
+          "note": "H1 bis 2026-06-30"
         },
         {
           "id": "revenue_quarter_yoy",
@@ -147,8 +146,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-06-30",
-          "note": "Quartal bis 2026-06-30",
-          "weight": 2.0
+          "note": "Quartal bis 2026-06-30"
         },
         {
           "id": "revenue_estimate_yoy",
@@ -162,8 +160,7 @@
           "sourceUrl": "https://finance.yahoo.com/quote/SPCX",
           "fetchedAt": "2026-10-20",
           "observedAt": null,
-          "note": "Analystenschätzung, nächstes Jahr",
-          "weight": 2.0
+          "note": "Analystenschätzung, nächstes Jahr"
         },
         {
           "id": "revenue_cagr_3y",
@@ -176,8 +173,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null,
-          "weight": 1.0
+          "observedAt": null
         },
         {
           "id": "revenue_cagr_5y",
@@ -190,8 +186,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null,
-          "weight": 1.0
+          "observedAt": null
         },
         {
           "id": "eps_cagr_3y",
@@ -204,8 +199,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null,
-          "weight": 1.0
+          "observedAt": null
         },
         {
           "id": "fcf_cagr_3y",
@@ -218,8 +212,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null,
-          "weight": 1.0
+          "observedAt": null
         },
         {
           "id": "revenue_acceleration",
@@ -232,8 +225,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null,
-          "weight": 1.0
+          "observedAt": null
         },
         {
           "id": "operating_margin_change_yoy",
@@ -246,8 +238,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-06-30",
-          "weight": 1.0
+          "observedAt": "2026-06-30"
         }
       ]
     },

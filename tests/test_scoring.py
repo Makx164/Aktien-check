@@ -997,20 +997,14 @@ class RoundThreeTests(unittest.TestCase):
         self.assertIsNone(metrics["eps_cagr_3y"]["points"])
         self.assertEqual(metrics["eps_cagr_3y"]["status"], "wenig Daten")
         growth = next(item for item in scored["criteria"] if item["id"] == "C_02")
-        for metric_id in ("revenue_ttm_yoy", "revenue_quarter_yoy", "revenue_estimate_yoy"):
-            self.assertEqual(metrics[metric_id]["weight"], 2)
-        for metric_id in ("revenue_cagr_3y", "revenue_cagr_5y", "eps_cagr_3y", "operating_margin_change_yoy"):
-            self.assertEqual(metrics[metric_id]["weight"], 1)
+        for metric in growth["metrics"]:
+            self.assertEqual(metric.get("weight", 1), 1)
         present = [
-            (metric["points"], metric["weight"])
-            for metric in growth["metrics"]
+            metric["points"] for metric in growth["metrics"]
             if metric.get("points") is not None and not metric.get("status")
         ]
         self.assertNotIn("eps_cagr_3y", [metric["id"] for metric in growth["metrics"] if metric.get("points") is not None])
-        numerator = sum(points * weight for points, weight in present)
-        denominator = sum(weight for _points, weight in present)
-        self.assertEqual(growth["score"], round(numerator / denominator, 1))
-        self.assertGreater(denominator, len(present))
+        self.assertEqual(growth["score"], round(sum(present) / len(present), 1))
         leverage = {row["id"]: row for row in next(item for item in scored["criteria"] if item["id"] == "C_04")["metrics"]}
         self.assertEqual(leverage["net_debt_to_ebitda"]["value"], "Netto-Cash")
         self.assertEqual(leverage["net_debt_to_ebitda"]["points"], 10)
@@ -1070,10 +1064,45 @@ class RoundThreeTests(unittest.TestCase):
         self.assertNotIn("GEWICHTE", html)
         self.assertNotIn('id="rolle"', html)
         self.assertIn("Kriterium = ", html)
-        self.assertIn("gewichtetes Mittel", html)
-        self.assertIn('"×"', html)
         self.assertIn("Skala:", html)
         self.assertIn("Eine Metrik ohne Daten zählt nicht als 0.", html)
+        self.assertIn('data-x2="', html)
+        self.assertIn("angepasster Score", html)
+        self.assertIn("Zurücksetzen", html)
+        self.assertIn('x2StorageKey', html)
+        self.assertIn('"ac-x2:" + ticker', html)
+        self.assertIn("gewichtetes Mittel", html)
+
+    def test_published_score_stays_standard_until_the_visitor_doubles(self):
+        for criterion in CONFIG["criteria"]:
+            if criterion["id"] != "C_02":
+                continue
+            for metric in criterion["metrics"]:
+                self.assertNotIn("weight", metric)
+        oss = json.loads((ROOT / "data" / "OSS" / "score.json").read_text(encoding="utf-8"))
+        self.assertEqual(oss["score"], 63.2)
+        growth = next(item for item in oss["criteria"] if item["id"] == "C_02")
+        self.assertEqual(growth["score"], 4.8)
+        doubled = {"revenue_ttm_yoy", "revenue_quarter_yoy"}
+        numerator = 0.0
+        denominator = 0.0
+        for metric in growth["metrics"]:
+            if metric.get("points") is None or metric.get("status"):
+                continue
+            weight = 2 if metric["id"] in doubled else 1
+            numerator += metric["points"] * weight
+            denominator += weight
+        c02 = round(numerator / denominator + 1e-9, 1)
+        self.assertEqual(c02, 6.1)
+        num = 0.0
+        den = 0.0
+        for item in oss["criteria"]:
+            score = c02 if item["id"] == "C_02" else item["score"]
+            if score is None:
+                continue
+            num += score * item["weight"]
+            den += item["weight"]
+        self.assertEqual(round((num / den) * 10 + 1e-9, 1), 66.8)
 
 
 if __name__ == "__main__":

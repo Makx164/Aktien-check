@@ -132,8 +132,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30",
-          "weight": 2.0
+          "note": "TTM bis 2026-06-30"
         },
         {
           "id": "revenue_quarter_yoy",
@@ -147,8 +146,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-06-30",
-          "note": "Quartal bis 2026-06-30",
-          "weight": 2.0
+          "note": "Quartal bis 2026-06-30"
         },
         {
           "id": "revenue_estimate_yoy",
@@ -162,8 +160,7 @@
           "sourceUrl": "https://finance.yahoo.com/quote/LMND",
           "fetchedAt": "2026-10-20",
           "observedAt": null,
-          "note": "Analystenschätzung, nächstes Jahr",
-          "weight": 2.0
+          "note": "Analystenschätzung, nächstes Jahr"
         },
         {
           "id": "revenue_cagr_3y",
@@ -176,8 +173,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2025-12-31",
-          "weight": 1.0
+          "observedAt": "2025-12-31"
         },
         {
           "id": "revenue_cagr_5y",
@@ -190,8 +186,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2025-12-31",
-          "weight": 1.0
+          "observedAt": "2025-12-31"
         },
         {
           "id": "eps_cagr_3y",
@@ -204,8 +199,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null,
-          "weight": 1.0
+          "observedAt": null
         },
         {
           "id": "fcf_cagr_3y",
@@ -218,8 +212,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null,
-          "weight": 1.0
+          "observedAt": null
         },
         {
           "id": "revenue_acceleration",
@@ -232,8 +225,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null,
-          "weight": 1.0
+          "observedAt": null
         },
         {
           "id": "operating_margin_change_yoy",
@@ -246,8 +238,7 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null,
-          "weight": 1.0
+          "observedAt": null
         }
       ]
     },
