@@ -36,6 +36,8 @@ def scale_text(spec):
         return "über dem 200-Tage-Schnitt = 10, darunter = 5"
     if spec.get("id") == "distance_52w_high":
         return "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel"
+    if spec.get("id") == "excess_return_12_1":
+        return _excess_scale(spec.get("momentum") or {})
     if "zeroAt" not in spec or "tenAt" not in spec:
         return None
     kind = spec.get("kind")
@@ -45,6 +47,19 @@ def scale_text(spec):
     if higher:
         return f"≥ {ten} = 10, {zero} = 0"
     return f"≤ {ten} = 10, {zero} = 0"
+
+
+def _excess_scale(rules):
+    """Piecewise excess-return thresholds: 10 at the top, 5 at zero, 0 at the floor."""
+    top = _scale_amount("pp", rules.get("excessTenAt", 30))
+    mid = _scale_amount("pp", rules.get("excessMidAt", 0))
+    floor = _scale_amount("pp", rules.get("excessZeroAt", -50))
+    mid_points = int(rules.get("excessMidPoints", 5))
+    return f"≥ {top} = 10, {mid} = {mid_points}, ≤ {floor} = 0"
+
+
+def _band_scale(band):
+    return scale_text({"kind": "multiple", "zeroAt": band["zeroAt"], "tenAt": band["tenAt"]})
 
 
 def _scale_amount(kind, raw):
@@ -745,6 +760,7 @@ def _ev_sales_growth(values, labels, points, market_cap, debt, cash, sales, obse
     values["valuation_primary"] = multiple
     labels["valuation_primary"] = valuation["label"]
     points["valuation_primary"] = linear_points(multiple, valuation["zeroAt"], valuation["tenAt"])
+    labels["valuation_primary_scale"] = _band_scale(valuation)
     if note:
         labels["valuation_primary_note"] = note
     return observed
@@ -1040,7 +1056,9 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
                 "raw": raw_value,
                 "points": None if not counts else round1(scored),
                 "status": row_status,
-                "scale": scale_text(spec),
+                "scale": raw["labels"].get(metric_id + "_scale") or scale_text(
+                    {**spec, "momentum": config.get("momentum")} if metric_id == "excess_return_12_1" else spec
+                ),
                 "sourceLabel": source.get("label"),
                 "sourceUrl": source.get("url") or sources.get("fundamentalUrl"),
                 "fetchedAt": fetched_at,
@@ -1482,6 +1500,7 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
                     points["valuation_primary"] = linear_points(
                         peg, valuation["profitable"]["zeroAt"], valuation["profitable"]["tenAt"]
                     )
+                    labels["valuation_primary_scale"] = _band_scale(valuation["profitable"])
                 else:
                     growth, used_cagr = _positive_growth(values)
                     if values.get("eps_cagr_3y") is None:

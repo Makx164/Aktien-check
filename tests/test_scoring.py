@@ -227,6 +227,7 @@ class CompanyScoreTests(unittest.TestCase):
         metrics = {metric["id"]: metric for metric in by_id["C_07"]["metrics"]}
         self.assertEqual(metrics["excess_return_12_1"]["points"], 10)
         self.assertEqual(metrics["excess_return_12_1"]["value"], "40,0 Pp")
+        self.assertEqual(metrics["excess_return_12_1"]["scale"], "≥ 30 Pp = 10, 0 Pp = 5, ≤ -50 Pp = 0")
         self.assertEqual(metrics["above_sma_200"]["value"], "ja")
         self.assertEqual(metrics["above_sma_200"]["points"], 10)
         self.assertEqual(metrics["distance_52w_high"]["points"], 5.0)
@@ -277,6 +278,7 @@ class CompanyScoreTests(unittest.TestCase):
         by_id = {item["id"]: item for item in scored["criteria"]}
         valuation = {metric["id"]: metric for metric in by_id["C_08"]["metrics"]}["valuation_primary"]
         self.assertEqual(valuation["label"], "(EV/Umsatz) / Umsatzwachstum")
+        self.assertEqual(valuation["scale"], "≤ 0,20 = 10, 1,00 = 0")
         # EV = 10*100 + 50 - 0 = 1050; sales 200; growth 200/150-1 = 1/3;
         # ratio = (1050/200) / (100/3) = 5.25 / 33.333 = 0.1575 → 10 points
         self.assertEqual(valuation["points"], 10)
