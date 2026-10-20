@@ -134,7 +134,8 @@
           "sourceLabel": null,
           "sourceUrl": null,
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 2.0
         },
         {
           "id": "revenue_quarter_yoy",
@@ -148,7 +149,8 @@
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-06-30",
-          "note": "Yahoo revenueGrowth revenueGrowth, in der Regel das letzte Quartal zum Vorjahr"
+          "note": "Yahoo revenueGrowth revenueGrowth, in der Regel das letzte Quartal zum Vorjahr",
+          "weight": 2.0
         },
         {
           "id": "revenue_estimate_yoy",
@@ -162,7 +164,8 @@
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null,
-          "note": "Analystenschätzung, nächstes Jahr"
+          "note": "Analystenschätzung, nächstes Jahr",
+          "weight": 2.0
         },
         {
           "id": "revenue_cagr_3y",
@@ -175,7 +178,8 @@
           "sourceLabel": null,
           "sourceUrl": null,
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         },
         {
           "id": "revenue_cagr_5y",
@@ -188,7 +192,8 @@
           "sourceLabel": null,
           "sourceUrl": null,
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         },
         {
           "id": "eps_cagr_3y",
@@ -201,7 +206,8 @@
           "sourceLabel": null,
           "sourceUrl": null,
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         },
         {
           "id": "fcf_cagr_3y",
@@ -214,7 +220,8 @@
           "sourceLabel": null,
           "sourceUrl": null,
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         },
         {
           "id": "revenue_acceleration",
@@ -227,7 +234,8 @@
           "sourceLabel": null,
           "sourceUrl": null,
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         },
         {
           "id": "operating_margin_change_yoy",
@@ -240,7 +248,8 @@
           "sourceLabel": null,
           "sourceUrl": null,
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         }
       ]
     },

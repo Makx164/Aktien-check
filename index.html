@@ -673,6 +673,9 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
       var tag = c.bewertet
         ? '<span class="tag daten">Daten</span>'
         : '<span class="' + (excluded ? "tag off" : "tag bsp") + '">' + esc(gap) + "</span>";
+      var weighted = (c.metrics || []).some(function (metric) {
+        return metric.weight != null && Number(metric.weight) !== 1;
+      });
       var rows = (c.metrics || []).map(function (metric) {
         var missing = metric.status || metric.value == null || metric.value === "";
         var label = gapLabel(metric.status);
@@ -680,6 +683,11 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
         var points = metric.status ? label : n1(metric.points);
         var parts = [value];
         if (metric.scale) parts.push("Skala: " + metric.scale);
+        if (weighted && metric.weight != null) {
+          var mark = Number(metric.weight);
+          var shownWeight = Math.abs(mark - Math.round(mark)) < 1e-9 ? String(Math.round(mark)) : String(mark).replace(".", ",");
+          parts.push("×" + shownWeight);
+        }
         parts.push(points);
         var sourceName = metric.sourceLabel || "Quelle fehlt";
         var source = metric.sourceUrl && /^https?:\/\//i.test(metric.sourceUrl)
@@ -692,7 +700,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
         return '<div class="row long"><span class="k">' + esc(metric.label || metric.id) + '</span><span class="lead-d"></span><span class="v' + (missing ? " nd" : "") + '">' + esc(parts.join(" · ")) + '</span></div><p class="expl">' + meta + "</p>";
       }).join("");
       var counted = (c.metrics || []).filter(function (metric) { return !metric.status && metric.points != null; }).length;
-      var how = c.aggregate === "sum" ? "Summe" : "Mittel";
+      var how = c.aggregate === "sum" ? "Summe" : (weighted ? "gewichtetes Mittel" : "Mittel");
       var meanLine = '<p class="expl">Kriterium = ' + how + " aus " + counted + " Metriken mit Daten</p>";
       var quality = c.dataQuality ? '<p class="expl">' + esc(c.dataQuality) + "</p>" : "";
       var summary = c.code === "C_06" ? analystSummary(c.summary) : "";

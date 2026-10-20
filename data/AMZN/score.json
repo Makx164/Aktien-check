@@ -2,11 +2,11 @@
   "ticker": "AMZN",
   "name": "Amazon",
   "asOf": "2026-10-19",
-  "score": 64.3,
+  "score": 64.6,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
-  "qualityScore": 61.2,
+  "qualityScore": 61.6,
   "marketScore": 76.3,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 32 von 34 Metriken verfügbar",
   "missingDataNote": null,
@@ -115,7 +115,7 @@
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 5.4,
+      "score": 5.5,
       "status": null,
       "weight": 2.0,
       "dataQuality": "7 von 8 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist",
@@ -132,7 +132,8 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30"
+          "note": "TTM bis 2026-06-30",
+          "weight": 2.0
         },
         {
           "id": "revenue_quarter_yoy",
@@ -146,7 +147,8 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-06-30",
-          "note": "Quartal bis 2026-06-30"
+          "note": "Quartal bis 2026-06-30",
+          "weight": 2.0
         },
         {
           "id": "revenue_estimate_yoy",
@@ -160,7 +162,8 @@
           "sourceUrl": "https://finance.yahoo.com/quote/AMZN",
           "fetchedAt": "2026-10-20",
           "observedAt": null,
-          "note": "Analystenschätzung, nächstes Jahr"
+          "note": "Analystenschätzung, nächstes Jahr",
+          "weight": 2.0
         },
         {
           "id": "revenue_cagr_3y",
@@ -173,7 +176,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2025-12-31"
+          "observedAt": "2025-12-31",
+          "weight": 1.0
         },
         {
           "id": "revenue_cagr_5y",
@@ -186,7 +190,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2025-12-31"
+          "observedAt": "2025-12-31",
+          "weight": 1.0
         },
         {
           "id": "eps_cagr_3y",
@@ -200,7 +205,8 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2025-12-31",
-          "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
+          "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist",
+          "weight": 1.0
         },
         {
           "id": "fcf_cagr_3y",
@@ -214,7 +220,8 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2025-12-31",
-          "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
+          "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist",
+          "weight": 1.0
         },
         {
           "id": "revenue_acceleration",
@@ -227,7 +234,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         },
         {
           "id": "operating_margin_change_yoy",
@@ -240,7 +248,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         }
       ]
     },

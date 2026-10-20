@@ -136,15 +136,15 @@
       "label": "Wachstum",
       "weight": 2.0,
       "metrics": [
-        {"id": "revenue_ttm_yoy", "label": "Umsatzwachstum, TTM", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.3},
-        {"id": "revenue_quarter_yoy", "label": "Umsatzwachstum, letztes Quartal zum Vorjahresquartal", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.3},
-        {"id": "revenue_estimate_yoy", "label": "Umsatzwachstum, Analystenschätzung nächstes Jahr", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.3},
-        {"id": "revenue_cagr_3y", "label": "Umsatz-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
-        {"id": "revenue_cagr_5y", "label": "Umsatz-CAGR, 5 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.2},
-        {"id": "eps_cagr_3y", "label": "EPS-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
-        {"id": "fcf_cagr_3y", "label": "Free-Cashflow-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
-        {"id": "revenue_acceleration", "label": "Umsatzbeschleunigung", "kind": "ratioPp", "zeroAt": -0.1, "tenAt": 0.1},
-        {"id": "operating_margin_change_yoy", "label": "Operative Marge gegenüber Vorjahr", "kind": "ratioPp", "zeroAt": -0.05, "tenAt": 0.1}
+        {"id": "revenue_ttm_yoy", "label": "Umsatzwachstum, TTM", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.3, "weight": 2},
+        {"id": "revenue_quarter_yoy", "label": "Umsatzwachstum, letztes Quartal zum Vorjahresquartal", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.3, "weight": 2},
+        {"id": "revenue_estimate_yoy", "label": "Umsatzwachstum, Analystenschätzung nächstes Jahr", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.3, "weight": 2},
+        {"id": "revenue_cagr_3y", "label": "Umsatz-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25, "weight": 1},
+        {"id": "revenue_cagr_5y", "label": "Umsatz-CAGR, 5 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.2, "weight": 1},
+        {"id": "eps_cagr_3y", "label": "EPS-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25, "weight": 1},
+        {"id": "fcf_cagr_3y", "label": "Free-Cashflow-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25, "weight": 1},
+        {"id": "revenue_acceleration", "label": "Umsatzbeschleunigung", "kind": "ratioPp", "zeroAt": -0.1, "tenAt": 0.1, "weight": 1},
+        {"id": "operating_margin_change_yoy", "label": "Operative Marge gegenüber Vorjahr", "kind": "ratioPp", "zeroAt": -0.05, "tenAt": 0.1, "weight": 1}
       ]
     },
     {

@@ -996,7 +996,21 @@ class RoundThreeTests(unittest.TestCase):
         self.assertIn("Analystenschätzung", metrics["revenue_estimate_yoy"]["sourceLabel"])
         self.assertIsNone(metrics["eps_cagr_3y"]["points"])
         self.assertEqual(metrics["eps_cagr_3y"]["status"], "wenig Daten")
-        self.assertGreater(next(item["score"] for item in scored["criteria"] if item["id"] == "C_02"), 0)
+        growth = next(item for item in scored["criteria"] if item["id"] == "C_02")
+        for metric_id in ("revenue_ttm_yoy", "revenue_quarter_yoy", "revenue_estimate_yoy"):
+            self.assertEqual(metrics[metric_id]["weight"], 2)
+        for metric_id in ("revenue_cagr_3y", "revenue_cagr_5y", "eps_cagr_3y", "operating_margin_change_yoy"):
+            self.assertEqual(metrics[metric_id]["weight"], 1)
+        present = [
+            (metric["points"], metric["weight"])
+            for metric in growth["metrics"]
+            if metric.get("points") is not None and not metric.get("status")
+        ]
+        self.assertNotIn("eps_cagr_3y", [metric["id"] for metric in growth["metrics"] if metric.get("points") is not None])
+        numerator = sum(points * weight for points, weight in present)
+        denominator = sum(weight for _points, weight in present)
+        self.assertEqual(growth["score"], round(numerator / denominator, 1))
+        self.assertGreater(denominator, len(present))
         leverage = {row["id"]: row for row in next(item for item in scored["criteria"] if item["id"] == "C_04")["metrics"]}
         self.assertEqual(leverage["net_debt_to_ebitda"]["value"], "Netto-Cash")
         self.assertEqual(leverage["net_debt_to_ebitda"]["points"], 10)
@@ -1056,6 +1070,8 @@ class RoundThreeTests(unittest.TestCase):
         self.assertNotIn("GEWICHTE", html)
         self.assertNotIn('id="rolle"', html)
         self.assertIn("Kriterium = ", html)
+        self.assertIn("gewichtetes Mittel", html)
+        self.assertIn('"×"', html)
         self.assertIn("Skala:", html)
         self.assertIn("Eine Metrik ohne Daten zählt nicht als 0.", html)
 

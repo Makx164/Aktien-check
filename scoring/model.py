@@ -53,6 +53,20 @@ def mean(values):
     return sum(present) / len(present)
 
 
+def weighted_mean(values_and_weights):
+    """Mean of present values. A missing value stays out and is not scored as zero."""
+    numerator = 0.0
+    denominator = 0.0
+    for value, weight in values_and_weights:
+        if value is None:
+            continue
+        numerator += float(value) * float(weight)
+        denominator += float(weight)
+    if denominator == 0:
+        return None
+    return numerator / denominator
+
+
 def weighted_total(scores_and_weights):
     """0–100 score from criterion scores.
 

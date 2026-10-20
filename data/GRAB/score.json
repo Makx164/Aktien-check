@@ -2,11 +2,11 @@
   "ticker": "GRAB",
   "name": "Grab Holdings",
   "asOf": "2026-10-19",
-  "score": 75.6,
+  "score": 74.5,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "green",
-  "qualityScore": 80.4,
+  "qualityScore": 79.0,
   "marketScore": 57.3,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 30 von 34 Metriken verfügbar",
   "missingDataNote": null,
@@ -117,7 +117,7 @@
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 8.5,
+      "score": 8.1,
       "status": null,
       "weight": 2.0,
       "dataQuality": "5 von 8 Metriken verfügbar. Vergleich bis 2025-12-31 Yahoo revenueGrowth revenueGrowth, in der Regel das letzte Quartal zum Vorjahr Analystenschätzung, nächstes Jahr",
@@ -134,7 +134,8 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2025-12-31",
-          "note": "Vergleich bis 2025-12-31"
+          "note": "Vergleich bis 2025-12-31",
+          "weight": 2.0
         },
         {
           "id": "revenue_quarter_yoy",
@@ -148,7 +149,8 @@
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
           "fetchedAt": "2026-10-20",
           "observedAt": "2025-12-31",
-          "note": "Yahoo revenueGrowth revenueGrowth, in der Regel das letzte Quartal zum Vorjahr"
+          "note": "Yahoo revenueGrowth revenueGrowth, in der Regel das letzte Quartal zum Vorjahr",
+          "weight": 2.0
         },
         {
           "id": "revenue_estimate_yoy",
@@ -162,7 +164,8 @@
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
           "fetchedAt": "2026-10-20",
           "observedAt": null,
-          "note": "Analystenschätzung, nächstes Jahr"
+          "note": "Analystenschätzung, nächstes Jahr",
+          "weight": 2.0
         },
         {
           "id": "revenue_cagr_3y",
@@ -175,7 +178,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2025-12-31"
+          "observedAt": "2025-12-31",
+          "weight": 1.0
         },
         {
           "id": "revenue_cagr_5y",
@@ -188,7 +192,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2025-12-31"
+          "observedAt": "2025-12-31",
+          "weight": 1.0
         },
         {
           "id": "eps_cagr_3y",
@@ -201,7 +206,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         },
         {
           "id": "fcf_cagr_3y",
@@ -214,7 +220,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         },
         {
           "id": "revenue_acceleration",
@@ -227,7 +234,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         },
         {
           "id": "operating_margin_change_yoy",
@@ -240,7 +248,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         }
       ]
     },

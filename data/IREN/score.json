@@ -2,11 +2,11 @@
   "ticker": "IREN",
   "name": "IREN Limited",
   "asOf": "2026-10-19",
-  "score": 67.1,
+  "score": 67.7,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
-  "qualityScore": 68.1,
+  "qualityScore": 68.8,
   "marketScore": 63.5,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 25 von 34 Metriken verfügbar",
   "missingDataNote": null,
@@ -117,7 +117,7 @@
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 6.0,
+      "score": 6.2,
       "status": null,
       "weight": 2.0,
       "dataQuality": "5 von 9 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr",
@@ -134,7 +134,8 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30"
+          "note": "TTM bis 2026-06-30",
+          "weight": 2.0
         },
         {
           "id": "revenue_quarter_yoy",
@@ -148,7 +149,8 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-06-30",
-          "note": "Quartal bis 2026-06-30"
+          "note": "Quartal bis 2026-06-30",
+          "weight": 2.0
         },
         {
           "id": "revenue_estimate_yoy",
@@ -162,7 +164,8 @@
           "sourceUrl": "https://finance.yahoo.com/quote/IREN",
           "fetchedAt": "2026-10-20",
           "observedAt": null,
-          "note": "Analystenschätzung, nächstes Jahr"
+          "note": "Analystenschätzung, nächstes Jahr",
+          "weight": 2.0
         },
         {
           "id": "revenue_cagr_3y",
@@ -175,7 +178,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-06-30"
+          "observedAt": "2026-06-30",
+          "weight": 1.0
         },
         {
           "id": "revenue_cagr_5y",
@@ -188,7 +192,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         },
         {
           "id": "eps_cagr_3y",
@@ -201,7 +206,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         },
         {
           "id": "fcf_cagr_3y",
@@ -214,7 +220,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         },
         {
           "id": "revenue_acceleration",
@@ -227,7 +234,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "observedAt": null,
+          "weight": 1.0
         },
         {
           "id": "operating_margin_change_yoy",
@@ -240,7 +248,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-06-30"
+          "observedAt": "2026-06-30",
+          "weight": 1.0
         }
       ]
     },

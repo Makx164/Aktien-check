@@ -11,7 +11,7 @@ import math
 import statistics
 from datetime import date, datetime, timedelta
 
-from scoring.model import apply_analyst_cap, band_points, format_value, linear_points, mean, round1
+from scoring.model import apply_analyst_cap, band_points, format_value, linear_points, round1, weighted_mean
 
 ANNUAL_FORMS = {"10-K", "10-K/A", "20-F", "20-F/A", "40-F", "40-F/A"}
 POSITION_FORMS = ANNUAL_FORMS | {"10-Q", "10-Q/A", "6-K"}
@@ -1049,6 +1049,7 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
             else:
                 shown = format_value(kind, value)
                 raw_value = None if value is None else round(float(value), 6)
+            metric_weight = float(spec.get("weight", 1))
             row = {
                 "id": metric_id,
                 "label": label,
@@ -1064,6 +1065,8 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
                 "fetchedAt": fetched_at,
                 "observedAt": observed if value is not None else None,
             }
+            if "weight" in spec:
+                row["weight"] = metric_weight
             if note:
                 row["note"] = note
             if detail and detail.get("outcome"):
@@ -1077,12 +1080,12 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
                 }
             metrics.append(row)
             if counts:
-                points.append(round1(scored) if scored is not None else None)
+                points.append((round1(scored) if scored is not None else None, metric_weight))
         if criterion.get("aggregate") == "sum":
-            present = [point for point in points if point is not None]
+            present = [point for point, _weight in points if point is not None]
             criterion_score = sum(present) if present else None
         else:
-            criterion_score = mean(points)
+            criterion_score = weighted_mean(points)
         floor_note = None
         if criterion["id"] == "C_07" and c02_score is not None and criterion_score is not None:
             rules = config.get("momentum") or {}
