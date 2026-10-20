@@ -563,7 +563,8 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
           wert: missing ? null : found.score,
           bewertet: !missing,
           status: missing ? (found.status || "wenig Daten") : null,
-          weight: (role.weights && role.weights[found.id] != null) ? role.weights[found.id] : found.weight,
+          weight: found.weight,
+          aggregate: found.aggregate || null,
           metrics: found.metrics || [],
           dataQuality: found.dataQuality || "",
           summary: found.summary || null
@@ -651,30 +652,10 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     return note;
   }
 
-  function weightText(value) {
-    var text = String(value);
-    if (text.indexOf(".") >= 0) text = String(Math.round(Number(value) * 100) / 100);
-    return text.replace(".", ",");
-  }
-
-  function rolesSection(doc) {
-    var role = doc.role || {label: "Satellit", reason: "", weights: {}};
-    var weights = doc.criteria.map(function (c) {
-      var value = role.weights && role.weights[c.code] != null ? role.weights[c.code] : c.weight;
-      return esc(c.code) + " × " + weightText(value);
-    }).join(" · ");
-    var h = '<div class="sec-t" id="rolle"><h2>Rolle</h2><span class="mlabel">ZUGEORDNET · GEWICHTE AUS DER KONFIGURATION</span></div>';
-    h += '<div class="fit"><span class="mlabel">ROLLE</span><div class="fit-main">' + esc(role.label || "Satellit") + "</div>";
-    h += '<p class="fit-sub">' + esc(role.reason || "") + "</p></div>";
-    h += '<p class="rw mlabel">GEWICHTE: ' + weights + "</p>";
-    return h;
-  }
-
   function matrix(doc) {
     var light = lightOf(doc);
     var rated = doc.criteria.filter(function (c) { return c.bewertet; }).length;
-    var roleName = (doc.role && doc.role.label) || "Satellit";
-    var h = '<div class="sec-t"><h2>Score_Matrix</h2><span class="mlabel">' + doc.criteria.length + ' PUNKTE · JE 0–10 · GEWICHTE ' + esc(roleName.toUpperCase()) + ' · FEHLENDE ZÄHLEN NICHT</span></div>';
+    var h = '<div class="sec-t"><h2>Score_Matrix</h2><span class="mlabel">' + doc.criteria.length + ' PUNKTE · JE 0–10 · FEHLENDE ZÄHLEN NICHT</span></div>';
     h += '<div class="diagram crits"><div class="mods">' + doc.criteria.map(function (c) {
       var mark = c.bewertet ? n1(c.wert) : gapLabel(c.status);
       return '<a class="mod" href="#c' + c.id + '" data-open="c' + c.id + '"><span class="ml">C_' + pad(c.id) + " · " + esc(c.name) + '</span><span class="mr">' + seg(c.wert, 10) + "<span>" + esc(mark) + "</span></span></a>";
@@ -697,9 +678,22 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
         var label = gapLabel(metric.status);
         var value = missing ? label : String(metric.value);
         var points = metric.status ? label : n1(metric.points);
-        var long = value.length > 40;
-        return '<div class="row' + (long ? " long" : "") + '"><span class="k">' + esc(metric.label || metric.id) + '</span><span class="lead-d"></span><span class="v' + (missing ? " nd" : "") + '">' + esc(value) + " · " + esc(points) + "</span></div>";
+        var parts = [value];
+        if (metric.scale) parts.push("Skala: " + metric.scale);
+        parts.push(points);
+        var sourceName = metric.sourceLabel || "Quelle fehlt";
+        var source = metric.sourceUrl && /^https?:\/\//i.test(metric.sourceUrl)
+          ? '<a href="' + esc(metric.sourceUrl) + '" target="_blank" rel="noopener noreferrer">' + esc(sourceName) + "</a>"
+          : esc(sourceName);
+        var dated = [];
+        if (metric.observedAt) dated.push("Stichtag " + dDE(metric.observedAt));
+        if (metric.fetchedAt) dated.push("Abruf " + dDE(metric.fetchedAt));
+        var meta = source + (dated.length ? " · " + esc(dated.join(" · ")) : "");
+        return '<div class="row long"><span class="k">' + esc(metric.label || metric.id) + '</span><span class="lead-d"></span><span class="v' + (missing ? " nd" : "") + '">' + esc(parts.join(" · ")) + '</span></div><p class="expl">' + meta + "</p>";
       }).join("");
+      var counted = (c.metrics || []).filter(function (metric) { return !metric.status && metric.points != null; }).length;
+      var how = c.aggregate === "sum" ? "Summe" : "Mittel";
+      var meanLine = '<p class="expl">Kriterium = ' + how + " aus " + counted + " Metriken mit Daten</p>";
       var quality = c.dataQuality ? '<p class="expl">' + esc(c.dataQuality) + "</p>" : "";
       var summary = c.code === "C_06" ? analystSummary(c.summary) : "";
       var urls = (c.metrics || []).map(function (metric) { return metric.sourceUrl; });
@@ -707,7 +701,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
         ? esc(n1(c.wert)) + "<small>/10</small>"
         : (excluded ? '<span class="mlabel">' + esc(gap) + "</span>" : esc(gap) + "<small>/10</small>");
       h += '<details class="crit" id="c' + c.id + '"><summary><span><span class="cid">CRITERION_' + pad(c.id) + '</span><span class="cn">' + esc(c.name) + '</span><span class="ctags">' + tag + '</span></span><span class="score">' +
-        scoreText + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body"><div class="kv">' + rows + "</div>" + summary + quality + srcLinks(urls) + "</div></details>";
+        scoreText + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body"><div class="kv">' + rows + "</div>" + meanLine + summary + quality + srcLinks(urls) + "</div></details>";
     });
     return h;
   }
@@ -750,14 +744,14 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
   function showDetail(score) {
     var doc = adapt(score);
     var light = lightOf(doc);
-    var roleName = (doc.role && doc.role.label) || "Satellit";
     var scoreText = shownScore(doc);
     document.title = doc.ticker + " · " + CFG.scoreName + " " + scoreText + " · sidequest";
     var h = '<a class="back" href="#/">← Alle Positionen</a>';
     h += '<section class="r-head"><div><span class="mlabel">CHECK_RESULT // ' + esc(doc.ticker) + '</span>';
     h += '<h1 class="h-red" style="margin-top:8px">' + esc(doc.ticker) + "</h1>";
     h += '<div class="r-name">' + esc(doc.name) + "</div>";
-    h += '<div class="role-title"><span class="rt-t">' + esc(doc.ticker) + '</span> · <span class="rt-r">' + esc(roleName) + '</span> <b>' + esc(scoreText) + '</b><small>/100</small></div>';
+    h += '<div class="role-title"><span class="rt-t">' + esc(doc.ticker) + '</span> <b>' + esc(scoreText) + '</b><small>/100</small></div>';
+    h += '<p class="expl">Der Aktien-Score ist der gewichtete Mittelwert der Kriterien mit Daten, neu auf 100 skaliert. Jedes Kriterium ist der Mittelwert seiner Metriken mit Daten, C_05 die Summe der Teilpunkte. Eine Metrik ohne Daten zählt nicht als 0.</p>';
     h += '<div id="dyn-status">' + status(light, doc.ko.length) + "</div>";
     h += '<div class="term" style="margin-top:14px"><span class="p">&gt;</span> STAND DER DATEN <b>' + esc(standText(doc)) + "</b><br>";
     h += '<span class="p">&gt;</span> KURS <b>' + priceText(doc) + "</b> · VOM <b>" + esc(dDE(kursDate(doc))) + "</b></div></div>";
@@ -767,7 +761,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
       h += '<div class="ko"><span class="mlabel" style="color:var(--bad)">K.-O._FLAG · ' + esc(CFG.ampel.ko.label.toUpperCase()) + "</span><ul>" +
         doc.ko.map(function (flag) { return "<li>" + esc(flag) + "</li>"; }).join("") + "</ul></div>";
     }
-    h += rolesSection(doc) + matrix(doc) + criteriaDetail(doc);
+    h += matrix(doc) + criteriaDetail(doc);
     h += disclaimer();
     app.innerHTML = '<article class="result">' + h + "</article>";
     openFromQuery(doc.ticker);

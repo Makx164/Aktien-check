@@ -182,6 +182,7 @@ def analyst_from_yahoo(summary, price, today):
         "buyShare": (strong + buy) / total,
         "targetUpside": upside,
         "epsRevision": revision,
+        "revenueEstimateYoy": revenue_estimate_growth(summary),
         "count": int(total),
         "observed": None,
         "label": "Yahoo Finance quoteSummary",
@@ -329,7 +330,17 @@ def _positive_share_series(series):
     return False
 
 
-def apply_fundamental_fallback(bundle, yahoo, nasdaq_annual, source_url, today):
+def revenue_estimate_growth(summary):
+    """Analyst revenue growth for next fiscal year. None when the row is absent."""
+    trend = ((summary or {}).get("earningsTrend") or {}).get("trend") or []
+    row = next((item for item in trend if item.get("period") == "+1y"), None)
+    if not row:
+        return None
+    estimate = row.get("revenueEstimate") or {}
+    return _raw(estimate.get("growth"))
+
+
+def apply_fundamental_fallback(bundle, yahoo, nasdaq_annual, source_url, today, nasdaq_quarterly=None):
     """Fill only values the SEC bundle does not already have.
 
     Quarterly Yahoo points stay in the snapshot. They are not written into the
@@ -400,11 +411,217 @@ def apply_fundamental_fallback(bundle, yahoo, nasdaq_annual, source_url, today):
                     snapshot["gross_profit"] = gross[-1]["val"]
             filled = True
     if snapshot:
+        refresh_stale_fields(snapshot, yahoo, nasdaq_quarterly, source_url, today)
         if not snapshot.get("fetchedAt"):
             snapshot["fetchedAt"] = today
         bundle["snapshot"] = snapshot
-    bundle["_fallback_used"] = filled
+    bundle["_fallback_used"] = filled or bool(snapshot.get("_refreshed"))
     return bundle
+
+
+def _approx_zero_debt(debt, cash):
+    if debt is None:
+        return False
+    if abs(debt) <= 1000:
+        return True
+    if cash is not None and cash > 0 and abs(debt) <= 0.01 * cash:
+        return True
+    return False
+
+
+def refresh_stale_fields(snapshot, yahoo, nasdaq_quarterly, source_url, today):
+    """Replace a SEC figure only when a newer Yahoo or Nasdaq figure exists.
+
+    Order is SEC, then Yahoo, then Nasdaq. An explicit SEC zero for financial
+    debt stays zero: Yahoo totalDebt includes leases and is not a substitute.
+    Missing debt plus Yahoo debt near zero means net cash equals cash.
+    """
+    if not snapshot:
+        return snapshot
+    period = snapshot.get("end")
+    provenance = dict(snapshot.get("provenance") or {})
+    financial = (yahoo or {}).get("financialData") or {}
+    yahoo_label = "Yahoo Finance quoteSummary"
+    nasdaq_label = "Nasdaq Financials"
+    refreshed = False
+
+    def stamp(field, label, url, end, note=None):
+        entry = {"label": label, "url": url, "end": end, "fetchedAt": today}
+        if note:
+            entry["note"] = note
+        provenance[field] = entry
+
+    def dated_balance(field_names):
+        points = []
+        for name in field_names:
+            points.extend(_yahoo_quarter_series(
+                yahoo or {}, "balanceSheetHistoryQuarterly",
+                ["balanceSheetStatements", "balanceSheetHistory"], name,
+            ))
+        points = [point for point in points if point["val"] is not None]
+        if not points:
+            return None
+        return points[-1]
+
+    cash_end = snapshot.get("cash_end")
+    if snapshot.get("cash") is None or (period and cash_end and cash_end < period):
+        point = dated_balance(["cash", "cashAndCashEquivalents", "cashCashEquivalentsAndShortTermInvestments"])
+        yahoo_cash = _raw(financial.get("totalCash"))
+        if point and (cash_end is None or point["end"] > cash_end):
+            snapshot["cash"] = point["val"]
+            snapshot["cash_end"] = point["end"]
+            snapshot["balance_end"] = point["end"]
+            stamp("cash", yahoo_label, source_url, point["end"])
+            refreshed = True
+        elif yahoo_cash is not None and (snapshot.get("cash") is None or (period and cash_end and cash_end < period)):
+            snapshot["cash"] = yahoo_cash
+            snapshot["cash_end"] = None
+            stamp("cash", yahoo_label + " financialData", source_url, None, "financialData totalCash, Stichtag nicht ausgewiesen")
+            refreshed = True
+
+    # Explicit SEC zero is the debt figure. Do not replace it with totalDebt.
+    if snapshot.get("debt") is None:
+        point = dated_balance(["totalDebt", "longTermDebt", "shortLongTermDebt"])
+        yahoo_debt = _raw(financial.get("totalDebt"))
+        chosen = None
+        label = yahoo_label
+        note = None
+        end = None
+        if point and (snapshot.get("debt_end") is None or point["end"] >= (snapshot.get("debt_end") or "")):
+            chosen = point["val"]
+            end = point["end"]
+        elif yahoo_debt is not None:
+            chosen = yahoo_debt
+            end = period
+            label = yahoo_label + " financialData"
+            note = "totalDebt"
+        if chosen is not None and _approx_zero_debt(chosen, snapshot.get("cash")):
+            snapshot["debt"] = 0.0
+            snapshot["debt_explicit_zero"] = True
+            snapshot["debt_end"] = end
+            stamp("debt", label, source_url, end, "Finanzschulden nahe 0, Netto-Cash = Cash")
+            refreshed = True
+        elif chosen is not None:
+            snapshot["debt"] = chosen
+            snapshot["debt_end"] = end
+            stamp("debt", label, source_url, end, note or "totalDebt, kann Leasing enthalten")
+            refreshed = True
+    elif snapshot.get("debt_explicit_zero"):
+        stamp(
+            "debt",
+            (provenance.get("debt") or {}).get("label") or "SEC EDGAR companyfacts",
+            (provenance.get("debt") or {}).get("url"),
+            snapshot.get("debt_end"),
+            "Finanzschulden explizit 0",
+        )
+
+    def fill_flow(field, end_key, yahoo_names, financial_key, nasdaq_row):
+        nonlocal refreshed
+        current_end = snapshot.get(end_key)
+        missing = snapshot.get(field) is None
+        stale = bool(period and current_end and current_end < period)
+        if not missing and not stale:
+            return
+        series = []
+        for name in yahoo_names:
+            series = _yahoo_quarter_series(
+                yahoo or {}, "cashflowStatementHistoryQuarterly",
+                ["cashflowStatements", "cashflowStatementHistory"], name,
+            )
+            if series:
+                break
+        if len(series) >= 4 and (missing or series[-1]["end"] > (current_end or "")):
+            window = series[-4:]
+            snapshot[field] = sum(point["val"] for point in window)
+            snapshot[end_key] = window[-1]["end"]
+            stamp(field, yahoo_label, source_url, window[-1]["end"], "TTM aus Quartals-Cashflow")
+            refreshed = True
+            return
+        raw = _raw(financial.get(financial_key))
+        if raw is not None and (missing or stale):
+            snapshot[field] = raw
+            snapshot[end_key] = None
+            stamp(field, yahoo_label + " financialData", source_url, None, "financialData, Stichtag nicht ausgewiesen")
+            refreshed = True
+            return
+        if nasdaq_quarterly and nasdaq_row:
+            points = _annual_points((nasdaq_quarterly.get("cashFlowStatementTable") or nasdaq_quarterly.get("cashFlowTable") or {}), nasdaq_row)
+            if not points:
+                for table in nasdaq_quarterly.values():
+                    if isinstance(table, dict) and table.get("rows"):
+                        found = _annual_points(table, nasdaq_row)
+                        if found:
+                            points = found
+                            break
+            if points and (missing or points[-1]["end"] > (current_end or "")):
+                snapshot[field] = points[-1]["val"]
+                snapshot[end_key] = points[-1]["end"]
+                stamp(field, nasdaq_label, source_url, points[-1]["end"])
+                refreshed = True
+
+    fill_flow(
+        "cfo", "cfo_end",
+        ["totalCashFromOperatingActivities", "operatingCashFlow"],
+        "operatingCashflow", "Net Cash Flow-Operating",
+    )
+    fill_flow(
+        "fcf", "fcf_end",
+        ["freeCashFlow"],
+        "freeCashflow", "Free Cash Flow",
+    )
+    # Free cash flow cannot exceed operating cash flow when both come from the
+    # same undated Yahoo block. Those pairs are dropped instead of scored.
+    cfo_label = (provenance.get("cfo") or {}).get("label") or ""
+    fcf_label = (provenance.get("fcf") or {}).get("label") or ""
+    if (
+        snapshot.get("cfo") is not None
+        and snapshot.get("fcf") is not None
+        and snapshot["fcf"] > snapshot["cfo"]
+        and cfo_label.startswith("Yahoo")
+        and fcf_label.startswith("Yahoo")
+    ):
+        snapshot["fcf"] = None
+        provenance.pop("fcf", None)
+
+    ratio = _raw(financial.get("currentRatio"))
+    assets_end = snapshot.get("assets_current_end")
+    if ratio is not None and (snapshot.get("assets_current") is None or (period and assets_end and assets_end < period)):
+        snapshot["current_ratio"] = ratio
+        stamp("current_ratio", yahoo_label + " financialData", source_url, None, "financialData currentRatio")
+        refreshed = True
+
+    roe = _raw(financial.get("returnOnEquity"))
+    if roe is not None and snapshot.get("equity") is None:
+        snapshot["roe"] = roe
+        stamp("roe", yahoo_label + " financialData", source_url, None, "financialData returnOnEquity")
+        refreshed = True
+
+    if snapshot.get("revenue_quarter_yoy") is None:
+        growth = _raw(financial.get("revenueGrowth"))
+        if growth is not None:
+            snapshot["revenue_quarter_yoy"] = growth
+            snapshot["revenue_quarter_end"] = period
+            snapshot["revenue_quarter_label"] = "Yahoo revenueGrowth"
+            stamp("revenue_quarter", yahoo_label + " financialData", source_url, period, "revenueGrowth, in der Regel das letzte Quartal zum Vorjahr")
+            refreshed = True
+
+    if snapshot.get("gross_profit") is None:
+        margin = _raw(financial.get("grossMargins"))
+        if margin is not None and snapshot.get("revenue"):
+            snapshot["gross_profit"] = margin * snapshot["revenue"]
+            stamp("gross_profit", yahoo_label + " financialData", source_url, period, "Bruttomarge aus financialData")
+            refreshed = True
+    if snapshot.get("operating_income") is None:
+        margin = _raw(financial.get("operatingMargins"))
+        if margin is not None and snapshot.get("revenue"):
+            snapshot["operating_income"] = margin * snapshot["revenue"]
+            stamp("operating_income", yahoo_label + " financialData", source_url, period, "operative Marge aus financialData")
+            refreshed = True
+
+    snapshot["provenance"] = provenance
+    if refreshed:
+        snapshot["_refreshed"] = True
+    return snapshot
 
 
 def _placeholder_zeros(series, revenue):

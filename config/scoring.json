@@ -70,6 +70,7 @@
     "plausibilityExcessPp": 300
   },
   "roles": {
+    "dividendEnabled": false,
     "satellite": {
       "id": "satellit",
       "label": "Satellit",
@@ -127,7 +128,7 @@
         {"id": "gross_margin", "label": "Bruttomarge", "kind": "percent", "zeroAt": 0.2, "tenAt": 0.6},
         {"id": "gross_margin_change_yoy", "label": "Trend der Bruttomarge", "kind": "ratioPp", "zeroAt": -0.05, "tenAt": 0.05},
         {"id": "margin_progress", "label": "Margenfortschritt", "kind": "ratioPp", "zeroAt": -0.03, "tenAt": 0.05},
-        {"id": "net_cash_or_runway", "label": "Netto-Cash oder Cash-Reichweite", "kind": "text"}
+        {"id": "net_cash_or_runway", "label": "Netto-Cash oder Cash-Reichweite", "kind": "text", "scale": "Netto-Cash oder mindestens 36 Monate = 10, unter 12 Monaten = 0"}
       ]
     },
     {
@@ -135,6 +136,9 @@
       "label": "Wachstum",
       "weight": 2.0,
       "metrics": [
+        {"id": "revenue_ttm_yoy", "label": "Umsatzwachstum, TTM", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.3},
+        {"id": "revenue_quarter_yoy", "label": "Umsatzwachstum, letztes Quartal zum Vorjahresquartal", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.3},
+        {"id": "revenue_estimate_yoy", "label": "Umsatzwachstum, Analystenschätzung nächstes Jahr", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.3},
         {"id": "revenue_cagr_3y", "label": "Umsatz-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
         {"id": "revenue_cagr_5y", "label": "Umsatz-CAGR, 5 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.2},
         {"id": "eps_cagr_3y", "label": "EPS-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},

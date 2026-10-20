@@ -17,6 +17,43 @@ ANNUAL_FORMS = {"10-K", "10-K/A", "20-F", "20-F/A", "40-F", "40-F/A"}
 POSITION_FORMS = ANNUAL_FORMS | {"10-Q", "10-Q/A", "6-K"}
 
 
+def scale_text(spec):
+    """Threshold sentence shown next to a metric. Config can override it."""
+    if not spec:
+        return None
+    if spec.get("scale"):
+        return spec["scale"]
+    if spec.get("bands"):
+        notes = [band.get("note") for band in spec["bands"] if band.get("note")]
+        return " · ".join(notes) or None
+    if spec.get("outcomes"):
+        notes = []
+        for item in spec["outcomes"].values():
+            if isinstance(item, dict) and item.get("note"):
+                notes.append(item["note"])
+        return " · ".join(notes) or None
+    if spec.get("id") == "above_sma_200":
+        return "über dem 200-Tage-Schnitt = 10, darunter = 5"
+    if spec.get("id") == "distance_52w_high":
+        return "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel"
+    if "zeroAt" not in spec or "tenAt" not in spec:
+        return None
+    kind = spec.get("kind")
+    higher = float(spec["tenAt"]) >= float(spec["zeroAt"])
+    ten = _scale_amount(kind, spec["tenAt"])
+    zero = _scale_amount(kind, spec["zeroAt"])
+    if higher:
+        return f"≥ {ten} = 10, {zero} = 0"
+    return f"≤ {ten} = 10, {zero} = 0"
+
+
+def _scale_amount(kind, raw):
+    text = format_value(kind, raw) or ""
+    for suffix in (" %", " Pp", " Monate"):
+        text = text.replace(",0" + suffix, suffix)
+    return text
+
+
 def parse_date(value):
     if not value:
         return None
@@ -979,7 +1016,9 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
                 if value is not None:
                     available += 1
                     metric_available += 1
-            source = (raw.get("sources") or {}).get(metric_id) or _source_for(metric_id, sources, prices)
+            source = dict((raw.get("sources") or {}).get(metric_id) or _source_for(metric_id, sources, prices) or {})
+            if not source.get("url"):
+                source["url"] = sources.get("fundamentalUrl")
             custom_display = raw["labels"].get(metric_id + "_display")
             if custom_display:
                 display = custom_display
@@ -1001,8 +1040,9 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
                 "raw": raw_value,
                 "points": None if not counts else round1(scored),
                 "status": row_status,
-                "sourceLabel": source["label"],
-                "sourceUrl": source["url"],
+                "scale": scale_text(spec),
+                "sourceLabel": source.get("label"),
+                "sourceUrl": source.get("url") or sources.get("fundamentalUrl"),
                 "fetchedAt": fetched_at,
                 "observedAt": observed if value is not None else None,
             }
@@ -1059,6 +1099,8 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
             "dataQuality": quality,
             "metrics": metrics,
         }
+        if criterion.get("aggregate"):
+            entry["aggregate"] = criterion["aggregate"]
         if capped:
             entry["capApplied"] = True
         if criterion["id"] == "C_06" and analysts.get("summary"):
@@ -1077,6 +1119,69 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
         "koFlags": flags,
         "priceNote": prices.get("note"),
         "dividend": raw.get("dividend") or {},
+    }
+
+
+def _apply_provenance(sources_by_metric, labels, observed, snap):
+    """Stamp each metric with the provider that actually supplied the figure."""
+    fields = {
+        "gross_margin": "gross_profit",
+        "gross_margin_change_yoy": "gross_profit",
+        "margin_progress": "operating_income",
+        "operating_margin_fin": "operating_income",
+        "ocf_margin": "cfo",
+        "revenue_yoy": "revenue",
+        "revenue_ttm_yoy": "revenue",
+        "revenue_quarter_yoy": "revenue_quarter",
+        "fcf_yield": "fcf",
+        "valuation_primary": "revenue",
+        "net_debt_to_ebitda": "debt",
+        "current_ratio": "current_ratio",
+        "cash_runway_months": "cash",
+        "net_cash_or_runway": "cash",
+        "roe": "roe",
+        "rd_intensity": "rd",
+    }
+    provenance = (snap or {}).get("provenance") or {}
+    for metric_id, field in fields.items():
+        src = provenance.get(field)
+        if metric_id == "net_debt_to_ebitda":
+            src = _join_sources(provenance.get("cash"), provenance.get("debt")) or src
+        if metric_id == "current_ratio" and not src:
+            src = provenance.get("assets_current")
+        if metric_id == "roe" and not src:
+            src = provenance.get("equity")
+        if not src or not src.get("label"):
+            continue
+        sources_by_metric[metric_id] = {
+            "label": src.get("label"),
+            "url": src.get("url") or (snap or {}).get("sourceUrl"),
+        }
+        if src.get("note"):
+            previous = labels.get(metric_id + "_note")
+            if not previous or src["note"] not in previous:
+                labels[metric_id + "_note"] = ((previous + " ") if previous else "") + src["note"]
+        if src.get("label") and not str(src["label"]).startswith("SEC"):
+            observed[metric_id] = src.get("end")
+
+
+def _join_sources(left, right):
+    if not left and not right:
+        return None
+    if not left:
+        return right
+    if not right or left.get("label") == right.get("label"):
+        note = " ".join(part for part in (left.get("note"), (right or {}).get("note")) if part)
+        merged = dict(left)
+        if note:
+            merged["note"] = note
+        return merged
+    note = " ".join(part for part in (left.get("note"), right.get("note")) if part)
+    return {
+        "label": "Cash: " + str(left.get("label") or "") + "; Finanzschulden: " + str(right.get("label") or ""),
+        "url": left.get("url") or right.get("url"),
+        "end": left.get("end") or right.get("end"),
+        "note": note or None,
     }
 
 
@@ -1167,8 +1272,19 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
             put("operating_margin", _margin(bundle["operating_income"], revenue, end), end if value_at(bundle["operating_income"], end) is not None else None)
         put("operating_margin_fin", values.get("operating_margin"), observed.get("operating_margin"))
         if snap.get("revenue") and snap.get("cfo") is not None:
-            put("ocf_margin", snap["cfo"] / snap["revenue"], snap["end"])
-            labels["ocf_margin_note"] = snap.get("label")
+            cfo_src = ((snap.get("provenance") or {}).get("cfo") or {})
+            revenue_src = ((snap.get("provenance") or {}).get("revenue") or {})
+            # Undated Yahoo cash flow is a trailing figure. It may fill a TTM
+            # window. It must not be divided by a shorter SEC stub.
+            mixed = (
+                str(cfo_src.get("label") or "").startswith("Yahoo")
+                and str(revenue_src.get("label") or snap.get("sourceLabel") or "").startswith("SEC")
+                and not cfo_src.get("end")
+                and (snap.get("months") or 12) < 11
+            )
+            if not mixed:
+                put("ocf_margin", snap["cfo"] / snap["revenue"], snap.get("cfo_end") or snap["end"])
+                labels["ocf_margin_note"] = snap.get("label")
         fcf_margins = []
         for point in bundle["fcf"]:
             margin = _margin(bundle["fcf"], revenue, point["end"])
@@ -1176,6 +1292,9 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
                 fcf_margins.append(margin)
         if fcf_margins:
             put("fcf_margin_3y", sum(fcf_margins[-3:]) / len(fcf_margins[-3:]), end)
+        if snap.get("rd") is not None and snap.get("revenue"):
+            put("rd_intensity", snap["rd"] / snap["revenue"], snap["end"])
+            labels["rd_intensity_note"] = snap.get("label")
         latest_revenue = at(revenue, end)
         three = point_years_before(revenue, end, 3)
         five = point_years_before(revenue, end, 5)
@@ -1206,6 +1325,15 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
             growth = snap["revenue"] / snap["revenue_prior"] - 1.0
             put("revenue_yoy", growth, snap["end"])
             labels["revenue_yoy_note"] = snap.get("label")
+            put("revenue_ttm_yoy", growth, snap["end"])
+            months = snap.get("months") or 0
+            if months >= 11:
+                labels["revenue_ttm_yoy"] = "Umsatzwachstum, TTM"
+            elif months >= 5:
+                labels["revenue_ttm_yoy"] = "Umsatzwachstum, Halbjahr zum Vorjahr"
+            else:
+                labels["revenue_ttm_yoy"] = "Umsatzwachstum, Quartal zum Vorjahr"
+            labels["revenue_ttm_yoy_note"] = snap.get("label")
             prior_growth = None
         else:
             growth = yoy(revenue, end)
@@ -1213,7 +1341,21 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
             prior_growth = yoy(revenue, prior_end["end"]) if prior_end else None
             if growth is not None and prior_growth is not None:
                 put("revenue_acceleration", growth - prior_growth, end)
+        if snap.get("revenue_quarter_yoy") is not None:
+            put("revenue_quarter_yoy", snap["revenue_quarter_yoy"], snap.get("revenue_quarter_end"))
+            if snap.get("revenue_quarter_label"):
+                labels["revenue_quarter_yoy_note"] = snap["revenue_quarter_label"]
+        estimate = analysts.get("revenueEstimateYoy") if analysts else None
+        if estimate is not None:
+            put("revenue_estimate_yoy", estimate, None)
+            labels["revenue_estimate_yoy_note"] = "Analystenschätzung, nächstes Jahr"
+            sources_by_metric["revenue_estimate_yoy"] = {
+                "label": (analysts.get("label") or "Yahoo Finance quoteSummary") + ", Analystenschätzung",
+                "url": analysts.get("url"),
+            }
         rd = value_at(bundle["rd"], end)
+        if values.get("rd_intensity") is not None:
+            rd = None
         sales = snap.get("revenue") if snap.get("revenue") else value_at(revenue, end)
         if rd is not None and sales:
             put("rd_intensity", rd / sales, end)
@@ -1244,6 +1386,8 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         elif loss and op_now is not None and op_then is not None:
             put("operating_margin_change_yoy", op_now - op_then, snap.get("end") or end)
         prior_equity_point = point_years_before(bundle["equity"], end, 1, 0.4)
+        if values.get("roe") is None and snap.get("roe") is not None:
+            put("roe", snap["roe"], snap.get("equity_end"))
         if net_income is not None and equity and prior_equity_point and prior_equity_point["val"]:
             average_equity = (equity + prior_equity_point["val"]) / 2.0
             if average_equity > 0:
@@ -1264,9 +1408,16 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
                 put("cash_runway_months", (cash / abs(fcf_value)) * period_months, snap.get("end") or end)
         elif fcf_value is not None:
             _not_applicable(reasons, values, observed, "cash_runway_months", na)
-        if ebitda is not None and ebitda > 0 and debt is not None and cash is not None:
-            put("net_debt_to_ebitda", (debt - cash) / ebitda, snap.get("balance_end") or end)
+        net_cash = cash is not None and debt is not None and (cash - debt) > 0
+        if net_cash and not (ebitda is not None and ebitda > 0):
+            put("net_debt_to_ebitda", 0.0, snap.get("debt_end") or snap.get("cash_end") or snap.get("balance_end") or end)
+            labels["net_debt_to_ebitda_display"] = "Netto-Cash"
+            labels["net_debt_to_ebitda_note"] = "Netto-Cash, deshalb 10"
+        elif ebitda is not None and ebitda > 0 and debt is not None and cash is not None:
+            put("net_debt_to_ebitda", (debt - cash) / ebitda, snap.get("debt_end") or snap.get("balance_end") or end)
             labels["net_debt_to_ebitda"] = "Nettoverschuldung / EBITDA, Finanzschulden ohne Leasing"
+            if net_cash:
+                labels["net_debt_to_ebitda_note"] = "Netto-Cash, deshalb 10"
         if cash is not None and debt is not None and (cash - debt) > 0:
             points["net_cash_or_runway"] = 10.0
             values["net_cash_or_runway"] = 1
@@ -1282,8 +1433,10 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
             labels["net_cash_or_runway_display"] = runway_text
         current_assets = snap.get("assets_current") if snap.get("assets_current") is not None else value_at(bundle["assets_current"], end)
         current_liabilities = snap.get("liabilities_current") if snap.get("liabilities_current") is not None else value_at(bundle["liabilities_current"], end)
-        if current_assets is not None and current_liabilities and current_liabilities > 0:
-            put("current_ratio", current_assets / current_liabilities, end)
+        if snap.get("current_ratio") is not None:
+            put("current_ratio", snap["current_ratio"], snap.get("assets_current_end"))
+        elif current_assets is not None and current_liabilities and current_liabilities > 0:
+            put("current_ratio", current_assets / current_liabilities, snap.get("assets_current_end") or end)
         diluted_now = at(bundle["shares_diluted"], end)
         diluted_3 = point_years_before(bundle["shares_diluted"], end, 3)
         diluted_1 = point_years_before(bundle["shares_diluted"], end, 1, 0.4)
@@ -1380,6 +1533,7 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         reasons, values, observed, config, bundle, end,
         momentum.get("barCount") or 0, profile,
     )
+    _apply_provenance(sources_by_metric, labels, observed, snap)
     return {
         "values": values,
         "observed": observed,

@@ -49,6 +49,8 @@ def price_quote(prices, currency):
 
 def assigned_role(scored, config):
     roles = config.get("roles") or {}
+    if not roles.get("dividendEnabled"):
+        return roles["satellite"], "Einheitlicher Gewichtssatz aus der Satelliten-Konfiguration."
     dividend = scored.get("dividend") or {}
     threshold = float(roles.get("dividendYieldAtLeast", 0.025))
     qualifies = (
@@ -233,13 +235,14 @@ def main():
         nasdaq_symbol = spec.get("nasdaq")
         nasdaq_target = load_nasdaq("target", nasdaq_symbol, ROOT / "cache" / "nasdaq") if nasdaq_symbol else None
         nasdaq_annual = load_nasdaq("financials", nasdaq_symbol, ROOT / "cache" / "nasdaq") if nasdaq_symbol else None
+        nasdaq_quarterly = load_nasdaq("quarterly", nasdaq_symbol, ROOT / "cache" / "nasdaq") if nasdaq_symbol else None
         yahoo_url = (summary or {}).get("_url")
         nasdaq_url = (
             "https://api.nasdaq.com/api/company/" + nasdaq_symbol + "/financials?frequency=1"
             if nasdaq_symbol else None
         )
         bundle = apply_fundamental_fallback(
-            bundle, summary, nasdaq_annual, yahoo_url or nasdaq_url, today,
+            bundle, summary, nasdaq_annual, yahoo_url or nasdaq_url, today, nasdaq_quarterly,
         )
         snapshot = bundle.get("snapshot") or {}
         if snapshot.get("sourceLabel") == "SEC EDGAR companyfacts" and not snapshot.get("sourceUrl"):

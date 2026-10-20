@@ -919,11 +919,143 @@ class RoundTwoTests(unittest.TestCase):
             "gross_profit": [point("2025-12-31", 40)],
         }, {}, {}, "2026-10-20", {})
         scored["dividend"] = {"yield": 0.03, "no_cut": True}
-        document = assemble("PYPL", "PayPal", None, scored, CONFIG)
+        enabled = json.loads(json.dumps(CONFIG))
+        enabled["roles"]["dividendEnabled"] = True
+        document = assemble("PYPL", "PayPal", None, scored, enabled)
         self.assertEqual(document["role"]["id"], "dividende")
         self.assertEqual(document["role"]["weights"]["C_09"], 1.5)
         self.assertIn("C_09", {item["id"] for item in document["criteria"]})
         self.assertEqual({item["id"]: item["weight"] for item in document["criteria"]}["C_04"], 1.5)
+        off = assemble("PYPL", "PayPal", None, scored, CONFIG)
+        self.assertEqual(off["role"]["id"], "satellit")
+        self.assertNotIn("C_09", {item["id"] for item in off["criteria"]})
+
+
+class RoundThreeTests(unittest.TestCase):
+    def test_negative_derived_revenue_quarter_is_dropped(self):
+        from scoring.flows import _quarters
+        rows = [
+            {"start": "2025-01-01", "end": "2025-03-31", "val": 5, "filed": "2026-05-06", "form": "10-Q"},
+            {"start": "2025-01-01", "end": "2025-09-30", "val": 45, "filed": "2025-11-05", "form": "10-Q"},
+            {"start": "2025-01-01", "end": "2025-12-31", "val": 32, "filed": "2026-03-18", "form": "10-K"},
+        ]
+        quarters = _quarters(rows, allow_negative_derived=False)
+        self.assertNotIn("2025-12-31", {item["end"] for item in quarters})
+        self.assertTrue(all(item["val"] >= 0 for item in quarters))
+        derived = _quarters([
+            {"start": "2025-01-01", "end": "2025-09-30", "val": 90, "filed": "2025-11-01", "form": "10-Q"},
+            {"start": "2025-01-01", "end": "2025-12-31", "val": 120, "filed": "2026-02-01", "form": "10-K"},
+        ], allow_negative_derived=False)
+        self.assertEqual(derived[-1]["val"], 30)
+
+    def test_growth_metrics_and_net_cash_do_not_treat_gaps_as_zero(self):
+        bundle = {
+            "revenue": [point("2023-12-31", 80), point("2024-12-31", 70), point("2025-12-31", 60)],
+            "snapshot": {
+                "end": "2026-06-30",
+                "label": "H1 bis 2026-06-30",
+                "months": 6,
+                "revenue": 17.4,
+                "revenue_prior": 11.0,
+                "revenue_quarter_yoy": 0.623,
+                "revenue_quarter_end": "2026-06-30",
+                "revenue_quarter_label": "Quartal bis 2026-06-30",
+                "cash": 31.4,
+                "debt": 0.0,
+                "debt_explicit_zero": True,
+                "debt_end": "2025-12-31",
+                "net_income": -7.8,
+                "operating_income": -8.3,
+                "operating_income_prior": -4.9,
+                "cfo": -0.63,
+                "fcf": -0.75,
+                "sourceLabel": "SEC EDGAR companyfacts",
+                "provenance": {
+                    "revenue": {"label": "SEC EDGAR companyfacts", "url": "https://data.sec.gov/oss", "end": "2026-06-30"},
+                    "revenue_quarter": {"label": "SEC EDGAR companyfacts", "url": "https://data.sec.gov/oss", "end": "2026-06-30"},
+                    "cash": {"label": "Yahoo Finance quoteSummary financialData", "url": "https://finance.yahoo.com/quote/OSS", "note": "financialData totalCash"},
+                    "debt": {"label": "SEC EDGAR companyfacts", "url": "https://data.sec.gov/oss", "end": "2025-12-31", "note": "Finanzschulden explizit 0"},
+                    "cfo": {"label": "SEC EDGAR companyfacts", "end": "2026-06-30"},
+                },
+            },
+        }
+        scored = score_company(CONFIG, bundle, {}, {
+            "revenueEstimateYoy": 0.232,
+            "label": "Yahoo Finance quoteSummary",
+            "url": "https://finance.yahoo.com/quote/OSS",
+            "count": 3,
+        }, "2026-10-20", {"fundamentalUrl": "https://data.sec.gov/oss"})
+        metrics = {row["id"]: row for row in next(item for item in scored["criteria"] if item["id"] == "C_02")["metrics"]}
+        self.assertAlmostEqual(metrics["revenue_quarter_yoy"]["raw"], 0.623, places=3)
+        self.assertEqual(metrics["revenue_quarter_yoy"]["points"], 10)
+        self.assertIn("Halbjahr", metrics["revenue_ttm_yoy"]["label"])
+        self.assertGreater(metrics["revenue_ttm_yoy"]["points"], 0)
+        self.assertAlmostEqual(metrics["revenue_estimate_yoy"]["raw"], 0.232, places=3)
+        self.assertIn("Analystenschätzung", metrics["revenue_estimate_yoy"]["sourceLabel"])
+        self.assertIsNone(metrics["eps_cagr_3y"]["points"])
+        self.assertEqual(metrics["eps_cagr_3y"]["status"], "wenig Daten")
+        self.assertGreater(next(item["score"] for item in scored["criteria"] if item["id"] == "C_02"), 0)
+        leverage = {row["id"]: row for row in next(item for item in scored["criteria"] if item["id"] == "C_04")["metrics"]}
+        self.assertEqual(leverage["net_debt_to_ebitda"]["value"], "Netto-Cash")
+        self.assertEqual(leverage["net_debt_to_ebitda"]["points"], 10)
+        self.assertIn("Yahoo", leverage["net_debt_to_ebitda"]["sourceLabel"])
+        self.assertIn("SEC", leverage["net_debt_to_ebitda"]["sourceLabel"])
+
+    def test_explicit_zero_debt_is_not_replaced_by_yahoo_total_debt(self):
+        yahoo = {
+            "_url": "https://finance.yahoo.com/quote/OSS",
+            "financialData": {
+                "totalCash": {"raw": 31407756},
+                "totalDebt": {"raw": 1367134},
+            },
+        }
+        bundle = apply_fundamental_fallback({
+            "snapshot": {
+                "end": "2026-06-30",
+                "revenue": 17418162,
+                "cash": 31174880,
+                "cash_end": "2025-12-31",
+                "debt": 0,
+                "debt_explicit_zero": True,
+                "debt_end": "2025-12-31",
+                "provenance": {"debt": {"label": "SEC EDGAR companyfacts", "end": "2025-12-31"}},
+            },
+        }, yahoo, None, yahoo["_url"], "2026-10-20")
+        snap = bundle["snapshot"]
+        self.assertEqual(snap["debt"], 0)
+        self.assertEqual(snap["cash"], 31407756)
+        self.assertIn("Yahoo", snap["provenance"]["cash"]["label"])
+
+    def test_yahoo_free_cash_flow_above_operating_cash_flow_is_dropped(self):
+        yahoo = {
+            "_url": "https://finance.yahoo.com/quote/HIMS",
+            "financialData": {
+                "operatingCashflow": {"raw": 263450000},
+                "freeCashflow": {"raw": 849437248},
+                "totalRevenue": {"raw": 2578112000},
+            },
+        }
+        bundle = apply_fundamental_fallback({
+            "snapshot": {
+                "end": "2026-06-30",
+                "label": "TTM bis 2026-06-30",
+                "months": 12,
+                "revenue": 2578112000,
+                "sourceLabel": "SEC EDGAR companyfacts",
+                "provenance": {"revenue": {"label": "SEC EDGAR companyfacts", "end": "2026-06-30"}},
+            },
+        }, yahoo, None, yahoo["_url"], "2026-10-20")
+        snap = bundle["snapshot"]
+        self.assertEqual(snap["cfo"], 263450000)
+        self.assertIsNone(snap.get("fcf"))
+
+    def test_page_hides_role_and_shows_the_scale(self):
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertNotIn("GEWICHTE", html)
+        self.assertNotIn('id="rolle"', html)
+        self.assertIn("Kriterium = ", html)
+        self.assertIn("Skala:", html)
+        self.assertIn("Eine Metrik ohne Daten zählt nicht als 0.", html)
 
 
 if __name__ == "__main__":

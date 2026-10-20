@@ -59,7 +59,7 @@ def _concept_rows(facts, concepts, units):
     return list(best.values())
 
 
-def _quarters(rows, allow_derived=True):
+def _quarters(rows, allow_derived=True, allow_negative_derived=True):
     explicit = {}
     longer = []
     for row in rows:
@@ -88,11 +88,15 @@ def _quarters(rows, allow_derived=True):
         for row in group:
             if previous is not None and row["end"] not in explicit:
                 gap = _days(previous["end"], row["end"])
-                if gap is not None and QUARTER_MIN <= gap <= QUARTER_MAX:
+                derived = float(row["val"]) - float(previous["val"])
+                # A negative slice of a cumulative revenue or cost line is a
+                # restatement (the later year sits below the older year-to-date),
+                # not a real quarter. Income and cash flow may be negative.
+                if gap is not None and QUARTER_MIN <= gap <= QUARTER_MAX and (allow_negative_derived or derived >= 0):
                     explicit[row["end"]] = {
                         "end": row["end"],
                         "start": previous["end"],
-                        "val": float(row["val"]) - float(previous["val"]),
+                        "val": derived,
                         "filed": row.get("filed") or "",
                     }
             previous = row
@@ -193,14 +197,62 @@ def _stub_pair(rows):
     return current, prior
 
 
-def flow_pair(facts, concepts, units, allow_derived=True):
+def _aligned(flow, anchor):
+    if not flow or not anchor or flow.get("end") != anchor.get("end"):
+        return False
+    return abs((flow.get("months") or 0) - (anchor.get("months") or 0)) <= 1.5
+
+
+def flow_matching(facts, concepts, units, anchor, allow_negative_derived=True):
+    """Flow for the same period as the revenue window, not a longer TTM beside an H1."""
+    if anchor is None:
+        return None, None
+    current, prior = flow_pair(
+        facts, concepts, units, allow_negative_derived=allow_negative_derived,
+    )
+    if _aligned(current, anchor):
+        return current, prior
+    rows = _concept_rows(facts, concepts, units)
+    pair = _stub_pair(rows)
+    if pair and _aligned(pair[0], anchor):
+        return pair
+    return None, None
+
+
+def flow_pair(facts, concepts, units, allow_derived=True, allow_negative_derived=True):
     rows = _concept_rows(facts, concepts, units)
     if not rows:
         return None, None
-    pair = _trailing_pair(_quarters(rows, allow_derived=allow_derived))
+    quarters = _quarters(rows, allow_derived=allow_derived, allow_negative_derived=allow_negative_derived)
+    pair = _trailing_pair(quarters)
     if pair and pair[0] is not None:
         return pair
     return _stub_pair(rows) or (None, None)
+
+
+def quarter_yoy(facts, concepts, units):
+    """Last reported quarter against the quarter one year earlier.
+
+    Uses explicit quarters and only those derived slices that stay non-negative.
+    Returns None when either quarter is missing. A missing quarter is not zero.
+    """
+    rows = _concept_rows(facts, concepts, units)
+    quarters = _quarters(rows, allow_negative_derived=False)
+    if len(quarters) < 2:
+        return None
+    last = quarters[-1]
+    prior = None
+    for older in quarters:
+        if abs(year_gap(last["end"], older["end"]) - 1.0) <= 0.12 and older["val"]:
+            prior = older
+    if prior is None:
+        return None
+    return {
+        "end": last["end"],
+        "prior_end": prior["end"],
+        "growth": last["val"] / prior["val"] - 1.0,
+        "label": "Quartal bis " + last["end"],
+    }
 
 
 def _point(series):
@@ -211,45 +263,51 @@ def _point(series):
 
 def build_snapshot(facts, annual):
     """Current flow and balance. annual is the extract_fundamentals dict."""
-    revenue, revenue_prior = flow_pair(facts, [
+    revenue_concepts = [
         "RevenueFromContractWithCustomerExcludingAssessedTax",
         "RevenueFromContractWithCustomerIncludingAssessedTax",
         "Revenue",
         "RevenueFromContractsWithCustomers",
         "SalesRevenueNet",
         "Revenues",
-    ], ["USD"])
+    ]
+    revenue, revenue_prior = flow_pair(facts, revenue_concepts, ["USD"], allow_negative_derived=False)
     if revenue is None:
         return None
-    cogs, cogs_prior = flow_pair(facts, [
+    cogs, cogs_prior = flow_matching(facts, [
         "CostOfRevenue",
         "CostOfGoodsAndServicesSold",
         "CostOfGoodsSold",
         "CostOfSales",
-    ], ["USD"])
-    operating, operating_prior = flow_pair(facts, [
+    ], ["USD"], revenue, allow_negative_derived=False)
+    operating, operating_prior = flow_matching(facts, [
         "OperatingIncomeLoss",
         "ProfitLossFromOperatingActivities",
-    ], ["USD"])
-    net_income, _net_prior = flow_pair(facts, [
+    ], ["USD"], revenue)
+    net_income, _net_prior = flow_matching(facts, [
         "NetIncomeLoss",
         "ProfitLoss",
         "ProfitLossAttributableToOwnersOfParent",
-    ], ["USD"])
-    cfo, _cfo_prior = flow_pair(facts, [
+    ], ["USD"], revenue)
+    cfo, _cfo_prior = flow_matching(facts, [
         "NetCashProvidedByUsedInOperatingActivities",
         "CashFlowsFromUsedInOperatingActivities",
-    ], ["USD"])
-    capex, _capex_prior = flow_pair(facts, [
+        "NetCashProvidedByUsedInOperatingActivitiesContinuingOperations",
+    ], ["USD"], revenue)
+    capex, _capex_prior = flow_matching(facts, [
         "PaymentsToAcquirePropertyPlantAndEquipment",
         "PaymentsToAcquireProductiveAssets",
         "PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities",
-    ], ["USD"])
-    depreciation, _da_prior = flow_pair(facts, [
+    ], ["USD"], revenue, allow_negative_derived=False)
+    depreciation, _da_prior = flow_matching(facts, [
         "DepreciationDepletionAndAmortization",
         "DepreciationAndAmortization",
         "DepreciationAndAmortisationExpense",
-    ], ["USD"])
+    ], ["USD"], revenue)
+    research, _rd_prior = flow_matching(facts, [
+        "ResearchAndDevelopmentExpense",
+        "ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost",
+    ], ["USD"], revenue, allow_negative_derived=False)
     cash = _point(latest_position(facts, [
         "CashAndCashEquivalentsAtCarryingValue",
         "CashAndCashEquivalents",
@@ -267,6 +325,7 @@ def build_snapshot(facts, annual):
         "EntityCommonStockSharesOutstanding",
     ], ["shares"]))
     debt = _debt_latest(facts)
+    quarter = quarter_yoy(facts, revenue_concepts, ["USD"])
     gross = None
     gross_prior = None
     if cogs and cogs["end"] == revenue["end"]:
@@ -288,6 +347,7 @@ def build_snapshot(facts, annual):
         "cfo": None if cfo is None or cfo["end"] != revenue["end"] else cfo["val"],
         "fcf": fcf,
         "da": None if depreciation is None or depreciation["end"] != revenue["end"] else depreciation["val"],
+        "rd": None if research is None or research["end"] != revenue["end"] else research["val"],
         "gross_profit": gross,
         "gross_profit_prior": gross_prior,
         "cash": None if cash is None else cash["val"],
@@ -297,16 +357,50 @@ def build_snapshot(facts, annual):
         "liabilities_current": None if liabilities_current is None else liabilities_current["val"],
         "shares_out": None if shares is None else shares["val"],
         "balance_end": None if cash is None else cash["end"],
+        "cash_end": None if cash is None else cash["end"],
+        "debt_end": None if debt is None else debt["end"],
+        "debt_explicit_zero": bool(debt is not None and debt["val"] == 0),
+        "equity_end": None if equity is None else equity["end"],
+        "assets_current_end": None if assets_current is None else assets_current["end"],
+        "liabilities_current_end": None if liabilities_current is None else liabilities_current["end"],
+        "cfo_end": None if cfo is None or cfo["end"] != revenue["end"] else cfo["end"],
+        "fcf_end": revenue["end"] if fcf is not None else None,
+        "revenue_quarter_yoy": None if quarter is None else quarter["growth"],
+        "revenue_quarter_end": None if quarter is None else quarter["end"],
+        "revenue_quarter_label": None if quarter is None else quarter["label"],
         "sourceLabel": "SEC EDGAR companyfacts",
     }
+    provenance = {}
+    sec = "SEC EDGAR companyfacts"
+    for field, point in (
+        ("revenue", revenue),
+        ("gross_profit", {"end": revenue["end"]} if gross is not None else None),
+        ("operating_income", operating if operating and operating["end"] == revenue["end"] else None),
+        ("net_income", net_income if net_income and net_income["end"] == revenue["end"] else None),
+        ("cfo", cfo if cfo and cfo["end"] == revenue["end"] else None),
+        ("fcf", {"end": revenue["end"]} if fcf is not None else None),
+        ("da", depreciation if depreciation and depreciation["end"] == revenue["end"] else None),
+        ("rd", research if research and research["end"] == revenue["end"] else None),
+        ("cash", cash),
+        ("debt", debt),
+        ("equity", equity),
+        ("assets_current", assets_current),
+        ("liabilities_current", liabilities_current),
+    ):
+        if point is None:
+            continue
+        provenance[field] = {"label": sec, "url": None, "end": point.get("end")}
+    if quarter is not None:
+        provenance["revenue_quarter"] = {"label": sec, "url": None, "end": quarter["end"]}
+    snapshot["provenance"] = provenance
     # Keep annual shares if the quarterly share count is missing.
     if snapshot["shares_out"] is None and annual.get("shares_out"):
         snapshot["shares_out"] = annual["shares_out"][-1]["val"]
     return snapshot
 
 
-def _debt_latest(facts):
-    """Interest-bearing debt excluding lease liabilities, at the latest filing."""
+def _debt_components(facts):
+    """Previous component sum. Lease liabilities are not included."""
     long_term = latest_position(facts, ["LongTermDebt", "Borrowings"], ["USD"])
     short_term = latest_position(facts, [
         "ShortTermBorrowings",
@@ -318,6 +412,7 @@ def _debt_latest(facts):
         current = latest_position(facts, [
             "LongTermDebtCurrent",
             "CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings",
+            "NotesPayableCurrent",
         ], ["USD"])
         parts = [series[-1] for series in (noncurrent, current, short_term) if series]
         if not parts:
@@ -338,3 +433,33 @@ def _debt_latest(facts):
     if not long_term:
         return {"end": anchor["end"], "val": anchor["val"]}
     return {"end": anchor["end"], "val": long_term[-1]["val"] + extra}
+
+
+def _debt_latest(facts):
+    """Interest-bearing debt excluding lease liabilities, at the latest filing.
+
+    An explicit zero is a reported figure, not a missing tag. The newest
+    period wins, including a later filing that reports zero.
+    """
+    candidates = []
+    for name in (
+        "DebtInstrumentCarryingAmount",
+        "LongTermDebt",
+        "Borrowings",
+        "NotesPayable",
+        "LongTermNotesPayable",
+    ):
+        series = latest_position(facts, [name], ["USD"])
+        if series:
+            point = series[-1]
+            candidates.append(point)
+    component = _debt_components(facts)
+    if component:
+        candidates.append(component)
+    if not candidates:
+        return None
+    end = max(point["end"] for point in candidates)
+    newest = [point for point in candidates if point["end"] == end]
+    # A reported total at this date beats a sum of older component concepts
+    # that happen to share the date. Explicit zero stays zero.
+    return {"end": end, "val": newest[-1]["val"]}

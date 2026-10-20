@@ -2,6 +2,12 @@
 
 ## 2026-10-20
 
+### Runde 3, ein Gewichtssatz und nachvollziehbare Metriken
+
+Alle Titel rechnen mit dem Satelliten-Gewichtssatz. Die Dividendenrolle und C_09 sind über `roles.dividendEnabled` aus; der Code bleibt. Die Seite zeigt keine Rolle und keine Gewichte. Im Kopf der Analyse steht, wie der Aktien-Score zustande kommt. Jede aufgeklappte Metrik zeigt Wert, Skala, Punkte, die tatsächlich genutzte Quelle mit Link und Stichtag oder Abrufdatum. Darunter steht, aus wie vielen Metriken mit Daten das Kriterium besteht.
+
+C_02 enthält das Umsatzwachstum der letzten vergleichbaren Periode (TTM, sonst Halbjahr oder Quartal), das letzte Quartal gegen das Vorjahresquartal und die Analystenschätzung fürs nächste Jahr. Eine Metrik ohne Daten zählt nicht als 0. Ein abgeleitetes Umsatzquartal, das negativ würde, weil eine spätere Jahreszahl unter der älteren Neunmonatszahl liegt, fällt weg. Bilanz und Cashflow nutzen den letzten 10-Q- oder TTM-Stichtag. Fehlt der Wert oder ist er älter, springt der Lauf auf Yahoo und dann auf Nasdaq. Explizit gemeldete Finanzschulden von 0 bleiben 0. Ist das Schulden-Tag leer und die Ausweichquelle nahe 0, ist Netto-Cash gleich Cash. Netto-Cash gibt bei Nettoverschuldung/EBITDA 10 Punkte.
+
 ### Runde 2, Datenstand und Rollen
 
 Der Score ist der Score der zugeordneten Rolle. Satellit ist der Standard, Dividendenaktie nur ab 2,5 % Rendite und fünf Jahren ohne Kürzung. Die Gewichte stehen in `config/scoring.json` und in `score.json`. Die Seite zeigt Rolle und Gewichte. Die Wortmarke ist nur „sidequest“. Unten steht: „Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.“

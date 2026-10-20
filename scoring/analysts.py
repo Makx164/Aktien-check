@@ -24,6 +24,7 @@ def fetch_analysts(ticker, price, today, keys=None, yahoo=None, nasdaq_target=No
         "buyShare": None,
         "targetUpside": None,
         "epsRevision": None,
+        "revenueEstimateYoy": None,
         "count": None,
         "observed": None,
         "label": None,
@@ -32,11 +33,24 @@ def fetch_analysts(ticker, price, today, keys=None, yahoo=None, nasdaq_target=No
     try:
         from scoring.marketdata import analyst_from_nasdaq, analyst_from_yahoo
         yahoo_result = analyst_from_yahoo(yahoo, price, today)
+        estimate = None
+        try:
+            from scoring.marketdata import revenue_estimate_growth
+            estimate = revenue_estimate_growth(yahoo)
+        except (OSError, ValueError, TypeError):
+            estimate = None
         if yahoo_result:
+            if yahoo_result.get("revenueEstimateYoy") is None:
+                yahoo_result["revenueEstimateYoy"] = estimate
             return yahoo_result
         nasdaq_result = analyst_from_nasdaq(nasdaq_target, price, today, ticker)
         if nasdaq_result:
+            nasdaq_result["revenueEstimateYoy"] = estimate
             return nasdaq_result
+        if estimate is not None:
+            empty["revenueEstimateYoy"] = estimate
+            empty["label"] = "Yahoo Finance quoteSummary"
+            empty["url"] = (yahoo or {}).get("_url")
     except (OSError, ValueError, TypeError):
         pass
     if keys.get("finnhub"):
