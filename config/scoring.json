@@ -10,7 +10,8 @@
     "notApplicable": "nicht anwendbar",
     "noUsFiling": "keine US-Meldepflicht",
     "shortHistory": "zu kurze Historie",
-    "excluded": "ausgeblendet, zählt nicht"
+    "excluded": "ausgeblendet, zählt nicht",
+    "tooFewAnalysts": "zu wenige Analysten"
   },
   "insider": {
     "planSaleWeight": 0.25,
@@ -39,6 +40,48 @@
   "analystCap": {
     "below": 5,
     "maxPoints": 7
+  },
+  "analystMinCount": 3,
+  "sourceNote": "Phase 1 nutzt SEC EDGAR, Yahoo Finance und die Nasdaq-API. Für eine Bezahlversion sind lizenzierte Quellen nötig.",
+  "momentum": {
+    "excessZeroAt": -50,
+    "excessMidAt": 0,
+    "excessMidPoints": 5,
+    "excessTenAt": 30,
+    "aboveSmaPoints": 10,
+    "belowSmaPoints": 5,
+    "distanceNear": 0.2,
+    "distanceMid": 0.5,
+    "distanceFar": 0.6,
+    "nearPoints": 10,
+    "opportunityAt": 6,
+    "opportunityLow": 7,
+    "opportunityHigh": 10,
+    "neutralBelow": 4,
+    "neutralPoints": 5,
+    "betweenLow": 5,
+    "betweenHigh": 7,
+    "intactAt": 6,
+    "deepIntactPoints": 10,
+    "deepWeakPoints": 5,
+    "deepWarning": "Warnhinweis: mehr als 60 % unter dem 52-Wochen-Hoch",
+    "floorMin": 3,
+    "floorWhenC02AtLeast": 5,
+    "plausibilityExcessPp": 300
+  },
+  "roles": {
+    "satellite": {
+      "id": "satellit",
+      "label": "Satellit",
+      "weights": {"C_01": 1.0, "C_02": 2.0, "C_03": 1.0, "C_04": 0.75, "C_05": 1.0, "C_06": 0.75, "C_07": 0.25, "C_08": 0.5, "C_09": 0}
+    },
+    "dividend": {
+      "id": "dividende",
+      "label": "Dividendenaktie",
+      "weights": {"C_01": 1.0, "C_02": 0.75, "C_03": 0.5, "C_04": 1.5, "C_05": 0.5, "C_06": 0.5, "C_07": 0.25, "C_08": 1.5, "C_09": 1.5}
+    },
+    "dividendYieldAtLeast": 0.025,
+    "yearsWithoutCut": 5
   },
   "ko": {
     "altmanZBelow": 1.8,
@@ -78,19 +121,19 @@
     {
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
-      "weight": 1,
+      "weight": 1.0,
       "metrics": [
-        {"id": "roic_2y", "label": "ROIC, 2-Jahres-Schnitt", "kind": "percent", "zeroAt": 0.05, "tenAt": 0.2},
+        {"id": "roic_2y", "label": "ROIC, zwei aufeinanderfolgende Jahre", "kind": "percent", "zeroAt": 0.05, "tenAt": 0.2},
         {"id": "gross_margin", "label": "Bruttomarge", "kind": "percent", "zeroAt": 0.2, "tenAt": 0.6},
-        {"id": "gross_margin_stability", "label": "Stabilität der Bruttomarge", "kind": "percent", "zeroAt": 0.15, "tenAt": 0.02},
-        {"id": "operating_margin", "label": "Operative Marge", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
-        {"id": "fcf_margin", "label": "Free-Cashflow-Marge", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.2}
+        {"id": "gross_margin_change_yoy", "label": "Trend der Bruttomarge", "kind": "ratioPp", "zeroAt": -0.05, "tenAt": 0.05},
+        {"id": "margin_progress", "label": "Margenfortschritt", "kind": "ratioPp", "zeroAt": -0.03, "tenAt": 0.05},
+        {"id": "net_cash_or_runway", "label": "Netto-Cash oder Cash-Reichweite", "kind": "text"}
       ]
     },
     {
       "id": "C_02",
       "label": "Wachstum",
-      "weight": 1.5,
+      "weight": 2.0,
       "metrics": [
         {"id": "revenue_cagr_3y", "label": "Umsatz-CAGR, 3 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
         {"id": "revenue_cagr_5y", "label": "Umsatz-CAGR, 5 Jahre", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.2},
@@ -106,20 +149,20 @@
       "weight": 1,
       "metrics": [
         {"id": "revenue_yoy", "label": "Umsatzwachstum zum Vorjahr", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.3},
-        {"id": "rd_intensity", "label": "Forschungsquote", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.15},
-        {"id": "gross_margin_change_yoy", "label": "Veränderung der Bruttomarge", "kind": "ratioPp", "zeroAt": -0.05, "tenAt": 0.05}
+        {"id": "rd_intensity", "label": "Forschungsquote", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.15}
       ]
     },
     {
       "id": "C_04",
       "label": "Profitabilität & Finanzkraft",
-      "weight": 1,
+      "weight": 0.75,
       "metrics": [
         {"id": "operating_margin_fin", "label": "Operative Marge", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
-        {"id": "fcf_margin_fin", "label": "Free-Cashflow-Marge", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.15},
+        {"id": "ocf_margin", "label": "Operative Cashflow-Marge", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.2},
+        {"id": "fcf_margin_3y", "label": "Free-Cashflow-Marge, 3-Jahres-Schnitt", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.15},
         {"id": "roe", "label": "Eigenkapitalrendite", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.25},
         {"id": "cash_runway_months", "label": "Cash Runway", "kind": "months", "zeroAt": 12, "tenAt": 36},
-        {"id": "net_debt_to_ebitda", "label": "Nettoverschuldung / EBITDA", "kind": "multiple", "zeroAt": 4.0, "tenAt": 0.0},
+        {"id": "net_debt_to_ebitda", "label": "Nettoverschuldung / EBITDA, Finanzschulden ohne Leasing", "kind": "multiple", "zeroAt": 4.0, "tenAt": 0.0},
         {"id": "current_ratio", "label": "Current Ratio", "kind": "multiple", "zeroAt": 0.8, "tenAt": 2.0},
         {"id": "dilution_3y", "label": "Verwässerung, 3 Jahre", "kind": "percent", "zeroAt": 0.1, "tenAt": 0.0}
       ]
@@ -127,7 +170,7 @@
     {
       "id": "C_05",
       "label": "Management & große Investoren",
-      "weight": 1,
+      "weight": 1.0,
       "aggregate": "sum",
       "metrics": [
         {
@@ -164,7 +207,7 @@
     {
       "id": "C_06",
       "label": "Analysten & Stimmung",
-      "weight": 1,
+      "weight": 0.75,
       "cap": "analysts",
       "metrics": [
         {"id": "buy_share", "label": "Anteil Kaufempfehlungen", "kind": "percent", "zeroAt": 0.3, "tenAt": 0.8},
@@ -175,11 +218,11 @@
     {
       "id": "C_07",
       "label": "Kursverlauf & Momentum",
-      "weight": 0.5,
+      "weight": 0.25,
       "metrics": [
-        {"id": "excess_return_12_1", "label": "12-1-Monats-Rendite gegen S&P 500", "kind": "pp", "zeroAt": -30, "tenAt": 30},
+        {"id": "excess_return_12_1", "label": "12-1-Monats-Rendite gegen S&P 500", "kind": "pp"},
         {"id": "above_sma_200", "label": "Kurs über der 200-Tage-Linie", "kind": "binary"},
-        {"id": "distance_52w_high", "label": "Abstand zum 52-Wochen-Hoch", "kind": "percent", "zeroAt": 0.5, "tenAt": 0.05}
+        {"id": "distance_52w_high", "label": "Abstand zum 52-Wochen-Hoch", "kind": "percent"}
       ]
     },
     {
@@ -190,6 +233,16 @@
         {"id": "valuation_primary", "label": "Bewertung", "kind": "multiple"},
         {"id": "fcf_yield", "label": "Free-Cashflow-Rendite", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.08},
         {"id": "ev_to_ebitda", "label": "EV / EBITDA", "kind": "multiple", "zeroAt": 30, "tenAt": 8}
+      ]
+    },
+    {
+      "id": "C_09",
+      "label": "Dividende",
+      "weight": 0,
+      "metrics": [
+        {"id": "dividend_yield", "label": "Dividendenrendite", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.05},
+        {"id": "payout_to_fcf", "label": "Ausschüttung zu Free Cashflow", "kind": "percent", "zeroAt": 0.7, "tenAt": 0.0},
+        {"id": "dividend_no_cut_5y", "label": "Fünf Jahre ohne Kürzung", "kind": "binary"}
       ]
     }
   ]

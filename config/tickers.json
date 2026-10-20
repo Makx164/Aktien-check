@@ -92,7 +92,7 @@
     "currency": "SEK",
     "nasdaq": null,
     "assetClass": null,
-    "note": "Keine SEC-Fundamentaldaten. Fundamentalkennzahlen: keine US-Meldepflicht. C_06 ist ausgeblendet und zählt nicht."
+    "note": "Keine SEC-Fundamentaldaten. Was Yahoo nicht liefert, bleibt keine US-Meldepflicht. C_06 zählt erst ab drei Analysten."
   },
   {
     "ticker": "SPCX",

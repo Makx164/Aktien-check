@@ -13,9 +13,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#c6c7c1">
   <title>sidequest</title>
-  <meta name="description" content="sidequest. Ich halte diese Aktien selbst. Keine Anlageberatung.">
+  <meta name="description" content="sidequest. Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.">
   <meta property="og:title" content="sidequest">
-  <meta property="og:description" content="Ich halte diese Aktien selbst. Keine Anlageberatung.">
+  <meta property="og:description" content="Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.">
   <meta property="og:url" content="https://yoursidequest.org/">
   <meta property="og:type" content="website">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23e8305a'/%3E%3Cpath d='M5 17l5-5 3 3 6-7' fill='none' stroke='%23111' stroke-width='2.6'/%3E%3C/svg%3E">
@@ -227,6 +227,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
 .risk .rid{font:600 10.5px "JetBrains Mono",monospace;color:var(--red-ink);letter-spacing:.14em}
 .pos{margin-top:12px;font:500 12px "JetBrains Mono",monospace;color:var(--mut)}
 .discl-big{margin-top:26px;border:1px solid var(--bad);background:var(--bad-bg);padding:13px 15px;font-size:14px}
+.discl-big.compact{margin-top:18px;padding:8px 12px;font-size:12px}
 .discl-big .mlabel{color:var(--bad);display:block;margin-bottom:4px}
 .notfound{padding:40px 0 20px}
 .notfound .h-red{font-size:clamp(40px,8vw,72px)}
@@ -371,9 +372,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
 
 .brand-t{text-transform:none}
 .watermark{display:none}
-.hold-notes{display:grid;gap:8px;padding:14px 26px 0}
-.hold-notes p{margin:0;padding:10px 12px;border:1px solid var(--hair);background:var(--panel);font:700 13px/1.4 "JetBrains Mono",monospace;letter-spacing:.03em}
-.hold-notes .legal{color:var(--red-ink)}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:8px 0 12px}
 .tile{display:flex;flex-direction:column;gap:6px;min-height:156px;padding:14px 14px 12px;border:1px solid var(--hair);background:var(--panel);color:inherit;text-decoration:none}
 .tile:hover{background:var(--panel2);text-decoration:none;border-color:var(--ink)}
@@ -390,7 +388,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
 .ring .val b.long{font-size:42px}
 .page-kicker{margin:22px 0 4px}
 @media (max-width:640px){
-  .hold-notes{padding:12px 14px 0}
   .tiles{grid-template-columns:1fr 1fr;gap:8px}
   .tile{min-height:132px;padding:12px 10px}
   .tile-ticker{font-size:16px}
@@ -405,7 +402,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     <header class="topbar">
       <a class="brand" href="#/" aria-label="sidequest, alle Positionen">
         <span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 22 20H2Z" fill="currentColor"/><path d="M12 11 15.5 17h-7Z" fill="var(--bg)"/></svg></span>
-        <span class="brand-t">sidequest<small>AKTIEN-CHECK</small></span>
+        <span class="brand-t">sidequest</span>
       </a>
       <div class="top-r">
         <button class="theme-tg" id="theme-tg" type="button" aria-label="Farbschema wechseln">
@@ -413,13 +410,9 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
         </button>
       </div>
     </header>
-    <div class="hold-notes">
-      <p>Ich halte diese Aktien selbst.</p>
-      <p class="legal">Keine Anlageberatung.</p>
-    </div>
     <main id="app" tabindex="-1"><p class="mlabel">Daten werden geladen.</p></main>
     <footer class="footer">
-      <p class="foot-url">sidequest · AKTIEN-CHECK</p>
+      <p class="foot-url">sidequest</p>
     </footer>
     <i class="cx tl"></i><i class="cx tr"></i><i class="cx bl"></i><i class="cx br"></i>
   </div>
@@ -427,32 +420,11 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
 (function () {
   "use strict";
   var TICKERS = ["PLTR","OSS","AMZN","TSLA","HIMS","LMND","IBRX","MU","IREN","GRAB","SIVE","SPCX","PYPL"];
-  var CODES = ["C_01","C_02","C_03","C_04","C_05","C_06","C_07","C_08"];
+  var CODES = ["C_01","C_02","C_03","C_04","C_05","C_06","C_07","C_08","C_09"];
+  var DISCLAIMER = "Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.";
   var CFG = {
     scoreName: "Aktien-Score",
-    hauptPreset: "ausgewogen",
-    rollenAnalyse: ["satellit", "tenbagger", "compounder", "dividende"],
-    rollenFit: {minScore: 50, gleichstand: 3, keineText: "Passt in keine Rolle klar"},
-    presets: {
-      ausgewogen: {emoji: "⚖️", label: "Ausgewogen", scoreLabel: "Aktien-Score", hinweis: "Standard: alle 8 Punkte, C_07 mit halbem Gewicht",
-        ampel: {gruen: "Starkes Gesamtprofil", gelb: "Gemischtes Gesamtprofil", rot: "Schwaches Gesamtprofil"},
-        w: {"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 1, "7": 1, "8": 1, "9": 0}},
-      satellit: {emoji: "🛰️", label: "Satellit", scoreLabel: "Satellit-Score", hinweis: "Wachstum zählt am stärksten, Bewertung als Gegencheck",
-        ampel: {gruen: "Starkes Wachstumsprofil", gelb: "Gemischtes Wachstumsprofil", rot: "Schwaches Wachstumsprofil"},
-        w: {"1": 1.5, "2": 2.5, "3": 1.5, "4": 1, "5": 1, "6": 1, "7": 0.5, "8": 1, "9": 0}},
-      tenbagger: {emoji: "🚀", label: "Tenbagger", scoreLabel: "Tenbagger-Score", hinweis: "Wachstum und Markt zählen am stärksten, Bewertung zählt nicht",
-        ampel: {gruen: "Hohes Vervielfachungspotenzial", gelb: "Mittleres Vervielfachungspotenzial", rot: "Geringes Vervielfachungspotenzial"},
-        w: {"1": 1, "2": 3, "3": 2.5, "4": 0.5, "5": 1.5, "6": 1, "7": 0.5, "8": 0, "9": 0}},
-      compounder: {emoji: "💎", label: "Compounder", scoreLabel: "Compounder-Score", hinweis: "Burggraben und Kapitalrendite im Fokus",
-        ampel: {gruen: "Hohe Qualität", gelb: "Mittlere Qualität", rot: "Geringe Qualität"},
-        w: {"1": 2.5, "2": 1.5, "3": 1, "4": 2, "5": 1.5, "6": 0.5, "7": 0, "8": 1, "9": 0},
-        deckel: [{kennzahl: "roic_2y", unter: 0, max: 49, hinweis: "Kapitalrendite negativ", info: "ROIC, 2-Jahres-Schnitt"},
-                 {kennzahl: "roic_2y", unter: 0.10, max: 69, hinweis: "Kapitalrendite unter 10 %", info: "ROIC, 2-Jahres-Schnitt"}]},
-      dividende: {emoji: "💰", label: "Dividenden-Aktie", scoreLabel: "Dividenden-Score", hinweis: "Dividende zählt nur mit einer gemessenen Rendite",
-        ampel: {gruen: "Solide Dividende", gelb: "Durchwachsene Dividende", rot: "Schwache Dividende"},
-        w: {"1": 1.5, "2": 0.5, "3": 0.5, "4": 2, "5": 0.5, "6": 0.5, "7": 0, "8": 1.5, "9": 3},
-        nichtAnwendbar: {kennzahl: "dividendenrendite", unter: 0.005, hinweisNiedrig: "Dividendenrendite unter 0,5 %"}}
-    },
+    ampelText: {gruen: "Starkes Gesamtprofil", gelb: "Gemischtes Gesamtprofil", rot: "Schwaches Gesamtprofil"},
     ampel: {gruen: {ab: 70}, gelb: {ab: 50}, na: {label: "nicht anwendbar"}, ko: {label: "Warnsignal"}}
   };
 
@@ -502,10 +474,12 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     var map = {green: "gruen", orange: "gelb", red: "rot"};
     return map[doc.trafficLight] || (doc.score >= 70 ? "gruen" : doc.score >= 50 ? "gelb" : "rot");
   }
-  function lab(light, presetKey) {
-    var p = CFG.presets[presetKey || CFG.hauptPreset];
+  function lab(light) {
     if (light === "na") return CFG.ampel.na.label;
-    return (p.ampel && p.ampel[light]) || "";
+    return CFG.ampelText[light] || "";
+  }
+  function disclaimer() {
+    return '<div class="discl-big compact"><span class="mlabel">KEINE ANLAGEBERATUNG</span>' + DISCLAIMER + "</div>";
   }
   function status(light, ko) {
     var name = {gruen: "GRÜN", gelb: "GELB", rot: "ROT", na: "GRAU"}[light];
@@ -567,8 +541,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     return found;
   }
   function adapt(score) {
-    var byId = {};
-    (score.criteria || []).forEach(function (c) { byId[c.id] = c; });
+    var role = score.role || {id: "satellit", label: "Satellit", weights: {}, reason: ""};
     return {
       ticker: score.ticker,
       name: score.name || "",
@@ -579,74 +552,24 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
       missingDataNote: score.missingDataNote,
       asOf: score.asOf,
       price: score.price || null,
-      criteria: CODES.map(function (code, index) {
-        var found = byId[code] || {id: code, label: code, score: null, status: "wenig Daten", metrics: []};
+      role: role,
+      criteria: (score.criteria || []).map(function (found) {
         var missing = found.score == null || found.status;
+        var number = parseInt(String(found.id || "").replace(/\D/g, ""), 10);
         return {
-          id: index + 1,
-          code: code,
-          name: found.label || code,
+          id: number,
+          code: found.id,
+          name: found.label || found.id,
           wert: missing ? null : found.score,
           bewertet: !missing,
           status: missing ? (found.status || "wenig Daten") : null,
-          weight: found.weight,
+          weight: (role.weights && role.weights[found.id] != null) ? role.weights[found.id] : found.weight,
           metrics: found.metrics || [],
-          dataQuality: found.dataQuality || ""
+          dataQuality: found.dataQuality || "",
+          summary: found.summary || null
         };
       })
     };
-  }
-  function calcRole(doc, key) {
-    var p = CFG.presets[key];
-    var w = p.w;
-    if (p.nichtAnwendbar) {
-      var metric = findMetric(doc, p.nichtAnwendbar.kennzahl);
-      var raw = metric && metric.raw != null ? Number(metric.raw) : null;
-      if (raw == null || raw < p.nichtAnwendbar.unter) {
-        return {score: null, light: "na", na: true, hinweis: raw == null ? "Dividendenrendite: wenig Daten" : p.nichtAnwendbar.hinweisNiedrig, rated: 0, used: 0, deckel: null};
-      }
-    }
-    var num = 0, den = 0, rated = 0, used = 0;
-    doc.criteria.forEach(function (c) {
-      var f = +w[String(c.id)] || 0;
-      if (f <= 0) return;
-      used++;
-      if (!c.bewertet) return;
-      rated++;
-      num += c.wert * f;
-      den += f;
-    });
-    var score = den ? Math.floor(num / den * 10 + 0.5) : null;
-    var roh = score;
-    var deckel = null;
-    if (p.deckel) {
-      for (var i = 0; i < p.deckel.length; i++) {
-        var rule = p.deckel[i];
-        var probe = findMetric(doc, rule.kennzahl);
-        var value = probe && probe.raw != null ? Number(probe.raw) : null;
-        if (value != null && value < rule.unter) {
-          deckel = {max: rule.max, hinweis: rule.hinweis, info: rule.info, wert: value, roh: roh, gegriffen: score != null && score > rule.max};
-          if (score != null) score = Math.min(score, rule.max);
-          break;
-        }
-      }
-    }
-    var light = score == null ? "na" : score < CFG.ampel.gelb.ab ? "rot" : score >= CFG.ampel.gruen.ab ? "gruen" : "gelb";
-    return {score: score, light: light, na: false, hinweis: "", rated: rated, used: used, deckel: deckel};
-  }
-  function rollen(doc) {
-    return CFG.rollenAnalyse.map(function (key, index) {
-      return {key: key, index: index, result: calcRole(doc, key)};
-    });
-  }
-  function beste(rows) {
-    var fit = CFG.rollenFit;
-    var ranked = rows.filter(function (row) { return row.result.score != null; })
-      .sort(function (a, b) { return b.result.score - a.result.score || a.index - b.index; });
-    if (!ranked.length || ranked[0].result.score < fit.minScore) return {rows: [], text: fit.keineText, keine: true};
-    var best = [ranked[0]];
-    if (ranked.length > 1 && ranked[0].result.score - ranked[1].result.score <= fit.gleichstand && ranked[1].result.score >= fit.minScore) best.push(ranked[1]);
-    return {rows: best, text: best.map(function (row) { return CFG.presets[row.key].emoji + " " + CFG.presets[row.key].label; }).join(" / "), keine: false};
   }
   function ring(score, light) {
     var n = 48, pct = score == null ? 0 : Math.max(0, Math.min(100, Number(score)));
@@ -718,52 +641,46 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     var kicker = document.createElement("div");
     kicker.className = "sec-t page-kicker";
     kicker.innerHTML = "<h2>Übersicht Aktienportfolio</h2><span class=\"mlabel\">" + loaded.length + " TICKER · SCORE 0–100</span>";
-    app.replaceChildren(kicker, grid);
+    app.replaceChildren(kicker, grid, noteNode());
+  }
+
+  function noteNode() {
+    var note = document.createElement("div");
+    note.className = "discl-big compact";
+    note.innerHTML = '<span class="mlabel">KEINE ANLAGEBERATUNG</span>' + DISCLAIMER;
+    return note;
+  }
+
+  function weightText(value) {
+    var text = String(value);
+    if (text.indexOf(".") >= 0) text = String(Math.round(Number(value) * 100) / 100);
+    return text.replace(".", ",");
   }
 
   function rolesSection(doc) {
-    var rows = rollen(doc);
-    var best = beste(rows);
-    var bestKeys = best.rows.map(function (row) { return row.key; });
-    var h = '<div class="sec-t" id="rolle"><h2>Passt_am_besten_als</h2><span class="mlabel">EINORDNUNG AUS DEN ROLLEN-GEWICHTEN · KEINE EMPFEHLUNG</span></div>';
-    h += '<div class="fit' + (best.keine ? " keine" : "") + '"><span class="mlabel">' + (best.keine ? "ERGEBNIS" : "PASST AM BESTEN ALS") + '</span><div class="fit-main">' + esc(best.text) + "</div>";
-    h += best.keine ? '<p class="fit-sub">Bester Rollen-Score unter ' + CFG.rollenFit.minScore + ".</p>"
-      : '<p class="fit-sub">' + best.rows.map(function (row) {
-          return esc(CFG.presets[row.key].scoreLabel) + " " + row.result.score + "/100 · " + esc(lab(row.result.light, row.key));
-        }).join(" &nbsp;|&nbsp; ") + (best.rows.length > 1 ? " · liegen höchstens " + CFG.rollenFit.gleichstand + " Punkte auseinander" : "") + "</p>";
-    h += "</div>";
-    var sorted = rows.slice().sort(function (a, b) {
-      return (b.result.score == null ? -1 : b.result.score) - (a.result.score == null ? -1 : a.result.score) || a.index - b.index;
-    });
-    h += '<div class="fit-list">' + sorted.map(function (row) {
-      var preset = CFG.presets[row.key];
-      var sc = row.result.score == null ? "–" : pad(row.result.score);
-      var isBest = bestKeys.indexOf(row.key) !== -1;
-      var note = row.result.na ? '<span class="tag off">wenig Daten</span> ' + esc(row.result.hinweis) : "";
-      if (row.result.deckel) {
-        var cap = row.result.deckel;
-        note = '<span class="tag warn">⚠ ' + esc(cap.hinweis) + "</span> Deckel: höchstens " + cap.max + "/100 (" + esc(cap.info) + " " + n1(cap.wert * 100) + " %)" + (cap.gegriffen ? " · ohne Deckel " + cap.roh + "/100" : " · greift nicht");
-      }
-      var weights = doc.criteria.filter(function (c) { return (+preset.w[String(c.id)] || 0) > 0; })
-        .map(function (c) { return esc(c.name.split(" ")[0]) + " ×" + String(preset.w[String(c.id)]).replace(".", ","); }).join(" · ");
-      return '<details class="fit-row' + (isBest ? " best" : "") + (row.result.score == null ? " na" : "") + '"><summary><span class="fr-n">' + esc(preset.emoji + " " + preset.label) +
-        (isBest ? ' <span class="tag est">beste Rolle</span>' : "") + '</span><span class="fr-s"><span class="sq ' + row.result.light + '"></span>' + sc +
-        '<small>/100</small></span><span class="fr-l">' + esc(row.result.score == null ? "nicht anwendbar" : lab(row.result.light, row.key)) + "</span>" +
-        (note ? '<span class="fr-r">' + note + "</span>" : "") + '</summary><div class="body"><p class="whint">' + esc(preset.hinweis) + '</p><p class="rw mlabel">GEWICHTE: ' + weights + "</p></div></details>";
-    }).join("") + "</div>";
+    var role = doc.role || {label: "Satellit", reason: "", weights: {}};
+    var weights = doc.criteria.map(function (c) {
+      var value = role.weights && role.weights[c.code] != null ? role.weights[c.code] : c.weight;
+      return esc(c.code) + " × " + weightText(value);
+    }).join(" · ");
+    var h = '<div class="sec-t" id="rolle"><h2>Rolle</h2><span class="mlabel">ZUGEORDNET · GEWICHTE AUS DER KONFIGURATION</span></div>';
+    h += '<div class="fit"><span class="mlabel">ROLLE</span><div class="fit-main">' + esc(role.label || "Satellit") + "</div>";
+    h += '<p class="fit-sub">' + esc(role.reason || "") + "</p></div>";
+    h += '<p class="rw mlabel">GEWICHTE: ' + weights + "</p>";
     return h;
   }
 
   function matrix(doc) {
     var light = lightOf(doc);
     var rated = doc.criteria.filter(function (c) { return c.bewertet; }).length;
-    var h = '<div class="sec-t"><h2>Score_Matrix</h2><span class="mlabel">8 PUNKTE · JE 0–10 · C_07 × 0,5 · FEHLENDE ZÄHLEN NICHT</span></div>';
+    var roleName = (doc.role && doc.role.label) || "Satellit";
+    var h = '<div class="sec-t"><h2>Score_Matrix</h2><span class="mlabel">' + doc.criteria.length + ' PUNKTE · JE 0–10 · GEWICHTE ' + esc(roleName.toUpperCase()) + ' · FEHLENDE ZÄHLEN NICHT</span></div>';
     h += '<div class="diagram crits"><div class="mods">' + doc.criteria.map(function (c) {
       var mark = c.bewertet ? n1(c.wert) : gapLabel(c.status);
       return '<a class="mod" href="#c' + c.id + '" data-open="c' + c.id + '"><span class="ml">C_' + pad(c.id) + " · " + esc(c.name) + '</span><span class="mr">' + seg(c.wert, 10) + "<span>" + esc(mark) + "</span></span></a>";
     }).join("") + '</div><div class="hub crit-hub"><div class="hub-h"><span class="mlabel">' + esc(doc.ticker) + ' · AKTIEN-SCORE</span><span class="mlabel">MAX 100</span></div><div class="big">' +
       esc(shownScore(doc)) + '<small>/100</small></div>' + status(light, doc.ko.length) +
-      '<p class="rated mlabel">' + rated + " VON 8 KRITERIEN MIT DATEN</p>" + legend() + "</div></div>";
+      '<p class="rated mlabel">' + rated + " VON " + doc.criteria.length + " KRITERIEN MIT DATEN</p>" + legend() + "</div></div>";
     return h;
   }
 
@@ -784,32 +701,66 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
         return '<div class="row' + (long ? " long" : "") + '"><span class="k">' + esc(metric.label || metric.id) + '</span><span class="lead-d"></span><span class="v' + (missing ? " nd" : "") + '">' + esc(value) + " · " + esc(points) + "</span></div>";
       }).join("");
       var quality = c.dataQuality ? '<p class="expl">' + esc(c.dataQuality) + "</p>" : "";
+      var summary = c.code === "C_06" ? analystSummary(c.summary) : "";
       var urls = (c.metrics || []).map(function (metric) { return metric.sourceUrl; });
       var scoreText = c.bewertet
         ? esc(n1(c.wert)) + "<small>/10</small>"
         : (excluded ? '<span class="mlabel">' + esc(gap) + "</span>" : esc(gap) + "<small>/10</small>");
       h += '<details class="crit" id="c' + c.id + '"><summary><span><span class="cid">CRITERION_' + pad(c.id) + '</span><span class="cn">' + esc(c.name) + '</span><span class="ctags">' + tag + '</span></span><span class="score">' +
-        scoreText + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body"><div class="kv">' + rows + "</div>" + quality + srcLinks(urls) + "</div></details>";
+        scoreText + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body"><div class="kv">' + rows + "</div>" + summary + quality + srcLinks(urls) + "</div></details>";
     });
+    return h;
+  }
+
+  function analystSummary(summary) {
+    if (!summary) return "";
+    function bucket(row) {
+      if (!row) return "wenig Daten";
+      return [
+        ["Strong Buy", row.strongBuy],
+        ["Buy", row.buy],
+        ["Hold", row.hold],
+        ["Sell", row.sell],
+        ["Strong Sell", row.strongSell]
+      ].map(function (part) {
+        return part[0] + " " + (part[1] == null ? "–" : String(part[1]));
+      }).join(" · ");
+    }
+    var target = summary.target || {};
+    var low = target.low == null ? "–" : n1(target.low);
+    var high = target.high == null ? "–" : n1(target.high);
+    var h = '<div class="expl">';
+    h += "<p>Aktuell: " + esc(bucket(summary.current)) + "</p>";
+    h += "<p>Vor 3 Monaten: " + esc(bucket(summary.threeMonthsAgo)) + "</p>";
+    h += "<p>Kursziel Mittel " + esc(target.mean == null ? "wenig Daten" : n1(target.mean));
+    h += " · Median " + esc(target.median == null ? "wenig Daten" : n1(target.median));
+    h += " · Spanne " + esc(low + "–" + high);
+    h += " · " + esc(target.count == null ? "wenig Daten" : String(target.count)) + " Analysten</p>";
+    var changes = summary.changes || [];
+    if (changes.length) {
+      h += "<p>" + changes.slice(0, 5).map(function (row) {
+        var price = row.target == null ? "–" : n1(row.target);
+        return esc((row.date || "–") + " · " + (row.firm || "–") + " · " + (row.grade || "–") + " · " + price);
+      }).join("<br>") + "</p>";
+    }
+    h += "<p>" + esc((summary.sourceLabel || "Quelle") + (summary.fetchedAt ? " · " + summary.fetchedAt : "")) + "</p></div>";
     return h;
   }
 
   function showDetail(score) {
     var doc = adapt(score);
     var light = lightOf(doc);
-    var best = beste(rollen(doc));
-    var fitTxt = best.keine ? best.text.charAt(0).toLowerCase() + best.text.slice(1) : "passt am besten als " + best.text;
+    var roleName = (doc.role && doc.role.label) || "Satellit";
     var scoreText = shownScore(doc);
     document.title = doc.ticker + " · " + CFG.scoreName + " " + scoreText + " · sidequest";
     var h = '<a class="back" href="#/">← Alle Positionen</a>';
     h += '<section class="r-head"><div><span class="mlabel">CHECK_RESULT // ' + esc(doc.ticker) + '</span>';
     h += '<h1 class="h-red" style="margin-top:8px">' + esc(doc.ticker) + "</h1>";
     h += '<div class="r-name">' + esc(doc.name) + "</div>";
-    h += '<div class="role-title"><span class="rt-t">' + esc(doc.ticker) + '</span> · <span class="rt-r">Aktien-Score</span> <b>' + esc(scoreText) + '</b><small>/100</small> <span class="rt-sep">·</span> <span class="rt-fit' + (best.keine ? " keine" : "") + '">' + esc(fitTxt) + "</span></div>";
+    h += '<div class="role-title"><span class="rt-t">' + esc(doc.ticker) + '</span> · <span class="rt-r">' + esc(roleName) + '</span> <b>' + esc(scoreText) + '</b><small>/100</small></div>';
     h += '<div id="dyn-status">' + status(light, doc.ko.length) + "</div>";
     h += '<div class="term" style="margin-top:14px"><span class="p">&gt;</span> STAND DER DATEN <b>' + esc(standText(doc)) + "</b><br>";
-    h += '<span class="p">&gt;</span> KURS <b>' + priceText(doc) + "</b> · VOM <b>" + esc(dDE(kursDate(doc))) + "</b><br>";
-    h += '<span class="p">&gt;</span> ZAHLEN BIS <b>' + esc(dDE(zahlenDate(doc))) + "</b></div></div>";
+    h += '<span class="p">&gt;</span> KURS <b>' + priceText(doc) + "</b> · VOM <b>" + esc(dDE(kursDate(doc))) + "</b></div></div>";
     h += '<div class="score-hub">' + ring(doc.status ? null : doc.score, light) + "</div></section>";
     if (doc.missingDataNote) h += '<p class="gap-note">' + esc(doc.missingDataNote) + "</p>";
     if (doc.ko.length) {
@@ -817,7 +768,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
         doc.ko.map(function (flag) { return "<li>" + esc(flag) + "</li>"; }).join("") + "</ul></div>";
     }
     h += rolesSection(doc) + matrix(doc) + criteriaDetail(doc);
-    h += '<div class="discl-big"><span class="mlabel">KEINE ANLAGEBERATUNG</span>Ich halte diese Aktien selbst. Keine Kauf- oder Verkaufsempfehlung. „Passt am besten als“ ist eine rechnerische Einordnung aus den Rollen-Gewichten. Fehlende Kennzahlen stehen als „wenig Daten“ und zählen nicht als 0.</div>';
+    h += disclaimer();
     app.innerHTML = '<article class="result">' + h + "</article>";
     openFromQuery(doc.ticker);
     window.scrollTo(0, 0);

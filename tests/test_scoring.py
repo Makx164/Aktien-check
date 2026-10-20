@@ -4,7 +4,8 @@ from datetime import date, timedelta
 from pathlib import Path
 
 from scoring.edgar import parse_form4
-from scoring.metrics import annual_series, extract_fundamentals, score_company
+from scoring.marketdata import apply_fundamental_fallback
+from scoring.metrics import _distance_points, annual_series, extract_fundamentals, score_company
 from scoring.model import (
     apply_analyst_cap,
     band_points,
@@ -228,15 +229,15 @@ class CompanyScoreTests(unittest.TestCase):
         self.assertEqual(metrics["excess_return_12_1"]["value"], "40,0 Pp")
         self.assertEqual(metrics["above_sma_200"]["value"], "ja")
         self.assertEqual(metrics["above_sma_200"]["points"], 10)
-        self.assertEqual(metrics["distance_52w_high"]["points"], 1.1)
+        self.assertEqual(metrics["distance_52w_high"]["points"], 5.0)
         self.assertEqual(metrics["excess_return_12_1"]["sourceUrl"], prices["sourceUrl"])
         self.assertEqual(metrics["excess_return_12_1"]["fetchedAt"], "2026-10-16")
         self.assertEqual(metrics["excess_return_12_1"]["observedAt"], bars[-1]["date"])
-        self.assertEqual(by_id["C_02"]["weight"], 1.5)
-        self.assertEqual(by_id["C_07"]["weight"], 0.5)
+        self.assertEqual(by_id["C_02"]["weight"], 2.0)
+        self.assertEqual(by_id["C_07"]["weight"], 0.25)
         self.assertEqual(by_id["C_08"]["weight"], 0.5)
         self.assertIsNone(by_id["C_06"]["score"])
-        self.assertEqual(by_id["C_06"]["status"], "ausgeblendet, zählt nicht")
+        self.assertEqual(by_id["C_06"]["status"], "wenig Daten")
 
     def test_peg_unprofitable_switch_cap_and_ko(self):
         ends = ["2022-12-31", "2023-12-31", "2024-12-31", "2025-12-31"]
@@ -349,7 +350,7 @@ class MissingDataTests(unittest.TestCase):
         self.assertEqual(metrics["roic_2y"]["status"], "wenig Daten")
         self.assertEqual(by_id["C_01"]["score"], 10)
         self.assertIsNone(by_id["C_01"]["status"])
-        self.assertEqual(by_id["C_06"]["status"], "ausgeblendet, zählt nicht")
+        self.assertEqual(by_id["C_06"]["status"], "wenig Daten")
         self.assertIsNone(by_id["C_06"]["score"])
 
         zero = {
@@ -360,8 +361,14 @@ class MissingDataTests(unittest.TestCase):
         gross = {m["id"]: m for c in scored_zero["criteria"] if c["id"] == "C_01" for m in c["metrics"]}
         self.assertEqual(gross["gross_margin"]["points"], 0.0)
         self.assertIsNone(gross["gross_margin"]["status"])
-        self.assertEqual(gross["fcf_margin"]["status"], "wenig Daten")
-        self.assertIsNone(gross["fcf_margin"]["points"])
+        self.assertEqual(gross["margin_progress"]["status"], "wenig Daten")
+        self.assertIsNone(gross["margin_progress"]["points"])
+        self.assertTrue(all(
+            metric["points"] is None
+            for item in scored_zero["criteria"]
+            for metric in item["metrics"]
+            if metric.get("status")
+        ))
 
     def test_weights_are_renormalized_and_thin_coverage_hides_the_number(self):
         full = [
@@ -414,7 +421,11 @@ class MissingDataTests(unittest.TestCase):
             for item in document["criteria"] if item["score"] is None
         ))
         hidden_c06 = {item["id"]: item for item in document["criteria"]}["C_06"]
-        self.assertEqual(hidden_c06["status"], "ausgeblendet, zählt nicht")
+        self.assertEqual(hidden_c06["status"], "wenig Daten")
+        self.assertEqual(document["role"]["id"], "satellit")
+        self.assertNotIn("C_09", {item["id"] for item in document["criteria"]})
+        self.assertEqual(document["role"]["weights"]["C_02"], 2.0)
+        self.assertEqual(document["role"]["weights"]["C_03"], 1.0)
 
 
 class ManagementTests(unittest.TestCase):
@@ -515,8 +526,13 @@ class KillSwitchTests(unittest.TestCase):
         self.assertIn("gap-note", html)
         self.assertIn('className = "tiles"', html)
         self.assertIn('className = "tile-stand"', html)
-        self.assertIn("Ich halte diese Aktien selbst.", html)
-        self.assertIn("Keine Anlageberatung.", html)
+        self.assertNotIn("Ich halte diese Aktien selbst.", html)
+        self.assertIn(
+            "Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.",
+            html,
+        )
+        self.assertNotIn("<small>AKTIEN-CHECK</small>", html)
+        self.assertNotIn("ZAHLEN BIS", html)
         self.assertIn('href = "#/" + score.ticker', html)
         self.assertIn("hashchange", html)
         self.assertIn("Alle Positionen", html)
@@ -554,7 +570,7 @@ class ReviewRuleTests(unittest.TestCase):
         self.assertNotEqual(finance_metrics["roe"]["points"], 0)
         runway = finance_metrics["cash_runway_months"]
         self.assertEqual(runway["points"], 10)
-        self.assertEqual(runway["value"], "36,0 Monate")
+        self.assertEqual(runway["value"], "> 36 Monate")
         valuation = metric_map(scored, "C_08")[1]["fcf_yield"]
         self.assertEqual(valuation["status"], "nicht anwendbar")
         self.assertIsNone(valuation["points"])
@@ -691,7 +707,7 @@ class ReviewRuleTests(unittest.TestCase):
         self.assertTrue(all(metric["status"] == "keine US-Meldepflicht" for metric in fundamentals.values()))
         self.assertEqual(metric_map(swedish, "C_01")[0]["status"], "keine US-Meldepflicht")
         self.assertIsNone(metric_map(swedish, "C_01")[0]["score"])
-        self.assertEqual(metric_map(swedish, "C_06")[0]["status"], "ausgeblendet, zählt nicht")
+        self.assertEqual(metric_map(swedish, "C_06")[0]["status"], "wenig Daten")
 
     def test_quarterly_only_history_is_too_short(self):
         facts = {
@@ -752,6 +768,162 @@ class ReviewRuleTests(unittest.TestCase):
         self.assertIn("3-Jahres-CAGR", valuation["note"])
         self.assertIsNotNone(valuation["points"])
         self.assertNotEqual(valuation["points"], 0)
+
+
+def _roic_year(end, operating, pretax):
+    return {
+        "operating_income": point(end, operating),
+        "tax": point(end, pretax * 0.2 if pretax > 0 else 0),
+        "pretax": point(end, pretax),
+        "equity": point(end, 100),
+        "debt": point(end, 0),
+        "cash": point(end, 0),
+    }
+
+
+class RoundTwoTests(unittest.TestCase):
+    def test_roic_uses_only_consecutive_years(self):
+        pieces = [
+            _roic_year("2021-12-31", 10, 10),
+            _roic_year("2022-12-31", -5, -5),
+            _roic_year("2025-12-31", 20, 20),
+        ]
+        bundle = {"revenue": [point("2025-12-31", 100)]}
+        for key in ("operating_income", "tax", "pretax", "equity", "debt", "cash"):
+            bundle[key] = [row[key] for row in pieces]
+        scored = score_company(CONFIG, bundle, {}, {}, "2026-10-20", {})
+        roic = metric_map(scored, "C_01")[1]["roic_2y"]
+        self.assertEqual(roic["status"], "wenig Daten")
+        self.assertIsNone(roic["points"])
+        self.assertNotEqual(roic["points"], 0)
+
+        consecutive = {"revenue": [point("2025-12-31", 100)]}
+        years = [_roic_year("2024-12-31", 10, 10), _roic_year("2025-12-31", 20, 20)]
+        for key in ("operating_income", "tax", "pretax", "equity", "debt", "cash"):
+            consecutive[key] = [row[key] for row in years]
+        scored_ok = score_company(CONFIG, consecutive, {}, {}, "2026-10-20", {})
+        roic_ok = metric_map(scored_ok, "C_01")[1]["roic_2y"]
+        self.assertIsNone(roic_ok["status"])
+        self.assertAlmostEqual(roic_ok["raw"], 0.12, places=4)
+
+    def test_grab_cost_of_sales_gross_margin(self):
+        def row(start, end, val):
+            return {"start": start, "end": end, "val": val, "form": "20-F", "fp": "FY", "filed": end}
+
+        facts = {"ifrs-full": {
+            "Revenue": {"units": {"USD": [
+                row("2024-01-01", "2024-12-31", 2830),
+                row("2025-01-01", "2025-12-31", 3370),
+            ]}},
+            "CostOfSales": {"units": {"USD": [
+                row("2024-01-01", "2024-12-31", 1641.4),
+                row("2025-01-01", "2025-12-31", 1914),
+            ]}},
+        }}
+        bundle = extract_fundamentals(facts)
+        scored = score_company(CONFIG, bundle, {}, {}, "2026-10-20", {})
+        gross = metric_map(scored, "C_01")[1]["gross_margin"]
+        self.assertAlmostEqual(gross["raw"], (3370 - 1914) / 3370, places=4)
+        self.assertEqual(gross["value"], "43,2 %")
+        self.assertIsNone(gross["status"])
+
+    def test_eps_cagr_falls_back_to_two_positive_years(self):
+        bundle = {
+            "revenue": [point("2025-12-31", 100)],
+            "net_income": [point("2025-12-31", 10)],
+            "eps": [
+                point("2022-12-31", -0.27),
+                point("2023-12-31", 2.90),
+                point("2025-12-31", 7.17),
+            ],
+        }
+        scored = score_company(CONFIG, bundle, {}, {}, "2026-10-20", {})
+        eps = metric_map(scored, "C_02")[1]["eps_cagr_3y"]
+        self.assertEqual(eps["label"], "EPS-CAGR, 2 Jahre")
+        self.assertIsNotNone(eps["points"])
+        self.assertNotEqual(eps["points"], 0)
+        self.assertIn("nicht positiv", eps["note"])
+        self.assertNotIn("nicht berechenbar", eps["note"])
+        valuation = metric_map(scored, "C_08")[1]["valuation_primary"]
+        self.assertIsNone(valuation["points"])
+
+    def test_peg_note_when_eps_growth_cannot_be_computed(self):
+        bundle = {
+            "revenue": [point("2024-12-31", 100), point("2025-12-31", 130)],
+            "operating_income": [point("2025-12-31", 20)],
+            "net_income": [point("2025-12-31", 10)],
+            "eps": [point("2022-12-31", -1), point("2025-12-31", 2)],
+            "fcf": [point("2025-12-31", 5)],
+            "equity": [point("2025-12-31", 50)],
+            "cash": [point("2025-12-31", 0)],
+            "debt": [point("2025-12-31", 0)],
+            "shares_out": [point("2025-12-31", 10)],
+        }
+        bars = [{"date": "2026-10-15", "close": 20.0, "high": 20.0}]
+        scored = score_company(CONFIG, bundle, {"bars": bars}, {}, "2026-10-20", {})
+        valuation = metric_map(scored, "C_08")[1]["valuation_primary"]
+        self.assertIn("nicht berechenbar", valuation["note"])
+
+    def test_momentum_floor_and_distance_bands(self):
+        rules = CONFIG["momentum"]
+        self.assertEqual(_distance_points(0.1, None, rules)[0], 10)
+        self.assertEqual(_distance_points(0.35, 7, rules)[0], 8.5)
+        self.assertEqual(_distance_points(0.35, 5, rules)[0], 6)
+        self.assertEqual(_distance_points(0.35, 3, rules)[0], 5)
+        self.assertEqual(_distance_points(0.55, 7, rules)[0], 10)
+        self.assertEqual(_distance_points(0.55, 5, rules)[0], 5)
+        points, warning = _distance_points(0.7, 8, rules)
+        self.assertIsNone(points)
+        self.assertIn("60", warning)
+
+        bars = dated_bars(300)
+        bars[47]["close"] = 100
+        bars[278]["close"] = 40
+        bars[299]["close"] = 20
+        bench = dated_bars(300)
+        prices = {"bars": bars, "benchmark": {"bars": bench, "label": "S&P 500"}}
+        bundle = {"revenue": [point("2022-12-31", 100), point("2025-12-31", 200)]}
+        scored = score_company(CONFIG, bundle, prices, {}, "2026-10-20", {})
+        momentum = metric_map(scored, "C_07")
+        self.assertEqual(momentum[0]["score"], 3)
+        self.assertIn("Untergrenze", momentum[0]["dataQuality"])
+        self.assertIsNone(momentum[1]["distance_52w_high"]["points"])
+        self.assertIn("60", momentum[1]["distance_52w_high"]["status"])
+        self.assertGreaterEqual(metric_map(scored, "C_02")[0]["score"], 5)
+
+    def test_yahoo_quarters_do_not_become_the_cagr_series(self):
+        yahoo = {
+            "_url": "https://finance.yahoo.com/quote/SIVE.ST",
+            "defaultKeyStatistics": {"sharesOutstanding": {"raw": 1000}},
+            "incomeStatementHistoryQuarterly": {"incomeStatementHistory": [
+                {"endDate": {"fmt": "2025-09-30"}, "totalRevenue": {"raw": 10}, "grossProfit": {"raw": 0}},
+                {"endDate": {"fmt": "2025-12-31"}, "totalRevenue": {"raw": 11}, "grossProfit": {"raw": 0}},
+                {"endDate": {"fmt": "2026-03-31"}, "totalRevenue": {"raw": 12}, "grossProfit": {"raw": 0}},
+                {"endDate": {"fmt": "2026-06-30"}, "totalRevenue": {"raw": 13}, "grossProfit": {"raw": 0}},
+            ]},
+        }
+        bundle = apply_fundamental_fallback(
+            {"shares_out": [{"end": "2025-12-31", "val": 0}], "revenue": []},
+            yahoo, None, yahoo["_url"], "2026-10-20",
+        )
+        self.assertEqual(bundle["revenue"], [])
+        self.assertEqual(bundle["snapshot"]["shares_out"], 1000)
+        self.assertEqual(bundle["snapshot"]["revenue"], 46)
+        self.assertIsNone(bundle["snapshot"].get("gross_profit"))
+        self.assertIsNone(bundle["snapshot"].get("revenue_prior"))
+        self.assertEqual(bundle["snapshot"]["sourceLabel"], "Yahoo Finance quoteSummary")
+
+    def test_dividend_role_keeps_c09(self):
+        scored = score_company(CONFIG, {
+            "revenue": [point("2025-12-31", 100)],
+            "gross_profit": [point("2025-12-31", 40)],
+        }, {}, {}, "2026-10-20", {})
+        scored["dividend"] = {"yield": 0.03, "no_cut": True}
+        document = assemble("PYPL", "PayPal", None, scored, CONFIG)
+        self.assertEqual(document["role"]["id"], "dividende")
+        self.assertEqual(document["role"]["weights"]["C_09"], 1.5)
+        self.assertIn("C_09", {item["id"] for item in document["criteria"]})
+        self.assertEqual({item["id"]: item["weight"] for item in document["criteria"]}["C_04"], 1.5)
 
 
 if __name__ == "__main__":

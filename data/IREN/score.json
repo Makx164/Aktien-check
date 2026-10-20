@@ -2,14 +2,14 @@
   "ticker": "IREN",
   "name": "IREN Limited",
   "asOf": "2026-10-19",
-  "score": 47.8,
+  "score": 64.4,
   "status": null,
-  "criteriaWithData": 7,
-  "trafficLight": "red",
-  "qualityScore": 49.7,
-  "marketScore": 37.5,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 21 von 31 Metriken verfügbar",
-  "missingDataNote": "ausgeblendet, zählt nicht bei C_06. Der Score zählt nur Kriterien mit Daten.",
+  "criteriaWithData": 8,
+  "trafficLight": "orange",
+  "qualityScore": 64.6,
+  "marketScore": 63.5,
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 22 von 31 Metriken verfügbar",
+  "missingDataNote": null,
   "koFlags": [
     "Altman Z 0,65 unter 1,8"
   ],
@@ -20,18 +20,33 @@
     "sourceLabel": "Nasdaq Historical",
     "sourceUrl": "https://api.nasdaq.com/api/quote/IREN/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000"
   },
+  "role": {
+    "id": "satellit",
+    "label": "Satellit",
+    "weights": {
+      "C_01": 1.0,
+      "C_02": 2.0,
+      "C_03": 1.0,
+      "C_04": 0.75,
+      "C_05": 1.0,
+      "C_06": 0.75,
+      "C_07": 0.25,
+      "C_08": 0.5
+    },
+    "reason": "Satellit, solange die Dividendenregel nicht erfüllt ist."
+  },
   "criteria": [
     {
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
-      "score": 3.6,
+      "score": 6.4,
       "status": null,
-      "weight": 1,
-      "dataQuality": "4 von 5 Metriken verfügbar",
+      "weight": 1.0,
+      "dataQuality": "4 von 5 Metriken verfügbar. TTM bis 2026-06-30 TTM bis 2026-06-30 TTM bis 2026-06-30",
       "metrics": [
         {
           "id": "roic_2y",
-          "label": "ROIC, 2-Jahres-Schnitt",
+          "label": "ROIC, zwei aufeinanderfolgende Jahre",
           "value": null,
           "raw": null,
           "points": null,
@@ -51,38 +66,41 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-06-30"
+          "observedAt": "2026-06-30",
+          "note": "TTM bis 2026-06-30"
         },
         {
-          "id": "gross_margin_stability",
-          "label": "Stabilität der Bruttomarge",
-          "value": "9,2 %",
-          "raw": 0.092026,
-          "points": 4.5,
+          "id": "gross_margin_change_yoy",
+          "label": "Trend der Bruttomarge",
+          "value": "0,7 Pp",
+          "raw": 0.00658,
+          "points": 5.7,
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-06-30"
+          "observedAt": "2026-06-30",
+          "note": "TTM bis 2026-06-30"
         },
         {
-          "id": "operating_margin",
-          "label": "Operative Marge",
-          "value": "-148,0 %",
-          "raw": -1.480486,
+          "id": "margin_progress",
+          "label": "Margenfortschritt",
+          "value": "-151,5 Pp",
+          "raw": -1.515069,
           "points": 0.0,
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-06-30"
+          "observedAt": "2026-06-30",
+          "note": "TTM bis 2026-06-30"
         },
         {
-          "id": "fcf_margin",
-          "label": "Free-Cashflow-Marge",
-          "value": "-127,0 %",
-          "raw": -1.26956,
-          "points": 0.0,
+          "id": "net_cash_or_runway",
+          "label": "Netto-Cash oder Cash-Reichweite",
+          "value": "> 36 Monate",
+          "raw": null,
+          "points": 10.0,
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
@@ -94,10 +112,10 @@
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 3.3,
+      "score": 5.0,
       "status": null,
-      "weight": 1.5,
-      "dataQuality": "3 von 6 Metriken verfügbar",
+      "weight": 2.0,
+      "dataQuality": "2 von 6 Metriken verfügbar",
       "metrics": [
         {
           "id": "revenue_cagr_3y",
@@ -150,14 +168,14 @@
         {
           "id": "revenue_acceleration",
           "label": "Umsatzbeschleunigung",
-          "value": "-126,5 Pp",
-          "raw": -1.265392,
-          "points": 0.0,
-          "status": null,
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "wenig Daten",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-06-30"
+          "observedAt": null
         },
         {
           "id": "operating_margin_change_yoy",
@@ -176,10 +194,10 @@
     {
       "id": "C_03",
       "label": "Markt & Zukunftsmarkt",
-      "score": 7.8,
+      "score": 10.0,
       "status": null,
-      "weight": 1,
-      "dataQuality": "2 von 3 Metriken verfügbar",
+      "weight": 1.0,
+      "dataQuality": "1 von 2 Metriken verfügbar. TTM bis 2026-06-30",
       "metrics": [
         {
           "id": "revenue_yoy",
@@ -191,7 +209,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-06-30"
+          "observedAt": "2026-06-30",
+          "note": "TTM bis 2026-06-30"
         },
         {
           "id": "rd_intensity",
@@ -204,28 +223,16 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
           "observedAt": null
-        },
-        {
-          "id": "gross_margin_change_yoy",
-          "label": "Veränderung der Bruttomarge",
-          "value": "0,7 Pp",
-          "raw": 0.00658,
-          "points": 5.7,
-          "status": null,
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-10-20",
-          "observedAt": "2026-06-30"
         }
       ]
     },
     {
       "id": "C_04",
       "label": "Profitabilität & Finanzkraft",
-      "score": 4.0,
+      "score": 5.0,
       "status": null,
-      "weight": 1,
-      "dataQuality": "5 von 6 Metriken verfügbar",
+      "weight": 0.75,
+      "dataQuality": "6 von 7 Metriken verfügbar. TTM bis 2026-06-30",
       "metrics": [
         {
           "id": "operating_margin_fin",
@@ -240,10 +247,23 @@
           "observedAt": "2026-06-30"
         },
         {
-          "id": "fcf_margin_fin",
-          "label": "Free-Cashflow-Marge",
-          "value": "-127,0 %",
-          "raw": -1.26956,
+          "id": "ocf_margin",
+          "label": "Operative Cashflow-Marge",
+          "value": "297,1 %",
+          "raw": 2.970859,
+          "points": 10.0,
+          "status": null,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-06-30",
+          "note": "TTM bis 2026-06-30"
+        },
+        {
+          "id": "fcf_margin_3y",
+          "label": "Free-Cashflow-Marge, 3-Jahres-Schnitt",
+          "value": "-80,1 %",
+          "raw": -0.800736,
           "points": 0.0,
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
@@ -266,8 +286,8 @@
         {
           "id": "cash_runway_months",
           "label": "Cash Runway",
-          "value": "78,8 Monate",
-          "raw": 78.819115,
+          "value": "> 36 Monate",
+          "raw": null,
           "points": 10.0,
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
@@ -277,7 +297,7 @@
         },
         {
           "id": "net_debt_to_ebitda",
-          "label": "Nettoverschuldung / EBITDA",
+          "label": "Nettoverschuldung / EBITDA, Finanzschulden ohne Leasing",
           "value": null,
           "raw": null,
           "points": null,
@@ -318,7 +338,7 @@
       "label": "Management & große Investoren",
       "score": 7.0,
       "status": null,
-      "weight": 1,
+      "weight": 1.0,
       "dataQuality": "3 von 3 Metriken verfügbar. 3–10 % → 3 von 5 neutral → 2 von 3 Netto-Verkauf unter 0,1 % der Marktkapitalisierung ist neutral über 40 % → 2 von 2",
       "metrics": [
         {
@@ -373,63 +393,121 @@
     {
       "id": "C_06",
       "label": "Analysten & Stimmung",
-      "score": null,
-      "status": "ausgeblendet, zählt nicht",
-      "weight": 1,
-      "dataQuality": "0 von 3 Metriken verfügbar",
+      "score": 6.7,
+      "status": null,
+      "weight": 0.75,
+      "dataQuality": "3 von 3 Metriken verfügbar",
       "metrics": [
         {
           "id": "buy_share",
           "label": "Anteil Kaufempfehlungen",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "ausgeblendet, zählt nicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "value": "80,0 %",
+          "raw": 0.8,
+          "points": 10.0,
+          "status": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/IREN",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
           "id": "target_upside",
           "label": "Abstand zum mittleren Kursziel",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "ausgeblendet, zählt nicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "value": "180,6 %",
+          "raw": 1.805826,
+          "points": 10.0,
+          "status": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/IREN",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
           "id": "eps_revision_90d",
           "label": "EPS-Revision, 90 Tage",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "ausgeblendet, zählt nicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "value": "-1891,3 %",
+          "raw": -18.9132,
+          "points": 0.0,
+          "status": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/IREN",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         }
-      ]
+      ],
+      "summary": {
+        "current": {
+          "strongBuy": 3.0,
+          "buy": 13.0,
+          "hold": 4.0,
+          "sell": 0.0,
+          "strongSell": 0.0
+        },
+        "threeMonthsAgo": {
+          "strongBuy": 1.0,
+          "buy": 11.0,
+          "hold": 3.0,
+          "sell": 0.0,
+          "strongSell": 1.0
+        },
+        "target": {
+          "mean": 77.80556,
+          "median": 80.0,
+          "low": 37.0,
+          "high": 139.0,
+          "count": 20
+        },
+        "changes": [
+          {
+            "date": "2026-09-29",
+            "firm": "B. Riley Securities",
+            "grade": "Buy",
+            "target": 91.0
+          },
+          {
+            "date": "2026-09-21",
+            "firm": "Rothschild & Co",
+            "grade": "Neutral",
+            "target": 40.0
+          },
+          {
+            "date": "2026-09-18",
+            "firm": "Northland Capital Markets",
+            "grade": "Outperform",
+            "target": 99.0
+          },
+          {
+            "date": "2026-09-14",
+            "firm": "JP Morgan",
+            "grade": "Overweight",
+            "target": 65.0
+          },
+          {
+            "date": "2026-09-14",
+            "firm": "BTIG",
+            "grade": "Buy",
+            "target": 80.0
+          }
+        ],
+        "sourceLabel": "Yahoo Finance quoteSummary",
+        "sourceUrl": "https://finance.yahoo.com/quote/IREN",
+        "fetchedAt": "2026-10-20"
+      }
     },
     {
       "id": "C_07",
       "label": "Kursverlauf & Momentum",
-      "score": 0.0,
+      "score": 3.0,
       "status": null,
-      "weight": 0.5,
-      "dataQuality": "3 von 3 Metriken verfügbar",
+      "weight": 0.25,
+      "dataQuality": "2 von 3 Metriken verfügbar",
       "metrics": [
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
           "value": "-39,8 Pp",
           "raw": -39.798442,
-          "points": 0.0,
+          "points": 1.0,
           "status": null,
           "sourceLabel": "Nasdaq Historical",
           "sourceUrl": "https://api.nasdaq.com/api/quote/IREN/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000",
@@ -441,7 +519,7 @@
           "label": "Kurs über der 200-Tage-Linie",
           "value": "nein",
           "raw": 0.0,
-          "points": 0.0,
+          "points": 5.0,
           "status": null,
           "sourceLabel": "Nasdaq Historical",
           "sourceUrl": "https://api.nasdaq.com/api/quote/IREN/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000",
@@ -451,14 +529,14 @@
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "63,9 %",
-          "raw": 0.639261,
-          "points": 0.0,
-          "status": null,
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "Warnhinweis: mehr als 60 % unter dem 52-Wochen-Hoch",
           "sourceLabel": "Nasdaq Historical",
           "sourceUrl": "https://api.nasdaq.com/api/quote/IREN/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-10-19"
+          "observedAt": null
         }
       ]
     },
@@ -477,7 +555,7 @@
           "raw": 0.399335,
           "points": 7.5,
           "status": null,
-          "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
+          "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-10-19"
@@ -489,7 +567,7 @@
           "raw": null,
           "points": null,
           "status": "nicht anwendbar",
-          "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
+          "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-20",
           "observedAt": null

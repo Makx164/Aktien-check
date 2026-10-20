@@ -2,15 +2,17 @@
   "ticker": "MU",
   "name": "Micron Technology",
   "asOf": "2026-10-19",
-  "score": 82.2,
+  "score": 86.4,
   "status": null,
-  "criteriaWithData": 7,
+  "criteriaWithData": 8,
   "trafficLight": "green",
-  "qualityScore": 81.5,
-  "marketScore": 86.0,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 26 von 31 Metriken verfügbar",
-  "missingDataNote": "ausgeblendet, zählt nicht bei C_06. Der Score zählt nur Kriterien mit Daten.",
-  "koFlags": [],
+  "qualityScore": 84.1,
+  "marketScore": 95.2,
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 30 von 31 Metriken verfügbar",
+  "missingDataNote": null,
+  "koFlags": [
+    "Plausibilitätswarnung: 12-1 über +300 Pp"
+  ],
   "price": {
     "close": 904.9,
     "currency": "USD",
@@ -18,18 +20,33 @@
     "sourceLabel": "Nasdaq Historical",
     "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000"
   },
+  "role": {
+    "id": "satellit",
+    "label": "Satellit",
+    "weights": {
+      "C_01": 1.0,
+      "C_02": 2.0,
+      "C_03": 1.0,
+      "C_04": 0.75,
+      "C_05": 1.0,
+      "C_06": 0.75,
+      "C_07": 0.25,
+      "C_08": 0.5
+    },
+    "reason": "Satellit, solange die Dividendenregel nicht erfüllt ist."
+  },
   "criteria": [
     {
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
-      "score": 8.0,
+      "score": 10.0,
       "status": null,
-      "weight": 1,
-      "dataQuality": "5 von 5 Metriken verfügbar",
+      "weight": 1.0,
+      "dataQuality": "5 von 5 Metriken verfügbar. TTM bis 2026-09-03 TTM bis 2026-09-03 TTM bis 2026-09-03",
       "metrics": [
         {
           "id": "roic_2y",
-          "label": "ROIC, 2-Jahres-Schnitt",
+          "label": "ROIC, zwei aufeinanderfolgende Jahre",
           "value": "48,9 %",
           "raw": 0.48859,
           "points": 10.0,
@@ -49,37 +66,40 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-09-03"
+          "observedAt": "2026-09-03",
+          "note": "TTM bis 2026-09-03"
         },
         {
-          "id": "gross_margin_stability",
-          "label": "Stabilität der Bruttomarge",
-          "value": "29,4 %",
-          "raw": 0.293917,
-          "points": 0.0,
-          "status": null,
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-20",
-          "observedAt": "2026-09-03"
-        },
-        {
-          "id": "operating_margin",
-          "label": "Operative Marge",
-          "value": "74,6 %",
-          "raw": 0.745863,
+          "id": "gross_margin_change_yoy",
+          "label": "Trend der Bruttomarge",
+          "value": "40,9 Pp",
+          "raw": 0.409252,
           "points": 10.0,
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-09-03"
+          "observedAt": "2026-09-03",
+          "note": "TTM bis 2026-09-03"
         },
         {
-          "id": "fcf_margin",
-          "label": "Free-Cashflow-Marge",
-          "value": "44,3 %",
-          "raw": 0.442705,
+          "id": "margin_progress",
+          "label": "Margenfortschritt",
+          "value": "48,4 Pp",
+          "raw": 0.484479,
+          "points": 10.0,
+          "status": null,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-09-03",
+          "note": "TTM bis 2026-09-03"
+        },
+        {
+          "id": "net_cash_or_runway",
+          "label": "Netto-Cash oder Cash-Reichweite",
+          "value": "Netto-Cash",
+          "raw": null,
           "points": 10.0,
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
@@ -94,8 +114,8 @@
       "label": "Wachstum",
       "score": 10.0,
       "status": null,
-      "weight": 1.5,
-      "dataQuality": "3 von 5 Metriken verfügbar",
+      "weight": 2.0,
+      "dataQuality": "4 von 5 Metriken verfügbar. 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist",
       "metrics": [
         {
           "id": "revenue_cagr_3y",
@@ -123,39 +143,41 @@
         },
         {
           "id": "eps_cagr_3y",
-          "label": "EPS-CAGR, 3 Jahre",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-20",
-          "observedAt": null
-        },
-        {
-          "id": "fcf_cagr_3y",
-          "label": "Free-Cashflow-CAGR, 3 Jahre",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-20",
-          "observedAt": null
-        },
-        {
-          "id": "revenue_acceleration",
-          "label": "Umsatzbeschleunigung",
-          "value": "207,5 Pp",
-          "raw": 2.074762,
+          "label": "EPS-CAGR, 2 Jahre",
+          "value": "915,9 %",
+          "raw": 9.158528,
           "points": 10.0,
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-09-03"
+          "observedAt": "2026-09-03",
+          "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
+        },
+        {
+          "id": "fcf_cagr_3y",
+          "label": "Free-Cashflow-CAGR, 2 Jahre",
+          "value": "2066,1 %",
+          "raw": 20.660534,
+          "points": 10.0,
+          "status": null,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-09-03",
+          "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
+        },
+        {
+          "id": "revenue_acceleration",
+          "label": "Umsatzbeschleunigung",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "wenig Daten",
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
+          "fetchedAt": "2026-10-20",
+          "observedAt": null
         },
         {
           "id": "operating_margin_change_yoy",
@@ -174,10 +196,10 @@
     {
       "id": "C_03",
       "label": "Markt & Zukunftsmarkt",
-      "score": 7.6,
+      "score": 6.4,
       "status": null,
-      "weight": 1,
-      "dataQuality": "3 von 3 Metriken verfügbar",
+      "weight": 1.0,
+      "dataQuality": "2 von 2 Metriken verfügbar. TTM bis 2026-09-03",
       "metrics": [
         {
           "id": "revenue_yoy",
@@ -189,7 +211,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-09-03"
+          "observedAt": "2026-09-03",
+          "note": "TTM bis 2026-09-03"
         },
         {
           "id": "rd_intensity",
@@ -202,28 +225,16 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-09-03"
-        },
-        {
-          "id": "gross_margin_change_yoy",
-          "label": "Veränderung der Bruttomarge",
-          "value": "40,9 Pp",
-          "raw": 0.409252,
-          "points": 10.0,
-          "status": null,
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-20",
-          "observedAt": "2026-09-03"
         }
       ]
     },
     {
       "id": "C_04",
       "label": "Profitabilität & Finanzkraft",
-      "score": 9.2,
+      "score": 9.3,
       "status": null,
-      "weight": 1,
-      "dataQuality": "6 von 6 Metriken verfügbar",
+      "weight": 0.75,
+      "dataQuality": "7 von 7 Metriken verfügbar. TTM bis 2026-09-03",
       "metrics": [
         {
           "id": "operating_margin_fin",
@@ -238,10 +249,23 @@
           "observedAt": "2026-09-03"
         },
         {
-          "id": "fcf_margin_fin",
-          "label": "Free-Cashflow-Marge",
-          "value": "44,3 %",
-          "raw": 0.442705,
+          "id": "ocf_margin",
+          "label": "Operative Cashflow-Marge",
+          "value": "67,3 %",
+          "raw": 0.673296,
+          "points": 10.0,
+          "status": null,
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
+          "fetchedAt": "2026-10-20",
+          "observedAt": "2026-09-03",
+          "note": "TTM bis 2026-09-03"
+        },
+        {
+          "id": "fcf_margin_3y",
+          "label": "Free-Cashflow-Marge, 3-Jahres-Schnitt",
+          "value": "16,4 %",
+          "raw": 0.16405,
           "points": 10.0,
           "status": null,
           "sourceLabel": "SEC EDGAR companyfacts",
@@ -275,7 +299,7 @@
         },
         {
           "id": "net_debt_to_ebitda",
-          "label": "Nettoverschuldung / EBITDA",
+          "label": "Nettoverschuldung / EBITDA, Finanzschulden ohne Leasing",
           "value": "-0,33",
           "raw": -0.326819,
           "points": 10.0,
@@ -316,7 +340,7 @@
       "label": "Management & große Investoren",
       "score": 5.0,
       "status": null,
-      "weight": 1,
+      "weight": 1.0,
       "dataQuality": "3 von 3 Metriken verfügbar. unter 3 % → 1 von 5 neutral → 2 von 3 10b5-1-Planverkäufe zählen mit einem Viertel Netto-Verkauf unter 0,1 % der Marktkapitalisierung ist neutral über 40 % → 2 von 2",
       "metrics": [
         {
@@ -371,56 +395,114 @@
     {
       "id": "C_06",
       "label": "Analysten & Stimmung",
-      "score": null,
-      "status": "ausgeblendet, zählt nicht",
-      "weight": 1,
-      "dataQuality": "0 von 3 Metriken verfügbar",
+      "score": 10.0,
+      "status": null,
+      "weight": 0.75,
+      "dataQuality": "3 von 3 Metriken verfügbar",
       "metrics": [
         {
           "id": "buy_share",
           "label": "Anteil Kaufempfehlungen",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "ausgeblendet, zählt nicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "value": "91,8 %",
+          "raw": 0.918367,
+          "points": 10.0,
+          "status": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/MU",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
           "id": "target_upside",
           "label": "Abstand zum mittleren Kursziel",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "ausgeblendet, zählt nicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "value": "72,5 %",
+          "raw": 0.724572,
+          "points": 10.0,
+          "status": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/MU",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
           "id": "eps_revision_90d",
           "label": "EPS-Revision, 90 Tage",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "ausgeblendet, zählt nicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "value": "26,7 %",
+          "raw": 0.266591,
+          "points": 10.0,
+          "status": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/MU",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         }
-      ]
+      ],
+      "summary": {
+        "current": {
+          "strongBuy": 9.0,
+          "buy": 36.0,
+          "hold": 3.0,
+          "sell": 0.0,
+          "strongSell": 1.0
+        },
+        "threeMonthsAgo": {
+          "strongBuy": 9.0,
+          "buy": 31.0,
+          "hold": 5.0,
+          "sell": 0.0,
+          "strongSell": 0.0
+        },
+        "target": {
+          "mean": 1560.5652,
+          "median": 1550.0,
+          "low": 361.0,
+          "high": 3000.0,
+          "count": 49
+        },
+        "changes": [
+          {
+            "date": "2026-10-13",
+            "firm": "Rosenblatt",
+            "grade": "Buy",
+            "target": 1900.0
+          },
+          {
+            "date": "2026-10-07",
+            "firm": "DA Davidson",
+            "grade": "Buy",
+            "target": 3000.0
+          },
+          {
+            "date": "2026-10-01",
+            "firm": "Mizuho",
+            "grade": "Outperform",
+            "target": 1400.0
+          },
+          {
+            "date": "2026-10-01",
+            "firm": "Morgan Stanley",
+            "grade": "Overweight",
+            "target": 1200.0
+          },
+          {
+            "date": "2026-10-01",
+            "firm": "TD Cowen",
+            "grade": "Buy",
+            "target": 1600.0
+          }
+        ],
+        "sourceLabel": "Yahoo Finance quoteSummary",
+        "sourceUrl": "https://finance.yahoo.com/quote/MU",
+        "fetchedAt": "2026-10-20"
+      }
     },
     {
       "id": "C_07",
       "label": "Kursverlauf & Momentum",
-      "score": 8.3,
+      "score": 9.3,
       "status": null,
-      "weight": 0.5,
-      "dataQuality": "3 von 3 Metriken verfügbar",
+      "weight": 0.25,
+      "dataQuality": "3 von 3 Metriken verfügbar. Plausibilitätswarnung: 12-1 über +300 Pp",
       "metrics": [
         {
           "id": "excess_return_12_1",
@@ -432,7 +514,8 @@
           "sourceLabel": "Nasdaq Historical",
           "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-10-19"
+          "observedAt": "2026-10-19",
+          "note": "Plausibilitätswarnung: 12-1 über +300 Pp"
         },
         {
           "id": "above_sma_200",
@@ -451,7 +534,7 @@
           "label": "Abstand zum 52-Wochen-Hoch",
           "value": "27,9 %",
           "raw": 0.278964,
-          "points": 4.9,
+          "points": 7.8,
           "status": null,
           "sourceLabel": "Nasdaq Historical",
           "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000",
@@ -466,20 +549,19 @@
       "score": 8.9,
       "status": null,
       "weight": 0.5,
-      "dataQuality": "3 von 3 Metriken verfügbar. Ersatz für PEG, weil das EPS-Wachstum nicht positiv ist",
+      "dataQuality": "3 von 3 Metriken verfügbar",
       "metrics": [
         {
           "id": "valuation_primary",
-          "label": "(EV/Umsatz) / Umsatzwachstum",
-          "value": "0,03",
-          "raw": 0.028947,
+          "label": "PEG",
+          "value": "0,01",
+          "raw": 0.013293,
           "points": 10.0,
           "status": null,
-          "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
+          "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-10-19",
-          "note": "Ersatz für PEG, weil das EPS-Wachstum nicht positiv ist"
+          "observedAt": "2026-10-19"
         },
         {
           "id": "fcf_yield",
@@ -488,7 +570,7 @@
           "raw": 0.057591,
           "points": 7.2,
           "status": null,
-          "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
+          "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-20",
           "observedAt": "2026-10-19"

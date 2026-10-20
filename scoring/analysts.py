@@ -18,7 +18,7 @@ def load_keys():
     }
 
 
-def fetch_analysts(ticker, price, today, keys=None):
+def fetch_analysts(ticker, price, today, keys=None, yahoo=None, nasdaq_target=None):
     keys = keys if keys is not None else load_keys()
     empty = {
         "buyShare": None,
@@ -29,6 +29,16 @@ def fetch_analysts(ticker, price, today, keys=None):
         "label": None,
         "url": None,
     }
+    try:
+        from scoring.marketdata import analyst_from_nasdaq, analyst_from_yahoo
+        yahoo_result = analyst_from_yahoo(yahoo, price, today)
+        if yahoo_result:
+            return yahoo_result
+        nasdaq_result = analyst_from_nasdaq(nasdaq_target, price, today, ticker)
+        if nasdaq_result:
+            return nasdaq_result
+    except (OSError, ValueError, TypeError):
+        pass
     if keys.get("finnhub"):
         result = _finnhub(ticker, price, today, keys["finnhub"])
         if result:

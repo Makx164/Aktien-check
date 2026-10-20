@@ -371,6 +371,15 @@ def build_liabilities_series(facts, assets, equity):
     return points
 
 
+def merged_annual(facts, concepts, units):
+    """One point per year. Earlier concepts win; later concepts fill gaps."""
+    by_end = {}
+    for name in concepts:
+        for point in annual_series(facts, [name], units):
+            by_end.setdefault(point["end"], point)
+    return [by_end[end] for end in sorted(by_end)]
+
+
 def extract_fundamentals(facts):
     """Annual series used by the scorers. facts is a companyfacts `facts` object."""
     revenue_concepts = [
@@ -387,6 +396,7 @@ def extract_fundamentals(facts):
         "CostOfRevenue",
         "CostOfGoodsAndServicesSold",
         "CostOfGoodsSold",
+        "CostOfSales",
     ], ["USD"])
     reported_gross = annual_series(facts, ["GrossProfit"], ["USD"])
     gross = derived_gross_profit(revenue, cogs, reported_gross)
@@ -445,7 +455,7 @@ def extract_fundamentals(facts):
         "CommonStockSharesOutstanding",
         "EntityCommonStockSharesOutstanding",
     ], ["shares"])
-    shares_diluted = annual_series(facts, [
+    shares_diluted = merged_annual(facts, [
         "WeightedAverageNumberOfDilutedSharesOutstanding",
         "AdjustedWeightedAverageShares",
         "WeightedAverageShares",
@@ -464,7 +474,7 @@ def extract_fundamentals(facts):
         "RetainedEarnings",
     ], ["USD"])
     liabilities = build_liabilities_series(facts, assets, equity)
-    return {
+    built = {
         "revenue": revenue,
         "gross_profit": gross,
         "operating_income": operating,
@@ -493,6 +503,9 @@ def extract_fundamentals(facts):
         "_history_start": history_start,
         "_history_end": history_end,
     }
+    from scoring.flows import build_snapshot
+    built["snapshot"] = build_snapshot(facts, built)
+    return built
 
 
 def _margin(numerator_series, revenue, end):
@@ -506,7 +519,11 @@ def _margin(numerator_series, revenue, end):
 
 
 def _stmt_end(bundle):
-    return _latest_end(bundle["revenue"], bundle["net_income"], bundle["operating_income"])
+    """Annual period when filings have one, otherwise the snapshot period."""
+    annual = _latest_end(bundle["revenue"], bundle["net_income"], bundle["operating_income"])
+    if annual:
+        return annual
+    return (bundle.get("snapshot") or {}).get("end")
 
 
 def price_return(bars, newer_index, older_index):
@@ -589,8 +606,12 @@ def altman_z(bundle, market_cap, end):
     )
 
 
+def _usable_shares(value):
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and value > 0
+
+
 def market_cap_of(price, shares):
-    if price is None or shares is None or price <= 0 or shares <= 0:
+    if price is None or not _usable_shares(shares) or price <= 0:
         return None
     return price * shares
 
@@ -613,6 +634,8 @@ def _history_short(series, end, years, tolerance):
 
 EDGAR_METRIC_IDS = {
     "roic_2y", "gross_margin", "gross_margin_stability", "operating_margin", "fcf_margin",
+    "margin_progress", "net_cash_or_runway", "ocf_margin", "fcf_margin_3y",
+    "dividend_yield", "payout_to_fcf", "dividend_no_cut_5y",
     "revenue_cagr_3y", "revenue_cagr_5y", "eps_cagr_3y", "fcf_cagr_3y", "revenue_acceleration",
     "operating_margin_change_yoy",
     "revenue_yoy", "rd_intensity", "gross_margin_change_yoy",
@@ -658,11 +681,9 @@ def _mark_structural(reasons, values, observed, config, bundle, end, bar_count, 
         limit = rule.get("emptyBelow", years)
         if window_start and window_end and year_gap(window_end, window_start) < float(limit):
             reasons[metric_id] = short
-    if not any(values.get(metric_id) is not None for metric_id in ANALYST_METRIC_IDS):
-        excluded = _status_text(config, "excluded", "ausgeblendet, zählt nicht")
-        for metric_id in ANALYST_METRIC_IDS:
-            if metric_id not in reasons:
-                reasons[metric_id] = excluded
+    minimum = int(config.get("analystMinCount", 3))
+    # Analyst coverage below the minimum is not scored. A missing fetch stays
+    # "wenig Daten" and is applied by the caller when no count came back.
 
 
 def _positive_growth(values):
@@ -690,6 +711,90 @@ def _ev_sales_growth(values, labels, points, market_cap, debt, cash, sales, obse
     if note:
         labels["valuation_primary_note"] = note
     return observed
+
+
+def _dividend_facts(bundle, market_cap, end):
+    """Yield, payout and a five-year no-cut flag. Missing history stays absent."""
+    result = {}
+    dividends = value_at(bundle.get("dividends") or [], end)
+    fcf_value = value_at(bundle.get("fcf") or [], end)
+    if market_cap and dividends is not None and market_cap > 0:
+        result["yield"] = abs(dividends) / market_cap
+    if fcf_value is not None and fcf_value > 0 and dividends is not None:
+        result["payout"] = abs(dividends) / fcf_value
+    series = sorted(bundle.get("dividends") or [], key=lambda point: point["end"])
+    comparisons = []
+    if end:
+        latest = at(series, end)
+        cursor = end
+        for _ in range(5):
+            previous = point_years_before(series, cursor, 1, 0.4)
+            current = at(series, cursor)
+            if current is None or previous is None:
+                comparisons = None
+                break
+            comparisons.append(abs(current["val"]) + 1e-9 >= abs(previous["val"]))
+            cursor = previous["end"]
+        if comparisons is not None and len(comparisons) == 5:
+            result["no_cut"] = all(comparisons)
+    result["qualifies_inputs"] = True
+    return result
+
+
+def _piecewise_excess(value, rules):
+    zero_at = float(rules.get("excessZeroAt", -50))
+    mid_at = float(rules.get("excessMidAt", 0))
+    mid_points = float(rules.get("excessMidPoints", 5))
+    ten_at = float(rules.get("excessTenAt", 30))
+    if value <= zero_at:
+        return 0.0
+    if value <= mid_at:
+        return mid_points * (value - zero_at) / (mid_at - zero_at)
+    if value >= ten_at:
+        return 10.0
+    return mid_points + (10.0 - mid_points) * (value - mid_at) / (ten_at - mid_at)
+
+
+def _distance_points(drawdown, growth_score, rules):
+    """Return (points or None, warning status or None)."""
+    near = float(rules.get("distanceNear", 0.2))
+    mid = float(rules.get("distanceMid", 0.5))
+    far = float(rules.get("distanceFar", 0.6))
+    if drawdown <= near:
+        return float(rules.get("nearPoints", 10)), None
+    if drawdown <= mid:
+        if growth_score is None or growth_score < float(rules.get("neutralBelow", 4)):
+            return float(rules.get("neutralPoints", 5)), None
+        if growth_score >= float(rules.get("opportunityAt", 6)):
+            span = (drawdown - near) / (mid - near)
+            low = float(rules.get("opportunityLow", 7))
+            high = float(rules.get("opportunityHigh", 10))
+            return low + span * (high - low), None
+        span = (growth_score - float(rules.get("neutralBelow", 4))) / (
+            float(rules.get("opportunityAt", 6)) - float(rules.get("neutralBelow", 4))
+        )
+        low = float(rules.get("betweenLow", 5))
+        high = float(rules.get("betweenHigh", 7))
+        return low + span * (high - low), None
+    if drawdown <= far:
+        if growth_score is not None and growth_score >= float(rules.get("intactAt", 6)):
+            return float(rules.get("deepIntactPoints", 10)), None
+        return float(rules.get("deepWeakPoints", 5)), None
+    return None, rules.get("deepWarning")
+
+
+def _momentum_points(values, points, reasons, labels, config):
+    rules = config.get("momentum") or {}
+    excess = values.get("excess_return_12_1")
+    if excess is not None:
+        points["excess_return_12_1"] = _piecewise_excess(excess, rules)
+    flag = values.get("above_sma_200")
+    if flag is not None:
+        points["above_sma_200"] = float(rules.get("aboveSmaPoints", 10)) if flag == 1 else float(rules.get("belowSmaPoints", 5))
+    # Distance depends on C_02, which is not known yet. A placeholder is replaced
+    # once the growth criterion has a score.
+    if values.get("distance_52w_high") is not None:
+        labels["distance_52w_pending"] = True
 
 
 def _insider_balance(insider, market_cap, config):
@@ -780,20 +885,45 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
     benchmark = prices.get("benchmark")
     last_close = bars[-1]["close"] if bars else None
     price_observed = bars[-1]["date"] if bars else None
-    shares = bundle["shares_out"][-1]["val"] if bundle["shares_out"] else None
-    shares_observed = bundle["shares_out"][-1]["end"] if bundle["shares_out"] else None
+    snap = bundle.get("snapshot") or {}
+    shares = snap.get("shares_out")
+    shares_observed = snap.get("balance_end") or snap.get("end")
+    if not _usable_shares(shares):
+        shares = None
+        for item in reversed(bundle["shares_out"]):
+            if _usable_shares(item.get("val")):
+                shares = item["val"]
+                shares_observed = item["end"]
+                break
     cap = market_cap_of(last_close, shares)
     end = _stmt_end(bundle)
     momentum = momentum_inputs(bars, benchmark)
     if momentum.get("benchmark_label") and momentum["benchmark_label"] != config["benchmark"]["label"]:
         pass
     raw = _raw_metrics(bundle, end, cap, last_close, momentum, analysts, config, profile)
+    analyst_count = analysts.get("count") if analysts else None
+    if analyst_count is not None and analyst_count < int(config.get("analystMinCount", 3)):
+        few = _status_text(config, "tooFewAnalysts", "zu wenige Analysten")
+        for metric_id in ANALYST_METRIC_IDS:
+            raw["reasons"][metric_id] = few
+            raw["values"].pop(metric_id, None)
+            raw["points"].pop(metric_id, None)
     missing_label = _status_text(config, "missing", config.get("missingDataStatus") or "wenig Daten")
     na_label = _status_text(config, "notApplicable", "nicht anwendbar")
     criteria = []
     metric_available = 0
     metric_total = 0
+    c02_score = None
     for criterion in config["criteria"]:
+        if criterion["id"] == "C_07" and raw["labels"].get("distance_52w_pending"):
+            rules = config.get("momentum") or {}
+            drawdown = raw["values"].get("distance_52w_high")
+            scored_distance, warning = _distance_points(drawdown, c02_score, rules)
+            if warning:
+                raw["reasons"]["distance_52w_high"] = warning
+                raw["values"].pop("distance_52w_high", None)
+            elif scored_distance is not None:
+                raw["points"]["distance_52w_high"] = scored_distance
         metrics = []
         points = []
         available = 0
@@ -829,7 +959,9 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
                 if value is None:
                     scored = None
                 elif spec.get("kind") == "binary" and spec["id"] == "above_sma_200":
-                    scored = 10.0 if value == 1 else (0.0 if value == 0 else None)
+                    scored = raw["points"].get(metric_id)
+                    if scored is None and value is not None:
+                        scored = 10.0 if value == 1 else 5.0
                 elif spec.get("bands"):
                     scored, note = band_points(value, spec["bands"])
                 elif "zeroAt" in spec and "tenAt" in spec:
@@ -847,7 +979,12 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
                 if value is not None:
                     available += 1
                     metric_available += 1
-            source = _source_for(metric_id, sources, prices)
+            source = (raw.get("sources") or {}).get(metric_id) or _source_for(metric_id, sources, prices)
+            custom_display = raw["labels"].get(metric_id + "_display")
+            if custom_display:
+                display = custom_display
+            if metric_id == "cash_runway_months" and isinstance(value, (int, float)) and value >= 36:
+                display = "> 36 Monate"
             if display is not None:
                 shown = display
                 raw_value = None
@@ -888,6 +1025,12 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
             criterion_score = sum(present) if present else None
         else:
             criterion_score = mean(points)
+        floor_note = None
+        if criterion["id"] == "C_07" and c02_score is not None and criterion_score is not None:
+            rules = config.get("momentum") or {}
+            if c02_score >= float(rules.get("floorWhenC02AtLeast", 5)) and criterion_score < float(rules.get("floorMin", 3)):
+                criterion_score = float(rules.get("floorMin", 3))
+                floor_note = "Untergrenze 3, weil C_02 mindestens 5 ist."
         capped = False
         if criterion.get("cap") == "analysts":
             criterion_score, capped = apply_analyst_cap(
@@ -900,6 +1043,8 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
         notes = [row["note"] for row in metrics if row.get("note")]
         if notes:
             quality = quality + ". " + " ".join(notes)
+        if floor_note:
+            quality = quality + " " + floor_note
         if criterion_score is None:
             gap_labels = {row["status"] for row in metrics if row.get("status")}
             criterion_status = gap_labels.pop() if len(gap_labels) == 1 else missing_label
@@ -916,14 +1061,22 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
         }
         if capped:
             entry["capApplied"] = True
+        if criterion["id"] == "C_06" and analysts.get("summary"):
+            entry["summary"] = analysts["summary"]
         criteria.append(entry)
+        if criterion["id"] == "C_02":
+            c02_score = entry["score"]
     flags = _ko_flags(config, bundle, end, cap, sources)
+    warning = raw["labels"].get("excess_return_12_1_note")
+    if warning and warning not in flags:
+        flags.append(warning)
     return {
         "criteria": criteria,
         "available": metric_available,
         "total": metric_total,
         "koFlags": flags,
         "priceNote": prices.get("note"),
+        "dividend": raw.get("dividend") or {},
     }
 
 
@@ -959,8 +1112,31 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
     labels = {}
     points = {}
     reasons = {}
+    sources_by_metric = {}
+    dividend_points = {}
     na = _status_text(config, "notApplicable", "nicht anwendbar")
     revenue = bundle["revenue"]
+    snap = bundle.get("snapshot") or {}
+    if snap.get("sourceLabel"):
+        for metric_id in (
+            "gross_margin", "gross_margin_change_yoy", "margin_progress", "operating_margin_fin",
+            "ocf_margin", "revenue_yoy", "fcf_yield", "valuation_primary", "net_debt_to_ebitda",
+            "current_ratio", "cash_runway_months", "net_cash_or_runway", "roe",
+        ):
+            sources_by_metric[metric_id] = {
+                "label": snap.get("sourceLabel"),
+                "url": snap.get("sourceUrl"),
+            }
+    if snap.get("sharesSourceLabel"):
+        for metric_id in ("valuation_primary", "fcf_yield", "ev_to_ebitda", "shareholder_yield"):
+            current = sources_by_metric.get(metric_id) or {}
+            label = current.get("label") or ""
+            extra = "Aktienzahl " + snap["sharesSourceLabel"]
+            if extra not in label:
+                sources_by_metric[metric_id] = {
+                    "label": (label + "; " if label else "") + extra,
+                    "url": snap.get("sharesSourceUrl") or current.get("url"),
+                }
     gross_margins = gross_margin_series(revenue, bundle["gross_profit"])
 
     def put(metric_id, value, when):
@@ -975,17 +1151,31 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
             figure = roic_for_year(point["end"], bundle)
             if figure is not None:
                 roics.append((point["end"], figure))
-        if len(roics) >= 2:
+        if len(roics) >= 2 and year_gap(roics[-1][0], roics[-2][0]) <= 1.4:
             put("roic_2y", (roics[-1][1] + roics[-2][1]) / 2.0, roics[-1][0])
-        put("gross_margin", value_at(gross_margins, end), end if value_at(gross_margins, end) is not None else None)
+        if snap.get("revenue") and snap.get("gross_profit") is not None:
+            put("gross_margin", snap["gross_profit"] / snap["revenue"], snap["end"])
+            labels["gross_margin_note"] = snap.get("label")
+        else:
+            put("gross_margin", value_at(gross_margins, end), end if value_at(gross_margins, end) is not None else None)
         if len(gross_margins) >= 3:
             window = [point["val"] for point in gross_margins[-5:]]
             put("gross_margin_stability", statistics.pstdev(window), gross_margins[-1]["end"])
-        put("operating_margin", _margin(bundle["operating_income"], revenue, end), end if value_at(bundle["operating_income"], end) is not None else None)
+        if snap.get("revenue") and snap.get("operating_income") is not None:
+            put("operating_margin", snap["operating_income"] / snap["revenue"], snap["end"])
+        else:
+            put("operating_margin", _margin(bundle["operating_income"], revenue, end), end if value_at(bundle["operating_income"], end) is not None else None)
         put("operating_margin_fin", values.get("operating_margin"), observed.get("operating_margin"))
-        fcf_margin = _margin(bundle["fcf"], revenue, end)
-        put("fcf_margin", fcf_margin, end if fcf_margin is not None else None)
-        put("fcf_margin_fin", fcf_margin, observed.get("fcf_margin"))
+        if snap.get("revenue") and snap.get("cfo") is not None:
+            put("ocf_margin", snap["cfo"] / snap["revenue"], snap["end"])
+            labels["ocf_margin_note"] = snap.get("label")
+        fcf_margins = []
+        for point in bundle["fcf"]:
+            margin = _margin(bundle["fcf"], revenue, point["end"])
+            if margin is not None:
+                fcf_margins.append(margin)
+        if fcf_margins:
+            put("fcf_margin_3y", sum(fcf_margins[-3:]) / len(fcf_margins[-3:]), end)
         latest_revenue = at(revenue, end)
         three = point_years_before(revenue, end, 3)
         five = point_years_before(revenue, end, 5)
@@ -993,53 +1183,105 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         put("revenue_cagr_5y", cagr(latest_revenue, five), end if five else None)
         eps_now = at(bundle["eps"], end)
         eps_then = point_years_before(bundle["eps"], end, 3)
-        put("eps_cagr_3y", cagr(eps_now, eps_then), end if eps_then and eps_now else None)
+        eps_growth = cagr(eps_now, eps_then)
+        if eps_growth is None and eps_now and eps_now["val"] > 0:
+            eps_two = point_years_before(bundle["eps"], end, 2)
+            eps_growth = cagr(eps_now, eps_two)
+            if eps_growth is not None:
+                labels["eps_cagr_3y"] = "EPS-CAGR, 2 Jahre"
+                labels["eps_cagr_3y_note"] = "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
+        put("eps_cagr_3y", eps_growth, end if eps_growth is not None else None)
         fcf_now = at(bundle["fcf"], end)
         fcf_then = point_years_before(bundle["fcf"], end, 3)
-        put("fcf_cagr_3y", cagr(fcf_now, fcf_then), end if fcf_then and fcf_now else None)
-        growth = yoy(revenue, end)
-        put("revenue_yoy", growth, end if growth is not None else None)
+        fcf_growth = cagr(fcf_now, fcf_then)
+        if fcf_growth is None and fcf_now and fcf_now["val"] > 0:
+            fcf_two = point_years_before(bundle["fcf"], end, 2)
+            fcf_growth = cagr(fcf_now, fcf_two)
+            if fcf_growth is not None:
+                labels["fcf_cagr_3y"] = "Free-Cashflow-CAGR, 2 Jahre"
+                labels["fcf_cagr_3y_note"] = "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
+        put("fcf_cagr_3y", fcf_growth, end if fcf_growth is not None else None)
         prior_end = point_years_before(revenue, end, 1, 0.4)
-        prior_growth = yoy(revenue, prior_end["end"]) if prior_end else None
-        if growth is not None and prior_growth is not None:
-            put("revenue_acceleration", growth - prior_growth, end)
+        if snap.get("revenue") and snap.get("revenue_prior"):
+            growth = snap["revenue"] / snap["revenue_prior"] - 1.0
+            put("revenue_yoy", growth, snap["end"])
+            labels["revenue_yoy_note"] = snap.get("label")
+            prior_growth = None
+        else:
+            growth = yoy(revenue, end)
+            put("revenue_yoy", growth, end if growth is not None else None)
+            prior_growth = yoy(revenue, prior_end["end"]) if prior_end else None
+            if growth is not None and prior_growth is not None:
+                put("revenue_acceleration", growth - prior_growth, end)
         rd = value_at(bundle["rd"], end)
-        sales = value_at(revenue, end)
+        sales = snap.get("revenue") if snap.get("revenue") else value_at(revenue, end)
         if rd is not None and sales:
             put("rd_intensity", rd / sales, end)
-        gm_now = value_at(gross_margins, end)
-        gm_then = value_at(gross_margins, prior_end["end"]) if prior_end else None
-        if gm_now is not None and gm_then is not None:
-            put("gross_margin_change_yoy", gm_now - gm_then, end)
-        equity = value_at(bundle["equity"], end)
-        net_income = value_at(bundle["net_income"], end)
+        if snap.get("revenue") and snap.get("gross_profit") is not None and snap.get("revenue_prior") and snap.get("gross_profit_prior") is not None:
+            gm_now = snap["gross_profit"] / snap["revenue"]
+            gm_then = snap["gross_profit_prior"] / snap["revenue_prior"]
+            put("gross_margin_change_yoy", gm_now - gm_then, snap["end"])
+            labels["gross_margin_change_yoy_note"] = snap.get("label")
+        else:
+            gm_now = value_at(gross_margins, end)
+            gm_then = value_at(gross_margins, prior_end["end"]) if prior_end else None
+            if gm_now is not None and gm_then is not None:
+                put("gross_margin_change_yoy", gm_now - gm_then, end)
+        equity = snap.get("equity") if snap.get("equity") is not None else value_at(bundle["equity"], end)
+        net_income = snap.get("net_income") if snap.get("net_income") is not None else value_at(bundle["net_income"], end)
         loss = net_income is not None and net_income <= 0
         profit = net_income is not None and net_income > 0
         op_now = values.get("operating_margin")
-        op_then = _margin(bundle["operating_income"], revenue, prior_end["end"]) if prior_end else None
+        if snap.get("revenue_prior") and snap.get("operating_income_prior") is not None:
+            op_then = snap["operating_income_prior"] / snap["revenue_prior"]
+        else:
+            op_then = _margin(bundle["operating_income"], revenue, prior_end["end"]) if prior_end else None
+        if op_now is not None and op_then is not None:
+            put("margin_progress", op_now - op_then, snap.get("end") or end)
+            labels["margin_progress_note"] = snap.get("label")
         if profit:
             _not_applicable(reasons, values, observed, "operating_margin_change_yoy", na)
         elif loss and op_now is not None and op_then is not None:
-            put("operating_margin_change_yoy", op_now - op_then, end)
+            put("operating_margin_change_yoy", op_now - op_then, snap.get("end") or end)
         prior_equity_point = point_years_before(bundle["equity"], end, 1, 0.4)
         if net_income is not None and equity and prior_equity_point and prior_equity_point["val"]:
             average_equity = (equity + prior_equity_point["val"]) / 2.0
             if average_equity > 0:
                 put("roe", net_income / average_equity, end)
-        ebitda = ebitda_at(end, bundle)
-        debt = value_at(bundle["debt"], end)
-        cash = value_at(bundle["cash"], end)
-        fcf_value = value_at(bundle["fcf"], end)
+        if snap.get("operating_income") is not None and snap.get("da") is not None:
+            ebitda = snap["operating_income"] + abs(snap["da"])
+            if snap.get("months") and snap["months"] > 0 and snap["months"] != 12:
+                ebitda = ebitda * (12.0 / snap["months"])
+        else:
+            ebitda = ebitda_at(end, bundle)
+        debt = snap.get("debt") if snap.get("debt") is not None else value_at(bundle["debt"], end)
+        cash = snap.get("cash") if snap.get("cash") is not None else value_at(bundle["cash"], end)
+        fcf_value = snap.get("fcf") if snap.get("fcf") is not None else value_at(bundle["fcf"], end)
+        period_months = snap.get("months") or 12.0
         if fcf_value is not None and fcf_value < 0:
             _not_applicable(reasons, values, observed, "roe", na)
             if cash is not None and cash >= 0 and fcf_value != 0:
-                put("cash_runway_months", (cash / abs(fcf_value)) * 12.0, end)
+                put("cash_runway_months", (cash / abs(fcf_value)) * period_months, snap.get("end") or end)
         elif fcf_value is not None:
             _not_applicable(reasons, values, observed, "cash_runway_months", na)
         if ebitda is not None and ebitda > 0 and debt is not None and cash is not None:
-            put("net_debt_to_ebitda", (debt - cash) / ebitda, end)
-        current_assets = value_at(bundle["assets_current"], end)
-        current_liabilities = value_at(bundle["liabilities_current"], end)
+            put("net_debt_to_ebitda", (debt - cash) / ebitda, snap.get("balance_end") or end)
+            labels["net_debt_to_ebitda"] = "Nettoverschuldung / EBITDA, Finanzschulden ohne Leasing"
+        if cash is not None and debt is not None and (cash - debt) > 0:
+            points["net_cash_or_runway"] = 10.0
+            values["net_cash_or_runway"] = 1
+            observed["net_cash_or_runway"] = snap.get("balance_end") or end
+            labels["net_cash_or_runway_display"] = "Netto-Cash"
+        elif values.get("cash_runway_months") is not None:
+            points["net_cash_or_runway"] = linear_points(values["cash_runway_months"], 12, 36)
+            values["net_cash_or_runway"] = 1
+            observed["net_cash_or_runway"] = observed.get("cash_runway_months")
+            runway_text = format_value("months", values["cash_runway_months"])
+            if values["cash_runway_months"] >= 36:
+                runway_text = "> 36 Monate"
+            labels["net_cash_or_runway_display"] = runway_text
+        current_assets = snap.get("assets_current") if snap.get("assets_current") is not None else value_at(bundle["assets_current"], end)
+        current_liabilities = snap.get("liabilities_current") if snap.get("liabilities_current") is not None else value_at(bundle["liabilities_current"], end)
         if current_assets is not None and current_liabilities and current_liabilities > 0:
             put("current_ratio", current_assets / current_liabilities, end)
         diluted_now = at(bundle["shares_diluted"], end)
@@ -1057,10 +1299,21 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         if market_cap and (dividends is not None or buybacks is not None):
             payout = (abs(dividends) if dividends is not None else 0.0) + (abs(buybacks) if buybacks is not None else 0.0)
             put("shareholder_yield", payout / market_cap, momentum.get("observed_price") or end)
+        yield_fcf = fcf_value
+        if snap.get("fcf") is not None and snap.get("months") and snap["months"] > 0:
+            yield_fcf = fcf_value * (12.0 / snap["months"]) if fcf_value is not None else None
         if loss:
             _not_applicable(reasons, values, observed, "fcf_yield", na)
-        elif market_cap and fcf_value is not None:
-            put("fcf_yield", fcf_value / market_cap, momentum.get("observed_price") or end)
+        elif market_cap and yield_fcf is not None:
+            put("fcf_yield", yield_fcf / market_cap, momentum.get("observed_price") or snap.get("end") or end)
+        dividend_points = _dividend_facts(bundle, market_cap, end)
+        if dividend_points.get("yield") is not None:
+            put("dividend_yield", dividend_points["yield"], end)
+        if dividend_points.get("payout") is not None:
+            put("payout_to_fcf", dividend_points["payout"], end)
+        if dividend_points.get("no_cut") is not None:
+            put("dividend_no_cut_5y", 1.0 if dividend_points["no_cut"] else 0.0, end)
+            points["dividend_no_cut_5y"] = 10.0 if dividend_points["no_cut"] else 0.0
         if market_cap and debt is not None and cash is not None and sales:
             if ebitda is not None and ebitda > 0:
                 enterprise = market_cap + debt - cash
@@ -1078,7 +1331,10 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
                     )
                 else:
                     growth, used_cagr = _positive_growth(values)
-                    note = "Ersatz für PEG, weil das EPS-Wachstum nicht positiv ist"
+                    if values.get("eps_cagr_3y") is None:
+                        note = "Ersatz für PEG, weil das EPS-Wachstum nicht berechenbar ist"
+                    else:
+                        note = "Ersatz für PEG, weil das EPS-Wachstum nicht positiv ist"
                     if used_cagr:
                         note += ". Umsatzwachstum ist der 3-Jahres-CAGR"
                     _ev_sales_growth(
@@ -1117,11 +1373,22 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         put("above_sma_200", momentum["above_sma_200"], momentum.get("observed_price"))
     if momentum.get("distance_52w_high") is not None:
         put("distance_52w_high", momentum["distance_52w_high"], momentum.get("observed_price"))
+    _momentum_points(values, points, reasons, labels, config)
+    if momentum.get("excess_return_12_1") is not None and momentum["excess_return_12_1"] > float((config.get("momentum") or {}).get("plausibilityExcessPp", 300)):
+        labels["excess_return_12_1_note"] = "Plausibilitätswarnung: 12-1 über +300 Pp"
     _mark_structural(
         reasons, values, observed, config, bundle, end,
         momentum.get("barCount") or 0, profile,
     )
-    return {"values": values, "observed": observed, "labels": labels, "points": points, "reasons": reasons}
+    return {
+        "values": values,
+        "observed": observed,
+        "labels": labels,
+        "points": points,
+        "reasons": reasons,
+        "sources": sources_by_metric,
+        "dividend": dividend_points if end else {},
+    }
 
 
 def _ko_flags(config, bundle, end, market_cap, sources):

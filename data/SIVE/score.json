@@ -7,16 +7,33 @@
   "criteriaWithData": 2,
   "trafficLight": null,
   "qualityScore": 50.0,
-  "marketScore": 33.0,
-  "dataQuality": "Keine SEC-Fundamentaldaten. Fundamentalkennzahlen: keine US-Meldepflicht. C_06 ist ausgeblendet und zählt nicht. Kurse von Yahoo Finance Chart-API (SIVE.ST). Stooq hat den Abruf abgelehnt. 5 von 33 Metriken verfügbar",
-  "missingDataNote": "keine US-Meldepflicht bei C_01, C_02, C_03, C_04, C_08. ausgeblendet, zählt nicht bei C_06. Weniger als 3 Kriterien haben Daten.",
-  "koFlags": [],
+  "marketScore": 75.0,
+  "dataQuality": "Keine SEC-Fundamentaldaten. Was Yahoo nicht liefert, bleibt keine US-Meldepflicht. C_06 zählt erst ab drei Analysten. Kurse von Yahoo Finance Chart-API (SIVE.ST). Stooq hat den Abruf abgelehnt. 4 von 32 Metriken verfügbar",
+  "missingDataNote": "keine US-Meldepflicht bei C_01, C_02, C_03, C_04. zu wenige Analysten bei C_06. wenig Daten bei C_08. Weniger als 3 Kriterien haben Daten.",
+  "koFlags": [
+    "Plausibilitätswarnung: 12-1 über +300 Pp"
+  ],
   "price": {
-    "close": 23.5,
+    "close": 23.06,
     "currency": "SEK",
     "date": "2026-10-20",
     "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
     "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y"
+  },
+  "role": {
+    "id": "satellit",
+    "label": "Satellit",
+    "weights": {
+      "C_01": 1.0,
+      "C_02": 2.0,
+      "C_03": 1.0,
+      "C_04": 0.75,
+      "C_05": 1.0,
+      "C_06": 0.75,
+      "C_07": 0.25,
+      "C_08": 0.5
+    },
+    "reason": "Satellit, solange die Dividendenregel nicht erfüllt ist."
   },
   "criteria": [
     {
@@ -24,12 +41,12 @@
       "label": "Geschäftsmodell & Burggraben",
       "score": null,
       "status": "keine US-Meldepflicht",
-      "weight": 1,
+      "weight": 1.0,
       "dataQuality": "0 von 5 Metriken verfügbar",
       "metrics": [
         {
           "id": "roic_2y",
-          "label": "ROIC, 2-Jahres-Schnitt",
+          "label": "ROIC, zwei aufeinanderfolgende Jahre",
           "value": null,
           "raw": null,
           "points": null,
@@ -46,44 +63,44 @@
           "raw": null,
           "points": null,
           "status": "keine US-Meldepflicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
-          "id": "gross_margin_stability",
-          "label": "Stabilität der Bruttomarge",
+          "id": "gross_margin_change_yoy",
+          "label": "Trend der Bruttomarge",
           "value": null,
           "raw": null,
           "points": null,
           "status": "keine US-Meldepflicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
-          "id": "operating_margin",
-          "label": "Operative Marge",
+          "id": "margin_progress",
+          "label": "Margenfortschritt",
           "value": null,
           "raw": null,
           "points": null,
           "status": "keine US-Meldepflicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
-          "id": "fcf_margin",
-          "label": "Free-Cashflow-Marge",
+          "id": "net_cash_or_runway",
+          "label": "Netto-Cash oder Cash-Reichweite",
           "value": null,
           "raw": null,
           "points": null,
           "status": "keine US-Meldepflicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         }
@@ -94,7 +111,7 @@
       "label": "Wachstum",
       "score": null,
       "status": "keine US-Meldepflicht",
-      "weight": 1.5,
+      "weight": 2.0,
       "dataQuality": "0 von 6 Metriken verfügbar",
       "metrics": [
         {
@@ -176,8 +193,8 @@
       "label": "Markt & Zukunftsmarkt",
       "score": null,
       "status": "keine US-Meldepflicht",
-      "weight": 1,
-      "dataQuality": "0 von 3 Metriken verfügbar",
+      "weight": 1.0,
+      "dataQuality": "0 von 2 Metriken verfügbar",
       "metrics": [
         {
           "id": "revenue_yoy",
@@ -186,26 +203,14 @@
           "raw": null,
           "points": null,
           "status": "keine US-Meldepflicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
           "id": "rd_intensity",
           "label": "Forschungsquote",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "keine US-Meldepflicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
-          "fetchedAt": "2026-10-20",
-          "observedAt": null
-        },
-        {
-          "id": "gross_margin_change_yoy",
-          "label": "Veränderung der Bruttomarge",
           "value": null,
           "raw": null,
           "points": null,
@@ -222,8 +227,8 @@
       "label": "Profitabilität & Finanzkraft",
       "score": null,
       "status": "keine US-Meldepflicht",
-      "weight": 1,
-      "dataQuality": "0 von 7 Metriken verfügbar",
+      "weight": 0.75,
+      "dataQuality": "0 von 8 Metriken verfügbar",
       "metrics": [
         {
           "id": "operating_margin_fin",
@@ -232,14 +237,26 @@
           "raw": null,
           "points": null,
           "status": "keine US-Meldepflicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
-          "id": "fcf_margin_fin",
-          "label": "Free-Cashflow-Marge",
+          "id": "ocf_margin",
+          "label": "Operative Cashflow-Marge",
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "keine US-Meldepflicht",
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
+          "fetchedAt": "2026-10-20",
+          "observedAt": null
+        },
+        {
+          "id": "fcf_margin_3y",
+          "label": "Free-Cashflow-Marge, 3-Jahres-Schnitt",
           "value": null,
           "raw": null,
           "points": null,
@@ -256,8 +273,8 @@
           "raw": null,
           "points": null,
           "status": "keine US-Meldepflicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
@@ -268,20 +285,20 @@
           "raw": null,
           "points": null,
           "status": "keine US-Meldepflicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
         {
           "id": "net_debt_to_ebitda",
-          "label": "Nettoverschuldung / EBITDA",
+          "label": "Nettoverschuldung / EBITDA, Finanzschulden ohne Leasing",
           "value": null,
           "raw": null,
           "points": null,
           "status": "keine US-Meldepflicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
@@ -292,8 +309,8 @@
           "raw": null,
           "points": null,
           "status": "keine US-Meldepflicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
@@ -316,7 +333,7 @@
       "label": "Management & große Investoren",
       "score": 5.0,
       "status": null,
-      "weight": 1,
+      "weight": 1.0,
       "dataQuality": "2 von 3 Metriken verfügbar. über 10 % → 5 von 5 bis 40 % → 0 von 2",
       "metrics": [
         {
@@ -363,8 +380,8 @@
       "id": "C_06",
       "label": "Analysten & Stimmung",
       "score": null,
-      "status": "ausgeblendet, zählt nicht",
-      "weight": 1,
+      "status": "zu wenige Analysten",
+      "weight": 0.75,
       "dataQuality": "0 von 3 Metriken verfügbar",
       "metrics": [
         {
@@ -373,9 +390,9 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "ausgeblendet, zählt nicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "status": "zu wenige Analysten",
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
@@ -385,9 +402,9 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "ausgeblendet, zählt nicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "status": "zu wenige Analysten",
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
@@ -397,40 +414,62 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "ausgeblendet, zählt nicht",
-          "sourceLabel": null,
-          "sourceUrl": null,
+          "status": "zu wenige Analysten",
+          "sourceLabel": "Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         }
-      ]
+      ],
+      "summary": {
+        "current": {
+          "strongBuy": 0.0,
+          "buy": 1.0,
+          "hold": 0.0,
+          "sell": 0.0,
+          "strongSell": 0.0
+        },
+        "threeMonthsAgo": null,
+        "target": {
+          "mean": 7.7,
+          "median": 7.7,
+          "low": 7.4,
+          "high": 8.0,
+          "count": 1
+        },
+        "changes": [],
+        "sourceLabel": "Yahoo Finance quoteSummary",
+        "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
+        "fetchedAt": "2026-10-20"
+      }
     },
     {
       "id": "C_07",
       "label": "Kursverlauf & Momentum",
-      "score": 3.3,
+      "score": 7.5,
       "status": null,
-      "weight": 0.5,
-      "dataQuality": "3 von 3 Metriken verfügbar",
+      "weight": 0.25,
+      "dataQuality": "2 von 3 Metriken verfügbar. Plausibilitätswarnung: 12-1 über +300 Pp",
       "metrics": [
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen OMXS30",
-          "value": "608,5 Pp",
-          "raw": 608.482424,
+          "value": "655,2 Pp",
+          "raw": 655.248486,
           "points": 10.0,
           "status": null,
           "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
           "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-10-20"
+          "observedAt": "2026-10-20",
+          "note": "Plausibilitätswarnung: 12-1 über +300 Pp"
         },
         {
           "id": "above_sma_200",
           "label": "Kurs über der 200-Tage-Linie",
           "value": "nein",
           "raw": 0.0,
-          "points": 0.0,
+          "points": 5.0,
           "status": null,
           "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
           "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y",
@@ -440,14 +479,14 @@
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "78,6 %",
-          "raw": 0.786364,
-          "points": 0.0,
-          "status": null,
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "Warnhinweis: mehr als 60 % unter dem 52-Wochen-Hoch",
           "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
           "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y",
           "fetchedAt": "2026-10-20",
-          "observedAt": "2026-10-20"
+          "observedAt": null
         }
       ]
     },
@@ -455,9 +494,9 @@
       "id": "C_08",
       "label": "Bewertung",
       "score": null,
-      "status": "keine US-Meldepflicht",
+      "status": "wenig Daten",
       "weight": 0.5,
-      "dataQuality": "0 von 3 Metriken verfügbar",
+      "dataQuality": "0 von 2 Metriken verfügbar",
       "metrics": [
         {
           "id": "valuation_primary",
@@ -466,8 +505,8 @@
           "raw": null,
           "points": null,
           "status": "keine US-Meldepflicht",
-          "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
-          "sourceUrl": null,
+          "sourceLabel": "Yahoo Finance quoteSummary; Aktienzahl Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
@@ -477,9 +516,9 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "keine US-Meldepflicht",
-          "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
-          "sourceUrl": null,
+          "status": "nicht anwendbar",
+          "sourceLabel": "Yahoo Finance quoteSummary; Aktienzahl Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         },
@@ -490,8 +529,8 @@
           "raw": null,
           "points": null,
           "status": "keine US-Meldepflicht",
-          "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
-          "sourceUrl": null,
+          "sourceLabel": "Aktienzahl Yahoo Finance quoteSummary",
+          "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
           "fetchedAt": "2026-10-20",
           "observedAt": null
         }

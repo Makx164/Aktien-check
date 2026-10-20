@@ -2,6 +2,12 @@
 
 ## 2026-10-20
 
+### Runde 2, Datenstand und Rollen
+
+Der Score ist der Score der zugeordneten Rolle. Satellit ist der Standard, Dividendenaktie nur ab 2,5 % Rendite und fünf Jahren ohne Kürzung. Die Gewichte stehen in `config/scoring.json` und in `score.json`. Die Seite zeigt Rolle und Gewichte. Die Wortmarke ist nur „sidequest“. Unten steht: „Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.“
+
+Margen, Vorjahreswachstum, Cashflow, Bewertung und Verschuldung nutzen die letzten vier Quartale aus companyfacts, sonst den Vorjahresvergleich aus dem 10-Q. CAGRs bleiben Jahreswerte. Fehlt ein SEC-Wert, füllen Yahoo Finance und danach die Nasdaq-API nur diese Lücke, mit Quelle und Abrufzeit. Eine fehlende Zahl bleibt „wenig Daten“. ROIC mittelt nur zwei aufeinanderfolgende Jahre. Die Bruttomarge liest auch das IFRS-Feld `CostOfSales`. Finanzschulden sind verzinsliche Schulden ohne Leasing. Ein CAGR mit negativer Basis fällt auf zwei Jahre zurück, wenn beide Werte positiv sind. C_01 misst ROIC, Bruttomarge, ihren Trend, den Margenfortschritt aller Firmen und Netto-Cash oder Cash-Reichweite. Die Reichweite über 36 Monate steht als „> 36 Monate“. C_07 ist stückweise: 12-1 von −50 Pp bis +30 Pp, unter der 200-Tage-Linie 5 Punkte, Abstand zum Hoch nach der Fondsmanager-Regel, Untergrenze 3 solange C_02 mindestens 5 ist. C_06 ist wieder im Score, Quelle Yahoo, sonst Nasdaq. Unter drei Analysten zählt es nicht. Phase 1 nennt SEC EDGAR, Yahoo und Nasdaq. Für eine Bezahlversion sind lizenzierte Quellen nötig.
+
 ### Fachlicher Check, Scoring
 
 Gewichte in `config/scoring.json`: C_02 = 1,5, C_07 und C_08 = 0,5. Verlustbringer bekommen bei C_02 die Veränderung der operativen Marge zum Vorjahr (−5 Pp = 0, +10 Pp = 10). Negativer Free Cashflow ersetzt die Eigenkapitalrendite durch die Cash Runway (unter 12 Monaten = 0, ab 36 Monaten = 10). Lemonade ist als Versicherer markiert: Current Ratio und Nettoverschuldung/EBITDA sind „nicht anwendbar“. Die Free-Cashflow-Rendite ist bei Verlustbringern „nicht anwendbar“. Fehlt das PEG bei einem Gewinnunternehmen, weil das EPS-Wachstum nicht positiv ist, steht (EV/Umsatz) / Umsatzwachstum (10 unter 0,2, 0 über 1,0); schrumpft das letzte Jahr, zählt der 3-Jahres-CAGR.
@@ -20,7 +26,7 @@ Die Kurszeile zeigt den letzten Schlusskurs und das Datum aus der Kursquelle (`p
 
 ### Kacheln und Analyse unter #/TICKER
 
-Die Startseite zeigt 13 Kacheln: Ticker, Name, Score 0–100 in der Ampelfarbe oder „wenig Daten“, und „Stand der Daten“. Keine Beträge, keine Gewichte. Ein Klick öffnet die Analyse unter `#/TICKER`, zum Beispiel `#/PLTR`. Wortmarke, Logo und „Alle Positionen“ führen zurück. „Ich halte diese Aktien selbst.“ und „Keine Anlageberatung.“ stehen auf der Startseite und auf jeder Analyse.
+Die Startseite zeigt 13 Kacheln: Ticker, Name, Score 0–100 in der Ampelfarbe oder „wenig Daten“, und „Stand der Daten“. Keine Beträge, keine Gewichte. Ein Klick öffnet die Analyse unter `#/TICKER`, zum Beispiel `#/PLTR`. Wortmarke, Logo und „Alle Positionen“ führen zurück. Unten steht der Hinweis, dass es keine Anlageberatung ist.
 
 Die Analyse übernimmt Aufbau, Schrift und Farben der Version 3.2: rote Ticker-Zeile, runde Score-Skala, Rollen-Einordnung, Score-Matrix und Kriterienkarten. Der Aktien-Score kommt aus `score.json`. Die Rollen-Scores rechnen die Kriterien 0–10 mit den Gewichten der Version 3.2. Prototyp-Stempel, Wasserzeichen und Blöcke ohne Datengrundlage (KI-Einschätzung, Kurzfazit, X-Stimmung) entfallen. Die Wortmarke lautet „sidequest“.
 
@@ -56,7 +62,7 @@ Erster Lauf, Amazon: Score 57,0 (orange). Kriterien C_01 bis C_08: 6,3 / 5,7 / 5
 
 ### sidequest, öffentlich
 
-Wortmarke im Kopf ist „sidequest“, das bisherige Logo bleibt. Titel und Meta folgen der Marke. StaticCrypt und das Passwort entfallen; die Seite ist die unverschlüsselte statische Datei. Sichtbar sind nur PLTR, OSS, AMZN, TSLA, HIMS, LMND, IBRX, MU, IREN, GRAB, SIVE, SPCX und PYPL, ohne Beträge, Gewichte oder Kaufdaten. Die Hinweise „Ich halte diese Aktien selbst.“ und „Keine Anlageberatung.“ stehen im Kopf. Jede Analyse nennt „Stand der Daten“; ohne Datum in der Quelle steht „unbekannt“. Daten kommen aus `data/<TICKER>/score.json` (Kriterium, Teilkennzahl, Wert, Quelle, Abrufdatum). C_01 bis C_08 sind in der Übersicht zugeklappt und per Klick zu öffnen. Deployment als statische Vercel-Seite mit `cleanUrls` und Basispfad `/`. Relative Pfade lassen GitHub Pages bis zum Umschalten weiterlaufen. Die Werte aus der verschlüsselten Seite waren ohne Passwort nicht lesbar und wurden nicht erfunden.
+Wortmarke im Kopf ist „sidequest“, das bisherige Logo bleibt. Titel und Meta folgen der Marke. StaticCrypt und das Passwort entfallen; die Seite ist die unverschlüsselte statische Datei. Sichtbar sind nur PLTR, OSS, AMZN, TSLA, HIMS, LMND, IBRX, MU, IREN, GRAB, SIVE, SPCX und PYPL, ohne Beträge, Gewichte oder Kaufdaten. Unten steht der Hinweis, dass es keine Anlageberatung ist. Jede Analyse nennt „Stand der Daten“; ohne Datum in der Quelle steht „unbekannt“. Daten kommen aus `data/<TICKER>/score.json` (Kriterium, Teilkennzahl, Wert, Quelle, Abrufdatum). C_01 bis C_08 sind in der Übersicht zugeklappt und per Klick zu öffnen. Deployment als statische Vercel-Seite mit `cleanUrls` und Basispfad `/`. Relative Pfade lassen GitHub Pages bis zum Umschalten weiterlaufen. Die Werte aus der verschlüsselten Seite waren ohne Passwort nicht lesbar und wurden nicht erfunden.
 
 ## 2026-10-13
 
