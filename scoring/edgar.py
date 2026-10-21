@@ -60,8 +60,9 @@ class EdgarClient:
     def insider_flows(self, cik, submissions, today, window_days=INSIDER_WINDOW_DAYS):
         """Open-market buys and sells (codes P and S) over the last six months.
 
-        Grants, exercises and gifts stay out. A filing-level 10b5-1 flag does
-        not drop the market trades: those sales are still sales.
+        Grants, exercises and gifts stay out. Sales on a filing whose
+        `aff10b5One` checkbox is set are returned as `planSell` so the scorer
+        can weight them. Filings without that element keep the full sale.
         """
         recent = (submissions.get("filings") or {}).get("recent") or {}
         forms = recent.get("form") or []
@@ -82,8 +83,11 @@ class EdgarClient:
             chosen.append(index)
         buy = 0.0
         sell = 0.0
+        plan_sell = 0.0
         buys = 0
         sells = 0
+        plan_sells = 0
+        buyers = []
         parsed_any = False
         latest = None
         for index in chosen:
@@ -100,8 +104,13 @@ class EdgarClient:
             parsed_any = True
             buy += parsed["buy"]
             sell += parsed["sell"]
+            plan_sell += parsed.get("planSell") or 0.0
             buys += parsed["buys"]
             sells += parsed["sells"]
+            plan_sells += parsed.get("planSells") or 0
+            for owner in parsed.get("buyers") or []:
+                if owner not in buyers:
+                    buyers.append(owner)
             if parsed.get("observed") and (latest is None or parsed["observed"] > latest):
                 latest = parsed["observed"]
         if chosen and not parsed_any:
@@ -109,15 +118,73 @@ class EdgarClient:
         return {
             "buy": buy,
             "sell": sell,
+            "planSell": plan_sell,
             "buys": buys,
             "sells": sells,
-            "trades": buys + sells,
+            "planSells": plan_sells,
+            "buyers": buyers,
+            "trades": buys + sells + plan_sells,
             "observed": latest,
             "filings": len(chosen),
             "windowDays": window_days,
             "truncated": truncated,
             "measured": True,
         }
+
+    def merge_rd_extension(self, facts, cik, submissions):
+        """Fill TechnologyAndInfrastructureExpense when GAAP research expense is absent.
+
+        companyfacts drops custom namespaces. The line is read from the latest
+        10-Q and 10-K instance documents and cached. A failed filing is skipped.
+        """
+        if not isinstance(facts, dict):
+            return facts
+        if _usd_concept(facts, "ResearchAndDevelopmentExpense") or _usd_concept(
+            facts, "ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost"
+        ):
+            return facts
+        payload = self._extension_payload(cik, submissions, RD_EXTENSION_NAMES)
+        gaap = facts.setdefault("us-gaap", {})
+        for name, concept in (payload.get("concepts") or {}).items():
+            units = ((concept or {}).get("units") or {}).get("USD") or []
+            if not units or _usd_concept(facts, name):
+                continue
+            gaap[name] = {"units": {"USD": units}}
+        return facts
+
+    def _extension_payload(self, cik, submissions, names):
+        filings = _statement_filings(submissions)
+        latest = filings[0]["filed"] if filings else ""
+        path = self.cache_dir / f"ext-{int(cik):010d}.json"
+        if path.exists():
+            cached = json.loads(path.read_text(encoding="utf-8"))
+            if (cached.get("filedThrough") or "") >= latest and latest:
+                return cached
+        grouped = {name: {} for name in names}
+        for filing in filings:
+            primary = (filing.get("primary") or "").split("/")[-1]
+            stem = primary.rsplit(".", 1)[0]
+            filename = primary if primary.endswith(".xml") else stem + "_htm.xml"
+            accession = (filing.get("accession") or "").replace("-", "")
+            if not accession or not filename:
+                continue
+            url = f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{accession}/{filename}"
+            try:
+                xml_bytes = self._get_bytes(url, self.cache_dir / f"xbrl-{accession}.xml")
+            except (urllib.error.URLError, TimeoutError, OSError, ValueError):
+                continue
+            for name, row in parse_extension_instance(xml_bytes, names, filing["form"], filing["filed"]):
+                slot = (row["start"], row["end"])
+                current = grouped[name].get(slot)
+                if current is None or (row.get("filed") or "") >= (current.get("filed") or ""):
+                    grouped[name][slot] = row
+        concepts = {}
+        for name, slots in grouped.items():
+            if slots:
+                concepts[name] = {"units": {"USD": list(slots.values())}}
+        payload = {"filedThrough": latest, "concepts": concepts}
+        path.write_text(json.dumps(payload), encoding="utf-8")
+        return payload
 
     def _get_json(self, url, path):
         if path.exists():
@@ -145,6 +212,42 @@ class EdgarClient:
         self._last = time.monotonic()
 
 
+def aff10b5_one(root):
+    """Rule 10b5-1 checkbox on the Form 4 document.
+
+    The element is `aff10b5One` (SEC ownership XML, filings after the 2023
+    amendment). It is document-level, not per transaction. Values seen in
+    filings are 1/0 and true/false. None means the element is absent, so the
+    sale is not treated as a plan sale.
+    """
+    found = None
+    for node in root.iter():
+        if _local(node.tag) != "aff10b5One":
+            continue
+        found = (node.text or "").strip().lower()
+        break
+    if found is None:
+        return None
+    if found in {"1", "true"}:
+        return True
+    if found in {"0", "false"}:
+        return False
+    return None
+
+
+def _owners(root):
+    owners = []
+    for node in root.iter():
+        if _local(node.tag) != "reportingOwner":
+            continue
+        cik = _nested(node, "reportingOwnerId", "rptOwnerCik")
+        name = _nested(node, "reportingOwnerId", "rptOwnerName")
+        token = cik or name
+        if token and token not in owners:
+            owners.append(token)
+    return owners
+
+
 def parse_form4(xml_bytes):
     try:
         root = ET.fromstring(xml_bytes)
@@ -152,10 +255,15 @@ def parse_form4(xml_bytes):
         return None
     if _local(root.tag) != "ownershipDocument":
         return None
+    # TODO: lock-up sales (SPCX) need a lock-up end date. Form 4 has no field for it.
+    planned = aff10b5_one(root) is True
     buy = 0.0
     sell = 0.0
+    plan_sell = 0.0
     buys = 0
     sells = 0
+    plan_sells = 0
+    had_purchase = False
     observed = _text(root, "periodOfReport") or None
     for node in root.iter():
         if _local(node.tag) != "nonDerivativeTransaction":
@@ -170,6 +278,10 @@ def parse_form4(xml_bytes):
         if code == "P":
             buy += dollars
             buys += 1
+            had_purchase = True
+        elif planned:
+            plan_sell += dollars
+            plan_sells += 1
         else:
             sell += dollars
             sells += 1
@@ -178,11 +290,101 @@ def parse_form4(xml_bytes):
     return {
         "buy": buy,
         "sell": sell,
+        "planSell": plan_sell,
         "buys": buys,
         "sells": sells,
-        "trades": buys + sells,
+        "planSells": plan_sells,
+        "buyers": _owners(root) if had_purchase else [],
+        "planFlag": aff10b5_one(root),
+        "trades": buys + sells + plan_sells,
         "observed": observed,
     }
+
+
+RD_EXTENSION_NAMES = ("TechnologyAndInfrastructureExpense",)
+
+
+def parse_extension_instance(xml_bytes, names, form, filed):
+    """Duration facts for extension concepts. Segment members and text blocks stay out."""
+    try:
+        root = ET.fromstring(xml_bytes)
+    except ET.ParseError:
+        return []
+    contexts = {}
+    for element in root.iter():
+        if _local(element.tag) != "context":
+            continue
+        start = end = None
+        dimensional = False
+        for child in element.iter():
+            name = _local(child.tag)
+            if name == "startDate" and child.text:
+                start = child.text.strip()[:10]
+            elif name == "endDate" and child.text:
+                end = child.text.strip()[:10]
+            elif name == "explicitMember":
+                dimensional = True
+        contexts[element.attrib.get("id")] = (start, end, dimensional)
+    wanted = set(names)
+    rows = []
+    for element in root.iter():
+        local = _local(element.tag)
+        if local not in wanted:
+            continue
+        if (element.attrib.get("unitRef") or "").lower() not in {"usd", "iso4217:usd"}:
+            continue
+        value = _float((element.text or "").strip() or None)
+        if value is None:
+            continue
+        start, end, dimensional = contexts.get(element.attrib.get("contextRef"), (None, None, True))
+        if dimensional or not start or not end or start >= end:
+            continue
+        row = {
+            "start": start,
+            "end": end,
+            "val": value,
+            "form": form,
+            "filed": filed or "",
+        }
+        try:
+            days = (date.fromisoformat(end) - date.fromisoformat(start)).days
+        except ValueError:
+            continue
+        if form.startswith("10-K") and days > 300:
+            row["fp"] = "FY"
+        rows.append((local, row))
+    return rows
+
+
+def _statement_filings(submissions, limit=8):
+    recent = ((submissions or {}).get("filings") or {}).get("recent") or {}
+    forms = recent.get("form") or []
+    filed = recent.get("filingDate") or []
+    accessions = recent.get("accessionNumber") or []
+    documents = recent.get("primaryDocument") or []
+    chosen = []
+    for index, form in enumerate(forms):
+        if form not in {"10-Q", "10-K", "10-Q/A", "10-K/A"}:
+            continue
+        if index >= len(accessions) or index >= len(documents):
+            continue
+        chosen.append({
+            "form": "10-K" if str(form).startswith("10-K") else "10-Q",
+            "filed": filed[index] if index < len(filed) else "",
+            "accession": accessions[index],
+            "primary": documents[index],
+        })
+        if len(chosen) >= limit:
+            break
+    return chosen
+
+
+def _usd_concept(facts, name):
+    for namespace in ("us-gaap", "ifrs-full"):
+        concept = ((facts or {}).get(namespace) or {}).get(name) or {}
+        if ((concept.get("units") or {}).get("USD")):
+            return True
+    return False
 
 
 def _local(tag):

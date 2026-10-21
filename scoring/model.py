@@ -53,6 +53,20 @@ def mean(values):
     return sum(present) / len(present)
 
 
+def weighted_mean(values_and_weights):
+    """Mean of present values. A missing value stays out and is not scored as zero."""
+    numerator = 0.0
+    denominator = 0.0
+    for value, weight in values_and_weights:
+        if value is None:
+            continue
+        numerator += float(value) * float(weight)
+        denominator += float(weight)
+    if denominator == 0:
+        return None
+    return numerator / denominator
+
+
 def weighted_total(scores_and_weights):
     """0–100 score from criterion scores.
 
@@ -105,6 +119,8 @@ def format_value(kind, raw):
         return format_de(float(raw), 2)
     if kind == "binary":
         return "ja" if raw else "nein"
+    if kind == "months":
+        return format_de(float(raw), 1) + " Monate"
     return format_de(float(raw), 2)
 
 
@@ -123,24 +139,23 @@ def coverage_decision(criteria, minimum, status_label="wenig Daten"):
     Below `minimum` criteria the headline is the status label and no number.
     """
     present = [item for item in criteria if item.get("score") is not None]
-    missing_ids = [item["id"] for item in criteria if item.get("score") is None]
+    missing = [item for item in criteria if item.get("score") is None]
     total = weighted_total((item.get("score"), item.get("weight", 1)) for item in criteria)
     status = status_label if len(present) < minimum else None
     if status is not None:
         total = None
     note = None
-    if missing_ids:
-        listed = ", ".join(missing_ids)
+    if missing:
+        groups = {}
+        for item in missing:
+            label = item.get("status") or status_label
+            groups.setdefault(label, []).append(item["id"])
+        sentences = [f"{label} bei {', '.join(ids)}." for label, ids in groups.items()]
         if status is not None:
-            note = (
-                f"Wenig Daten bei {listed}. "
-                f"Weniger als {minimum} Kriterien haben Daten."
-            )
+            sentences.append(f"Weniger als {minimum} Kriterien haben Daten.")
         else:
-            note = (
-                f"Wenig Daten bei {listed}. "
-                "Der Score zählt nur Kriterien mit Daten."
-            )
+            sentences.append("Der Score zählt nur Kriterien mit Daten.")
+        note = " ".join(sentences)
     return {
         "score": round1(total) if total is not None else None,
         "status": status,

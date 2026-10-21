@@ -15,6 +15,7 @@ if str(ROOT) not in sys.path:
 from scoring.analysts import fetch_analysts, load_keys
 from scoring.edgar import EdgarClient
 from scoring.holders import fetch_holders
+from scoring.marketdata import apply_fundamental_fallback, load_nasdaq, load_yahoo_summary
 from scoring.metrics import data_stand, extract_fundamentals, score_company
 from scoring.model import coverage_decision, quality_phrase, round1, traffic_light, weighted_total
 from scoring.prices import fetch_series
@@ -46,21 +47,71 @@ def price_quote(prices, currency):
     }
 
 
+def assigned_role(scored, config):
+    roles = config.get("roles") or {}
+    if not roles.get("dividendEnabled"):
+        return roles["satellite"], "Einheitlicher Gewichtssatz aus der Satelliten-Konfiguration."
+    dividend = scored.get("dividend") or {}
+    threshold = float(roles.get("dividendYieldAtLeast", 0.025))
+    qualifies = (
+        dividend.get("yield") is not None
+        and float(dividend["yield"]) >= threshold
+        and dividend.get("no_cut") is True
+    )
+    chosen = roles["dividend"] if qualifies else roles["satellite"]
+    if qualifies:
+        reason = "Dividendenrendite mindestens 2,5 % und fünf Jahre ohne Kürzung."
+    else:
+        reason = "Satellit, solange die Dividendenregel nicht erfüllt ist."
+    return chosen, reason
+
+
+def apply_role(criteria, role):
+    weights = role.get("weights") or {}
+    kept = []
+    for item in criteria:
+        weight = float(weights.get(item["id"], 0) or 0)
+        if weight <= 0:
+            continue
+        copied = dict(item)
+        copied["weight"] = weight
+        kept.append(copied)
+    return kept
+
+
+def metric_counts(criteria):
+    available = 0
+    total = 0
+    for item in criteria:
+        for metric in item.get("metrics") or []:
+            if metric.get("status") == "nicht anwendbar":
+                continue
+            total += 1
+            if metric.get("status") is None and metric.get("points") is not None:
+                available += 1
+    return available, total
+
+
 def assemble(ticker, name, note, scored, config, price=None):
-    criteria = scored["criteria"]
+    role, reason = assigned_role(scored, config)
+    criteria = apply_role(scored["criteria"], role)
     decision = coverage_decision(
         criteria,
         config["minCriteriaWithData"],
         config.get("missingDataStatus") or "wenig Daten",
     )
     total = decision["score"]
+    available, metric_total = metric_counts(criteria)
     parts = []
     if note:
         parts.append(note)
     if scored.get("priceNote"):
         parts.append(scored["priceNote"])
-    parts.append(quality_phrase(scored["available"], scored["total"]))
+    parts.append(quality_phrase(available, metric_total))
     lights = config["trafficLight"]
+    visible_weights = {
+        key: value for key, value in (role.get("weights") or {}).items() if value and float(value) > 0
+    }
     return {
         "ticker": ticker,
         "name": name,
@@ -75,6 +126,12 @@ def assemble(ticker, name, note, scored, config, price=None):
         "missingDataNote": decision["note"],
         "koFlags": scored["koFlags"],
         "price": price,
+        "role": {
+            "id": role.get("id"),
+            "label": role.get("label"),
+            "weights": visible_weights,
+            "reason": reason,
+        },
         "criteria": criteria,
     }
 
@@ -85,7 +142,7 @@ def main():
     today = date.today().isoformat()
     keys = load_keys()
     if not keys["finnhub"] and not keys["fmp"]:
-        print("FMP_API_KEY and FINNHUB_API_KEY are unset. Analyst metrics stay unknown.")
+        print("FMP_API_KEY and FINNHUB_API_KEY are unset. Analysts use Yahoo, then Nasdaq.")
     edgar = EdgarClient(ROOT / "cache" / "edgar")
     bench_cfg = config["benchmark"]
     print("Fetching benchmark", bench_cfg["stooq"])
@@ -97,6 +154,30 @@ def main():
         print(f"  {len(benchmark['bars'])} bars via {benchmark['provider']} ({bench_label})")
     else:
         print("  no benchmark:", benchmark.get("note"))
+    custom_benchmarks = {}
+    for spec in tickers:
+        key = spec.get("benchmark")
+        if not key or key in custom_benchmarks:
+            continue
+        custom = (config.get("benchmarks") or {}).get(key)
+        if not custom:
+            continue
+        print("Fetching benchmark", custom.get("stooq") or custom.get("yahoo"), "for", key)
+        series = fetch_series(
+            custom.get("stooq"),
+            custom.get("nasdaq"),
+            custom.get("assetClass"),
+            custom.get("stooqFallbacks"),
+            custom.get("yahoo"),
+        )
+        if series["bars"]:
+            label = custom["label"] if series["provider"] == "stooq" else (custom.get("proxyLabel") or custom["label"])
+            custom_benchmarks[key] = {"bars": series["bars"], "label": label}
+            print(f"  {len(series['bars'])} bars via {series['provider']} ({label})")
+        else:
+            # TODO: SIVE momentum versus OMXS30. This run got no index bars, so the S&P stays.
+            custom_benchmarks[key] = None
+            print("  TODO: benchmark", key, "unavailable; momentum stays versus the S&P")
 
     for spec in tickers:
         ticker = spec["ticker"]
@@ -138,7 +219,12 @@ def main():
             else:
                 facts, facts_url = edgar.companyfacts(cik)
                 submissions, sub_url = edgar.submissions(cik)
-                bundle = extract_fundamentals(facts.get("facts") or {})
+                body = facts.get("facts") or {}
+                try:
+                    edgar.merge_rd_extension(body, cik, submissions)
+                except (OSError, ValueError, TypeError):
+                    print("  extension facts unavailable")
+                bundle = extract_fundamentals(body)
                 insider = edgar.insider_flows(cik, submissions, date.today())
                 if insider:
                     bundle["insider"] = insider
@@ -149,26 +235,58 @@ def main():
                 sources["fundamentalUrl"] = facts_url
                 sources["insiderLabel"] = "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate"
                 sources["insiderUrl"] = sub_url
+        yahoo_symbol = spec.get("yahoo") or ticker
+        summary = load_yahoo_summary(yahoo_symbol, ROOT / "cache" / "yahoo")
+        nasdaq_symbol = spec.get("nasdaq")
+        nasdaq_target = load_nasdaq("target", nasdaq_symbol, ROOT / "cache" / "nasdaq") if nasdaq_symbol else None
+        nasdaq_annual = load_nasdaq("financials", nasdaq_symbol, ROOT / "cache" / "nasdaq") if nasdaq_symbol else None
+        nasdaq_quarterly = load_nasdaq("quarterly", nasdaq_symbol, ROOT / "cache" / "nasdaq") if nasdaq_symbol else None
+        yahoo_url = (summary or {}).get("_url")
+        nasdaq_url = (
+            "https://api.nasdaq.com/api/company/" + nasdaq_symbol + "/financials?frequency=1"
+            if nasdaq_symbol else None
+        )
+        bundle = apply_fundamental_fallback(
+            bundle, summary, nasdaq_annual, yahoo_url or nasdaq_url, today, nasdaq_quarterly,
+        )
+        snapshot = bundle.get("snapshot") or {}
+        if snapshot.get("sourceLabel") == "SEC EDGAR companyfacts" and not snapshot.get("sourceUrl"):
+            snapshot["sourceUrl"] = sources.get("fundamentalUrl")
+            snapshot["fetchedAt"] = snapshot.get("fetchedAt") or today
+            bundle["snapshot"] = snapshot
+        if summary:
+            print("  yahoo summary ok")
+        else:
+            print("  yahoo summary unavailable")
         if holders:
             bundle["holders"] = dict(holders)
             bundle["holders"]["observed"] = None
         sources["holderLabel"] = holders.get("label")
         sources["holderUrl"] = holders.get("url")
-        if spec.get("analysts", True):
-            analysts = fetch_analysts(ticker, last_close, today, keys)
+        analysts = fetch_analysts(
+            ticker, last_close, today, keys, yahoo=summary, nasdaq_target=nasdaq_target,
+        )
+        if not analysts.get("label"):
+            print("  analysts unavailable")
         else:
-            analysts = {}
-            print("  analysts skipped")
+            print("  analysts via", analysts.get("label"), "count", analysts.get("count"))
         sources["analystLabel"] = analysts.get("label")
         sources["analystUrl"] = analysts.get("url")
+        ticker_bench = bench_payload
+        custom_key = spec.get("benchmark")
+        if custom_key and custom_benchmarks.get(custom_key):
+            ticker_bench = custom_benchmarks[custom_key]
         price_input = {
             "bars": prices["bars"],
             "sourceLabel": prices.get("sourceLabel"),
             "sourceUrl": prices.get("sourceUrl"),
             "note": prices.get("note"),
-            "benchmark": bench_payload,
+            "benchmark": ticker_bench,
         }
-        scored = score_company(config, bundle, price_input, analysts, today, sources)
+        scored = score_company(
+            config, bundle, price_input, analysts, today, sources,
+            {"sec": bool(spec.get("sec")), "sector": spec.get("sector")},
+        )
         document = assemble(
             ticker,
             spec["name"],
@@ -185,7 +303,8 @@ def main():
             for item in document["criteria"]
         )
         shown = document["status"] or document["score"]
-        print(f"  score={shown} status={document['status']} {document['trafficLight']} {document['dataQuality']}")
+        role_label = (document.get("role") or {}).get("label")
+        print(f"  score={shown} status={document['status']} role={role_label} {document['trafficLight']} {document['dataQuality']}")
         print(f"  {points}")
 
 
