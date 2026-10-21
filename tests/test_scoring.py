@@ -540,9 +540,10 @@ class KillSwitchTests(unittest.TestCase):
         self.assertIn('className = "tile-stand"', html)
         self.assertNotIn("Ich halte diese Aktien selbst.", html)
         self.assertIn(
-            "Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.",
+            "Keine Anlageberatung und keine Kauf- oder Verkaufsempfehlung.",
             html,
         )
+        self.assertNotIn("spiegeln keine tatsächlichen Werte wider", html)
         self.assertNotIn("<small>AKTIEN-CHECK</small>", html)
         self.assertNotIn("ZAHLEN BIS", html)
         self.assertIn('href = "#/" + score.ticker', html)
@@ -1495,6 +1496,131 @@ class LegalPageTests(unittest.TestCase):
         self.assertIn('class="foot-legal"', footer)
         self.assertNotIn("function disclaimer(", html)
         self.assertNotIn("DISCLAIMER", html)
+
+    def test_disclaimer_renders_on_overview_and_analysis(self):
+        import subprocess
+        disclaimer = (
+            "Keine Anlageberatung und keine Kauf- oder Verkaufsempfehlung. "
+            "Die Scores sind eigene, regelbasierte Einschätzungen: öffentliche Unternehmens- "
+            "und Marktdaten (u. a. SEC, Yahoo Finance, Nasdaq) werden nach festen Kriterien "
+            "in Punkte von 0 bis 10 umgerechnet und gemittelt. Sie können unvollständig oder "
+            "veraltet sein und ersetzen keine eigene Prüfung."
+        )
+        short = "Eigene, regelbasierte Aktien-Scores aus öffentlichen Unternehmensdaten. Keine Anlageberatung."
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        footer = html.split("<footer", 1)[1].split("</footer>", 1)[0]
+        self.assertIn(disclaimer, footer)
+        self.assertIn("discl-big compact", footer)
+        self.assertIn(f'content="{short}"', html)
+        self.assertEqual(html.count(f'content="{short}"'), 2)
+        self.assertNotIn("spiegeln keine tatsächlichen Werte wider", html)
+        for name in ("impressum.html", "datenschutz.html"):
+            legal = (ROOT / name).read_text(encoding="utf-8")
+            legal_footer = legal.split("<footer", 1)[1].split("</footer>", 1)[0]
+            self.assertIn(disclaimer, legal_footer, name)
+            self.assertIn("discl-big compact", legal_footer, name)
+            self.assertNotIn("spiegeln keine tatsächlichen Werte wider", legal, name)
+        script = r"""
+        const fs = require("fs");
+        const path = require("path");
+        const root = process.cwd();
+        const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+        const disclaimer = process.env.DISCLAIMER;
+        const footerSource = html.split("<footer")[1].split("</footer>")[0];
+        if (!footerSource.includes(disclaimer)) throw new Error("footer source");
+        function make(tag) {
+          return {
+            tagName: String(tag || "").toUpperCase(),
+            className: "",
+            id: "",
+            href: "",
+            textContent: "",
+            innerHTML: "",
+            style: {},
+            children: [],
+            append() { this.children.push(...arguments); },
+            replaceChildren() { this.children = Array.from(arguments); },
+            addEventListener() {},
+            setAttribute(key, value) { this[key] = value; },
+            getAttribute(key) { return this[key] || null; },
+            querySelector() { return null; },
+            closest() { return null; },
+            scrollIntoView() {},
+          };
+        }
+        const app = make("main");
+        const footer = make("footer");
+        footer.className = "footer";
+        footer.textContent = footerSource.replace(/<[^>]+>/g, "");
+        const listeners = {};
+        global.document = {
+          title: "",
+          documentElement: {
+            getAttribute() { return "light"; },
+            setAttribute() {},
+          },
+          getElementById(id) {
+            if (id === "app") return app;
+            if (id === "theme-tg") return make("button");
+            return null;
+          },
+          createElement: make,
+          createTextNode(value) { return { textContent: String(value) }; },
+          querySelector(selector) {
+            if (selector === "footer" || selector === ".discl-big") return footer;
+            if (selector === 'meta[name="theme-color"]') return { content: "" };
+            return null;
+          },
+          addEventListener() {},
+        };
+        global.localStorage = { getItem() { return null; }, setItem() {} };
+        global.location = { search: "", hash: "", href: "http://local/" };
+        global.window = {
+          addEventListener(type, fn) { listeners[type] = fn; },
+          scrollTo() {},
+        };
+        global.fetch = async (url) => {
+          const file = path.join(root, url);
+          return { ok: true, json: async () => JSON.parse(fs.readFileSync(file, "utf8")) };
+        };
+        const marker = "(function () {\n  \"use strict\";";
+        const source = html.slice(html.indexOf(marker), html.lastIndexOf("</script>"));
+        if (source.indexOf(marker) !== 0) throw new Error("script marker missing");
+        eval(source);
+        function pageText() {
+          return footer.textContent + "\n" + app.innerHTML + app.children.map((child) => child.className).join(" ");
+        }
+        setTimeout(() => {
+          try {
+            if (!pageText().includes(disclaimer)) throw new Error("overview missing disclaimer");
+            if (document.title !== "sidequest") throw new Error("overview title " + document.title);
+            const tiles = app.children.filter((child) => child.className === "tiles")[0];
+            if (!tiles || tiles.children.length < 13) throw new Error("overview tiles " + (tiles && tiles.children.length));
+            location.hash = "#/AMZN";
+            listeners.hashchange();
+            if (app.innerHTML.indexOf("AMZN") < 0 || app.innerHTML.indexOf("Amazon") < 0) {
+              throw new Error("analysis not rendered");
+            }
+            if (!pageText().includes(disclaimer)) throw new Error("analysis missing disclaimer");
+            if (app.innerHTML.includes("spiegeln keine tatsächlichen Werte wider")) {
+              throw new Error("old sentence in analysis");
+            }
+            console.log("ok");
+          } catch (err) {
+            console.error(err && err.stack || err);
+            process.exit(1);
+          }
+        }, 300);
+        """
+        result = subprocess.run(
+            ["node", "-e", script],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            env={**__import__("os").environ, "DISCLAIMER": disclaimer},
+        )
+        if result.returncode != 0:
+            self.fail(result.stderr or result.stdout)
 
     def test_impressum_names_the_provider(self):
         html = (ROOT / "impressum.html").read_text(encoding="utf-8")

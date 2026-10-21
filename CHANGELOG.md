@@ -8,7 +8,7 @@ Der Aktien-Score ist der ungewichtete Mittelwert der sichtbaren Kriterien mit Da
 
 ### Impressum und Datenschutz
 
-Im Footer, neben dem roten Hinweis, stehen die Links Impressum und Datenschutz. Die Seiten beschreiben das Angebot und die Verarbeitung, die der Browser tatsächlich auslöst.
+Im Footer, neben dem roten Hinweis, stehen die Links Impressum und Datenschutz. Die Seiten beschreiben das Angebot und die Verarbeitung, die der Browser tatsächlich auslöst. Der rote Hinweis sagt, dass die Scores regelbasierte Einschätzungen aus öffentlichen Daten sind und keine Kauf- oder Verkaufsempfehlung.
 
 ## 2026-10-20
 
