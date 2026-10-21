@@ -2,7 +2,7 @@
 
 Öffentliche Seite der Marke sidequest. Jedes Kriterium ist 0–10 als Mittelwert seiner Teilkennzahlen. Der Aktien-Score ist der ungewichtete Mittelwert der sichtbaren Kriterien mit Daten, ebenfalls 0–10. C_09 bleibt aus, solange sein Gewicht in der Satelliten-Rolle 0 ist. Die Dividendenrolle bleibt im Code und ist über `roles.dividendEnabled` abschaltbar; der Schalter steht auf aus. Die Seite zeigt keine Rolle und keine Gewichtung. Ab 7 grün, von 5 bis unter 7 orange, darunter rot. K.O.-Hinweise stehen getrennt vom Schnitt. Fehlt einer Kennzahl die Datenbasis, bleibt der Wert leer, das Feld `status` ist „wenig Daten“ und die Punkte sind nicht 0. Dieselbe Bezeichnung steht im zugeklappten Kriterium. Der Score zählt nur Kriterien mit Daten. Liegen für weniger als drei Kriterien Daten vor (`minCriteriaWithData` in `config/scoring.json`), ist `score` leer und `status` „wenig Daten“. Die Karte zeigt dann den Hinweis `missingDataNote`, sobald mindestens ein Kriterium fehlt. Ein Datum ohne Quelle bleibt „unbekannt“.
 
-Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.
+Keine Anlageberatung und keine Kauf- oder Verkaufsempfehlung. Die Scores sind eigene, regelbasierte Einschätzungen: öffentliche Unternehmens- und Marktdaten (u. a. SEC, Yahoo Finance, Nasdaq) werden nach festen Kriterien in Punkte von 0 bis 10 umgerechnet und gemittelt. Sie können unvollständig oder veraltet sein und ersetzen keine eigene Prüfung.
 
 Zieladresse: https://yoursidequest.org (Vercel, Basispfad `/`).
 
