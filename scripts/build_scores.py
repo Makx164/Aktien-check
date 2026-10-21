@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import sys
+import time
 from datetime import date
 from pathlib import Path
 
@@ -142,6 +143,29 @@ def assemble(ticker, name, note, scored, config, price=None, profile=None):
                 ordered["profile"] = profile
         document = ordered
     return document
+
+
+def scored_metric_count(document):
+    count = 0
+    for item in (document or {}).get("criteria") or []:
+        for metric in item.get("metrics") or []:
+            if metric.get("points") is not None and not metric.get("status"):
+                count += 1
+    return count
+
+
+def fetch_failed(previous, document, prices):
+    """A failed fetch must not replace a fuller previous file."""
+    if not previous:
+        return None
+    old_price = (previous.get("price") or {}).get("close")
+    if old_price and not (prices or {}).get("bars"):
+        return "Kursabruf lieferte keine Kurse"
+    old_count = scored_metric_count(previous)
+    new_count = scored_metric_count(document)
+    if old_count >= 8 and new_count + 8 <= old_count:
+        return f"bewertete Metriken {old_count} -> {new_count}"
+    return None
 
 
 def main():
@@ -306,7 +330,18 @@ def main():
         )
         target = ROOT / "data" / ticker / "score.json"
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        previous = None
+        if target.exists():
+            try:
+                previous = json.loads(target.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                previous = None
+        failed = fetch_failed(previous, document, prices)
+        if failed:
+            print(f"  KEEP previous score.json ({failed})")
+        else:
+            target.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        time.sleep(0.4)
         points = " ".join(
             f"{item['id']}={item['score'] if item['score'] is not None else 'null'}"
             for item in document["criteria"]

@@ -1,27 +1,27 @@
 {
   "ticker": "HIMS",
   "name": "Hims & Hers Health",
-  "asOf": "2026-10-19",
-  "score": 5.2,
+  "asOf": "2026-10-20",
+  "score": 5.6,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
-  "qualityScore": 5.7,
-  "marketScore": 4.5,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 30 von 34 Metriken verfügbar",
+  "qualityScore": 5.4,
+  "marketScore": 6.0,
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 30 von 30 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [],
   "price": {
-    "close": 28.15,
+    "close": 29.21,
     "currency": "USD",
-    "date": "2026-10-19",
+    "date": "2026-10-20",
     "sourceLabel": "Nasdaq Historical",
-    "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000"
+    "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-04&todate=2026-10-21&limit=2000"
   },
   "profile": {
     "hq": "San Francisco, USA",
     "employees": 2442,
-    "marketCap": 6815084544,
+    "marketCap": 6803419136,
     "currency": "USD",
     "source": "Yahoo Finance quoteSummary",
     "fetchedAt": "2026-10-21"
@@ -45,23 +45,24 @@
     {
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
-      "score": 3.3,
+      "score": 4.0,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "3 von 5 Metriken verfügbar. TTM bis 2026-06-30 TTM bis 2026-06-30 TTM bis 2026-06-30",
+      "dataQuality": "4 von 4 Metriken verfügbar. Steuersatz außerhalb −0,5 bis 1, daher 21 % · TTM bis 2026-06-30",
       "metrics": [
         {
           "id": "roic_2y",
           "label": "ROIC, zwei aufeinanderfolgende Jahre",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
+          "value": "13,8 %",
+          "raw": 0.138036,
+          "points": 5.9,
+          "status": null,
           "scale": "≥ 20 % = 10, 5 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "fetchedAt": "2026-10-21",
+          "observedAt": "2025-12-31",
+          "note": "Steuersatz außerhalb −0,5 bis 1, daher 21 %"
         },
         {
           "id": "gross_margin",
@@ -73,7 +74,7 @@
           "scale": "≥ 60 % = 10, 20 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2026-06-30",
           "note": "TTM bis 2026-06-30"
         },
@@ -87,7 +88,7 @@
           "scale": "≥ 5 Pp = 10, -5 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2026-06-30",
           "note": "TTM bis 2026-06-30"
         },
@@ -101,7 +102,7 @@
           "scale": "≥ 5 Pp = 10, -3 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2026-06-30",
           "note": "TTM bis 2026-06-30"
         },
@@ -111,12 +112,13 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "nicht anwendbar",
           "scale": "Netto-Cash oder mindestens 36 Monate = 10, unter 12 Monaten = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "fetchedAt": "2026-10-21",
+          "observedAt": null,
+          "statusReason": "Nettoverschuldung bei positivem Free Cashflow"
         }
       ]
     },
@@ -126,7 +128,7 @@
       "score": 7.1,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "8 von 9 Metriken verfügbar. TTM bis 2026-06-30 Quartal bis 2026-06-30 Analystenschätzung, nächstes Jahr 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist TTM bis 2026-06-30 Differenz auf ±30 Pp gekappt aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte",
+      "dataQuality": "8 von 8 Metriken verfügbar. TTM bis 2026-06-30 · Quartal bis 2026-06-30 · Analystenschätzung, nächstes Jahr · 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist · Differenz auf ±30 Pp gekappt · aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
@@ -138,7 +140,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2026-06-30",
           "note": "TTM bis 2026-06-30"
         },
@@ -152,7 +154,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2026-06-30",
           "note": "Quartal bis 2026-06-30"
         },
@@ -166,7 +168,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary, Analystenschätzung",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": null,
           "note": "Analystenschätzung, nächstes Jahr"
         },
@@ -180,7 +182,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2025-12-31"
         },
         {
@@ -193,7 +195,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2025-12-31"
         },
         {
@@ -202,12 +204,13 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "wenig Daten",
+          "status": "nicht anwendbar",
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "fetchedAt": "2026-10-21",
+          "observedAt": null,
+          "statusReason": "Verlust bzw. negativer Wert in der Basisperiode"
         },
         {
           "id": "fcf_cagr_3y",
@@ -219,7 +222,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2025-12-31",
           "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
         },
@@ -233,9 +236,9 @@
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30 Differenz auf ±30 Pp gekappt aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte"
+          "note": "TTM bis 2026-06-30 · Differenz auf ±30 Pp gekappt · aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte"
         },
         {
           "id": "operating_margin_change_yoy",
@@ -247,7 +250,7 @@
           "scale": "≥ 10 Pp = 10, -5 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2026-06-30"
         }
       ]
@@ -255,10 +258,10 @@
     {
       "id": "C_03",
       "label": "Markt & Zukunftsmarkt",
-      "score": 9.3,
+      "score": 7.0,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "1 von 2 Metriken verfügbar. TTM bis 2026-06-30",
+      "dataQuality": "2 von 2 Metriken verfügbar. TTM bis 2026-06-30",
       "metrics": [
         {
           "id": "revenue_yoy",
@@ -270,32 +273,33 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2026-06-30",
           "note": "TTM bis 2026-06-30"
         },
         {
           "id": "rd_intensity",
           "label": "Forschungsquote",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "wenig Daten",
+          "value": "7,1 %",
+          "raw": 0.071128,
+          "points": 4.7,
+          "status": null,
           "scale": "≥ 15 % = 10, 0 % = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceLabel": "SEC EDGAR, Technology and development",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
-          "observedAt": null
+          "fetchedAt": "2026-10-21",
+          "observedAt": "2026-06-30",
+          "note": "TTM bis 2026-06-30"
         }
       ]
     },
     {
       "id": "C_04",
       "label": "Profitabilität & Finanzkraft",
-      "score": 1.6,
+      "score": 1.8,
       "status": null,
       "weight": 0.75,
-      "dataQuality": "7 von 7 Metriken verfügbar. TTM bis 2026-06-30 financialData, Stichtag nicht ausgewiesen totalDebt",
+      "dataQuality": "6 von 6 Metriken verfügbar. TTM bis 2026-06-30 · financialData, Stichtag nicht ausgewiesen",
       "metrics": [
         {
           "id": "operating_margin_fin",
@@ -307,7 +311,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2026-06-30"
         },
         {
@@ -320,9 +324,9 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": null,
-          "note": "TTM bis 2026-06-30 financialData, Stichtag nicht ausgewiesen"
+          "note": "TTM bis 2026-06-30 · financialData, Stichtag nicht ausgewiesen"
         },
         {
           "id": "fcf_margin_3y",
@@ -334,7 +338,7 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2025-12-31"
         },
         {
@@ -347,7 +351,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2025-12-31"
         },
         {
@@ -360,22 +364,22 @@
           "scale": "≥ 36 Monate = 10, 12 Monate = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": null
         },
         {
           "id": "net_debt_to_ebitda",
           "label": "Nettoverschuldung / EBITDA, Finanzschulden ohne Leasing",
-          "value": "5,85",
-          "raw": 5.848471,
-          "points": 0.0,
-          "status": null,
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "nicht anwendbar",
           "scale": "≤ 0,00 = 10, 4,00 = 0",
-          "sourceLabel": "Cash: SEC EDGAR companyfacts; Finanzschulden: Yahoo Finance quoteSummary financialData",
-          "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-10-20",
-          "observedAt": "2026-06-30",
-          "note": "totalDebt"
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
+          "fetchedAt": "2026-10-21",
+          "observedAt": null,
+          "statusReason": "EBITDA negativ"
         },
         {
           "id": "current_ratio",
@@ -387,7 +391,7 @@
           "scale": "≥ 2,00 = 10, 0,80 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2026-06-30"
         },
         {
@@ -400,7 +404,7 @@
           "scale": "≤ 0 % = 10, 10 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2025-12-31"
         }
       ]
@@ -411,7 +415,7 @@
       "score": 7.0,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "3 von 3 Metriken verfügbar. 3–10 % → 3 von 5 neutral → 2 von 3 10b5-1-Planverkäufe zählen mit einem Viertel offene Käufe zählen doppelt Netto-Verkauf unter 0,1 % der Marktkapitalisierung ist neutral über 40 % → 2 von 2",
+      "dataQuality": "3 von 3 Metriken verfügbar. 10b5-1-Planverkäufe zählen mit einem Viertel · offene Käufe zählen doppelt · Netto-Verkauf unter 0,1 % der Marktkapitalisierung ist neutral",
       "metrics": [
         {
           "id": "insider_ownership",
@@ -420,48 +424,50 @@
           "raw": 0.04946,
           "points": 3.0,
           "status": null,
-          "scale": "über 10 % → 5 von 5 · 3–10 % → 3 von 5 · unter 3 % → 1 von 5",
+          "scale": "über 10 % = 5, 3–10 % = 3, unter 3 % = 1",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS/holders",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": null,
-          "note": "3–10 % → 3 von 5"
+          "pointsMax": 5
         },
         {
           "id": "insider_market_balance",
           "label": "Insider-Saldo, 6 Monate",
-          "value": "neutral · 1 Käufe / 27 Verkäufe, davon 27 im 10b5-1-Plan · unter 0,1 % der Marktkapitalisierung",
+          "value": "neutral",
           "raw": null,
           "points": 2.0,
           "status": null,
-          "scale": "Netto-Käufe → 3 von 3 · neutral → 2 von 3 · Netto-Verkäufe → 0 von 3",
+          "scale": "Netto-Käufe = 3, neutral = 2, Netto-Verkäufe = 0",
           "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": "2026-10-14",
-          "note": "neutral → 2 von 3 10b5-1-Planverkäufe zählen mit einem Viertel offene Käufe zählen doppelt Netto-Verkauf unter 0,1 % der Marktkapitalisierung ist neutral",
+          "pointsMax": 3,
+          "caption": "1 Käufe / 25 Verkäufe, davon 25 im 10b5-1-Plan · unter 0,1 % der Marktkapitalisierung",
+          "note": "10b5-1-Planverkäufe zählen mit einem Viertel · offene Käufe zählen doppelt · Netto-Verkauf unter 0,1 % der Marktkapitalisierung ist neutral",
           "detail": {
             "windowDays": 183,
-            "filings": 63,
+            "filings": 62,
             "buys": 1,
-            "sells": 27,
+            "sells": 25,
             "buyDollars": 1172974.0,
-            "sellDollars": 12117121.69
+            "sellDollars": 10659816.43
           }
         },
         {
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
           "value": "71,2 %",
-          "raw": 0.71181,
+          "raw": 0.71231,
           "points": 2.0,
           "status": null,
-          "scale": "über 40 % → 2 von 2 · bis 40 % → 0 von 2",
+          "scale": "über 40 % = 2, bis 40 % = 0",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS/holders",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": null,
-          "note": "über 40 % → 2 von 2"
+          "pointsMax": 2
         }
       ],
       "aggregate": "sum"
@@ -469,7 +475,7 @@
     {
       "id": "C_06",
       "label": "Analysten & Stimmung",
-      "score": 1.7,
+      "score": 1.4,
       "status": null,
       "weight": 0.75,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -484,33 +490,33 @@
           "scale": "≥ 80 % = 10, 30 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": null
         },
         {
           "id": "target_upside",
           "label": "Abstand zum mittleren Kursziel",
-          "value": "10,7 %",
-          "raw": 0.106709,
-          "points": 5.2,
+          "value": "6,7 %",
+          "raw": 0.066547,
+          "points": 4.2,
           "status": null,
           "scale": "≥ 30 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": null
         },
         {
           "id": "eps_revision_90d",
           "label": "EPS-Revision, 90 Tage",
-          "value": "-37,5 %",
-          "raw": -0.374507,
+          "value": "-32,0 %",
+          "raw": -0.320414,
           "points": 0.0,
           "status": null,
           "scale": "≥ 10 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": null
         }
       ],
@@ -570,13 +576,13 @@
         ],
         "sourceLabel": "Yahoo Finance quoteSummary",
         "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-        "fetchedAt": "2026-10-20"
+        "fetchedAt": "2026-10-21"
       }
     },
     {
       "id": "C_07",
       "label": "Kursverlauf & Momentum",
-      "score": 6.7,
+      "score": 6.5,
       "status": null,
       "weight": 0.25,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -584,15 +590,15 @@
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
-          "value": "-68,0 Pp",
-          "raw": -67.975402,
+          "value": "-57,5 Pp",
+          "raw": -57.463162,
           "points": 0.0,
           "status": null,
           "scale": "≥ 30 Pp = 10, 0 Pp = 5, ≤ -50 Pp = 0",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000",
-          "fetchedAt": "2026-10-20",
-          "observedAt": "2026-10-19"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-04&todate=2026-10-21&limit=2000",
+          "fetchedAt": "2026-10-21",
+          "observedAt": "2026-10-20"
         },
         {
           "id": "above_sma_200",
@@ -603,45 +609,45 @@
           "status": null,
           "scale": "über dem 200-Tage-Schnitt = 10, darunter = 5",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000",
-          "fetchedAt": "2026-10-20",
-          "observedAt": "2026-10-19"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-04&todate=2026-10-21&limit=2000",
+          "fetchedAt": "2026-10-21",
+          "observedAt": "2026-10-20"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "51,0 %",
-          "raw": 0.510009,
-          "points": 10.0,
+          "value": "44,3 %",
+          "raw": 0.442664,
+          "points": 9.4,
           "status": null,
           "scale": "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000",
-          "fetchedAt": "2026-10-20",
-          "observedAt": "2026-10-19"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-04&todate=2026-10-21&limit=2000",
+          "fetchedAt": "2026-10-21",
+          "observedAt": "2026-10-20"
         }
       ]
     },
     {
       "id": "C_08",
       "label": "Bewertung",
-      "score": 5.0,
+      "score": 10.0,
       "status": null,
       "weight": 0.5,
-      "dataQuality": "2 von 2 Metriken verfügbar",
+      "dataQuality": "1 von 1 Metriken verfügbar",
       "metrics": [
         {
           "id": "valuation_primary",
           "label": "(EV/Umsatz) / Umsatzwachstum",
           "value": "0,10",
-          "raw": 0.100548,
+          "raw": 0.101344,
           "points": 10.0,
           "status": null,
           "scale": "≤ 0,20 = 10, 1,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-10-20",
-          "observedAt": "2026-10-19"
+          "fetchedAt": "2026-10-21",
+          "observedAt": "2026-10-20"
         },
         {
           "id": "fcf_yield",
@@ -653,21 +659,22 @@
           "scale": "≥ 8 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts; Aktienzahl Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-10-20",
+          "fetchedAt": "2026-10-21",
           "observedAt": null
         },
         {
           "id": "ev_to_ebitda",
           "label": "EV / EBITDA",
-          "value": "45,39",
-          "raw": 45.394688,
-          "points": 0.0,
-          "status": null,
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "nicht anwendbar",
           "scale": "≤ 8,00 = 10, 30,00 = 0",
           "sourceLabel": "Aktienzahl Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-10-20",
-          "observedAt": "2026-10-19"
+          "fetchedAt": "2026-10-21",
+          "observedAt": null,
+          "statusReason": "EBITDA negativ"
         }
       ]
     }

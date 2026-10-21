@@ -9,13 +9,14 @@ from __future__ import annotations
 
 import http.cookiejar
 import json
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import date, datetime, timezone
 from pathlib import Path
 
-from scoring.prices import USER_AGENT, _yahoo_open
+from scoring.prices import BROWSER_AGENT, _yahoo_open
 
 YAHOO_MODULES = ",".join([
     "assetProfile",
@@ -129,6 +130,17 @@ def profile_from_yahoo(summary, today):
 
 
 def _yahoo_summary(symbol, modules=None):
+    delays = (0, 5, 12)
+    for attempt, delay in enumerate(delays):
+        if delay:
+            time.sleep(delay)
+        payload = _yahoo_summary_once(symbol, modules)
+        if payload:
+            return payload
+    return None
+
+
+def _yahoo_summary_once(symbol, modules=None):
     jar = http.cookiejar.CookieJar()
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
     page = "https://finance.yahoo.com/quote/" + urllib.parse.quote(symbol)
@@ -180,17 +192,27 @@ def load_yahoo_summary(symbol, cache_dir):
 
 
 def _nasdaq_json(url):
+    """Nasdaq rejects the bot user agent. The browser agent is the one that answers."""
     request = urllib.request.Request(url, headers={
-        "User-Agent": USER_AGENT,
-        "Accept": "application/json",
+        "User-Agent": BROWSER_AGENT,
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Origin": "https://www.nasdaq.com",
+        "Referer": "https://www.nasdaq.com/",
     })
-    try:
-        with urllib.request.urlopen(request, timeout=30) as response:
-            payload = json.loads(response.read().decode("utf-8"))
-    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, OSError, ValueError):
-        return None
+    payload = None
+    for delay in (0, 5, 15):
+        if delay:
+            time.sleep(delay)
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+            break
+        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, OSError, ValueError):
+            payload = None
     if not isinstance(payload, dict):
         return None
+    time.sleep(0.3)
     return payload.get("data")
 
 
@@ -387,9 +409,19 @@ def _table_series(table):
     return periods, rows
 
 
+def _named_row(rows, row_name):
+    if row_name in rows:
+        return rows[row_name]
+    target = str(row_name).strip().lower()
+    for name, row in rows.items():
+        if str(name).strip().lower() == target:
+            return row
+    return None
+
+
 def _annual_points(table, row_name):
     periods, rows = _table_series(table)
-    row = rows.get(row_name)
+    row = _named_row(rows, row_name)
     if not row:
         return []
     points = []
@@ -411,6 +443,40 @@ def _us_date(label):
         except ValueError:
             continue
     return None
+
+
+# Nasdaq financial tables are printed in thousands of dollars ("$849,000" is
+# $849 million). Statement fills that mix with SEC figures have to be scaled.
+NASDAQ_THOUSANDS = 1000
+
+
+def _nasdaq_ttm_sum(nasdaq_quarterly, row_name):
+    """Sum of the last four quarterly cells when they span about a year.
+
+    The returned amount is in dollars. Nasdaq's cells are in thousands.
+    """
+    if not isinstance(nasdaq_quarterly, dict):
+        return None
+    points = []
+    for table in nasdaq_quarterly.values():
+        if isinstance(table, dict) and table.get("rows"):
+            found = _annual_points(table, row_name)
+            if found:
+                points = found
+                break
+    if len(points) < 4:
+        return None
+    window = points[-4:]
+    try:
+        span = (
+            datetime.strptime(window[-1]["end"], "%Y-%m-%d")
+            - datetime.strptime(window[0]["end"], "%Y-%m-%d")
+        ).days
+    except (TypeError, ValueError):
+        return None
+    if span < 240 or span > 400:
+        return None
+    return sum(point["val"] for point in window) * NASDAQ_THOUSANDS, window[-1]["end"]
 
 
 def _positive_share_series(series):
@@ -708,6 +774,21 @@ def refresh_stale_fields(snapshot, yahoo, nasdaq_quarterly, source_url, today):
             snapshot["operating_income"] = margin * snapshot["revenue"]
             stamp("operating_income", yahoo_label + " financialData", source_url, period, "operative Marge aus financialData")
             refreshed = True
+
+    def fill_nasdaq_ttm(field, row_name, note):
+        nonlocal refreshed
+        if snapshot.get(field) is not None:
+            return
+        found = _nasdaq_ttm_sum(nasdaq_quarterly, row_name)
+        if not found:
+            return
+        total, end = found
+        snapshot[field] = total
+        stamp(field, nasdaq_label, source_url, end, note)
+        refreshed = True
+
+    fill_nasdaq_ttm("da", "Depreciation", "TTM Depreciation")
+    fill_nasdaq_ttm("rd", "Research and Development", "TTM Research and Development")
 
     snapshot["provenance"] = provenance
     if refreshed:

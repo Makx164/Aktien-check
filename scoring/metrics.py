@@ -8,6 +8,7 @@ in with zero or a guess, and a missing metric never scores 0.
 from __future__ import annotations
 
 import math
+import re
 import statistics
 from datetime import date, datetime, timedelta
 
@@ -24,14 +25,14 @@ def scale_text(spec):
     if spec.get("scale"):
         return spec["scale"]
     if spec.get("bands"):
-        notes = [band.get("note") for band in spec["bands"] if band.get("note")]
-        return " · ".join(notes) or None
+        notes = [_compact_scale_note(band.get("note")) for band in spec["bands"] if band.get("note")]
+        return ", ".join(notes) or None
     if spec.get("outcomes"):
         notes = []
         for item in spec["outcomes"].values():
             if isinstance(item, dict) and item.get("note"):
-                notes.append(item["note"])
-        return " · ".join(notes) or None
+                notes.append(_compact_scale_note(item["note"]))
+        return ", ".join(notes) or None
     if spec.get("id") == "above_sma_200":
         return "über dem 200-Tage-Schnitt = 10, darunter = 5"
     if spec.get("id") == "distance_52w_high":
@@ -47,6 +48,31 @@ def scale_text(spec):
     if higher:
         return f"≥ {ten} = 10, {zero} = 0"
     return f"≤ {ten} = 10, {zero} = 0"
+
+
+def _compact_scale_note(note):
+    """Band notes use arrows. The table shows the same thresholds with '='."""
+    return re.sub(r"\s*→\s*(\d+(?:[.,]\d+)?)\s*von\s*\d+", r" = \1", str(note))
+
+
+def _note_parts(text):
+    parts = []
+    for chunk in re.split(r"\s*·\s*", str(text or "")):
+        piece = " ".join(chunk.split())
+        if piece and piece not in parts:
+            parts.append(piece)
+    return parts
+
+
+def _join_notes(*texts):
+    parts = []
+    for text in texts:
+        for piece in _note_parts(text):
+            if piece not in parts:
+                parts.append(piece)
+    if not parts:
+        return None
+    return " · ".join(parts)
 
 
 def _excess_scale(rules):
@@ -204,15 +230,72 @@ def _concept_has_usd(facts, name):
     return bool(_rows(concept, ["USD"]))
 
 
+GAAP_RD_NAMES = (
+    "ResearchAndDevelopmentExpense",
+    "ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost",
+)
+RD_EXTENSION_CONCEPTS = (
+    "TechnologyAndInfrastructureExpense",
+    "TechnologyAndDevelopmentExpense",
+)
+LOSS_BASE_REASON = "Verlust bzw. negativer Wert in der Basisperiode"
+LOSS_CAPITAL_REASON = "Verlust bzw. negatives Kapital"
+EBITDA_NEGATIVE_REASON = "EBITDA negativ"
+NET_DEBT_FCF_REASON = "Nettoverschuldung bei positivem Free Cashflow"
+STATUTORY_TAX_NOTE = "Steuersatz außerhalb −0,5 bis 1, daher 21 %"
+
+
+def has_recent_annual(facts, names, months=18, today=None):
+    """True when a GAAP annual fact ends within the last `months` months."""
+    today = today or date.today()
+    cutoff = (today - timedelta(days=int(round(float(months) * 30.4375)))).isoformat()
+    for name in names:
+        concept = _find_concept(facts, name)
+        if not concept:
+            continue
+        for row in _rows(concept, ["USD"]):
+            if row.get("form") not in ANNUAL_FORMS or row.get("fp") != "FY":
+                continue
+            if (row.get("end") or "") >= cutoff:
+                return True
+    return False
+
+
+def chosen_concept_name(facts, concepts, units):
+    """Concept with the newest fact. An earlier name wins a tie, matching the flow picker."""
+    chosen = None
+    chosen_key = None
+    for rank, name in enumerate(concepts):
+        concept = _find_concept(facts, name)
+        if not concept:
+            continue
+        ends = []
+        for row in _rows(concept, units):
+            if row.get("form") not in POSITION_FORMS or not row.get("end"):
+                continue
+            if not isinstance(row.get("val"), (int, float)) or isinstance(row.get("val"), bool):
+                continue
+            ends.append(row["end"])
+        if not ends:
+            continue
+        key = (max(ends), -rank)
+        if chosen_key is None or key > chosen_key:
+            chosen = name
+            chosen_key = key
+    return chosen
+
+
 def research_concepts(facts):
-    """GAAP research expense, or Amazon's technology-and-infrastructure line when GAAP R&D is absent."""
-    standard = [
-        "ResearchAndDevelopmentExpense",
-        "ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost",
-    ]
-    if any(_concept_has_usd(facts, name) for name in standard):
-        return standard
-    return standard + ["TechnologyAndInfrastructureExpense"]
+    """GAAP research expense, plus extension lines such as technology-and-development.
+
+    A fresh annual GAAP tag stays first. When that annual figure is older than
+    18 months, the extension concepts are preferred on a date tie.
+    """
+    standard = list(GAAP_RD_NAMES)
+    extensions = list(RD_EXTENSION_CONCEPTS)
+    if has_recent_annual(facts, standard, months=18):
+        return standard + extensions
+    return extensions + standard
 
 
 def _rows(concept, units):
@@ -263,6 +346,15 @@ def cagr(latest, earlier):
     if years <= 0:
         return None
     return (latest["val"] / earlier["val"]) ** (1.0 / years) - 1.0
+
+
+def cagr_result(latest, earlier):
+    """Return (value, loss). Loss means both points exist and a value is not positive."""
+    if latest is None or earlier is None:
+        return None, False
+    if latest["val"] <= 0 or earlier["val"] <= 0:
+        return None, True
+    return cagr(latest, earlier), False
 
 
 def yoy(series, end):
@@ -329,23 +421,36 @@ def _latest_end(*series):
 
 
 def roic_for_year(end, bundle):
+    """Return value, loss flag and an optional statutory-tax note.
+
+    A tax rate outside −0.5…1 is replaced by 21 %. Pretax or invested capital
+    at or below zero is a loss, not a missing fetch.
+    """
     operating = value_at(bundle["operating_income"], end)
     tax = value_at(bundle["tax"], end)
     pretax = value_at(bundle["pretax"], end)
     equity = value_at(bundle["equity"], end)
     debt = value_at(bundle["debt"], end)
     cash = value_at(bundle["cash"], end)
+    if debt is None:
+        series = bundle.get("debt") or []
+        snap = bundle.get("snapshot") or {}
+        last = series[-1]["end"] if series else None
+        if snap.get("debt_explicit_zero") and last and last < end:
+            debt = 0.0
     if None in (operating, tax, pretax, equity, debt, cash):
-        return None
+        return None, False, None
     if pretax <= 0:
-        return None
+        return None, True, None
     tax_rate = tax / pretax
+    note = None
     if tax_rate < -0.5 or tax_rate > 1:
-        return None
+        tax_rate = 0.21
+        note = STATUTORY_TAX_NOTE
     invested = equity + debt - cash
     if invested <= 0:
-        return None
-    return operating * (1.0 - tax_rate) / invested
+        return None, True, None
+    return operating * (1.0 - tax_rate) / invested, False, note
 
 
 def ebitda_at(end, bundle):
@@ -377,10 +482,16 @@ def build_debt_series(facts):
             return long_term
         return points
     parts = [
-        annual_series(facts, ["LongTermDebtNoncurrent", "LongtermBorrowings"], ["USD"]),
+        annual_series(facts, [
+            "LongTermDebtNoncurrent",
+            "LongtermBorrowings",
+            "ConvertibleDebtNoncurrent",
+        ], ["USD"]),
         annual_series(facts, [
             "LongTermDebtCurrent",
             "CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings",
+            "ConvertibleDebtCurrent",
+            "ConvertibleNotesPayable",
         ], ["USD"]),
         short_term,
     ]
@@ -460,7 +571,7 @@ def extract_fundamentals(facts):
         "SalesRevenueNet",
         "Revenues",
     ]
-    revenue = annual_series(facts, revenue_concepts, ["USD"])
+    revenue = merged_annual(facts, revenue_concepts, ["USD"])
     history_start, history_end = reported_window(facts, revenue_concepts, ["USD"])
     cogs = annual_series(facts, [
         "CostOfRevenue",
@@ -483,6 +594,7 @@ def extract_fundamentals(facts):
     cfo = annual_series(facts, [
         "NetCashProvidedByUsedInOperatingActivities",
         "CashFlowsFromUsedInOperatingActivities",
+        "NetCashProvidedByUsedInOperatingActivitiesContinuingOperations",
     ], ["USD"])
     capex = annual_series(facts, [
         "PaymentsToAcquirePropertyPlantAndEquipment",
@@ -493,6 +605,7 @@ def extract_fundamentals(facts):
         "StockholdersEquity",
         "EquityAttributableToOwnersOfParent",
         "Equity",
+        "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest",
     ], ["USD"])
     assets = annual_series(facts, ["Assets"], ["USD"])
     assets_current = annual_series(facts, ["AssetsCurrent", "CurrentAssets"], ["USD"])
@@ -507,6 +620,8 @@ def extract_fundamentals(facts):
         "DepreciationDepletionAndAmortization",
         "DepreciationAndAmortization",
         "DepreciationAndAmortisationExpense",
+        "Depreciation",
+        "DepreciationAmortizationAndAccretionNet",
     ], ["USD"])
     sbc = annual_series(facts, [
         "ShareBasedCompensation",
@@ -688,10 +803,12 @@ def _status_text(config, key, default):
     return ((config.get("statuses") or {}).get(key) or default)
 
 
-def _not_applicable(reasons, values, observed, metric_id, status):
+def _not_applicable(reasons, values, observed, metric_id, status, status_reasons=None, reason=None):
     values.pop(metric_id, None)
     observed.pop(metric_id, None)
     reasons[metric_id] = status
+    if status_reasons is not None and reason:
+        status_reasons[metric_id] = reason
 
 
 def _history_short(series, end, years, tolerance):
@@ -898,18 +1015,16 @@ def _insider_balance(insider, market_cap, config):
             buyers.append(owner)
     plan_sells = int(insider.get("planSells") or 0)
     open_sells = int(insider.get("sells") or 0)
-    text = (
-        label
-        + " · "
-        + str(int(insider.get("buys") or 0))
+    caption = (
+        str(int(insider.get("buys") or 0))
         + " Käufe / "
         + str(open_sells + plan_sells)
         + " Verkäufe"
     )
     if plan_sells:
-        text += ", davon " + str(plan_sells) + " im 10b5-1-Plan"
+        caption += ", davon " + str(plan_sells) + " im 10b5-1-Plan"
     if neutralized:
-        text += " · unter 0,1 % der Marktkapitalisierung"
+        caption += " · unter 0,1 % der Marktkapitalisierung"
     notes = []
     if plan > 0:
         notes.append("10b5-1-Planverkäufe zählen mit einem Viertel")
@@ -924,7 +1039,8 @@ def _insider_balance(insider, market_cap, config):
         points_override = min(base + float(bonus.get("points", 1)), float(bonus.get("cap", 3)))
     return {
         "outcome": outcome,
-        "text": text,
+        "text": label,
+        "caption": caption,
         "windowDays": insider.get("windowDays"),
         "filings": insider.get("filings"),
         "buys": int(insider.get("buys") or 0),
@@ -934,7 +1050,7 @@ def _insider_balance(insider, market_cap, config):
         "buyDollars": buy,
         "sellDollars": sell + plan,
         "pointsOverride": points_override,
-        "extraNote": " ".join(notes) or None,
+        "extraNote": _join_notes(*notes),
     }
 
 
@@ -990,7 +1106,7 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
             scored_distance, warning = _distance_points(drawdown, c02_score, rules)
             if warning:
                 raw["reasons"]["distance_52w_high"] = warning
-                raw["values"].pop("distance_52w_high", None)
+                raw.setdefault("withheld", set()).add("distance_52w_high")
             elif scored_distance is not None:
                 raw["points"]["distance_52w_high"] = scored_distance
         metrics = []
@@ -1002,7 +1118,8 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
             observed = raw["observed"].get(metric_id)
             value = raw["values"].get(metric_id)
             reason = raw["reasons"].get(metric_id)
-            if reason:
+            withheld = metric_id in (raw.get("withheld") or ())
+            if reason and not withheld:
                 value = None
             label = raw["labels"].get(metric_id) or spec["label"]
             kind = spec.get("kind")
@@ -1013,15 +1130,12 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
                 detail = value
                 display = value.get("text")
                 outcome = (spec.get("outcomes") or {}).get(value["outcome"]) or {}
-                detail = value
                 value = None if not outcome else value["outcome"]
                 if detail.get("pointsOverride") is not None and outcome:
                     scored = float(detail["pointsOverride"])
                 else:
                     scored = None if not outcome else float(outcome["points"])
-                note = outcome.get("note")
-                if detail.get("extraNote"):
-                    note = ((note + " ") if note else "") + detail["extraNote"]
+                note = detail.get("extraNote")
             else:
                 if spec.get("id") == "valuation_primary":
                     kind = "multiple"
@@ -1032,7 +1146,7 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
                     if scored is None and value is not None:
                         scored = 10.0 if value == 1 else 5.0
                 elif spec.get("bands"):
-                    scored, note = band_points(value, spec["bands"])
+                    scored, _band_note = band_points(value, spec["bands"])
                 elif "zeroAt" in spec and "tenAt" in spec:
                     scored = linear_points(value, spec["zeroAt"], spec["tenAt"])
                 else:
@@ -1040,15 +1154,15 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
             floor = (raw.get("floors") or {}).get(metric_id)
             if floor is not None and scored is not None:
                 scored = max(float(scored), float(floor))
-            extra_note = raw["labels"].get(metric_id + "_note")
-            if extra_note:
-                note = ((note + " ") if note else "") + extra_note
+            if withheld:
+                scored = None
+            note = _join_notes(note, raw["labels"].get(metric_id + "_note"))
             row_status = reason if reason else (None if value is not None else missing_label)
             counts = row_status != na_label
             if counts:
                 applicable += 1
                 metric_total += 1
-                if value is not None:
+                if value is not None and not withheld:
                     available += 1
                     metric_available += 1
             source = dict((raw.get("sources") or {}).get(metric_id) or _source_for(metric_id, sources, prices) or {})
@@ -1074,7 +1188,7 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
                 "label": label,
                 "value": shown,
                 "raw": raw_value,
-                "points": None if not counts else round1(scored),
+                "points": None if (not counts or withheld) else round1(scored),
                 "status": row_status,
                 "scale": raw["labels"].get(metric_id + "_scale") or scale_text(
                     {**spec, "momentum": config.get("momentum")} if metric_id == "excess_return_12_1" else spec
@@ -1086,6 +1200,15 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
             }
             if "weight" in spec:
                 row["weight"] = metric_weight
+            if criterion.get("aggregate") == "sum":
+                points_max = _points_max(spec)
+                if points_max is not None:
+                    row["pointsMax"] = int(points_max) if points_max == int(points_max) else points_max
+            reason_text = (raw.get("statusReasons") or {}).get(metric_id)
+            if reason_text:
+                row["statusReason"] = reason_text
+            if detail and detail.get("caption"):
+                row["caption"] = detail["caption"]
             if note:
                 row["note"] = note
             if detail and detail.get("outcome"):
@@ -1121,10 +1244,9 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
             )
         quality = f"{available} von {applicable} Metriken verfügbar"
         notes = [row["note"] for row in metrics if row.get("note")]
-        if notes:
-            quality = quality + ". " + " ".join(notes)
-        if floor_note:
-            quality = quality + " " + floor_note
+        quality_notes = _join_notes(*notes, floor_note)
+        if quality_notes:
+            quality = quality + ". " + quality_notes
         if criterion_score is None:
             gap_labels = {row["status"] for row in metrics if row.get("status")}
             criterion_status = gap_labels.pop() if len(gap_labels) == 1 else missing_label
@@ -1204,9 +1326,7 @@ def _apply_provenance(sources_by_metric, labels, observed, snap):
             "url": src.get("url") or (snap or {}).get("sourceUrl"),
         }
         if src.get("note"):
-            previous = labels.get(metric_id + "_note")
-            if not previous or src["note"] not in previous:
-                labels[metric_id + "_note"] = ((previous + " ") if previous else "") + src["note"]
+            labels[metric_id + "_note"] = _join_notes(labels.get(metric_id + "_note"), src["note"])
         if src.get("label") and not str(src["label"]).startswith("SEC"):
             observed[metric_id] = src.get("end")
 
@@ -1315,7 +1435,20 @@ def _record_acceleration(config, growth, prior_growth, prior_revenue, when, note
                 + " Punkte"
             )
     if notes:
-        labels["revenue_acceleration_note"] = " ".join(notes)
+        labels["revenue_acceleration_note"] = _join_notes(*notes)
+
+
+def _points_max(spec):
+    found = []
+    for band in spec.get("bands") or []:
+        if "points" in band:
+            found.append(float(band["points"]))
+    for item in (spec.get("outcomes") or {}).values():
+        if isinstance(item, dict) and "points" in item:
+            found.append(float(item["points"]))
+    if not found:
+        return None
+    return max(found)
 
 
 def _metric_spec(config, metric_id):
@@ -1337,6 +1470,7 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
     labels = {}
     points = {}
     reasons = {}
+    status_reasons = {}
     floors = {}
     sources_by_metric = {}
     dividend_points = {}
@@ -1369,16 +1503,41 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         values[metric_id] = value
         observed[metric_id] = when
 
+    def mark_undefined(metric_id, reason):
+        _not_applicable(reasons, values, observed, metric_id, na, status_reasons, reason)
+
+    def _assign_growth(metric_id, latest, primary, secondary, alt_label, alt_note):
+        value, loss = cagr_result(latest, primary)
+        if value is None and latest and latest.get("val", 0) > 0 and secondary is not None:
+            value2, loss2 = cagr_result(latest, secondary)
+            if value2 is not None:
+                value = value2
+                loss = False
+                labels[metric_id] = alt_label
+                labels[metric_id + "_note"] = alt_note
+            elif loss2:
+                loss = True
+        if value is None and loss:
+            mark_undefined(metric_id, LOSS_BASE_REASON)
+            return
+        put(metric_id, value, end if value is not None else None)
+
     if end:
-        roics = []
-        for point in bundle["operating_income"]:
-            if point["end"] > end:
-                continue
-            figure = roic_for_year(point["end"], bundle)
-            if figure is not None:
-                roics.append((point["end"], figure))
-        if len(roics) >= 2 and year_gap(roics[-1][0], roics[-2][0]) <= 1.4:
-            put("roic_2y", (roics[-1][1] + roics[-2][1]) / 2.0, roics[-1][0])
+        income_years = sorted(point["end"] for point in bundle["operating_income"] if point["end"] <= end)
+        successful = []
+        for year in income_years:
+            value, loss, note = roic_for_year(year, bundle)
+            if value is not None:
+                successful.append((year, value, note))
+        if len(successful) >= 2 and year_gap(successful[-1][0], successful[-2][0]) <= 1.4:
+            put("roic_2y", (successful[-1][1] + successful[-2][1]) / 2.0, successful[-1][0])
+            tax_note = _join_notes(successful[-1][2], successful[-2][2])
+            if tax_note:
+                labels["roic_2y_note"] = tax_note
+        elif len(income_years) >= 2 and year_gap(income_years[-1], income_years[-2]) <= 1.4:
+            pair = [roic_for_year(year, bundle) for year in income_years[-2:]]
+            if any(item[1] for item in pair):
+                mark_undefined("roic_2y", LOSS_CAPITAL_REASON)
         if snap.get("revenue") and snap.get("gross_profit") is not None:
             put("gross_margin", snap["gross_profit"] / snap["revenue"], snap["end"])
             labels["gross_margin_note"] = snap.get("label")
@@ -1419,28 +1578,22 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         latest_revenue = at(revenue, end)
         three = point_years_before(revenue, end, 3)
         five = point_years_before(revenue, end, 5)
-        put("revenue_cagr_3y", cagr(latest_revenue, three), end if three else None)
-        put("revenue_cagr_5y", cagr(latest_revenue, five), end if five else None)
+        _assign_growth("revenue_cagr_3y", latest_revenue, three, None, None, None)
+        _assign_growth("revenue_cagr_5y", latest_revenue, five, None, None, None)
         eps_now = at(bundle["eps"], end)
-        eps_then = point_years_before(bundle["eps"], end, 3)
-        eps_growth = cagr(eps_now, eps_then)
-        if eps_growth is None and eps_now and eps_now["val"] > 0:
-            eps_two = point_years_before(bundle["eps"], end, 2)
-            eps_growth = cagr(eps_now, eps_two)
-            if eps_growth is not None:
-                labels["eps_cagr_3y"] = "EPS-CAGR, 2 Jahre"
-                labels["eps_cagr_3y_note"] = "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
-        put("eps_cagr_3y", eps_growth, end if eps_growth is not None else None)
+        _assign_growth(
+            "eps_cagr_3y", eps_now, point_years_before(bundle["eps"], end, 3),
+            point_years_before(bundle["eps"], end, 2),
+            "EPS-CAGR, 2 Jahre",
+            "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist",
+        )
         fcf_now = at(bundle["fcf"], end)
-        fcf_then = point_years_before(bundle["fcf"], end, 3)
-        fcf_growth = cagr(fcf_now, fcf_then)
-        if fcf_growth is None and fcf_now and fcf_now["val"] > 0:
-            fcf_two = point_years_before(bundle["fcf"], end, 2)
-            fcf_growth = cagr(fcf_now, fcf_two)
-            if fcf_growth is not None:
-                labels["fcf_cagr_3y"] = "Free-Cashflow-CAGR, 2 Jahre"
-                labels["fcf_cagr_3y_note"] = "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
-        put("fcf_cagr_3y", fcf_growth, end if fcf_growth is not None else None)
+        _assign_growth(
+            "fcf_cagr_3y", fcf_now, point_years_before(bundle["fcf"], end, 3),
+            point_years_before(bundle["fcf"], end, 2),
+            "Free-Cashflow-CAGR, 2 Jahre",
+            "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist",
+        )
         prior_end = point_years_before(revenue, end, 1, 0.4)
         if snap.get("revenue") and snap.get("revenue_prior"):
             growth = snap["revenue"] / snap["revenue_prior"] - 1.0
@@ -1456,6 +1609,10 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
                 labels["revenue_ttm_yoy"] = "Umsatzwachstum, Quartal zum Vorjahr"
             labels["revenue_ttm_yoy_note"] = snap.get("label")
             base = snap.get("revenue_prior_prior")
+            if not base:
+                earlier = point_years_before(revenue, snap.get("end") or end, 2, 0.6)
+                if earlier and earlier.get("val"):
+                    base = earlier["val"]
             if base:
                 prior_growth = snap["revenue_prior"] / base - 1.0
                 _record_acceleration(
@@ -1547,6 +1704,7 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         )
         if investing:
             _not_applicable(reasons, values, observed, "fcf_cagr_3y", na)
+            status_reasons.pop("fcf_cagr_3y", None)
             labels.pop("fcf_cagr_3y", None)
             labels.pop("fcf_cagr_3y_note", None)
             _not_applicable(reasons, values, observed, "cash_runway_months", na)
@@ -1574,6 +1732,15 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
             labels["net_debt_to_ebitda"] = "Nettoverschuldung / EBITDA, Finanzschulden ohne Leasing"
             if net_cash:
                 labels["net_debt_to_ebitda_note"] = "Netto-Cash, deshalb 10"
+        elif (
+            values.get("net_debt_to_ebitda") is None
+            and "net_debt_to_ebitda" not in reasons
+            and ebitda is not None
+            and ebitda <= 0
+            and debt is not None
+            and cash is not None
+        ):
+            mark_undefined("net_debt_to_ebitda", EBITDA_NEGATIVE_REASON)
         if cash is not None and debt is not None and (cash - debt) > 0:
             points["net_cash_or_runway"] = 10.0
             values["net_cash_or_runway"] = 1
@@ -1589,6 +1756,16 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
             labels["net_cash_or_runway_display"] = runway_text
         elif investing:
             _not_applicable(reasons, values, observed, "net_cash_or_runway", na)
+        elif (
+            values.get("net_cash_or_runway") is None
+            and "net_cash_or_runway" not in reasons
+            and cash is not None
+            and debt is not None
+            and (cash - debt) <= 0
+            and fcf_value is not None
+            and fcf_value > 0
+        ):
+            mark_undefined("net_cash_or_runway", NET_DEBT_FCF_REASON)
         current_assets = snap.get("assets_current") if snap.get("assets_current") is not None else value_at(bundle["assets_current"], end)
         current_liabilities = snap.get("liabilities_current") if snap.get("liabilities_current") is not None else value_at(bundle["liabilities_current"], end)
         if snap.get("current_ratio") is not None:
@@ -1634,7 +1811,9 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
             put("dividend_no_cut_5y", 1.0 if dividend_points["no_cut"] else 0.0, end)
             points["dividend_no_cut_5y"] = 10.0 if dividend_points["no_cut"] else 0.0
         if market_cap and debt is not None and cash is not None and sales:
-            if ebitda is not None and ebitda > 0:
+            if ebitda is not None and ebitda <= 0:
+                mark_undefined("ev_to_ebitda", EBITDA_NEGATIVE_REASON)
+            elif ebitda is not None and ebitda > 0:
                 enterprise = market_cap + debt - cash
                 put("ev_to_ebitda", enterprise / ebitda, momentum.get("observed_price") or end)
             valuation = config["valuation"]
@@ -1700,6 +1879,16 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         reasons, values, observed, config, bundle, end,
         momentum.get("barCount") or 0, profile,
     )
+    disclosed = _status_text(config, "notDisclosed", "nicht ausgewiesen")
+    if (
+        values.get("rd_intensity") is None
+        and "rd_intensity" not in reasons
+        and (profile or {}).get("sec", True)
+        and (bundle.get("revenue") or snap.get("revenue"))
+        and not bundle.get("rd")
+        and snap.get("rd") is None
+    ):
+        reasons["rd_intensity"] = disclosed
     _apply_provenance(sources_by_metric, labels, observed, snap)
     return {
         "values": values,
@@ -1707,6 +1896,7 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         "labels": labels,
         "points": points,
         "reasons": reasons,
+        "statusReasons": status_reasons,
         "floors": floors,
         "sources": sources_by_metric,
         "dividend": dividend_points if end else {},

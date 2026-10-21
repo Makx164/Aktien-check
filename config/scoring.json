@@ -8,6 +8,7 @@
   "statuses": {
     "missing": "wenig Daten",
     "notApplicable": "nicht anwendbar",
+    "notDisclosed": "nicht ausgewiesen",
     "noUsFiling": "keine US-Meldepflicht",
     "shortHistory": "zu kurze Historie",
     "excluded": "ausgeblendet, zählt nicht",
@@ -20,7 +21,13 @@
     "distinctBuyerBonus": {"atLeast": 2, "points": 1, "cap": 3}
   },
   "notApplicableBySector": {
-    "insurer": ["current_ratio", "net_debt_to_ebitda"]
+    "insurer": [
+      "current_ratio",
+      "net_debt_to_ebitda",
+      "gross_margin_change_yoy",
+      "margin_progress",
+      "operating_margin_change_yoy"
+    ]
   },
   "shortHistory": {
     "priceBars": {
@@ -33,6 +40,9 @@
       "revenue_cagr_5y": {"series": "revenue", "years": 5},
       "eps_cagr_3y": {"series": "eps", "years": 3},
       "fcf_cagr_3y": {"series": "fcf", "years": 3},
+      "roic_2y": {"series": "operating_income", "years": 2, "tolerance": 0.6, "emptyBelow": 2},
+      "dilution_3y": {"series": "shares_diluted", "years": 3, "tolerance": 0.6, "emptyBelow": 3},
+      "fcf_margin_3y": {"series": "fcf", "years": 3, "tolerance": 0.6, "emptyBelow": 3},
       "operating_margin_change_yoy": {"series": "operating_income", "years": 1, "tolerance": 0.4, "emptyBelow": 2},
       "revenue_acceleration": {"series": "revenue", "years": 2, "emptyBelow": 2}
     }

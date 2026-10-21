@@ -14,6 +14,7 @@ from scoring.metrics import (
     _rows,
     latest_position,
     parse_date,
+    chosen_concept_name,
     research_concepts,
     year_gap,
 )
@@ -372,8 +373,11 @@ def build_snapshot(facts, annual):
         "DepreciationDepletionAndAmortization",
         "DepreciationAndAmortization",
         "DepreciationAndAmortisationExpense",
+        "Depreciation",
+        "DepreciationAmortizationAndAccretionNet",
     ], ["USD"], revenue)
     rd_concepts = research_concepts(facts)
+    chosen_rd = chosen_concept_name(facts, rd_concepts, ["USD"])
     research, _rd_prior = flow_matching(
         facts, rd_concepts, ["USD"], revenue, allow_negative_derived=False,
     )
@@ -387,6 +391,7 @@ def build_snapshot(facts, annual):
         "StockholdersEquity",
         "EquityAttributableToOwnersOfParent",
         "Equity",
+        "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest",
     ], ["USD"]))
     assets_current = _point(latest_position(facts, ["AssetsCurrent", "CurrentAssets"], ["USD"]))
     liabilities_current = _point(latest_position(facts, ["LiabilitiesCurrent", "CurrentLiabilities"], ["USD"]))
@@ -461,8 +466,10 @@ def build_snapshot(facts, annual):
         if point is None:
             continue
         label = sec
-        if field == "rd" and rd_concepts[-1] == "TechnologyAndInfrastructureExpense":
+        if field == "rd" and chosen_rd == "TechnologyAndInfrastructureExpense":
             label = "SEC EDGAR, Technology and infrastructure"
+        elif field == "rd" and chosen_rd == "TechnologyAndDevelopmentExpense":
+            label = "SEC EDGAR, Technology and development"
         provenance[field] = {"label": label, "url": None, "end": point.get("end")}
     if quarter is not None:
         provenance["revenue_quarter"] = {"label": sec, "url": None, "end": quarter["end"]}
@@ -482,11 +489,17 @@ def _debt_components(facts):
         "CommercialPaper",
     ], ["USD"])
     if not long_term and not short_term:
-        noncurrent = latest_position(facts, ["LongTermDebtNoncurrent", "LongtermBorrowings"], ["USD"])
+        noncurrent = latest_position(facts, [
+            "LongTermDebtNoncurrent",
+            "LongtermBorrowings",
+            "ConvertibleDebtNoncurrent",
+        ], ["USD"])
         current = latest_position(facts, [
             "LongTermDebtCurrent",
             "CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings",
             "NotesPayableCurrent",
+            "ConvertibleDebtCurrent",
+            "ConvertibleNotesPayable",
         ], ["USD"])
         parts = [series[-1] for series in (noncurrent, current, short_term) if series]
         if not parts:

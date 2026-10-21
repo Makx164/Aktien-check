@@ -469,10 +469,20 @@ class ManagementTests(unittest.TestCase):
         criterion = {item["id"]: item for item in scored["criteria"]}["C_05"]
         metrics = {metric["id"]: metric for metric in criterion["metrics"]}
         self.assertEqual(metrics["insider_ownership"]["points"], 3)
-        self.assertEqual(metrics["insider_ownership"]["note"], "3–10 % → 3 von 5")
+        self.assertNotIn("note", metrics["insider_ownership"])
+        self.assertEqual(
+            metrics["insider_ownership"]["scale"],
+            "über 10 % = 5, 3–10 % = 3, unter 3 % = 1",
+        )
+        self.assertEqual(metrics["insider_ownership"]["pointsMax"], 5)
+        self.assertEqual(metrics["insider_market_balance"]["pointsMax"], 3)
+        self.assertEqual(metrics["institutional_ownership"]["pointsMax"], 2)
+        self.assertNotIn("→", criterion["dataQuality"])
+        self.assertIn("3 von 3 Metriken verfügbar", criterion["dataQuality"])
         self.assertEqual(metrics["institutional_ownership"]["points"], 2)
         self.assertEqual(metrics["insider_market_balance"]["points"], 0)
-        self.assertIn("Netto-Verkäufe", metrics["insider_market_balance"]["value"])
+        self.assertEqual(metrics["insider_market_balance"]["value"], "Netto-Verkäufe")
+        self.assertIn("4 Verkäufe", metrics["insider_market_balance"]["caption"])
         self.assertEqual(metrics["insider_market_balance"]["detail"]["sells"], 4)
         self.assertEqual(criterion["score"], 5)
         self.assertEqual(metrics["insider_ownership"]["sourceUrl"], sources["holderUrl"])
@@ -655,6 +665,15 @@ class ReviewRuleTests(unittest.TestCase):
             self.assertEqual(finance[metric_id]["status"], "nicht anwendbar")
             self.assertIsNone(finance[metric_id]["points"])
             self.assertNotEqual(finance[metric_id]["points"], 0)
+        model = metric_map(scored, "C_01")[1]
+        growth = metric_map(scored, "C_02")[1]
+        for metric_id, bucket in (
+            ("gross_margin_change_yoy", model),
+            ("margin_progress", model),
+            ("operating_margin_change_yoy", growth),
+        ):
+            self.assertEqual(bucket[metric_id]["status"], "nicht anwendbar")
+            self.assertIsNone(bucket[metric_id]["points"])
 
     def test_plan_sales_purchases_and_small_net_selling(self):
         bars = [{"date": "2026-10-15", "close": 100.0, "high": 100.0}]
@@ -669,8 +688,8 @@ class ReviewRuleTests(unittest.TestCase):
         }, {"bars": bars}, {}, "2026-10-16", {})
         balance = metric_map(neutral, "C_05")[1]["insider_market_balance"]
         self.assertEqual(balance["points"], 2)
-        self.assertIn("neutral", balance["value"])
-        self.assertIn("0,1 %", balance["value"])
+        self.assertEqual(balance["value"], "neutral")
+        self.assertIn("0,1 %", balance["caption"])
 
         planned = score_company(CONFIG, {
             **shares,
@@ -682,7 +701,8 @@ class ReviewRuleTests(unittest.TestCase):
         }, {"bars": bars}, {}, "2026-10-16", {})
         plan_balance = metric_map(planned, "C_05")[1]["insider_market_balance"]
         self.assertEqual(plan_balance["points"], 2)
-        self.assertIn("10b5-1-Plan", plan_balance["value"])
+        self.assertEqual(plan_balance["value"], "neutral")
+        self.assertIn("10b5-1-Plan", plan_balance["caption"])
 
         heavy = score_company(CONFIG, {
             **shares,
@@ -900,8 +920,12 @@ class RoundTwoTests(unittest.TestCase):
         momentum = metric_map(scored, "C_07")
         self.assertEqual(momentum[0]["score"], 3)
         self.assertIn("Untergrenze", momentum[0]["dataQuality"])
-        self.assertIsNone(momentum[1]["distance_52w_high"]["points"])
-        self.assertIn("60", momentum[1]["distance_52w_high"]["status"])
+        distance = momentum[1]["distance_52w_high"]
+        self.assertIsNone(distance["points"])
+        self.assertIsNotNone(distance["value"])
+        self.assertIsNotNone(distance["raw"])
+        self.assertGreater(distance["raw"], 0.6)
+        self.assertIn("60", distance["status"])
         self.assertGreaterEqual(metric_map(scored, "C_02")[0]["score"], 5)
 
     def test_yahoo_quarters_do_not_become_the_cagr_series(self):
@@ -1078,6 +1102,11 @@ class RoundThreeTests(unittest.TestCase):
         self.assertIn("Mittel aus ", html)
         self.assertIn("Summe aus ", html)
         self.assertIn("Ohne Daten:", html)
+        self.assertIn("Nicht anwendbar:", html)
+        self.assertIn("Nicht gewertet:", html)
+        self.assertIn("(max. 10)", html)
+        self.assertIn("pointsMax", html)
+        self.assertIn("table-layout:fixed", html)
         self.assertIn(">Skala<", html)
         self.assertNotIn("Eine Metrik ohne Daten zählt nicht als 0.", html)
         self.assertNotIn("Der Aktien-Score ist der gewichtete Mittelwert", html)
@@ -1099,11 +1128,11 @@ class RoundThreeTests(unittest.TestCase):
             for metric in criterion["metrics"]:
                 self.assertNotIn("weight", metric)
         oss = json.loads((ROOT / "data" / "OSS" / "score.json").read_text(encoding="utf-8"))
-        self.assertEqual(oss["score"], 6.9)
+        self.assertEqual(oss["score"], 6.8)
         growth = next(item for item in oss["criteria"] if item["id"] == "C_02")
         self.assertEqual(growth["score"], 5.6)
         present = [item["score"] for item in oss["criteria"] if item.get("score") is not None]
-        self.assertEqual(round(sum(present) / len(present) + 1e-9, 1), 6.9)
+        self.assertEqual(round(sum(present) / len(present) + 1e-9, 1), 6.8)
         weighted = 0.0
         weight_sum = 0.0
         for item in oss["criteria"]:
@@ -1217,8 +1246,9 @@ class RoundFiveTests(unittest.TestCase):
             row("2026-04-01", "2026-06-30", 1_000_000_000),
         ]
         facts["us-gaap"]["ResearchAndDevelopmentExpense"] = {"units": {"USD": gaap}}
+        # Quarterly GAAP without a fresh annual filing does not replace the extension.
         preferred = extract_fundamentals(facts)
-        self.assertEqual(preferred["snapshot"]["rd"], 4_000_000_000)
+        self.assertEqual(preferred["snapshot"]["rd"], 121_086_000_000)
 
 
 class RoundSixTests(unittest.TestCase):
@@ -1662,6 +1692,248 @@ class LegalPageTests(unittest.TestCase):
         self.assertIn('localStorage.setItem("ac-theme", t)', page)
         self.assertNotIn("sessionStorage", page)
         self.assertNotIn("document.cookie", page)
+
+
+class DataGapTests(unittest.TestCase):
+    def test_negative_base_is_not_applicable_and_notes_are_not_repeated(self):
+        bundle = {
+            "revenue": [point("2022-12-31", -5), point("2025-12-31", 20)],
+            "eps": [point("2022-12-31", -1), point("2025-12-31", -2)],
+            "fcf": [point("2022-12-31", 4), point("2025-12-31", -3)],
+            "snapshot": {
+                "end": "2026-06-30",
+                "label": "TTM bis 2026-06-30",
+                "months": 12,
+                "revenue": 20,
+                "revenue_prior": 10,
+                "gross_profit": 8,
+                "operating_income": 4,
+                "cfo": 3,
+                "sourceLabel": "SEC EDGAR companyfacts",
+            },
+        }
+        scored = score_company(CONFIG, bundle, {}, {}, "2026-10-21", {})
+        growth = metric_map(scored, "C_02")[1]
+        for metric_id in ("revenue_cagr_3y", "eps_cagr_3y", "fcf_cagr_3y"):
+            self.assertEqual(growth[metric_id]["status"], "nicht anwendbar")
+            self.assertEqual(growth[metric_id]["statusReason"], "Verlust bzw. negativer Wert in der Basisperiode")
+            self.assertIsNone(growth[metric_id]["points"])
+        quality = metric_map(scored, "C_01")[0]["dataQuality"]
+        self.assertEqual(quality.count("TTM bis 2026-06-30"), 1)
+        self.assertNotIn("TTM bis 2026-06-30 TTM", quality)
+
+    def test_roic_loss_statutory_tax_and_explicit_zero_debt(self):
+        loss = {
+            "revenue": [point("2025-12-31", 100)],
+            "operating_income": [point("2024-12-31", 10), point("2025-12-31", 12)],
+            "pretax": [point("2024-12-31", 8), point("2025-12-31", -1)],
+            "tax": [point("2024-12-31", 2), point("2025-12-31", 0)],
+            "equity": [point("2024-12-31", 100), point("2025-12-31", 100)],
+            "debt": [point("2024-12-31", 0), point("2025-12-31", 0)],
+            "cash": [point("2024-12-31", 0), point("2025-12-31", 0)],
+        }
+        scored = score_company(CONFIG, loss, {}, {}, "2026-10-21", {})
+        roic = metric_map(scored, "C_01")[1]["roic_2y"]
+        self.assertEqual(roic["status"], "nicht anwendbar")
+        self.assertEqual(roic["statusReason"], "Verlust bzw. negatives Kapital")
+        self.assertIsNone(roic["points"])
+
+        statutory = {
+            "revenue": [point("2025-12-31", 100)],
+            "operating_income": [point("2024-12-31", 20), point("2025-12-31", 20)],
+            "pretax": [point("2024-12-31", 10), point("2025-12-31", 10)],
+            "tax": [point("2024-12-31", 20), point("2025-12-31", 20)],
+            "equity": [point("2024-12-31", 100), point("2025-12-31", 100)],
+            "debt": [point("2024-12-31", 0), point("2025-12-31", 0)],
+            "cash": [point("2024-12-31", 0), point("2025-12-31", 0)],
+        }
+        taxed = score_company(CONFIG, statutory, {}, {}, "2026-10-21", {})
+        roic_tax = metric_map(taxed, "C_01")[1]["roic_2y"]
+        self.assertAlmostEqual(roic_tax["raw"], 0.158, places=4)
+        self.assertIn("21 %", roic_tax["note"])
+        self.assertIsNone(roic_tax["status"])
+
+        stale_debt = {
+            "revenue": [point("2025-12-31", 100)],
+            "operating_income": [point("2024-12-31", 20), point("2025-12-31", 20)],
+            "pretax": [point("2024-12-31", 10), point("2025-12-31", 10)],
+            "tax": [point("2024-12-31", 2), point("2025-12-31", 2)],
+            "equity": [point("2024-12-31", 80), point("2025-12-31", 80)],
+            "debt": [point("2023-12-31", 40)],
+            "cash": [point("2024-12-31", 0), point("2025-12-31", 0)],
+            "snapshot": {"debt_explicit_zero": True, "debt": 0, "debt_end": "2025-12-31"},
+        }
+        filled = score_company(CONFIG, stale_debt, {}, {}, "2026-10-21", {})
+        roic_zero = metric_map(filled, "C_01")[1]["roic_2y"]
+        self.assertIsNone(roic_zero["status"])
+        self.assertAlmostEqual(roic_zero["raw"], 0.2, places=4)
+
+    def test_negative_ebitda_and_net_debt_with_positive_cash_flow_are_labeled(self):
+        bundle = {
+            "revenue": [point("2024-12-31", 80), point("2025-12-31", 100)],
+            "operating_income": [point("2025-12-31", -5)],
+            "net_income": [point("2025-12-31", -4)],
+            "da": [point("2025-12-31", 1)],
+            "debt": [point("2025-12-31", 30)],
+            "cash": [point("2025-12-31", 10)],
+            "fcf": [point("2025-12-31", 6)],
+            "equity": [point("2024-12-31", 40), point("2025-12-31", 36)],
+            "shares_out": [point("2025-12-31", 10)],
+        }
+        bars = [{"date": "2026-10-20", "close": 20.0, "high": 20.0}]
+        scored = score_company(CONFIG, bundle, {"bars": bars}, {}, "2026-10-21", {})
+        valuation = metric_map(scored, "C_08")[1]["ev_to_ebitda"]
+        self.assertEqual(valuation["status"], "nicht anwendbar")
+        self.assertEqual(valuation["statusReason"], "EBITDA negativ")
+        finance = metric_map(scored, "C_04")[1]["net_debt_to_ebitda"]
+        self.assertEqual(finance["status"], "nicht anwendbar")
+        self.assertEqual(finance["statusReason"], "EBITDA negativ")
+        runway = metric_map(scored, "C_01")[1]["net_cash_or_runway"]
+        self.assertEqual(runway["status"], "nicht anwendbar")
+        self.assertEqual(runway["statusReason"], "Nettoverschuldung bei positivem Free Cashflow")
+        self.assertIsNone(runway["points"])
+
+        net_cash = score_company(CONFIG, {
+            "revenue": [point("2025-12-31", 100)],
+            "operating_income": [point("2025-12-31", -5)],
+            "da": [point("2025-12-31", 1)],
+            "debt": [point("2025-12-31", 10)],
+            "cash": [point("2025-12-31", 40)],
+            "fcf": [point("2025-12-31", 6)],
+        }, {}, {}, "2026-10-21", {})
+        kept = metric_map(net_cash, "C_04")[1]["net_debt_to_ebitda"]
+        self.assertEqual(kept["value"], "Netto-Cash")
+        self.assertEqual(kept["points"], 10)
+        self.assertIsNone(kept["status"])
+
+    def test_short_ipo_history_and_missing_research_disclosure(self):
+        bundle = {
+            "revenue": [point("2025-12-31", 10)],
+            "operating_income": [point("2025-12-31", 1)],
+            "shares_diluted": [point("2025-12-31", 5)],
+            "fcf": [],
+            "_history_start": "2025-06-01",
+            "_history_end": "2025-12-31",
+            "snapshot": {"revenue": 10, "end": "2025-12-31", "sourceLabel": "SEC EDGAR companyfacts"},
+        }
+        scored = score_company(CONFIG, bundle, {}, {}, "2026-10-21", {}, {"sec": True})
+        self.assertEqual(metric_map(scored, "C_01")[1]["roic_2y"]["status"], "zu kurze Historie")
+        self.assertEqual(metric_map(scored, "C_04")[1]["dilution_3y"]["status"], "zu kurze Historie")
+        self.assertEqual(metric_map(scored, "C_04")[1]["fcf_margin_3y"]["status"], "zu kurze Historie")
+        research = metric_map(scored, "C_03")[1]["rd_intensity"]
+        self.assertEqual(research["status"], "nicht ausgewiesen")
+        self.assertIsNone(research["points"])
+        swedish = score_company(CONFIG, {"revenue": [point("2025-12-31", 10)]}, {}, {}, "2026-10-21", {}, {"sec": False})
+        self.assertEqual(metric_map(swedish, "C_03")[1]["rd_intensity"]["status"], "keine US-Meldepflicht")
+
+    def test_merged_revenue_convertible_debt_depreciation_and_equity(self):
+        def row(start, end, val, form="10-K"):
+            return {"start": start, "end": end, "val": val, "form": form, "fp": "FY", "filed": end}
+
+        facts = {"us-gaap": {
+            "SalesRevenueNet": {"units": {"USD": [
+                row("2019-01-01", "2019-12-31", 100),
+                row("2020-01-01", "2020-12-31", 110),
+            ]}},
+            "RevenueFromContractWithCustomerExcludingAssessedTax": {"units": {"USD": [
+                row("2023-01-01", "2023-12-31", 140),
+                row("2024-01-01", "2024-12-31", 160),
+                row("2025-01-01", "2025-12-31", 200),
+            ]}},
+            "ConvertibleDebtNoncurrent": {"units": {"USD": [row("2025-01-01", "2025-12-31", 30)]}},
+            "ConvertibleDebtCurrent": {"units": {"USD": [row("2025-01-01", "2025-12-31", 5)]}},
+            "Depreciation": {"units": {"USD": [row("2025-01-01", "2025-12-31", 7)]}},
+            "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest": {
+                "units": {"USD": [row("2025-01-01", "2025-12-31", 90)]},
+            },
+            "NetCashProvidedByUsedInOperatingActivitiesContinuingOperations": {
+                "units": {"USD": [row("2025-01-01", "2025-12-31", 15)]},
+            },
+        }}
+        bundle = extract_fundamentals(facts)
+        self.assertEqual([point["end"] for point in bundle["revenue"]], [
+            "2019-12-31", "2020-12-31", "2023-12-31", "2024-12-31", "2025-12-31",
+        ])
+        self.assertEqual(bundle["debt"][-1]["val"], 35)
+        self.assertEqual(bundle["da"][-1]["val"], 7)
+        self.assertEqual(bundle["equity"][-1]["val"], 90)
+        self.assertEqual(bundle["cfo"][-1]["val"], 15)
+
+    def test_prior_prior_revenue_comes_from_the_annual_series(self):
+        scored = score_company(CONFIG, {
+            "revenue": [
+                point("2023-12-31", 50_000_000),
+                point("2024-12-31", 80_000_000),
+                point("2025-12-31", 100_000_000),
+            ],
+            "snapshot": {
+                "end": "2025-12-31",
+                "label": "Geschäftsjahr 2025",
+                "months": 12,
+                "revenue": 100_000_000,
+                "revenue_prior": 80_000_000,
+                "sourceLabel": "SEC EDGAR companyfacts",
+            },
+        }, {}, {}, "2026-10-21", {})
+        acceleration = metric_map(scored, "C_02")[1]["revenue_acceleration"]
+        self.assertIsNone(acceleration["status"])
+        self.assertEqual(acceleration["raw"], -0.3)
+        self.assertEqual(acceleration["points"], 5.0)
+
+    def test_nasdaq_ttm_fills_depreciation_and_research(self):
+        from scoring.marketdata import refresh_stale_fields
+
+        nasdaq = {"incomeStatementTable": {
+            "headers": {
+                "value2": "6/30/2026",
+                "value3": "3/31/2026",
+                "value4": "12/31/2025",
+                "value5": "9/30/2025",
+            },
+            "rows": [
+                {"value1": "Depreciation", "value2": "$10", "value3": "$10", "value4": "$10", "value5": "$10"},
+                {"value1": "Research and Development", "value2": "$4", "value3": "$4", "value4": "$4", "value5": "$4"},
+            ],
+        }}
+        snapshot = refresh_stale_fields(
+            {"end": "2026-06-30", "revenue": 100},
+            None, nasdaq, "https://api.nasdaq.com/api/company/IBRX/financials?frequency=2", "2026-10-21",
+        )
+        # Nasdaq prints statement lines in thousands, so $10 is $10,000.
+        self.assertEqual(snapshot["da"], 40_000)
+        self.assertEqual(snapshot["rd"], 16_000)
+        self.assertIn("Depreciation", snapshot["provenance"]["da"]["note"])
+        self.assertIn("Research and Development", snapshot["provenance"]["rd"]["note"])
+
+    def test_extension_research_is_preferred_only_when_gaap_annual_is_stale(self):
+        from scoring.edgar import RD_EXTENSION_NAMES
+        from scoring.metrics import has_recent_annual, research_concepts
+
+        self.assertIn("TechnologyAndDevelopmentExpense", RD_EXTENSION_NAMES)
+        fresh_end = (date.today() - timedelta(days=40)).isoformat()
+        stale_end = (date.today() - timedelta(days=800)).isoformat()
+        fresh = {"us-gaap": {"ResearchAndDevelopmentExpense": {"units": {"USD": [
+            {"end": fresh_end, "val": 5, "form": "10-K", "fp": "FY", "filed": fresh_end},
+        ]}}}}
+        stale = {"us-gaap": {"ResearchAndDevelopmentExpense": {"units": {"USD": [
+            {"end": stale_end, "val": 5, "form": "10-K", "fp": "FY", "filed": stale_end},
+        ]}}}}
+        self.assertTrue(has_recent_annual(fresh, ("ResearchAndDevelopmentExpense",)))
+        self.assertFalse(has_recent_annual(stale, ("ResearchAndDevelopmentExpense",)))
+        fresh_names = research_concepts(fresh)
+        stale_names = research_concepts(stale)
+        self.assertLess(
+            fresh_names.index("ResearchAndDevelopmentExpense"),
+            fresh_names.index("TechnologyAndDevelopmentExpense"),
+        )
+        self.assertLess(
+            stale_names.index("TechnologyAndDevelopmentExpense"),
+            stale_names.index("ResearchAndDevelopmentExpense"),
+        )
+        source = (ROOT / "scoring" / "marketdata.py").read_text(encoding="utf-8")
+        body = source.split("def _nasdaq_json", 1)[1].split("def load_nasdaq", 1)[0]
+        self.assertIn("BROWSER_AGENT", body)
+        self.assertNotIn("USER_AGENT", body)
 
 
 if __name__ == "__main__":
