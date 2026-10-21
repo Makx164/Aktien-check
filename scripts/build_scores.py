@@ -15,7 +15,7 @@ if str(ROOT) not in sys.path:
 from scoring.analysts import fetch_analysts, load_keys
 from scoring.edgar import EdgarClient
 from scoring.holders import fetch_holders
-from scoring.marketdata import apply_fundamental_fallback, load_nasdaq, load_yahoo_summary
+from scoring.marketdata import apply_fundamental_fallback, load_nasdaq, load_yahoo_summary, profile_from_yahoo
 from scoring.metrics import data_stand, extract_fundamentals, score_company
 from scoring.model import coverage_decision, quality_phrase, round1, traffic_light, weighted_total
 from scoring.prices import fetch_series
@@ -29,7 +29,7 @@ def load_json(path):
 
 
 def group_score(criteria, ids):
-    pairs = [(item["score"], item["weight"]) for item in criteria if item["id"] in ids]
+    pairs = [(item["score"], 1) for item in criteria if item["id"] in ids]
     return round1(weighted_total(pairs))
 
 
@@ -50,7 +50,7 @@ def price_quote(prices, currency):
 def assigned_role(scored, config):
     roles = config.get("roles") or {}
     if not roles.get("dividendEnabled"):
-        return roles["satellite"], "Einheitlicher Gewichtssatz aus der Satelliten-Konfiguration."
+        return roles["satellite"], "Dieselbe Kriterienauswahl für alle Titel."
     dividend = scored.get("dividend") or {}
     threshold = float(roles.get("dividendYieldAtLeast", 0.025))
     qualifies = (
@@ -92,7 +92,7 @@ def metric_counts(criteria):
     return available, total
 
 
-def assemble(ticker, name, note, scored, config, price=None):
+def assemble(ticker, name, note, scored, config, price=None, profile=None):
     role, reason = assigned_role(scored, config)
     criteria = apply_role(scored["criteria"], role)
     decision = coverage_decision(
@@ -112,7 +112,7 @@ def assemble(ticker, name, note, scored, config, price=None):
     visible_weights = {
         key: value for key, value in (role.get("weights") or {}).items() if value and float(value) > 0
     }
-    return {
+    document = {
         "ticker": ticker,
         "name": name,
         "asOf": data_stand(criteria, price),
@@ -134,6 +134,14 @@ def assemble(ticker, name, note, scored, config, price=None):
         },
         "criteria": criteria,
     }
+    if profile:
+        ordered = {}
+        for key, value in document.items():
+            ordered[key] = value
+            if key == "price":
+                ordered["profile"] = profile
+        document = ordered
+    return document
 
 
 def main():
@@ -294,6 +302,7 @@ def main():
             scored,
             config,
             price_quote(prices, spec.get("currency") or "USD"),
+            profile_from_yahoo(summary, today),
         )
         target = ROOT / "data" / ticker / "score.json"
         target.parent.mkdir(parents=True, exist_ok=True)

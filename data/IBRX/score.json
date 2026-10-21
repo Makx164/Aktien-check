@@ -2,12 +2,12 @@
   "ticker": "IBRX",
   "name": "ImmunityBio",
   "asOf": "2026-10-19",
-  "score": 82.4,
+  "score": 8.0,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "green",
-  "qualityScore": 83.3,
-  "marketScore": 79.2,
+  "qualityScore": 7.7,
+  "marketScore": 8.4,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 27 von 33 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [
@@ -19,6 +19,14 @@
     "date": "2026-10-19",
     "sourceLabel": "Nasdaq Historical",
     "sourceUrl": "https://api.nasdaq.com/api/quote/IBRX/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000"
+  },
+  "profile": {
+    "hq": "San Diego, USA",
+    "employees": 684,
+    "marketCap": 9294765056,
+    "currency": "USD",
+    "source": "Yahoo Finance quoteSummary",
+    "fetchedAt": "2026-10-21"
   },
   "role": {
     "id": "satellit",
@@ -33,7 +41,7 @@
       "C_07": 0.25,
       "C_08": 0.5
     },
-    "reason": "Einheitlicher Gewichtssatz aus der Satelliten-Konfiguration."
+    "reason": "Dieselbe Kriterienauswahl für alle Titel."
   },
   "criteria": [
     {

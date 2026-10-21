@@ -2,12 +2,12 @@
   "ticker": "AMZN",
   "name": "Amazon",
   "asOf": "2026-10-19",
-  "score": 72.7,
+  "score": 7.5,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "green",
-  "qualityScore": 69.6,
-  "marketScore": 84.3,
+  "qualityScore": 7.1,
+  "marketScore": 8.4,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 32 von 32 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [],
@@ -17,6 +17,14 @@
     "date": "2026-10-19",
     "sourceLabel": "Nasdaq Historical",
     "sourceUrl": "https://api.nasdaq.com/api/quote/AMZN/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000"
+  },
+  "profile": {
+    "hq": "Seattle, USA",
+    "employees": 1595000,
+    "marketCap": 2832809590784,
+    "currency": "USD",
+    "source": "Yahoo Finance quoteSummary",
+    "fetchedAt": "2026-10-21"
   },
   "role": {
     "id": "satellit",
@@ -31,7 +39,7 @@
       "C_07": 0.25,
       "C_08": 0.5
     },
-    "reason": "Einheitlicher Gewichtssatz aus der Satelliten-Konfiguration."
+    "reason": "Dieselbe Kriterienauswahl für alle Titel."
   },
   "criteria": [
     {

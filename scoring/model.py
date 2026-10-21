@@ -68,21 +68,19 @@ def weighted_mean(values_and_weights):
 
 
 def weighted_total(scores_and_weights):
-    """0–100 score from criterion scores.
+    """Unweighted 0–10 mean of criterion scores.
 
-    Criteria without a score are left out. The remaining weights are
-    re-normalized, so a missing criterion does not count as zero.
+    Criteria without a score are left out and do not count as zero.
+    Weights are ignored and the mean is not rescaled.
     """
-    num = 0.0
-    den = 0.0
-    for score, weight in scores_and_weights:
+    present = []
+    for score, _weight in scores_and_weights:
         if score is None:
             continue
-        num += float(score) * float(weight)
-        den += float(weight)
-    if den == 0:
+        present.append(float(score))
+    if not present:
         return None
-    return (num / den) * 10.0
+    return sum(present) / len(present)
 
 
 def traffic_light(score, green_at, orange_at):
@@ -140,7 +138,7 @@ def coverage_decision(criteria, minimum, status_label="wenig Daten"):
     """
     present = [item for item in criteria if item.get("score") is not None]
     missing = [item for item in criteria if item.get("score") is None]
-    total = weighted_total((item.get("score"), item.get("weight", 1)) for item in criteria)
+    total = weighted_total((item.get("score"), 1) for item in criteria)
     status = status_label if len(present) < minimum else None
     if status is not None:
         total = None

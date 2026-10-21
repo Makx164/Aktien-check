@@ -2,12 +2,12 @@
   "ticker": "IREN",
   "name": "IREN Limited",
   "asOf": "2026-10-19",
-  "score": 67.1,
+  "score": 6.5,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
-  "qualityScore": 68.1,
-  "marketScore": 63.5,
+  "qualityScore": 6.9,
+  "marketScore": 5.7,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 25 von 34 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [
@@ -19,6 +19,14 @@
     "date": "2026-10-19",
     "sourceLabel": "Nasdaq Historical",
     "sourceUrl": "https://api.nasdaq.com/api/quote/IREN/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000"
+  },
+  "profile": {
+    "hq": "Sydney, Australien",
+    "employees": 685,
+    "marketCap": 10489841664,
+    "currency": "USD",
+    "source": "Yahoo Finance quoteSummary",
+    "fetchedAt": "2026-10-21"
   },
   "role": {
     "id": "satellit",
@@ -33,7 +41,7 @@
       "C_07": 0.25,
       "C_08": 0.5
     },
-    "reason": "Einheitlicher Gewichtssatz aus der Satelliten-Konfiguration."
+    "reason": "Dieselbe Kriterienauswahl für alle Titel."
   },
   "criteria": [
     {

@@ -45,18 +45,27 @@ class RampTests(unittest.TestCase):
         self.assertIsNone(linear_points(None, 0, 1))
 
     def test_traffic_light_boundaries(self):
-        self.assertEqual(traffic_light(70, 70, 50), "green")
-        self.assertEqual(traffic_light(69.9, 70, 50), "orange")
-        self.assertEqual(traffic_light(50, 70, 50), "orange")
-        self.assertEqual(traffic_light(49.9, 70, 50), "red")
-        self.assertIsNone(traffic_light(None, 70, 50))
+        self.assertEqual(CONFIG["trafficLight"]["greenAt"], 7)
+        self.assertEqual(CONFIG["trafficLight"]["orangeAt"], 5)
+        green = CONFIG["trafficLight"]["greenAt"]
+        orange = CONFIG["trafficLight"]["orangeAt"]
+        self.assertEqual(traffic_light(7, green, orange), "green")
+        self.assertEqual(traffic_light(6.9, green, orange), "orange")
+        self.assertEqual(traffic_light(5, green, orange), "orange")
+        self.assertEqual(traffic_light(4.9, green, orange), "red")
+        self.assertIsNone(traffic_light(None, green, orange))
 
-    def test_half_weight_and_missing_criteria(self):
+    def test_unweighted_mean_ignores_weights_and_missing_criteria(self):
         total = weighted_total([(10, 1), (0, 0.5)])
-        self.assertAlmostEqual(total, (10 / 1.5) * 10)
+        self.assertAlmostEqual(total, 5.0)
+        self.assertAlmostEqual(total, weighted_total([(10, 2), (0, 0.25)]))
         only = weighted_total([(8, 0.5), (None, 1)])
-        self.assertAlmostEqual(only, 80)
+        self.assertAlmostEqual(only, 8)
+        self.assertNotAlmostEqual(only, 80)
         self.assertIsNone(weighted_total([(None, 1)]))
+        source = (ROOT / "scoring" / "model.py").read_text(encoding="utf-8")
+        self.assertNotIn("* 10.0", source)
+        self.assertNotIn("(num / den) * 10", source)
 
     def test_analyst_cap(self):
         capped, applied = apply_analyst_cap(9, 4, 5, 7)
@@ -380,12 +389,13 @@ class MissingDataTests(unittest.TestCase):
             {"id": "C_06", "score": None, "weight": 1},
         ]
         decision = coverage_decision(full, 3, "wenig Daten")
-        self.assertEqual(decision["score"], 100)
+        self.assertEqual(decision["score"], 10)
         self.assertIsNone(decision["status"])
         self.assertEqual(decision["criteriaWithData"], 3)
         self.assertIn("C_06", decision["note"])
         self.assertIn("nur Kriterien mit Daten", decision["note"])
         diluted = weighted_total([(10, 1), (10, 1), (10, 0.5), (0, 1)])
+        self.assertAlmostEqual(diluted, 7.5)
         self.assertNotEqual(round(diluted, 1), decision["score"])
 
         thin = [
@@ -1068,7 +1078,10 @@ class RoundThreeTests(unittest.TestCase):
         self.assertIn("Summe aus ", html)
         self.assertIn("Ohne Daten:", html)
         self.assertIn(">Skala<", html)
-        self.assertIn("Eine Metrik ohne Daten zählt nicht als 0.", html)
+        self.assertNotIn("Eine Metrik ohne Daten zählt nicht als 0.", html)
+        self.assertNotIn("Der Aktien-Score ist der gewichtete Mittelwert", html)
+        self.assertIn("function companyBlock", html)
+        self.assertIn('fetch("config/profiles.json")', html)
         self.assertNotIn("data-x2", html)
         self.assertNotIn("isCriterionX2", html)
         self.assertNotIn("angepasster Score", html)
@@ -1085,18 +1098,19 @@ class RoundThreeTests(unittest.TestCase):
             for metric in criterion["metrics"]:
                 self.assertNotIn("weight", metric)
         oss = json.loads((ROOT / "data" / "OSS" / "score.json").read_text(encoding="utf-8"))
-        self.assertEqual(oss["score"], 65.4)
+        self.assertEqual(oss["score"], 6.9)
         growth = next(item for item in oss["criteria"] if item["id"] == "C_02")
         self.assertEqual(growth["score"], 5.6)
-        num = 0.0
-        den = 0.0
+        present = [item["score"] for item in oss["criteria"] if item.get("score") is not None]
+        self.assertEqual(round(sum(present) / len(present) + 1e-9, 1), 6.9)
+        weighted = 0.0
+        weight_sum = 0.0
         for item in oss["criteria"]:
             if item.get("score") is None:
                 continue
-            weight = item["weight"] * (2 if item["id"] == "C_02" else 1)
-            num += item["score"] * weight
-            den += weight
-        self.assertEqual(round((num / den) * 10 + 1e-9, 1), 63.4)
+            weighted += item["score"] * item["weight"]
+            weight_sum += item["weight"]
+        self.assertNotEqual(round((weighted / weight_sum) * 10 + 1e-9, 1), oss["score"])
 
 
 class RoundFiveTests(unittest.TestCase):
@@ -1322,6 +1336,153 @@ class RoundSixTests(unittest.TestCase):
         metric = metric_map(narrowed, "C_02")[1]["revenue_acceleration"]
         self.assertEqual(metric["raw"], -0.05)
         self.assertEqual(metric["points"], 2.5)
+
+
+class ScaleTenTests(unittest.TestCase):
+    def test_ring_uses_a_scale_of_ten_and_keeps_forty_eight_ticks(self):
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertIn("var n = 48, pct = score == null ? 0 : Math.max(0, Math.min(10, Number(score)));", html)
+        self.assertIn("Math.round(pct / 10 * n)", html)
+        self.assertIn("von 10", html)
+        self.assertIn("<small>/ 10</small>", html)
+        self.assertIn("<small>/10</small>", html)
+        self.assertIn("SCORE 0–10", html)
+        self.assertIn("MAX 10", html)
+        self.assertIn("≥ 7", html)
+        self.assertIn("5–6,9", html)
+        self.assertIn("&lt; 5", html)
+        self.assertNotIn("von 100", html)
+        self.assertNotIn("/ 100", html)
+        self.assertNotIn("SCORE 0–100", html)
+        self.assertNotIn("MAX 100", html)
+        self.assertNotIn("/100", html)
+        self.assertNotIn("≥ 70", html)
+        self.assertNotIn("50–69", html)
+        self.assertNotIn("&lt; 50", html)
+        self.assertNotIn("ab: 70", html)
+        self.assertNotIn("ab: 50", html)
+        self.assertIn("ab: 7", html)
+        self.assertIn("ab: 5", html)
+        self.assertNotIn("score >= 70", html)
+        self.assertNotIn("score >= 50", html)
+        self.assertIn("doc.score >= 7", html)
+        self.assertIn("doc.score >= 5", html)
+        self.assertNotIn("Gewicht", html)
+
+    def test_company_description_renders_and_omits_missing_facts(self):
+        import subprocess
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertIn("function companyBlock", html)
+        self.assertIn('fetch("config/profiles.json")', html)
+        start = html.index("  function ring(")
+        end = html.index("  function showDetail(")
+        profiles = json.loads((ROOT / "config" / "profiles.json").read_text(encoding="utf-8"))
+        tickers = json.loads((ROOT / "config" / "tickers.json").read_text(encoding="utf-8"))
+        self.assertEqual([item["ticker"] for item in tickers], list(profiles))
+        for ticker, entry in profiles.items():
+            sentences = [part for part in entry["text"].split(".") if part.strip()]
+            self.assertGreaterEqual(len(sentences), 2, ticker)
+            self.assertLessEqual(len(sentences), 3, ticker)
+            self.assertIsNone(__import__("re").search(r"\d", entry["text"]), ticker)
+            self.assertTrue(entry["segments"], ticker)
+            self.assertTrue(all(isinstance(part, str) and part for part in entry["segments"]))
+        self.assertEqual(
+            profiles["AMZN"]["text"],
+            "Amazon betreibt den weltweit größten Online-Marktplatz und mit AWS den führenden Cloud-Anbieter. Daneben verdient Amazon an Werbung, Prime-Abos und eigenen Geräten wie Echo und Kindle.",
+        )
+        self.assertEqual(profiles["AMZN"]["segments"], ["Nordamerika", "International", "AWS"])
+        iren = profiles["IREN"]["text"]
+        self.assertIn("Rechenzentren", iren)
+        self.assertIn("KI-Cloud", iren)
+        script = """
+        function esc(s) {
+          return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+            return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c];
+          });
+        }
+        function n1(x) {
+          if (x == null || Number.isNaN(Number(x))) return "–";
+          return (Math.round(Number(x) * 10) / 10).toFixed(1).replace(".", ",");
+        }
+        var CFG = {scoreName: "Aktien-Score"};
+        var profiles = {AMZN: {text: "TEXT & Co.", segments: ["Nordamerika", "International", "AWS"]}};
+        """ + html[start:end] + """
+        var line = factLine(
+          {hq: "Seattle, USA", employees: 1551000, marketCap: 2830000000000, currency: "USD"},
+          ["Nordamerika", "International", "AWS"]
+        );
+        if (line !== "Sitz Seattle, USA · Mitarbeiter 1.551.000 · Börsenwert 2,83 Bio. $ · Segmente Nordamerika, International, AWS") {
+          throw new Error("line " + line);
+        }
+        var partial = factLine({hq: "Kista, Schweden"}, ["Drahtlos", "Photonik"]);
+        if (partial !== "Sitz Kista, Schweden · Segmente Drahtlos, Photonik") throw new Error("partial " + partial);
+        var block = companyBlock({
+          ticker: "AMZN",
+          profile: {hq: "Seattle, USA", employees: 1551000, marketCap: 2830000000000, currency: "USD"}
+        });
+        if (block.indexOf("TEXT &amp; Co.") < 0) throw new Error("text " + block);
+        if (block.indexOf("2,83 Bio. $") < 0) throw new Error("cap " + block);
+        function ons(markup, tone) {
+          var needle = 'stroke="var(--' + tone + ')"';
+          var count = 0;
+          var from = 0;
+          while (markup.indexOf(needle, from) >= 0) {
+            count += 1;
+            from = markup.indexOf(needle, from) + needle.length;
+          }
+          return count;
+        }
+        var gauge = ring(7.6, "gruen");
+        var lines = (gauge.match(/<line /g) || []).length;
+        if (lines !== 48) throw new Error("lines " + lines);
+        if (ons(gauge, "ok") !== Math.round(7.6 / 10 * 48)) throw new Error("on " + ons(gauge, "ok"));
+        if (gauge.indexOf("7,6") < 0 || gauge.indexOf("von 10") < 0 || gauge.indexOf("/ 10") < 0) throw new Error(gauge);
+        if (gauge.indexOf("von 100") >= 0 || gauge.indexOf("/ 100") >= 0) throw new Error("hundred");
+        var full = ring(10, "gruen");
+        if (ons(full, "ok") !== 48) throw new Error("full " + ons(full, "ok"));
+        """
+        result = subprocess.run(["node", "-e", script], capture_output=True, text=True)
+        if result.returncode != 0:
+            self.fail(result.stderr or result.stdout)
+
+    def test_profile_facts_come_from_yahoo_without_filling_gaps(self):
+        from scoring.marketdata import YAHOO_MODULES, profile_from_yahoo
+        self.assertIn("assetProfile", YAHOO_MODULES)
+        self.assertIn("summaryDetail", YAHOO_MODULES)
+        self.assertIn("price", YAHOO_MODULES.split(","))
+        summary = {
+            "assetProfile": {
+                "city": "Seattle",
+                "country": "United States",
+                "fullTimeEmployees": 1551000,
+            },
+            "price": {"currency": "USD", "marketCap": {"raw": 2_830_000_000_000}},
+        }
+        profile = profile_from_yahoo(summary, "2026-10-21")
+        self.assertEqual(profile["hq"], "Seattle, USA")
+        self.assertEqual(profile["employees"], 1551000)
+        self.assertEqual(profile["marketCap"], 2_830_000_000_000)
+        self.assertEqual(profile["currency"], "USD")
+        self.assertEqual(profile["source"], "Yahoo Finance quoteSummary")
+        self.assertEqual(profile["fetchedAt"], "2026-10-21")
+        partial = profile_from_yahoo({"assetProfile": {"country": "Sweden"}}, "2026-10-21")
+        self.assertEqual(partial["hq"], "Schweden")
+        self.assertNotIn("employees", partial)
+        self.assertNotIn("marketCap", partial)
+        self.assertNotIn("currency", partial)
+        same = profile_from_yahoo({"assetProfile": {"city": "Singapore", "country": "Singapore"}}, "2026-10-21")
+        self.assertEqual(same["hq"], "Singapur")
+        self.assertIsNone(profile_from_yahoo({"assetProfile": {}}, "2026-10-21"))
+        self.assertIsNone(profile_from_yahoo(None, "2026-10-21"))
+        scored = score_company(CONFIG, {}, {}, {}, "2026-10-21", {})
+        document = assemble(
+            "AMZN", "Amazon", None, scored, CONFIG, None,
+            {"hq": "Seattle, USA", "employees": 10, "source": "Yahoo Finance quoteSummary", "fetchedAt": "2026-10-21"},
+        )
+        self.assertEqual(document["profile"]["hq"], "Seattle, USA")
+        self.assertLess(list(document).index("price"), list(document).index("profile"))
+        bare = assemble("AMZN", "Amazon", None, scored, CONFIG)
+        self.assertNotIn("profile", bare)
 
 
 if __name__ == "__main__":

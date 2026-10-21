@@ -2,12 +2,12 @@
   "ticker": "GRAB",
   "name": "Grab Holdings",
   "asOf": "2026-10-19",
-  "score": 75.6,
+  "score": 6.8,
   "status": null,
   "criteriaWithData": 8,
-  "trafficLight": "green",
-  "qualityScore": 80.4,
-  "marketScore": 57.3,
+  "trafficLight": "orange",
+  "qualityScore": 7.8,
+  "marketScore": 5.3,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 30 von 34 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [
@@ -19,6 +19,14 @@
     "date": "2026-10-19",
     "sourceLabel": "Nasdaq Historical",
     "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000"
+  },
+  "profile": {
+    "hq": "Singapur",
+    "employees": 12012,
+    "marketCap": 11823862784,
+    "currency": "USD",
+    "source": "Yahoo Finance quoteSummary",
+    "fetchedAt": "2026-10-21"
   },
   "role": {
     "id": "satellit",
@@ -33,7 +41,7 @@
       "C_07": 0.25,
       "C_08": 0.5
     },
-    "reason": "Einheitlicher Gewichtssatz aus der Satelliten-Konfiguration."
+    "reason": "Dieselbe Kriterienauswahl für alle Titel."
   },
   "criteria": [
     {
