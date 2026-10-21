@@ -1,7 +1,7 @@
 {
   "trafficLight": {
-    "greenAt": 70,
-    "orangeAt": 50
+    "greenAt": 7,
+    "orangeAt": 5
   },
   "minCriteriaWithData": 3,
   "missingDataStatus": "wenig Daten",

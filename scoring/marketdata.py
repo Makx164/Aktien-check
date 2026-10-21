@@ -18,6 +18,9 @@ from pathlib import Path
 from scoring.prices import USER_AGENT, _yahoo_open
 
 YAHOO_MODULES = ",".join([
+    "assetProfile",
+    "price",
+    "summaryDetail",
     "defaultKeyStatistics",
     "financialData",
     "incomeStatementHistoryQuarterly",
@@ -37,7 +40,95 @@ def _raw(node):
     return float(node)
 
 
-def _yahoo_summary(symbol):
+def _text(node):
+    if isinstance(node, str) and node.strip():
+        return node.strip()
+    return None
+
+
+def _whole(node):
+    value = _raw(node)
+    if value is None and isinstance(node, (int, float)) and not isinstance(node, bool):
+        value = float(node)
+    if value is None:
+        return None
+    return int(round(value))
+
+
+_COUNTRY_DE = {
+    "United States": "USA",
+    "United States of America": "USA",
+    "USA": "USA",
+    "Sweden": "Schweden",
+    "Singapore": "Singapur",
+    "Australia": "Australien",
+    "Ireland": "Irland",
+    "United Kingdom": "Vereinigtes Königreich",
+    "Germany": "Deutschland",
+    "Netherlands": "Niederlande",
+    "The Netherlands": "Niederlande",
+    "Cayman Islands": "Kaimaninseln",
+    "China": "China",
+    "Hong Kong": "Hongkong",
+    "Israel": "Israel",
+    "Canada": "Kanada",
+    "France": "Frankreich",
+    "Japan": "Japan",
+    "South Korea": "Südkorea",
+    "Taiwan": "Taiwan",
+    "Switzerland": "Schweiz",
+    "Luxembourg": "Luxemburg",
+    "Bermuda": "Bermuda",
+    "Brazil": "Brasilien",
+    "India": "Indien",
+}
+
+
+def _hq(asset):
+    city = _text(asset.get("city"))
+    country_raw = _text(asset.get("country"))
+    country = _COUNTRY_DE.get(country_raw, country_raw) if country_raw else None
+    if city and country:
+        if city.casefold() == country.casefold() or city.casefold() == (country_raw or "").casefold():
+            return country
+        return city + ", " + country
+    return city or country
+
+
+def profile_from_yahoo(summary, today):
+    """Seat, employees and market cap from quoteSummary. Missing facts are omitted."""
+    if not summary:
+        return None
+    asset = summary.get("assetProfile") or {}
+    price = summary.get("price") or {}
+    detail = summary.get("summaryDetail") or {}
+    profile = {}
+    hq = _hq(asset)
+    if hq:
+        profile["hq"] = hq
+    employees = asset.get("fullTimeEmployees")
+    staff = _whole(employees)
+    if staff is not None:
+        profile["employees"] = staff
+    market_cap = _raw(price.get("marketCap"))
+    currency = _text(price.get("currency"))
+    if market_cap is None:
+        market_cap = _raw(detail.get("marketCap"))
+        currency = currency or _text(detail.get("currency"))
+    else:
+        currency = currency or _text(detail.get("currency"))
+    if market_cap is not None:
+        profile["marketCap"] = int(round(market_cap))
+    if currency:
+        profile["currency"] = currency
+    if not any(key in profile for key in ("hq", "employees", "marketCap")):
+        return None
+    profile["source"] = "Yahoo Finance quoteSummary"
+    profile["fetchedAt"] = today
+    return profile
+
+
+def _yahoo_summary(symbol, modules=None):
     jar = http.cookiejar.CookieJar()
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
     page = "https://finance.yahoo.com/quote/" + urllib.parse.quote(symbol)
@@ -53,7 +144,7 @@ def _yahoo_summary(symbol):
         url = (
             "https://query1.finance.yahoo.com/v10/finance/quoteSummary/"
             + urllib.parse.quote(symbol)
-            + "?modules=" + YAHOO_MODULES
+            + "?modules=" + (modules or YAHOO_MODULES)
             + "&crumb=" + urllib.parse.quote(crumb)
         )
         payload = json.loads(_yahoo_open(opener, url, "application/json").decode("utf-8"))

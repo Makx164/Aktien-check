@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-10-21
+
+### Skala 0–10 und Firmenprofil
+
+Der Aktien-Score ist der ungewichtete Mittelwert der sichtbaren Kriterien mit Daten, auf der Skala 0–10. Gewichte gehen nicht in den Schnitt ein. C_09 bleibt bei Gewicht 0 ausgeblendet. Ampel: ab 7 grün, ab 5 orange, darunter rot. Unter dem Score steht eine kurze Firmenbeschreibung aus `config/profiles.json` und, soweit Yahoo sie liefert, Sitz, Mitarbeiter und Börsenwert. Quelle und Abrufdatum stehen im Quellenblock.
+
+### Impressum und Datenschutz
+
+Im Footer, neben dem roten Hinweis, stehen die Links Impressum und Datenschutz. Die Seiten beschreiben das Angebot und die Verarbeitung, die der Browser tatsächlich auslöst. Der rote Hinweis sagt, dass die Scores regelbasierte Einschätzungen aus öffentlichen Daten sind und keine Kauf- oder Verkaufsempfehlung.
+
 ## 2026-10-20
 
 ### Runde 3, ein Gewichtssatz und nachvollziehbare Metriken

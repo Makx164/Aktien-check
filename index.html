@@ -13,9 +13,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#c6c7c1">
   <title>sidequest</title>
-  <meta name="description" content="sidequest. Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.">
+  <meta name="description" content="Eigene, regelbasierte Aktien-Scores aus öffentlichen Unternehmensdaten. Keine Anlageberatung.">
   <meta property="og:title" content="sidequest">
-  <meta property="og:description" content="Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.">
+  <meta property="og:description" content="Eigene, regelbasierte Aktien-Scores aus öffentlichen Unternehmensdaten. Keine Anlageberatung.">
   <meta property="og:url" content="https://yoursidequest.org/">
   <meta property="og:type" content="website">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23e8305a'/%3E%3Cpath d='M5 17l5-5 3 3 6-7' fill='none' stroke='%23111' stroke-width='2.6'/%3E%3C/svg%3E">
@@ -87,7 +87,14 @@ main{position:relative;padding:8px 26px 30px;outline:none}
 .disclaimer{border:1px solid var(--bad);background:var(--bad-bg);padding:12px 14px;font-size:13px;color:var(--ink2)}
 .disclaimer .mlabel{color:var(--bad);margin-bottom:4px}
 .disclaimer p{margin:2px 0 0}
-.foot-url{text-align:center;font:500 11px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--ink2);margin:18px 0 0}
+.foot-band{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 18px}
+.footer .discl-big.compact{flex:1 1 320px;margin-top:12px}
+.foot-legal{flex:0 0 auto;margin:12px 0 0;text-align:right;font:500 11px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.foot-legal a{color:var(--ink2)}
+.foot-legal a:hover{color:var(--ink)}
+.foot-legal .sep{margin:0 8px;color:var(--mut)}
+.foot-legal a[aria-current="page"]{color:var(--ink)}
+.foot-url{text-align:center;font:500 11px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--ink2);margin:12px 0 0}
 
 /* Typo blocks */
 .h-red{font:700 clamp(40px,8.4vw,86px)/.95 "Space Mono",monospace;color:var(--red);letter-spacing:.01em;margin:0;text-transform:uppercase}
@@ -282,6 +289,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
   .top-r{gap:6px}
   .badge-proto{font-size:9.5px;letter-spacing:.12em;padding:4px 6px}
   .theme-tg span{padding:4px 7px;font-size:9.5px}
+  .foot-legal{flex:1 1 100%;text-align:center}
   .r-head{padding-top:12px}
   .stamp{top:58px;right:2px;font-size:11px}
   .st{font-size:10.5px;letter-spacing:.07em;line-height:1.35;padding:7px 9px}
@@ -294,7 +302,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
 @media (max-width:820px){ .diagram.start .hub{order:0} }
 @media (max-width:640px){ .search input::placeholder{font-size:14px;letter-spacing:.04em} }
 
-/* ---------- v2.1: Rollen, Gewichte, Ersatzwerte, KI-Hook ---------- */
+/* ---------- v2.1: Rollen, Ersatzwerte, KI-Hook ---------- */
 .tag.est{color:var(--ok);background:var(--ok-bg)} .tag.role{color:var(--red-ink)} .tag.off{color:var(--mut)}
 .roles{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--hair);background:var(--panel)}
 .roles button{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 12px;border:0;border-right:1px solid var(--hair2);background:transparent;color:var(--ink);font:600 12px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
@@ -419,6 +427,12 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     </header>
     <main id="app" tabindex="-1"><p class="mlabel">Daten werden geladen.</p></main>
     <footer class="footer">
+      <div class="foot-band">
+        <div class="discl-big compact"><span class="mlabel">KEINE ANLAGEBERATUNG</span>Keine Anlageberatung und keine Kauf- oder Verkaufsempfehlung. Die Scores sind eigene, regelbasierte Einschätzungen: öffentliche Unternehmens- und Marktdaten (u. a. SEC, Yahoo Finance, Nasdaq) werden nach festen Kriterien in Punkte von 0 bis 10 umgerechnet und gemittelt. Sie können unvollständig oder veraltet sein und ersetzen keine eigene Prüfung.</div>
+        <nav class="foot-legal" aria-label="Rechtliches">
+          <a href="impressum.html">Impressum</a><span class="sep" aria-hidden="true">·</span><a href="datenschutz.html">Datenschutz</a>
+        </nav>
+      </div>
       <p class="foot-url">sidequest</p>
     </footer>
     <i class="cx tl"></i><i class="cx tr"></i><i class="cx bl"></i><i class="cx br"></i>
@@ -428,15 +442,15 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
   "use strict";
   var TICKERS = ["PLTR","OSS","AMZN","TSLA","HIMS","LMND","IBRX","MU","IREN","GRAB","SIVE","SPCX","PYPL"];
   var CODES = ["C_01","C_02","C_03","C_04","C_05","C_06","C_07","C_08","C_09"];
-  var DISCLAIMER = "Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.";
   var CFG = {
     scoreName: "Aktien-Score",
     ampelText: {gruen: "Starkes Gesamtprofil", gelb: "Gemischtes Gesamtprofil", rot: "Schwaches Gesamtprofil"},
-    ampel: {gruen: {ab: 70}, gelb: {ab: 50}, na: {label: "nicht anwendbar"}, ko: {label: "Warnsignal"}}
+    ampel: {gruen: {ab: 7}, gelb: {ab: 5}, na: {label: "nicht anwendbar"}, ko: {label: "Warnsignal"}}
   };
 
   var app = document.getElementById("app");
   var loaded = [];
+  var profiles = {};
 
   var tg = document.getElementById("theme-tg");
   function setTheme(t) {
@@ -478,14 +492,11 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
   function lightOf(doc) {
     if (doc.status || doc.score == null) return "na";
     var map = {green: "gruen", orange: "gelb", red: "rot"};
-    return map[doc.trafficLight] || (doc.score >= 70 ? "gruen" : doc.score >= 50 ? "gelb" : "rot");
+    return map[doc.trafficLight] || (doc.score >= 7 ? "gruen" : doc.score >= 5 ? "gelb" : "rot");
   }
   function lab(light) {
     if (light === "na") return CFG.ampel.na.label;
     return CFG.ampelText[light] || "";
-  }
-  function disclaimer() {
-    return '<div class="discl-big compact"><span class="mlabel">KEINE ANLAGEBERATUNG</span>' + DISCLAIMER + "</div>";
   }
   function status(light, ko) {
     var name = {gruen: "GRÜN", gelb: "GELB", rot: "ROT", na: "GRAU"}[light];
@@ -558,6 +569,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
       missingDataNote: score.missingDataNote,
       asOf: score.asOf,
       price: score.price || null,
+      profile: score.profile || null,
       role: role,
       criteria: (score.criteria || []).map(function (found) {
         var missing = found.score == null || found.status;
@@ -569,7 +581,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
           wert: missing ? null : found.score,
           bewertet: !missing,
           status: missing ? (found.status || "wenig Daten") : null,
-          weight: found.weight,
           aggregate: found.aggregate || null,
           capApplied: !!found.capApplied,
           metrics: found.metrics || [],
@@ -580,8 +591,8 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     };
   }
   function ring(score, light) {
-    var n = 48, pct = score == null ? 0 : Math.max(0, Math.min(100, Number(score)));
-    var on = Math.round(pct / 100 * n), h = "", tone = {gruen: "ok", gelb: "warn", rot: "bad", na: "mut"}[light];
+    var n = 48, pct = score == null ? 0 : Math.max(0, Math.min(10, Number(score)));
+    var on = Math.round(pct / 10 * n), h = "", tone = {gruen: "ok", gelb: "warn", rot: "bad", na: "mut"}[light];
     for (var i = 0; i < n; i++) {
       var a = (i / n) * 2 * Math.PI - Math.PI / 2;
       var c = Math.cos(a), s = Math.sin(a);
@@ -589,12 +600,12 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     }
     h += '<circle cx="108" cy="108" r="78" fill="none" stroke="var(--hair2)" stroke-width="1"/>';
     var shown = score == null ? "–" : n1(score);
-    return '<div class="ring" role="img" aria-label="' + esc(CFG.scoreName) + " " + esc(shown) + ' von 100"><svg viewBox="0 0 216 216">' + h +
-      '</svg><div class="val"><div><b class="' + (shown.length > 2 ? "long" : "") + '">' + esc(shown) + '</b><small>/ 100</small><small class="rn">AKTIEN-SCORE</small></div></div></div>';
+    return '<div class="ring" role="img" aria-label="' + esc(CFG.scoreName) + " " + esc(shown) + ' von 10"><svg viewBox="0 0 216 216">' + h +
+      '</svg><div class="val"><div><b class="' + (shown.length > 2 ? "long" : "") + '">' + esc(shown) + '</b><small>/ 10</small><small class="rn">AKTIEN-SCORE</small></div></div></div>';
   }
   function legend() {
-    return '<div class="legend"><span><span class="sq gruen"></span> ≥ 70 · ' + esc(lab("gruen")) + '</span><span><span class="sq gelb"></span> 50–69 · ' + esc(lab("gelb")) +
-      '</span><span><span class="sq rot"></span> &lt; 50 · ' + esc(lab("rot")) + "</span></div>";
+    return '<div class="legend"><span><span class="sq gruen"></span> ≥ 7 · ' + esc(lab("gruen")) + '</span><span><span class="sq gelb"></span> 5–6,9 · ' + esc(lab("gelb")) +
+      '</span><span><span class="sq rot"></span> &lt; 5 · ' + esc(lab("rot")) + "</span></div>";
   }
   function shownScore(doc) {
     if (doc.status) return String(doc.status);
@@ -636,15 +647,8 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     });
     var kicker = document.createElement("div");
     kicker.className = "sec-t page-kicker";
-    kicker.innerHTML = "<h2>Übersicht Aktienportfolio</h2><span class=\"mlabel\">" + loaded.length + " TICKER · SCORE 0–100</span>";
-    app.replaceChildren(kicker, grid, noteNode());
-  }
-
-  function noteNode() {
-    var note = document.createElement("div");
-    note.className = "discl-big compact";
-    note.innerHTML = '<span class="mlabel">KEINE ANLAGEBERATUNG</span>' + DISCLAIMER;
-    return note;
+    kicker.innerHTML = "<h2>Übersicht Aktienportfolio</h2><span class=\"mlabel\">" + loaded.length + " TICKER · SCORE 0–10</span>";
+    app.replaceChildren(kicker, grid);
   }
 
   function matrix(doc) {
@@ -654,8 +658,8 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     h += '<div class="diagram crits"><div class="mods">' + doc.criteria.map(function (c) {
       var mark = c.bewertet ? n1(c.wert) : gapLabel(c.status);
       return '<a class="mod" href="#c' + c.id + '" data-open="c' + c.id + '"><span class="ml">C_' + pad(c.id) + " · " + esc(c.name) + '</span><span class="mr">' + seg(c.wert, 10) + "<span>" + esc(mark) + "</span></span></a>";
-    }).join("") + '</div><div class="hub crit-hub"><div class="hub-h"><span class="mlabel">' + esc(doc.ticker) + ' · AKTIEN-SCORE</span><span class="mlabel">MAX 100</span></div><div class="big">' +
-      esc(shownScore(doc)) + '<small>/100</small></div>' + status(light, doc.ko.length) +
+    }).join("") + '</div><div class="hub crit-hub"><div class="hub-h"><span class="mlabel">' + esc(doc.ticker) + ' · AKTIEN-SCORE</span><span class="mlabel">MAX 10</span></div><div class="big">' +
+      esc(shownScore(doc)) + '<small>/10</small></div>' + status(light, doc.ko.length) +
       '<p class="rated mlabel">' + rated + " VON " + doc.criteria.length + " KRITERIEN MIT DATEN</p>" + legend() + "</div></div>";
     return h;
   }
@@ -764,6 +768,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
       add(metric.sourceLabel, metric.sourceUrl, metric.observedAt, metric.fetchedAt);
     });
     if (doc.price) add(doc.price.sourceLabel, doc.price.sourceUrl, doc.price.date, null);
+    if (doc.profile) add(doc.profile.source, null, null, doc.profile.fetchedAt);
     var lines = [];
     ["SEC", "Yahoo Finance", "Nasdaq"].forEach(function (name) {
       var bucket = buckets[name];
@@ -779,6 +784,54 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     return '<div class="src">' + lines.join("<br>") + "</div>";
   }
 
+  function deGrouped(n) {
+    var sign = n < 0 ? "-" : "";
+    var text = String(Math.round(Math.abs(n)));
+    return sign + text.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+  function deScaled(n, digits) {
+    var text = Number(n).toFixed(digits).replace(".", ",");
+    return text.replace(/,(\d*?)0+$/, function (_, rest) { return rest ? "," + rest : ""; });
+  }
+  function formatEmployees(value) {
+    var n = Number(value);
+    if (!isFinite(n)) return "";
+    return deGrouped(n);
+  }
+  function formatCap(value, currency) {
+    var n = Number(value);
+    if (!isFinite(n)) return "";
+    var abs = Math.abs(n);
+    var div = 1;
+    var unit = "";
+    if (abs >= 1e12) { div = 1e12; unit = " Bio."; }
+    else if (abs >= 1e9) { div = 1e9; unit = " Mrd."; }
+    else if (abs >= 1e6) { div = 1e6; unit = " Mio."; }
+    else if (abs >= 1e3) { div = 1e3; unit = " Tsd."; }
+    var mark = currency === "USD" ? " $" : currency === "EUR" ? " €" : (currency ? " " + currency : "");
+    if (div === 1) return deGrouped(n) + mark;
+    var scaled = n / div;
+    var digits = Math.abs(scaled) >= 10 ? 1 : 2;
+    return deScaled(scaled, digits) + unit + mark;
+  }
+  function factLine(profile, segments) {
+    profile = profile || {};
+    var bits = [];
+    if (profile.hq) bits.push("Sitz " + esc(profile.hq));
+    if (profile.employees != null && profile.employees !== "") bits.push("Mitarbeiter " + esc(formatEmployees(profile.employees)));
+    if (profile.marketCap != null && profile.marketCap !== "") bits.push("Börsenwert " + esc(formatCap(profile.marketCap, profile.currency)));
+    if (segments && segments.length) bits.push("Segmente " + esc(segments.join(", ")));
+    return bits.join(" · ");
+  }
+  function companyBlock(doc) {
+    var entry = profiles[doc.ticker] || {};
+    var block = "";
+    if (entry.text) block += '<p class="expl">' + esc(entry.text) + "</p>";
+    var facts = factLine(doc.profile, entry.segments);
+    if (facts) block += '<p class="expl">' + facts + "</p>";
+    return block;
+  }
+
   function showDetail(score) {
     var doc = adapt(score);
     var light = lightOf(doc);
@@ -788,8 +841,8 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     h += '<section class="r-head"><div><span class="mlabel">CHECK_RESULT // ' + esc(doc.ticker) + '</span>';
     h += '<h1 class="h-red" style="margin-top:8px">' + esc(doc.ticker) + "</h1>";
     h += '<div class="r-name">' + esc(doc.name) + "</div>";
-    h += '<div class="role-title"><span class="rt-t">' + esc(doc.ticker) + '</span> <b>' + esc(scoreText) + '</b><small>/100</small></div>';
-    h += '<p class="expl">Der Aktien-Score ist der gewichtete Mittelwert der Kriterien mit Daten, neu auf 100 skaliert. Jedes Kriterium ist der Mittelwert seiner Metriken mit Daten, C_05 die Summe der Teilpunkte. Eine Metrik ohne Daten zählt nicht als 0.</p>';
+    h += '<div class="role-title"><span class="rt-t">' + esc(doc.ticker) + '</span> <b>' + esc(scoreText) + '</b><small>/10</small></div>';
+    h += companyBlock(doc);
     h += '<div id="dyn-status">' + status(light, doc.ko.length) + "</div>";
     h += '<div class="term" style="margin-top:14px"><span class="p">&gt;</span> STAND DER DATEN <b>' + esc(standText(doc)) + "</b><br>";
     h += '<span class="p">&gt;</span> KURS <b>' + priceText(doc) + "</b> · VOM <b>" + esc(dDE(kursDate(doc))) + "</b></div></div>";
@@ -801,7 +854,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     }
     h += matrix(doc) + criteriaDetail(doc);
     h += sourceBlock(doc);
-    h += disclaimer();
     app.innerHTML = '<article class="result">' + h + "</article>";
     openFromQuery(doc.ticker);
     window.scrollTo(0, 0);
@@ -863,10 +915,17 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     });
   }
 
-  Promise.all(TICKERS.map(function (ticker) {
-    return loadTicker(ticker).then(function (score) { return {ok: true, score: score}; }, function () { return {ok: false, ticker: ticker}; });
-  })).then(function (results) {
-    loaded = results;
+  Promise.all([
+    Promise.all(TICKERS.map(function (ticker) {
+      return loadTicker(ticker).then(function (score) { return {ok: true, score: score}; }, function () { return {ok: false, ticker: ticker}; });
+    })),
+    fetch("config/profiles.json").then(function (response) {
+      if (!response.ok) throw new Error(String(response.status));
+      return response.json();
+    }).then(null, function () { return {}; })
+  ]).then(function (parts) {
+    loaded = parts[0];
+    profiles = parts[1] || {};
     window.addEventListener("hashchange", show);
     show();
   });

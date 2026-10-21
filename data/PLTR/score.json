@@ -2,12 +2,12 @@
   "ticker": "PLTR",
   "name": "Palantir Technologies",
   "asOf": "2026-10-19",
-  "score": 82.9,
+  "score": 7.6,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "green",
-  "qualityScore": 90.0,
-  "marketScore": 55.5,
+  "qualityScore": 8.8,
+  "marketScore": 5.7,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 33 von 34 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [],
@@ -17,6 +17,14 @@
     "date": "2026-10-19",
     "sourceLabel": "Nasdaq Historical",
     "sourceUrl": "https://api.nasdaq.com/api/quote/PLTR/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000"
+  },
+  "profile": {
+    "hq": "Aventura, USA",
+    "employees": 4401,
+    "marketCap": 462829060096,
+    "currency": "USD",
+    "source": "Yahoo Finance quoteSummary",
+    "fetchedAt": "2026-10-21"
   },
   "role": {
     "id": "satellit",
@@ -31,7 +39,7 @@
       "C_07": 0.25,
       "C_08": 0.5
     },
-    "reason": "Einheitlicher Gewichtssatz aus der Satelliten-Konfiguration."
+    "reason": "Dieselbe Kriterienauswahl für alle Titel."
   },
   "criteria": [
     {

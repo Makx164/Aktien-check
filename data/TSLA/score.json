@@ -2,12 +2,12 @@
   "ticker": "TSLA",
   "name": "Tesla",
   "asOf": "2026-10-19",
-  "score": 45.7,
+  "score": 4.3,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "red",
-  "qualityScore": 52.6,
-  "marketScore": 19.3,
+  "qualityScore": 5.5,
+  "marketScore": 2.2,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 32 von 34 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [],
@@ -17,6 +17,14 @@
     "date": "2026-10-19",
     "sourceLabel": "Nasdaq Historical",
     "sourceUrl": "https://api.nasdaq.com/api/quote/TSLA/historical?assetclass=stocks&fromdate=2024-05-03&todate=2026-10-20&limit=2000"
+  },
+  "profile": {
+    "hq": "Austin, USA",
+    "employees": 134785,
+    "marketCap": 1475985408000,
+    "currency": "USD",
+    "source": "Yahoo Finance quoteSummary",
+    "fetchedAt": "2026-10-21"
   },
   "role": {
     "id": "satellit",
@@ -31,7 +39,7 @@
       "C_07": 0.25,
       "C_08": 0.5
     },
-    "reason": "Einheitlicher Gewichtssatz aus der Satelliten-Konfiguration."
+    "reason": "Dieselbe Kriterienauswahl für alle Titel."
   },
   "criteria": [
     {

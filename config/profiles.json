@@ -1,0 +1,54 @@
+{
+  "PLTR": {
+    "text": "Palantir Technologies entwickelt Software, mit der Organisationen Daten zusammenführen und auswerten. Die Plattformen Gotham, Foundry und AIP richten sich an Behörden und an Unternehmen. Darauf laufen Auswertungen und Anwendungen für den operativen Betrieb.",
+    "segments": ["Behörden", "Unternehmen"]
+  },
+  "OSS": {
+    "text": "One Stop Systems entwickelt und fertigt Hochleistungsrechner für den Einsatz nahe an Sensoren und Maschinen. Das Angebot umfasst Rechner, Speichersysteme und Beschleuniger für KI-Anwendungen. Abnehmer sind Industrie, Transport und Verteidigung.",
+    "segments": ["Hochleistungsrechner", "Speicher", "Beschleuniger"]
+  },
+  "AMZN": {
+    "text": "Amazon betreibt den weltweit größten Online-Marktplatz und mit AWS den führenden Cloud-Anbieter. Daneben verdient Amazon an Werbung, Prime-Abos und eigenen Geräten wie Echo und Kindle.",
+    "segments": ["Nordamerika", "International", "AWS"]
+  },
+  "TSLA": {
+    "text": "Tesla stellt Elektroautos her und betreibt ein Ladenetz. Daneben entwickelt Tesla Batteriespeicher und Anlagen zur Energieerzeugung. Zum Geschäft gehören außerdem Software und Dienste rund um die Fahrzeuge.",
+    "segments": ["Automobil", "Energie", "Dienste"]
+  },
+  "HIMS": {
+    "text": "Hims & Hers Health betreibt eine Plattform für Telemedizin und den Versand von Gesundheitsprodukten. Beratung, Rezepte und eigene Markenprodukte laufen über die Website und die App. Das Angebot umfasst unter anderem Haut, Haare und allgemeine Gesundheit.",
+    "segments": ["Telemedizin", "Gesundheitsprodukte"]
+  },
+  "LMND": {
+    "text": "Lemonade bietet Versicherungen an, die Kunden über eine App abschließen. Das Angebot umfasst Wohngebäude-, Mieter-, Auto-, Haustier- und Lebensversicherungen. Schäden werden in der App gemeldet.",
+    "segments": ["Wohnen", "Auto", "Haustier", "Leben"]
+  },
+  "IBRX": {
+    "text": "ImmunityBio entwickelt Immuntherapien gegen Krebserkrankungen. Das Unternehmen forscht an Wirkstoffen, die das Immunsystem aktivieren, und bringt solche Therapien zur Anwendung.",
+    "segments": ["Onkologie"]
+  },
+  "MU": {
+    "text": "Micron Technology stellt Speicherhalbleiter her, vor allem DRAM und NAND-Flash. Die Chips werden in Rechenzentren, Computern, Smartphones, Fahrzeugen und Industriegeräten verbaut. Micron entwickelt die Speicher und fertigt sie in eigenen Werken.",
+    "segments": ["DRAM", "NAND"]
+  },
+  "IREN": {
+    "text": "IREN betreibt Rechenzentren und bietet KI-Cloud-Kapazität an. Kunden nutzen die Infrastruktur, um Modelle zu trainieren und zu betreiben. IREN plant, baut und betreibt die Standorte samt Stromversorgung und Kühlung.",
+    "segments": ["KI-Cloud", "Rechenzentren"]
+  },
+  "GRAB": {
+    "text": "Grab betreibt eine Plattform für Mobilität, Lieferdienste und Finanzangebote in Südostasien. Nutzer bestellen darüber Fahrten und Lieferungen, Partner bieten ihre Dienste an. Ergänzend umfasst das Angebot Zahlungen und weitere Finanzdienste.",
+    "segments": ["Mobilität", "Lieferdienste", "Finanzdienste"]
+  },
+  "SIVE": {
+    "text": "Sivers Semiconductors entwickelt Chips und Module für drahtlose Netze und für Photonik. Die Produkte kommen in Mobilfunk, Satellitenkommunikation und optischen Verbindungen von Rechenzentren zum Einsatz. Kunden sind Ausrüster von Netzen und Rechenzentren.",
+    "segments": ["Drahtlos", "Photonik"]
+  },
+  "SPCX": {
+    "text": "Space Exploration Technologies entwickelt und startet Raketen und betreibt das Satellitennetz Starlink. Das Geschäft umfasst Transporte ins All und Satelliteninternet. Kunden sind staatliche Auftraggeber, Unternehmen und Nutzer von Starlink.",
+    "segments": ["Raketen", "Starlink"]
+  },
+  "PYPL": {
+    "text": "PayPal betreibt ein digitales Zahlungsnetz für Verbraucher und Händler. Über das Konto lassen sich Zahlungen senden, empfangen und im Onlinehandel abwickeln. Zum Angebot gehören PayPal, Venmo und Bezahldienste für Händler.",
+    "segments": ["Verbraucher", "Händler"]
+  }
+}

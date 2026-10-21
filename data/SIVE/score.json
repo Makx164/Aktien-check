@@ -2,12 +2,12 @@
   "ticker": "SIVE",
   "name": "Sivers Semiconductors",
   "asOf": "2026-10-20",
-  "score": 36.5,
+  "score": 3.9,
   "status": null,
   "criteriaWithData": 5,
   "trafficLight": "red",
-  "qualityScore": 34.4,
-  "marketScore": 75.0,
+  "qualityScore": 3.0,
+  "marketScore": 7.5,
   "dataQuality": "Keine SEC-Fundamentaldaten. Was Yahoo nicht liefert, bleibt keine US-Meldepflicht. C_06 zählt erst ab drei Analysten. Kurse von Yahoo Finance Chart-API (SIVE.ST). Stooq hat den Abruf abgelehnt. 11 von 35 Metriken verfügbar",
   "missingDataNote": "keine US-Meldepflicht bei C_03. zu wenige Analysten bei C_06. wenig Daten bei C_08. Der Score zählt nur Kriterien mit Daten.",
   "koFlags": [
@@ -19,6 +19,14 @@
     "date": "2026-10-20",
     "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
     "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y"
+  },
+  "profile": {
+    "hq": "Kista, Schweden",
+    "employees": 130,
+    "marketCap": 7722240000,
+    "currency": "SEK",
+    "source": "Yahoo Finance quoteSummary",
+    "fetchedAt": "2026-10-21"
   },
   "role": {
     "id": "satellit",
@@ -33,7 +41,7 @@
       "C_07": 0.25,
       "C_08": 0.5
     },
-    "reason": "Einheitlicher Gewichtssatz aus der Satelliten-Konfiguration."
+    "reason": "Dieselbe Kriterienauswahl für alle Titel."
   },
   "criteria": [
     {
