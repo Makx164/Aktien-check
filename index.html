@@ -203,7 +203,8 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
 .crit .chev{font:700 14px "JetBrains Mono",monospace;color:var(--mut);transition:transform .15s}
 .crit[open] .chev{transform:rotate(90deg)}
 .crit[open]{border-color:var(--ink)}
-.crit .body{padding:4px 14px 14px;border-top:1px dashed var(--hair2)}
+.crit{min-width:0;max-width:100%}
+.crit .body{padding:4px 14px 14px;border-top:1px dashed var(--hair2);min-width:0;max-width:100%;overflow:hidden}
 .kv{margin:10px 0 6px;font:500 12.5px/1.5 "JetBrains Mono",monospace}
 .kv .row{display:flex;align-items:baseline;gap:8px;padding:4px 0}
 .kv .k{color:var(--mut);text-transform:uppercase;letter-spacing:.04em;flex:none;max-width:58%}
@@ -214,13 +215,31 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
 .kv .row.long .lead-d{display:none}
 .kv .row.long .v{display:block;text-align:left;max-width:none;padding-left:16px;margin-top:2px;font-weight:500}
 .kv .v.nd{color:var(--warn)}
-.mtbl{width:100%;border-collapse:collapse;margin:10px 0 4px;font:500 12.5px/1.45 "JetBrains Mono",monospace}
-.mtbl th{text-align:left;font:500 10px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);padding:4px 10px 4px 0;border-bottom:1px solid var(--hair)}
-.mtbl td{padding:6px 10px 6px 0;border-bottom:1px solid var(--hair2);vertical-align:baseline}
-.mtbl td.val{font-weight:700;font-size:14.5px;color:var(--ink);white-space:nowrap}
-.mtbl td.pts{font-weight:600;white-space:nowrap}
+.mtbl{width:100%;max-width:100%;table-layout:fixed;border-collapse:collapse;margin:10px 0 4px;font:500 12.5px/1.45 "JetBrains Mono",monospace}
+.mtbl col.c-name{width:32%}
+.mtbl col.c-val{width:26%}
+.mtbl col.c-pts{width:18%}
+.mtbl col.c-scale{width:24%}
+.mtbl th{text-align:left;font:500 10px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);padding:4px 8px 4px 0;border-bottom:1px solid var(--hair)}
+.mtbl td{padding:6px 8px 6px 0;border-bottom:1px solid var(--hair2);vertical-align:baseline;overflow-wrap:break-word;word-wrap:break-word}
+.mtbl td.val{font-weight:700;font-size:14.5px;color:var(--ink);white-space:normal}
+.mtbl td.val .sub{display:block;margin-top:3px;font:500 11px/1.35 "JetBrains Mono",monospace;color:var(--mut);font-weight:400;overflow-wrap:anywhere}
+.mtbl td.pts{font-weight:600;white-space:normal}
 .mtbl td.scale{font-size:11px;color:var(--mut);font-weight:400}
-.mtbl-gap{margin:8px 0 0;font:500 12px "JetBrains Mono",monospace;color:var(--mut)}
+.mtbl-gap{margin:4px 0 0;font:500 12px/1.45 "JetBrains Mono",monospace;color:var(--mut)}
+@media (max-width:640px){
+  .crit summary{grid-template-columns:minmax(0,1fr) minmax(0,46%) 14px;gap:8px;padding:12px 10px}
+  .crit .score{white-space:normal;overflow-wrap:anywhere;font-size:16px;min-width:0}
+  .crit .ctags .tag{overflow-wrap:anywhere}
+  .mtbl{font-size:11.5px}
+  .mtbl col.c-name{width:30%}
+  .mtbl col.c-val{width:28%}
+  .mtbl col.c-pts{width:20%}
+  .mtbl col.c-scale{width:22%}
+  .mtbl th,.mtbl td{padding-right:6px}
+  .mtbl td.val{font-size:13px}
+  .mtbl td.val .sub{font-size:10.5px}
+}
 .expl{font-size:14px;color:var(--ink2);margin:10px 0}
 .src{font:500 11.5px "JetBrains Mono",monospace;color:var(--mut);margin-top:8px;word-break:break-word;letter-spacing:.04em}
 .src a{margin-right:12px}
@@ -664,6 +683,19 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     return h;
   }
 
+  function metricName(metric) {
+    return metric.label || metric.id;
+  }
+  function pointsText(metric, aggregate) {
+    var text = n1(metric.points);
+    if (aggregate !== "sum" || metric.pointsMax == null) return text;
+    var maxN = Number(metric.pointsMax);
+    var maxText = Math.abs(maxN - Math.round(maxN)) < 1e-9 ? String(Math.round(maxN)) : n1(maxN);
+    return text + " / " + maxText;
+  }
+  function isWithheld(metric) {
+    return metric.points == null && metric.value != null && /Warnhinweis/.test(metric.status || "");
+  }
   function criteriaDetail(doc) {
     var h = '<div class="sec-t"><h2>Criteria_Detail</h2><span class="mlabel">ANTIPPEN FÜR DETAILS</span></div>';
     doc.criteria.forEach(function (c) {
@@ -673,33 +705,50 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
         ? '<span class="tag daten">Daten</span>'
         : '<span class="' + (excluded ? "tag off" : "tag bsp") + '">' + esc(gap) + "</span>";
       var present = [];
-      var absent = [];
+      var notApplicable = [];
+      var withheld = [];
+      var missing = [];
       (c.metrics || []).forEach(function (metric) {
-        if (metric.status || metric.points == null) absent.push(metric);
+        if ((metric.status || "") === "nicht anwendbar") notApplicable.push(metric);
+        else if (isWithheld(metric)) withheld.push(metric);
+        else if (metric.status || metric.points == null) missing.push(metric);
         else present.push(metric);
       });
       var rows = present.map(function (metric) {
         var tip = sourceTitle(metric);
-        return "<tr><td>" + esc(metric.label || metric.id) + '</td><td class="val"' + (tip ? ' title="' + esc(tip) + '"' : "") + ">" + esc(String(metric.value)) + '</td><td class="pts">' + esc(n1(metric.points)) + '</td><td class="scale">' + esc(metric.scale || "") + "</td></tr>";
+        var caption = metric.caption ? '<span class="sub">' + esc(metric.caption) + "</span>" : "";
+        return "<tr><td>" + esc(metricName(metric)) + '</td><td class="val"' + (tip ? ' title="' + esc(tip) + '"' : "") + ">" + esc(String(metric.value)) + caption + '</td><td class="pts">' + esc(pointsText(metric, c.aggregate)) + '</td><td class="scale">' + esc(metric.scale || "") + "</td></tr>";
       }).join("");
       var table = present.length
-        ? '<table class="mtbl"><thead><tr><th>Metrik</th><th>Wert</th><th>Punkte</th><th>Skala</th></tr></thead><tbody>' + rows + "</tbody></table>"
+        ? '<table class="mtbl"><colgroup><col class="c-name"><col class="c-val"><col class="c-pts"><col class="c-scale"></colgroup><thead><tr><th>Metrik</th><th>Wert</th><th>Punkte</th><th>Skala</th></tr></thead><tbody>' + rows + "</tbody></table>"
         : "";
-      var gapLine = absent.length
-        ? '<p class="mtbl-gap">Ohne Daten: ' + absent.map(function (metric) {
-          var name = metric.label || metric.id;
-          return esc(name) + (metric.status ? " (" + esc(metric.status) + ")" : "");
+      var naLine = notApplicable.length
+        ? '<p class="mtbl-gap">Nicht anwendbar: ' + notApplicable.map(function (metric) {
+          var reason = metric.statusReason || "";
+          return esc(metricName(metric)) + (reason ? " (" + esc(reason) + ")" : "");
+        }).join(", ") + "</p>"
+        : "";
+      var withheldLine = withheld.length
+        ? '<p class="mtbl-gap">Nicht gewertet: ' + withheld.map(function (metric) {
+          return esc(metricName(metric)) + " " + esc(String(metric.value)) + " (" + esc(metric.status) + ")";
+        }).join(", ") + "</p>"
+        : "";
+      var gapLine = missing.length
+        ? '<p class="mtbl-gap">Ohne Daten: ' + missing.map(function (metric) {
+          return esc(metricName(metric)) + (metric.status ? " (" + esc(metric.status) + ")" : "");
         }).join(", ") + "</p>"
         : "";
       var how = c.aggregate === "sum" ? "Summe aus " : "Mittel aus ";
-      var meanLine = '<p class="expl">Kriterium = ' + how + present.length + " Werten</p>";
+      var noun = present.length === 1 ? "Wert" : "Werten";
+      var capNote = c.aggregate === "sum" ? " (max. 10)" : "";
+      var meanLine = '<p class="expl">Kriterium = ' + how + present.length + " " + noun + capNote + "</p>";
       var quality = c.dataQuality ? '<p class="expl">' + esc(c.dataQuality) + "</p>" : "";
       var summary = c.code === "C_06" ? analystSummary(c.summary) : "";
       var scoreText = c.bewertet
         ? esc(n1(c.wert)) + "<small>/10</small>"
         : (excluded ? '<span class="mlabel">' + esc(gap) + "</span>" : esc(gap) + "<small>/10</small>");
       h += '<details class="crit" id="c' + c.id + '"><summary><span><span class="cid">CRITERION_' + pad(c.id) + '</span><span class="cn">' + esc(c.name) + '</span><span class="ctags">' + tag + '</span></span><span class="score">' +
-        scoreText + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body">' + table + gapLine + meanLine + summary + quality + "</div></details>";
+        scoreText + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body">' + table + naLine + withheldLine + gapLine + meanLine + summary + quality + "</div></details>";
     });
     return h;
   }

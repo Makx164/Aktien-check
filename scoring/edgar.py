@@ -10,6 +10,8 @@ import xml.etree.ElementTree as ET
 from datetime import date, timedelta
 from pathlib import Path
 
+from scoring.metrics import GAAP_RD_NAMES, has_recent_annual
+
 USER_AGENT = "sidequest/1.0 (aktiencheck; maximilianhillert@mail.grokbot.com)"
 TICKER_URL = "https://www.sec.gov/files/company_tickers.json"
 INSIDER_WINDOW_DAYS = 183
@@ -139,9 +141,9 @@ class EdgarClient:
         """
         if not isinstance(facts, dict):
             return facts
-        if _usd_concept(facts, "ResearchAndDevelopmentExpense") or _usd_concept(
-            facts, "ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost"
-        ):
+        # A current annual GAAP tag is the research line. An older tag, or only
+        # quarterly leftovers, does not block the extension concepts.
+        if has_recent_annual(facts, GAAP_RD_NAMES, months=18):
             return facts
         payload = self._extension_payload(cik, submissions, RD_EXTENSION_NAMES)
         gaap = facts.setdefault("us-gaap", {})
@@ -301,7 +303,10 @@ def parse_form4(xml_bytes):
     }
 
 
-RD_EXTENSION_NAMES = ("TechnologyAndInfrastructureExpense",)
+RD_EXTENSION_NAMES = (
+    "TechnologyAndInfrastructureExpense",
+    "TechnologyAndDevelopmentExpense",
+)
 
 
 def parse_extension_instance(xml_bytes, names, form, filed):
