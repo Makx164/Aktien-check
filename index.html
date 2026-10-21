@@ -87,7 +87,14 @@ main{position:relative;padding:8px 26px 30px;outline:none}
 .disclaimer{border:1px solid var(--bad);background:var(--bad-bg);padding:12px 14px;font-size:13px;color:var(--ink2)}
 .disclaimer .mlabel{color:var(--bad);margin-bottom:4px}
 .disclaimer p{margin:2px 0 0}
-.foot-url{text-align:center;font:500 11px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--ink2);margin:18px 0 0}
+.foot-band{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 18px}
+.footer .discl-big.compact{flex:1 1 320px;margin-top:12px}
+.foot-legal{flex:0 0 auto;margin:12px 0 0;text-align:right;font:500 11px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.foot-legal a{color:var(--ink2)}
+.foot-legal a:hover{color:var(--ink)}
+.foot-legal .sep{margin:0 8px;color:var(--mut)}
+.foot-legal a[aria-current="page"]{color:var(--ink)}
+.foot-url{text-align:center;font:500 11px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--ink2);margin:12px 0 0}
 
 /* Typo blocks */
 .h-red{font:700 clamp(40px,8.4vw,86px)/.95 "Space Mono",monospace;color:var(--red);letter-spacing:.01em;margin:0;text-transform:uppercase}
@@ -282,6 +289,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
   .top-r{gap:6px}
   .badge-proto{font-size:9.5px;letter-spacing:.12em;padding:4px 6px}
   .theme-tg span{padding:4px 7px;font-size:9.5px}
+  .foot-legal{flex:1 1 100%;text-align:center}
   .r-head{padding-top:12px}
   .stamp{top:58px;right:2px;font-size:11px}
   .st{font-size:10.5px;letter-spacing:.07em;line-height:1.35;padding:7px 9px}
@@ -419,6 +427,12 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     </header>
     <main id="app" tabindex="-1"><p class="mlabel">Daten werden geladen.</p></main>
     <footer class="footer">
+      <div class="foot-band">
+        <div class="discl-big compact"><span class="mlabel">KEINE ANLAGEBERATUNG</span>Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.</div>
+        <nav class="foot-legal" aria-label="Rechtliches">
+          <a href="impressum.html">Impressum</a><span class="sep" aria-hidden="true">·</span><a href="datenschutz.html">Datenschutz</a>
+        </nav>
+      </div>
       <p class="foot-url">sidequest</p>
     </footer>
     <i class="cx tl"></i><i class="cx tr"></i><i class="cx bl"></i><i class="cx br"></i>
@@ -428,7 +442,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
   "use strict";
   var TICKERS = ["PLTR","OSS","AMZN","TSLA","HIMS","LMND","IBRX","MU","IREN","GRAB","SIVE","SPCX","PYPL"];
   var CODES = ["C_01","C_02","C_03","C_04","C_05","C_06","C_07","C_08","C_09"];
-  var DISCLAIMER = "Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.";
   var CFG = {
     scoreName: "Aktien-Score",
     ampelText: {gruen: "Starkes Gesamtprofil", gelb: "Gemischtes Gesamtprofil", rot: "Schwaches Gesamtprofil"},
@@ -484,9 +497,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
   function lab(light) {
     if (light === "na") return CFG.ampel.na.label;
     return CFG.ampelText[light] || "";
-  }
-  function disclaimer() {
-    return '<div class="discl-big compact"><span class="mlabel">KEINE ANLAGEBERATUNG</span>' + DISCLAIMER + "</div>";
   }
   function status(light, ko) {
     var name = {gruen: "GRÜN", gelb: "GELB", rot: "ROT", na: "GRAU"}[light];
@@ -638,14 +648,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     var kicker = document.createElement("div");
     kicker.className = "sec-t page-kicker";
     kicker.innerHTML = "<h2>Übersicht Aktienportfolio</h2><span class=\"mlabel\">" + loaded.length + " TICKER · SCORE 0–10</span>";
-    app.replaceChildren(kicker, grid, noteNode());
-  }
-
-  function noteNode() {
-    var note = document.createElement("div");
-    note.className = "discl-big compact";
-    note.innerHTML = '<span class="mlabel">KEINE ANLAGEBERATUNG</span>' + DISCLAIMER;
-    return note;
+    app.replaceChildren(kicker, grid);
   }
 
   function matrix(doc) {
@@ -851,7 +854,6 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     }
     h += matrix(doc) + criteriaDetail(doc);
     h += sourceBlock(doc);
-    h += disclaimer();
     app.innerHTML = '<article class="result">' + h + "</article>";
     openFromQuery(doc.ticker);
     window.scrollTo(0, 0);

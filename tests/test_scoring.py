@@ -1485,5 +1485,58 @@ class ScaleTenTests(unittest.TestCase):
         self.assertNotIn("profile", bare)
 
 
+class LegalPageTests(unittest.TestCase):
+    def test_footer_links_sit_beside_the_disclaimer(self):
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        footer = html.split("<footer", 1)[1].split("</footer>", 1)[0]
+        self.assertIn("KEINE ANLAGEBERATUNG", footer)
+        self.assertIn('href="impressum.html"', footer)
+        self.assertIn('href="datenschutz.html"', footer)
+        self.assertIn('class="foot-legal"', footer)
+        self.assertNotIn("function disclaimer(", html)
+        self.assertNotIn("DISCLAIMER", html)
+
+    def test_impressum_names_the_provider(self):
+        html = (ROOT / "impressum.html").read_text(encoding="utf-8")
+        self.assertIn("Angaben gemäß § 5 DDG", html)
+        self.assertIn("Maximilian Hillert", html)
+        self.assertIn("Illgnerstraße 35", html)
+        self.assertIn("04442 Zwenkau", html)
+        self.assertIn("maximilianhillert@mail.grokbot.com", html)
+        self.assertIn("Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV", html)
+        self.assertIn("keine Anlageberatung", html)
+        self.assertIn("keine Gewähr", html)
+        self.assertIn("Soweit auf fremde Websites verlinkt wird", html)
+        self.assertIn('href="datenschutz.html"', html)
+        self.assertIn("KEINE ANLAGEBERATUNG", html)
+
+    def test_privacy_matches_the_runtime(self):
+        html = (ROOT / "datenschutz.html").read_text(encoding="utf-8")
+        page = (ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertIn("Stand: 21. Oktober 2026", html)
+        self.assertIn("Art. 6 Abs. 1 lit. f DSGVO", html)
+        self.assertIn("Vercel Inc.", html)
+        self.assertIn("EU-US Data Privacy Framework", html)
+        self.assertIn("keine Cookies", html)
+        self.assertIn("ac-theme", html)
+        self.assertIn("sessionStorage wird nicht verwendet", html)
+        self.assertIn("Google Fonts", html)
+        self.assertIn("nicht eingebunden", html)
+        self.assertIn("Speed Insights", html)
+        self.assertIn("Der Browser ruft diese Dienste nicht auf", html)
+        self.assertIn("scripts/build_scores.py", html)
+        self.assertIn("Art. 77 DSGVO", html)
+        self.assertIn("Sächsische Datenschutz- und Transparenzbeauftragte", html)
+        self.assertIn('href="impressum.html"', html)
+        for banned in ("googleapis", "cdn.jsdelivr", "va.vercel-scripts", "googletagmanager", "plausible"):
+            self.assertNotIn(banned, html)
+            self.assertNotIn(banned, page)
+        self.assertIn('url("fonts/space-grotesk.woff2")', page)
+        self.assertIn('localStorage.getItem("ac-theme")', page)
+        self.assertIn('localStorage.setItem("ac-theme", t)', page)
+        self.assertNotIn("sessionStorage", page)
+        self.assertNotIn("document.cookie", page)
+
+
 if __name__ == "__main__":
     unittest.main()

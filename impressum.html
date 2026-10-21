@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (registrations) {
+        registrations.forEach(function (registration) { registration.unregister(); });
+      }).catch(function () {});
+    }
+  </script>
+  <script>try{var t=localStorage.getItem("ac-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#c6c7c1">
+  <title>Impressum · sidequest</title>
+  <meta name="description" content="Impressum von sidequest. Anbieter Maximilian Hillert, Illgnerstraße 35, 04442 Zwenkau.">
+  <link rel="canonical" href="https://yoursidequest.org/impressum">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23e8305a'/%3E%3Cpath d='M5 17l5-5 3 3 6-7' fill='none' stroke='%23111' stroke-width='2.6'/%3E%3C/svg%3E">
+  <style>
+@font-face{font-family:"Space Mono";src:url("fonts/space-mono-400.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Space Mono";src:url("fonts/space-mono-700.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("fonts/jetbrains-mono.woff2") format("woff2");font-weight:100 800;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url("fonts/space-grotesk.woff2") format("woff2");font-weight:300 700;font-display:swap}
+:root,[data-theme="light"]{
+  --bg:#c6c7c1; --bg2:#cfd0ca; --ink:#111214; --ink2:#3a3c40; --mut:#5f625f;
+  --hair:rgba(17,18,20,.55); --hair2:rgba(17,18,20,.22); --grid:rgba(17,18,20,.045);
+  --red:#e8305a; --blue:#2b55e0; --bad:#c41c3a; --bad-bg:rgba(196,28,58,.10);
+  --scan:none; color-scheme:light;
+}
+[data-theme="dark"]{
+  --bg:#0a0b0c; --bg2:#0f1012; --ink:#eceeee; --ink2:#c3c6c8; --mut:#8a8f93;
+  --hair:rgba(236,238,238,.42); --hair2:rgba(236,238,238,.16); --grid:rgba(236,238,238,.035);
+  --red:#ff3b63; --blue:#6f93ff; --bad:#ff4d66; --bad-bg:rgba(255,77,102,.10);
+  --scan:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 "Space Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;
+  background-image:var(--scan),linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:auto,32px 32px,32px 32px}
+a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+.mlabel{display:inline-block;font:500 11px "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.shell{position:relative;max-width:1060px;margin:26px auto 34px;border:1px solid var(--hair);background:color-mix(in srgb,var(--bg) 80%,transparent)}
+.cx{position:absolute;width:19px;height:19px;pointer-events:none}
+.cx::before,.cx::after{content:"";position:absolute;background:var(--ink)}
+.cx::before{left:9px;top:0;width:1px;height:19px} .cx::after{top:9px;left:0;height:1px;width:19px}
+.cx.tl{left:-10px;top:-10px} .cx.tr{right:-10px;top:-10px} .cx.bl{left:-10px;bottom:-10px} .cx.br{right:-10px;bottom:-10px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 26px;border-bottom:1px solid var(--hair2)}
+.brand{display:flex;align-items:center;gap:12px;color:var(--ink)} .brand:hover{text-decoration:none}
+.logo{width:26px;height:26px;color:var(--ink)} .logo svg{width:100%;height:100%}
+.brand-t{font:700 16px/1.1 "Space Mono",monospace;letter-spacing:.08em}
+.top-r{display:flex;align-items:center;gap:10px}
+.theme-tg{display:flex;border:1px solid var(--hair);background:transparent;padding:0;cursor:pointer;font:600 10.5px "JetBrains Mono",monospace;letter-spacing:.14em}
+.theme-tg span{padding:5px 9px;color:var(--mut)}
+[data-theme="light"] .theme-tg [data-v="light"],[data-theme="dark"] .theme-tg [data-v="dark"]{background:var(--ink);color:var(--bg)}
+main{position:relative;padding:8px 26px 18px;outline:none}
+.legal h1{font:700 clamp(28px,5vw,46px)/1.05 "Space Mono",monospace;letter-spacing:.06em;text-transform:uppercase;margin:28px 0 8px}
+.legal h2{font:700 13px "Space Mono",monospace;letter-spacing:.08em;text-transform:uppercase;margin:26px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--hair2)}
+.legal p{color:var(--ink2);max-width:68ch;margin:8px 0}
+.legal address{font-style:normal;color:var(--ink);margin:0}
+.footer{padding:0 26px 22px}
+.foot-band{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 18px}
+.discl-big.compact{flex:1 1 320px;margin-top:12px;border:1px solid var(--bad);background:var(--bad-bg);padding:8px 12px;font-size:12px}
+.discl-big .mlabel{color:var(--bad);display:block;margin-bottom:4px}
+.foot-legal{flex:0 0 auto;margin:12px 0 0;text-align:right;font:500 11px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.foot-legal a{color:var(--ink2)}
+.foot-legal a:hover{color:var(--ink)}
+.foot-legal .sep{margin:0 8px;color:var(--mut)}
+.foot-legal a[aria-current="page"]{color:var(--ink)}
+.foot-url{text-align:center;font:500 11px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--ink2);margin:12px 0 0}
+@media (max-width:640px){
+  body{font-size:14.5px;background-size:auto,24px 24px,24px 24px}
+  .shell{margin:14px 10px 24px}
+  .topbar{padding:12px 14px} main{padding:4px 14px 12px} .footer{padding:0 14px 18px}
+  .brand-t{font-size:13px} .logo{width:22px;height:22px}
+  .theme-tg span{padding:4px 7px;font-size:9.5px}
+  .foot-legal{flex:1 1 100%;text-align:center}
+}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="sidequest, alle Positionen">
+        <span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 22 20H2Z" fill="currentColor"/><path d="M12 11 15.5 17h-7Z" fill="var(--bg)"/></svg></span>
+        <span class="brand-t">sidequest</span>
+      </a>
+      <div class="top-r">
+        <button class="theme-tg" id="theme-tg" type="button" aria-label="Farbschema wechseln">
+          <span data-v="light">LIGHT</span><span data-v="dark">OPS</span>
+        </button>
+      </div>
+    </header>
+    <main id="inhalt" class="legal" tabindex="-1">
+      <h1>Impressum</h1>
+      <p class="mlabel">Angaben gemäß § 5 DDG</p>
+      <h2>Anbieter</h2>
+      <address>
+        Maximilian Hillert<br>
+        Illgnerstraße 35<br>
+        04442 Zwenkau
+      </address>
+      <h2>Kontakt</h2>
+      <p>E-Mail: <a href="mailto:maximilianhillert@mail.grokbot.com">maximilianhillert@mail.grokbot.com</a></p>
+      <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+      <p>Maximilian Hillert, Anschrift wie oben.</p>
+      <h2>Hinweis zum Inhalt</h2>
+      <p>Die Website zeigt subjektive, automatisierte Bewertungen öffentlicher Unternehmensdaten. Sie ist keine Anlageberatung. Für Richtigkeit und Aktualität wird keine Gewähr übernommen.</p>
+      <h2>Haftung für Links</h2>
+      <p>Soweit auf fremde Websites verlinkt wird, liegen deren Inhalte außerhalb dieses Angebots. Für diese Inhalte ist der jeweilige Anbieter verantwortlich. Rechtswidrige Inhalte werden entfernt, sobald sie bekannt werden.</p>
+    </main>
+    <footer class="footer">
+      <div class="foot-band">
+        <div class="discl-big compact"><span class="mlabel">KEINE ANLAGEBERATUNG</span>Keine Anlageberatung. Die Bewertungen sind subjektive Interpretationen und spiegeln keine tatsächlichen Werte wider.</div>
+        <nav class="foot-legal" aria-label="Rechtliches">
+          <a href="impressum.html" aria-current="page">Impressum</a><span class="sep" aria-hidden="true">·</span><a href="datenschutz.html">Datenschutz</a>
+        </nav>
+      </div>
+      <p class="foot-url">sidequest</p>
+    </footer>
+    <i class="cx tl"></i><i class="cx tr"></i><i class="cx bl"></i><i class="cx br"></i>
+  </div>
+  <script>
+    var tg = document.getElementById("theme-tg");
+    function setTheme(t) {
+      document.documentElement.setAttribute("data-theme", t);
+      try { localStorage.setItem("ac-theme", t); } catch (e) {}
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.content = t === "dark" ? "#0a0b0c" : "#c6c7c1";
+    }
+    tg.addEventListener("click", function () {
+      setTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    });
+  </script>
+</body>
+</html>
