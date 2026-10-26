@@ -1,7 +1,7 @@
 {
   "ticker": "GRAB",
   "name": "Grab Holdings",
-  "asOf": "2026-10-21",
+  "asOf": "2026-10-23",
   "score": 6.8,
   "status": null,
   "criteriaWithData": 8,
@@ -11,22 +11,22 @@
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 31 von 31 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [
-    "Altman Z -0,11 unter 1,8"
+    "Altman Z -0,12 unter 1,8"
   ],
   "price": {
-    "close": 2.82,
+    "close": 2.79,
     "currency": "USD",
-    "date": "2026-10-21",
+    "date": "2026-10-23",
     "sourceLabel": "Nasdaq Historical",
-    "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-05&todate=2026-10-22&limit=2000"
+    "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000"
   },
   "profile": {
     "hq": "Singapur",
     "employees": 12012,
-    "marketCap": 11537471488,
+    "marketCap": 11414731776,
     "currency": "USD",
     "source": "Yahoo Finance quoteSummary",
-    "fetchedAt": "2026-10-22"
+    "fetchedAt": "2026-10-26"
   },
   "role": {
     "id": "satellit",
@@ -62,7 +62,7 @@
           "scale": "≥ 20 % = 10, 5 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "statusReason": "Verlust bzw. negatives Kapital"
         },
@@ -76,7 +76,7 @@
           "scale": "≥ 60 % = 10, 20 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31",
           "note": "Vergleich bis 2025-12-31"
         },
@@ -90,7 +90,7 @@
           "scale": "≥ 5 Pp = 10, -5 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31",
           "note": "Vergleich bis 2025-12-31"
         },
@@ -104,7 +104,7 @@
           "scale": "≥ 5 Pp = 10, -3 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31",
           "note": "Vergleich bis 2025-12-31"
         },
@@ -118,7 +118,7 @@
           "scale": "Netto-Cash oder mindestens 36 Monate = 10, unter 12 Monaten = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         }
       ]
@@ -141,7 +141,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31",
           "note": "Vergleich bis 2025-12-31"
         },
@@ -155,7 +155,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31",
           "note": "Yahoo revenueGrowth · revenueGrowth, in der Regel das letzte Quartal zum Vorjahr"
         },
@@ -169,7 +169,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary, Analystenschätzung",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "Analystenschätzung, nächstes Jahr"
         },
@@ -183,7 +183,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         },
         {
@@ -196,7 +196,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         },
         {
@@ -209,7 +209,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "statusReason": "Verlust bzw. negativer Wert in der Basisperiode"
         },
@@ -223,7 +223,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "statusReason": "Verlust bzw. negativer Wert in der Basisperiode"
         },
@@ -237,7 +237,7 @@
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31",
           "note": "Vergleich bis 2025-12-31"
         },
@@ -251,7 +251,7 @@
           "scale": "≥ 10 Pp = 10, -5 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         }
       ]
@@ -274,7 +274,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31",
           "note": "Vergleich bis 2025-12-31"
         },
@@ -288,7 +288,7 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31",
           "note": "Vergleich bis 2025-12-31"
         }
@@ -312,7 +312,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         },
         {
@@ -325,7 +325,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31",
           "note": "Vergleich bis 2025-12-31"
         },
@@ -339,7 +339,7 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         },
         {
@@ -352,7 +352,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -365,7 +365,7 @@
           "scale": "≥ 36 Monate = 10, 12 Monate = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         },
         {
@@ -378,7 +378,7 @@
           "scale": "≤ 0,00 = 10, 4,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         },
         {
@@ -391,7 +391,7 @@
           "scale": "≥ 2,00 = 10, 0,80 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         },
         {
@@ -404,7 +404,7 @@
           "scale": "≤ 0 % = 10, 10 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         }
       ]
@@ -420,14 +420,14 @@
         {
           "id": "insider_ownership",
           "label": "Insider-Anteil",
-          "value": "13,9 %",
-          "raw": 0.13877,
+          "value": "14,0 %",
+          "raw": 0.13976,
           "points": 5.0,
           "status": null,
           "scale": "über 10 % = 5, 3–10 % = 3, unter 3 % = 1",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB/holders",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "pointsMax": 5
         },
@@ -441,7 +441,7 @@
           "scale": "Netto-Käufe = 3, neutral = 2, Netto-Verkäufe = 0",
           "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-10-15",
           "pointsMax": 3,
           "caption": "2 Käufe / 26 Verkäufe, davon 25 im 10b5-1-Plan",
@@ -458,14 +458,14 @@
         {
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
-          "value": "66,3 %",
-          "raw": 0.6633,
+          "value": "66,4 %",
+          "raw": 0.66364,
           "points": 2.0,
           "status": null,
           "scale": "über 40 % = 2, bis 40 % = 0",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB/holders",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "pointsMax": 2
         }
@@ -475,7 +475,7 @@
     {
       "id": "C_06",
       "label": "Analysten & Stimmung",
-      "score": 7.6,
+      "score": 7.7,
       "status": null,
       "weight": 0.75,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -490,33 +490,33 @@
           "scale": "≥ 80 % = 10, 30 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
           "id": "target_upside",
           "label": "Abstand zum mittleren Kursziel",
-          "value": "96,4 %",
-          "raw": 0.96377,
+          "value": "98,5 %",
+          "raw": 0.984885,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
           "id": "eps_revision_90d",
           "label": "EPS-Revision, 90 Tage",
-          "value": "-4,5 %",
-          "raw": -0.044574,
-          "points": 2.8,
+          "value": "-4,1 %",
+          "raw": -0.040624,
+          "points": 3.0,
           "status": null,
           "scale": "≥ 10 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         }
       ],
@@ -576,7 +576,7 @@
         ],
         "sourceLabel": "Yahoo Finance quoteSummary",
         "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-        "fetchedAt": "2026-10-22"
+        "fetchedAt": "2026-10-26"
       }
     },
     {
@@ -590,15 +590,15 @@
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
-          "value": "-59,3 Pp",
-          "raw": -59.298027,
+          "value": "-59,5 Pp",
+          "raw": -59.543623,
           "points": 0.0,
           "status": null,
           "scale": "≥ 30 Pp = 10, 0 Pp = 5, ≤ -50 Pp = 0",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-05&todate=2026-10-22&limit=2000",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-21"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000",
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-23"
         },
         {
           "id": "above_sma_200",
@@ -609,22 +609,22 @@
           "status": null,
           "scale": "über dem 200-Tage-Schnitt = 10, darunter = 5",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-05&todate=2026-10-22&limit=2000",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-21"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000",
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-23"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "54,8 %",
-          "raw": 0.548077,
+          "value": "55,3 %",
+          "raw": 0.552885,
           "points": 10.0,
           "status": null,
           "scale": "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-05&todate=2026-10-22&limit=2000",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-21"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000",
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-23"
         }
       ]
     },
@@ -639,42 +639,42 @@
         {
           "id": "valuation_primary",
           "label": "(EV/Umsatz) / Umsatzwachstum",
-          "value": "0,17",
-          "raw": 0.16665,
+          "value": "0,16",
+          "raw": 0.164924,
           "points": 10.0,
           "status": null,
           "scale": "≤ 0,20 = 10, 1,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-21",
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-23",
           "note": "Ersatz für PEG, weil das EPS-Wachstum nicht berechenbar ist"
         },
         {
           "id": "fcf_yield",
           "label": "Free-Cashflow-Rendite",
           "value": "-0,2 %",
-          "raw": -0.001612,
+          "raw": -0.001629,
           "points": 0.0,
           "status": null,
           "scale": "≥ 8 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-21"
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-23"
         },
         {
           "id": "ev_to_ebitda",
           "label": "EV / EBITDA",
-          "value": "47,38",
-          "raw": 47.37993,
+          "value": "46,89",
+          "raw": 46.889031,
           "points": 0.0,
           "status": null,
           "scale": "≤ 8,00 = 10, 30,00 = 0",
           "sourceLabel": "Aktienzahl Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-21"
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-23"
         }
       ]
     }

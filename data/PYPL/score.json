@@ -1,7 +1,7 @@
 {
   "ticker": "PYPL",
   "name": "PayPal",
-  "asOf": "2026-10-21",
+  "asOf": "2026-10-23",
   "score": 5.7,
   "status": null,
   "criteriaWithData": 8,
@@ -12,19 +12,19 @@
   "missingDataNote": null,
   "koFlags": [],
   "price": {
-    "close": 57.2,
+    "close": 57.02,
     "currency": "USD",
-    "date": "2026-10-21",
+    "date": "2026-10-23",
     "sourceLabel": "Nasdaq Historical",
-    "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-05&todate=2026-10-22&limit=2000"
+    "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000"
   },
   "profile": {
     "hq": "San Jose, USA",
     "employees": 23800,
-    "marketCap": 49306398720,
+    "marketCap": 48778379264,
     "currency": "USD",
     "source": "Yahoo Finance quoteSummary",
-    "fetchedAt": "2026-10-22"
+    "fetchedAt": "2026-10-26"
   },
   "role": {
     "id": "satellit",
@@ -60,7 +60,7 @@
           "scale": "≥ 20 % = 10, 5 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2022-12-31"
         },
         {
@@ -73,7 +73,7 @@
           "scale": "≥ 60 % = 10, 20 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-03-31",
           "note": "TTM bis 2026-03-31 · Bruttomarge aus financialData"
         },
@@ -87,7 +87,7 @@
           "scale": "≥ 5 Pp = 10, -5 Pp = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "Bruttomarge aus financialData"
         },
@@ -101,7 +101,7 @@
           "scale": "≥ 5 Pp = 10, -3 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-03-31",
           "note": "TTM bis 2026-03-31"
         },
@@ -115,7 +115,7 @@
           "scale": "Netto-Cash oder mindestens 36 Monate = 10, unter 12 Monaten = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "statusReason": "Nettoverschuldung bei positivem Free Cashflow"
         }
@@ -139,7 +139,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-03-31",
           "note": "TTM bis 2026-03-31"
         },
@@ -153,7 +153,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-03-31",
           "note": "Quartal bis 2026-03-31"
         },
@@ -161,13 +161,13 @@
           "id": "revenue_estimate_yoy",
           "label": "Umsatzwachstum, Analystenschätzung nächstes Jahr",
           "value": "4,2 %",
-          "raw": 0.042,
+          "raw": 0.0419,
           "points": 1.4,
           "status": null,
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary, Analystenschätzung",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "Analystenschätzung, nächstes Jahr"
         },
@@ -181,7 +181,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         },
         {
@@ -194,7 +194,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         },
         {
@@ -207,7 +207,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         },
         {
@@ -220,7 +220,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         },
         {
@@ -233,7 +233,7 @@
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-03-31",
           "note": "TTM bis 2026-03-31"
         },
@@ -247,7 +247,7 @@
           "scale": "≥ 10 Pp = 10, -5 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         }
       ]
@@ -270,7 +270,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-03-31",
           "note": "TTM bis 2026-03-31"
         },
@@ -284,7 +284,7 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": "Nasdaq Financials",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-06-30",
           "note": "TTM bis 2026-03-31 · TTM Research and Development"
         }
@@ -308,7 +308,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-03-31"
         },
         {
@@ -321,7 +321,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "TTM bis 2026-03-31 · financialData, Stichtag nicht ausgewiesen"
         },
@@ -335,7 +335,7 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         },
         {
@@ -348,7 +348,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         },
         {
@@ -361,7 +361,7 @@
           "scale": "≥ 36 Monate = 10, 12 Monate = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -374,7 +374,7 @@
           "scale": "≤ 0,00 = 10, 4,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-03-31"
         },
         {
@@ -387,7 +387,7 @@
           "scale": "≥ 2,00 = 10, 0,80 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-03-31"
         },
         {
@@ -400,7 +400,7 @@
           "scale": "≤ 0 % = 10, 10 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2025-12-31"
         }
       ]
@@ -423,7 +423,7 @@
           "scale": "über 10 % = 5, 3–10 % = 3, unter 3 % = 1",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL/holders",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "pointsMax": 5
         },
@@ -437,7 +437,7 @@
           "scale": "Netto-Käufe = 3, neutral = 2, Netto-Verkäufe = 0",
           "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-10-15",
           "pointsMax": 3,
           "caption": "1 Käufe / 19 Verkäufe, davon 19 im 10b5-1-Plan",
@@ -454,14 +454,14 @@
         {
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
-          "value": "79,0 %",
-          "raw": 0.78997,
+          "value": "79,3 %",
+          "raw": 0.79344,
           "points": 2.0,
           "status": null,
           "scale": "über 40 % = 2, bis 40 % = 0",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL/holders",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "pointsMax": 2
         }
@@ -471,7 +471,7 @@
     {
       "id": "C_06",
       "label": "Analysten & Stimmung",
-      "score": 2.5,
+      "score": 2.6,
       "status": null,
       "weight": 0.75,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -486,33 +486,33 @@
           "scale": "≥ 80 % = 10, 30 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
           "id": "target_upside",
           "label": "Abstand zum mittleren Kursziel",
-          "value": "-0,8 %",
-          "raw": -0.008079,
-          "points": 2.3,
+          "value": "-0,2 %",
+          "raw": -0.002291,
+          "points": 2.4,
           "status": null,
           "scale": "≥ 30 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
           "id": "eps_revision_90d",
           "label": "EPS-Revision, 90 Tage",
           "value": "0,7 %",
-          "raw": 0.006639,
-          "points": 5.3,
+          "raw": 0.007207,
+          "points": 5.4,
           "status": null,
           "scale": "≥ 10 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         }
       ],
@@ -532,13 +532,19 @@
           "strongSell": 0.0
         },
         "target": {
-          "mean": 56.73788,
+          "mean": 56.88939,
           "median": 56.0,
           "low": 36.0,
           "high": 80.0,
           "count": 44
         },
         "changes": [
+          {
+            "date": "2026-10-23",
+            "firm": "Truist Securities",
+            "grade": "Hold",
+            "target": 58.0
+          },
           {
             "date": "2026-10-09",
             "firm": "Barclays",
@@ -562,17 +568,11 @@
             "firm": "Loop Capital",
             "grade": "Hold",
             "target": 50.0
-          },
-          {
-            "date": "2026-08-19",
-            "firm": "Truist Securities",
-            "grade": "Hold",
-            "target": 62.0
           }
         ],
         "sourceLabel": "Yahoo Finance quoteSummary",
         "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-        "fetchedAt": "2026-10-22"
+        "fetchedAt": "2026-10-26"
       }
     },
     {
@@ -586,15 +586,15 @@
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
-          "value": "-38,8 Pp",
-          "raw": -38.77568,
-          "points": 1.1,
+          "value": "-37,6 Pp",
+          "raw": -37.608306,
+          "points": 1.2,
           "status": null,
           "scale": "≥ 30 Pp = 10, 0 Pp = 5, ≤ -50 Pp = 0",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-05&todate=2026-10-22&limit=2000",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-21"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000",
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-23"
         },
         {
           "id": "above_sma_200",
@@ -605,22 +605,22 @@
           "status": null,
           "scale": "über dem 200-Tage-Schnitt = 10, darunter = 5",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-05&todate=2026-10-22&limit=2000",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-21"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000",
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-23"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "27,8 %",
-          "raw": 0.277915,
+          "value": "28,0 %",
+          "raw": 0.280187,
           "points": 5.0,
           "status": null,
           "scale": "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-05&todate=2026-10-22&limit=2000",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-21"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000",
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-23"
         }
       ]
     },
@@ -636,41 +636,41 @@
           "id": "valuation_primary",
           "label": "PEG",
           "value": "0,28",
-          "raw": 0.283503,
+          "raw": 0.282611,
           "points": 10.0,
           "status": null,
           "scale": "≤ 1,00 = 10, 3,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-21"
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-23"
         },
         {
           "id": "fcf_yield",
           "label": "Free-Cashflow-Rendite",
           "value": "8,8 %",
-          "raw": 0.087662,
+          "raw": 0.087939,
           "points": 10.0,
           "status": null,
           "scale": "≥ 8 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "financialData, Stichtag nicht ausgewiesen"
         },
         {
           "id": "ev_to_ebitda",
           "label": "EV / EBITDA",
-          "value": "7,83",
-          "raw": 7.831067,
+          "value": "7,81",
+          "raw": 7.808191,
           "points": 10.0,
           "status": null,
           "scale": "≤ 8,00 = 10, 30,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-21"
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-23"
         }
       ]
     }

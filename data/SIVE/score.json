@@ -1,7 +1,7 @@
 {
   "ticker": "SIVE",
   "name": "Sivers Semiconductors",
-  "asOf": "2026-10-22",
+  "asOf": "2026-10-26",
   "score": 3.9,
   "status": null,
   "criteriaWithData": 5,
@@ -14,19 +14,19 @@
     "Plausibilitätswarnung: 12-1 über +300 Pp"
   ],
   "price": {
-    "close": 22.7,
+    "close": 20.26,
     "currency": "SEK",
-    "date": "2026-10-22",
+    "date": "2026-10-26",
     "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
     "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y"
   },
   "profile": {
     "hq": "Kista, Schweden",
     "employees": 130,
-    "marketCap": 7237607936,
+    "marketCap": 6459644416,
     "currency": "SEK",
     "source": "Yahoo Finance quoteSummary",
-    "fetchedAt": "2026-10-22"
+    "fetchedAt": "2026-10-26"
   },
   "role": {
     "id": "satellit",
@@ -62,7 +62,7 @@
           "scale": "≥ 20 % = 10, 5 % = 0",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -75,7 +75,7 @@
           "scale": "≥ 60 % = 10, 20 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-06-30",
           "note": "TTM bis 2026-06-30 (Yahoo) · Bruttomarge aus financialData"
         },
@@ -89,7 +89,7 @@
           "scale": "≥ 5 Pp = 10, -5 Pp = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "Bruttomarge aus financialData"
         },
@@ -103,7 +103,7 @@
           "scale": "≥ 5 Pp = 10, -3 Pp = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "operative Marge aus financialData"
         },
@@ -117,7 +117,7 @@
           "scale": "Netto-Cash oder mindestens 36 Monate = 10, unter 12 Monaten = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "financialData totalCash, Stichtag nicht ausgewiesen"
         }
@@ -141,7 +141,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -154,7 +154,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-06-30",
           "note": "Yahoo revenueGrowth · revenueGrowth, in der Regel das letzte Quartal zum Vorjahr"
         },
@@ -168,7 +168,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary, Analystenschätzung",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "Analystenschätzung, nächstes Jahr"
         },
@@ -182,7 +182,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -195,7 +195,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -208,7 +208,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -221,7 +221,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -234,7 +234,7 @@
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -247,7 +247,7 @@
           "scale": "≥ 10 Pp = 10, -5 Pp = 0",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         }
       ]
@@ -270,7 +270,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -283,7 +283,7 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         }
       ]
@@ -306,7 +306,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": "2026-06-30",
           "note": "operative Marge aus financialData"
         },
@@ -320,7 +320,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "TTM bis 2026-06-30 (Yahoo) · financialData, Stichtag nicht ausgewiesen"
         },
@@ -334,7 +334,7 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -347,7 +347,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "financialData returnOnEquity"
         },
@@ -361,7 +361,7 @@
           "scale": "≥ 36 Monate = 10, 12 Monate = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "financialData totalCash, Stichtag nicht ausgewiesen"
         },
@@ -375,7 +375,7 @@
           "scale": "≤ 0,00 = 10, 4,00 = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "financialData totalCash, Stichtag nicht ausgewiesen totalDebt"
         },
@@ -389,7 +389,7 @@
           "scale": "≥ 2,00 = 10, 0,80 = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "note": "financialData currentRatio"
         },
@@ -403,7 +403,7 @@
           "scale": "≤ 0 % = 10, 10 % = 0",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         }
       ]
@@ -426,7 +426,7 @@
           "scale": "über 10 % = 5, 3–10 % = 3, unter 3 % = 1",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST/holders",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "pointsMax": 5
         },
@@ -440,21 +440,21 @@
           "scale": "Netto-Käufe = 3, neutral = 2, Netto-Verkäufe = 0",
           "sourceLabel": null,
           "sourceUrl": null,
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "pointsMax": 3
         },
         {
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
-          "value": "17,6 %",
-          "raw": 0.17644,
+          "value": "17,7 %",
+          "raw": 0.17651,
           "points": 0.0,
           "status": null,
           "scale": "über 40 % = 2, bis 40 % = 0",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST/holders",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null,
           "pointsMax": 2
         }
@@ -479,7 +479,7 @@
           "scale": "≥ 80 % = 10, 30 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -492,7 +492,7 @@
           "scale": "≥ 30 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -505,7 +505,7 @@
           "scale": "≥ 10 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         }
       ],
@@ -528,7 +528,7 @@
         "changes": [],
         "sourceLabel": "Yahoo Finance quoteSummary",
         "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-        "fetchedAt": "2026-10-22"
+        "fetchedAt": "2026-10-26"
       }
     },
     {
@@ -542,15 +542,15 @@
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen OMXS30",
-          "value": "628,3 Pp",
-          "raw": 628.318764,
+          "value": "730,1 Pp",
+          "raw": 730.089802,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 Pp = 10, 0 Pp = 5, ≤ -50 Pp = 0",
           "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
           "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-26",
           "note": "Plausibilitätswarnung: 12-1 über +300 Pp"
         },
         {
@@ -563,21 +563,21 @@
           "scale": "über dem 200-Tage-Schnitt = 10, darunter = 5",
           "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
           "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-22"
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-26"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "79,4 %",
-          "raw": 0.793636,
+          "value": "81,6 %",
+          "raw": 0.815818,
           "points": null,
           "status": "Warnhinweis: mehr als 60 % unter dem 52-Wochen-Hoch",
           "scale": "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel",
           "sourceLabel": "Yahoo Finance Chart-API (SIVE.ST)",
           "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SIVE.ST?interval=1d&range=5y",
-          "fetchedAt": "2026-10-22",
-          "observedAt": "2026-10-22"
+          "fetchedAt": "2026-10-26",
+          "observedAt": "2026-10-26"
         }
       ]
     },
@@ -599,7 +599,7 @@
           "scale": null,
           "sourceLabel": "Yahoo Finance quoteSummary; Aktienzahl Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -612,7 +612,7 @@
           "scale": "≥ 8 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary; Aktienzahl Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         },
         {
@@ -625,7 +625,7 @@
           "scale": "≤ 8,00 = 10, 30,00 = 0",
           "sourceLabel": "Aktienzahl Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/SIVE.ST",
-          "fetchedAt": "2026-10-22",
+          "fetchedAt": "2026-10-26",
           "observedAt": null
         }
       ]
