@@ -76,6 +76,7 @@ def _quarters(rows, allow_derived=True, allow_negative_derived=True):
                     "start": row["start"],
                     "val": float(row["val"]),
                     "filed": row.get("filed") or "",
+                    "form": row.get("form") or "",
                 }
         elif days > QUARTER_MAX:
             longer.append(row)
@@ -100,6 +101,7 @@ def _quarters(rows, allow_derived=True, allow_negative_derived=True):
                         "start": previous["end"],
                         "val": derived,
                         "filed": row.get("filed") or "",
+                        "form": row.get("form") or "",
                     }
             previous = row
     return [explicit[end] for end in sorted(explicit)]
@@ -125,6 +127,7 @@ def _sum_window(window):
         "start": window[0].get("start") or window[0]["end"],
         "val": sum(point["val"] for point in window),
         "filed": window[-1].get("filed") or "",
+        "form": window[-1].get("form") or "",
         "label": "TTM bis " + window[-1]["end"],
         "months": 12.0,
     }
@@ -185,6 +188,7 @@ def _stub_pair(rows):
         "start": row.get("start"),
         "val": float(row["val"]),
         "filed": row.get("filed") or "",
+        "form": row.get("form") or "",
         "label": label,
         "months": months,
     }
@@ -401,12 +405,27 @@ def build_snapshot(facts, annual):
     ], ["shares"]))
     debt = _debt_latest(facts)
     quarter = quarter_yoy(facts, revenue_concepts, ["USD"])
+    reported_gross, reported_gross_prior = flow_matching(facts, ["GrossProfit"], ["USD"], revenue)
     gross = None
     gross_prior = None
-    if cogs and cogs["end"] == revenue["end"]:
+    if reported_gross and reported_gross.get("end") == revenue["end"] and reported_gross.get("val") is not None:
+        gross = reported_gross["val"]
+        if (
+            reported_gross_prior
+            and revenue_prior
+            and reported_gross_prior.get("end") == revenue_prior.get("end")
+        ):
+            gross_prior = reported_gross_prior["val"]
+    elif cogs and cogs["end"] == revenue["end"]:
         gross = revenue["val"] - cogs["val"]
-    if cogs_prior and revenue_prior and cogs_prior["end"] == revenue_prior["end"]:
-        gross_prior = revenue_prior["val"] - cogs_prior["val"]
+        if cogs_prior and revenue_prior and cogs_prior["end"] == revenue_prior["end"]:
+            gross_prior = revenue_prior["val"] - cogs_prior["val"]
+    contract = _point(latest_position(facts, [
+        "ContractWithCustomerLiabilityCurrent",
+        "DeferredRevenueCurrent",
+        "ContractWithCustomerLiability",
+        "DeferredRevenue",
+    ], ["USD"]))
     fcf = None
     if cfo and capex and cfo["end"] == capex["end"]:
         fcf = cfo["val"] - abs(capex["val"])
@@ -426,6 +445,8 @@ def build_snapshot(facts, annual):
         "rd": None if research is None or research["end"] != revenue["end"] else research["val"],
         "gross_profit": gross,
         "gross_profit_prior": gross_prior,
+        "contract_liability": None if contract is None else contract["val"],
+        "contract_liability_end": None if contract is None else contract["end"],
         "cash": None if cash is None else cash["val"],
         "debt": None if debt is None else debt["val"],
         "equity": None if equity is None else equity["val"],
@@ -445,6 +466,8 @@ def build_snapshot(facts, annual):
         "revenue_quarter_end": None if quarter is None else quarter["end"],
         "revenue_quarter_label": None if quarter is None else quarter["label"],
         "sourceLabel": "SEC EDGAR companyfacts",
+        "filed": revenue.get("filed") or "",
+        "form": revenue.get("form") or "",
     }
     provenance = {}
     sec = "SEC EDGAR companyfacts"

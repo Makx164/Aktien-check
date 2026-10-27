@@ -14,10 +14,13 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scoring.analysts import fetch_analysts, load_keys
+from scoring.damodaran import IndustryBook
 from scoring.edgar import EdgarClient
+from scoring.filings import fx_rate, load_instances, revenue_pools, yahoo_annual_revenue
 from scoring.holders import fetch_holders
 from scoring.marketdata import apply_fundamental_fallback, load_nasdaq, load_yahoo_summary, profile_from_yahoo
 from scoring.metrics import data_stand, extract_fundamentals, score_company
+from scoring.moat import assemble_context
 from scoring.model import coverage_decision, quality_phrase, round1, traffic_light, weighted_total
 from scoring.prices import fetch_series
 
@@ -154,6 +157,20 @@ def scored_metric_count(document):
     return count
 
 
+RETIRED_METRIC_IDS = {
+    "roic_2y", "gross_margin", "gross_margin_change_yoy", "margin_progress",
+    "net_cash_or_runway", "revenue_yoy", "rd_intensity",
+}
+
+
+def _retired_methodology(previous):
+    for item in (previous or {}).get("criteria") or []:
+        for metric in item.get("metrics") or []:
+            if metric.get("id") in RETIRED_METRIC_IDS:
+                return True
+    return False
+
+
 def fetch_failed(previous, document, prices):
     """A failed fetch must not replace a fuller previous file."""
     if not previous:
@@ -161,6 +178,8 @@ def fetch_failed(previous, document, prices):
     old_price = (previous.get("price") or {}).get("close")
     if old_price and not (prices or {}).get("bars"):
         return "Kursabruf lieferte keine Kurse"
+    if _retired_methodology(previous):
+        return None
     old_count = scored_metric_count(previous)
     new_count = scored_metric_count(document)
     if old_count >= 8 and new_count + 8 <= old_count:
@@ -176,6 +195,14 @@ def main():
     if not keys["finnhub"] and not keys["fmp"]:
         print("FMP_API_KEY and FINNHUB_API_KEY are unset. Analysts use Yahoo, then Nasdaq.")
     edgar = EdgarClient(ROOT / "cache" / "edgar")
+    print("Loading Damodaran industry tables")
+    industry_book = IndustryBook.load(ROOT / "cache" / "damodaran")
+    print(" ", industry_book.label)
+    overrides = load_json(ROOT / "config" / "industry_overrides.json")
+    segment_map = load_json(ROOT / "config" / "segments.json")
+    print("Loading US revenue pools")
+    pools = revenue_pools(industry_book, edgar.cache_dir, edgar.ticker_map(), today)
+    print(f"  CY{pools['year']} {pools['ciks']} filers, {len(pools['pools'])} industries")
     bench_cfg = config["benchmark"]
     print("Fetching benchmark", bench_cfg["stooq"])
     benchmark = fetch_series(bench_cfg["stooq"], bench_cfg["nasdaq"], bench_cfg["assetClass"])
@@ -223,6 +250,10 @@ def main():
         )
         print(f"  prices {len(prices['bars'])} via {prices['provider']} {prices.get('note') or ''}")
         bundle = {}
+        cik = None
+        submissions = None
+        instances = []
+        ifrs = False
         sources = {
             "fundamentalLabel": None,
             "fundamentalUrl": None,
@@ -252,6 +283,16 @@ def main():
                 facts, facts_url = edgar.companyfacts(cik)
                 submissions, sub_url = edgar.submissions(cik)
                 body = facts.get("facts") or {}
+                try:
+                    instances = load_instances(edgar, cik, submissions, today)
+                    print(f"  xbrl instances {len(instances)}")
+                except (OSError, ValueError, TypeError):
+                    instances = []
+                    print("  xbrl instances unavailable")
+                forms = {item.get("form") for item in instances}
+                ifrs = any(str(form).startswith("20-F") or str(form).startswith("40-F") for form in forms)
+                if not ifrs:
+                    ifrs = "ifrs-full" in body and "us-gaap" not in body
                 try:
                     edgar.merge_rd_extension(body, cik, submissions)
                 except (OSError, ValueError, TypeError):
@@ -315,6 +356,30 @@ def main():
             "note": prices.get("note"),
             "benchmark": ticker_bench,
         }
+        sic = str((submissions or {}).get("sic") or "")
+        own_revenue = None
+        if not spec.get("sec"):
+            yahoo_revenue = yahoo_annual_revenue(summary)
+            if yahoo_revenue and yahoo_revenue.get("revenue") and yahoo_revenue.get("end"):
+                fx = fx_rate(ROOT / "cache" / "fx", yahoo_revenue["end"])
+                if fx and fx.get("rate"):
+                    own_revenue = {
+                        "usd": float(yahoo_revenue["revenue"]) * float(fx["rate"]),
+                        "end": yahoo_revenue["end"],
+                        "note": (
+                            "niedrige Datenqualität (yfinance). "
+                            + f"{float(fx['rate']):.5f}".replace(".", ",")
+                            + f" USD je SEK am {fx['date']}, {fx['source']}"
+                        ),
+                    }
+                    print("  yfinance revenue", round(own_revenue["usd"]), "USD at", fx["date"])
+                else:
+                    print("  yfinance revenue without an FX rate")
+        bundle["moat"] = assemble_context(
+            industry_book, overrides, segment_map, pools,
+            ticker, sic, bool(spec.get("sec")), instances, ifrs, own_revenue,
+        )
+        print("  industry", bundle["moat"].get("industry"), bundle["moat"].get("industrySource"))
         scored = score_company(
             config, bundle, price_input, analysts, today, sources,
             {"sec": bool(spec.get("sec")), "sector": spec.get("sector")},

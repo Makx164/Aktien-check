@@ -1,0 +1,34 @@
+{
+  "AMZN": {
+    "AmazonWebServicesSegmentMember": "Software (System & Application)",
+    "NorthAmericaSegmentMember": "Retail (General)",
+    "InternationalSegmentMember": "Retail (General)"
+  },
+  "TSLA": {
+    "AutomotiveSegmentMember": "Auto & Truck",
+    "EnergyGenerationAndStorageSegmentMember": {
+      "industry": "Green & Renewable Energy",
+      "poolFallback": "Electrical Equipment"
+    }
+  },
+  "PLTR": {
+    "CommercialMember": "Software (System & Application)",
+    "GovernmentOperatingSegmentMember": "Software (System & Application)"
+  },
+  "MU": {
+    "CMBUMember": "Semiconductor",
+    "CDBUMember": "Semiconductor",
+    "MCBUMember": "Semiconductor",
+    "AEBUMember": "Semiconductor",
+    "AllOtherSegmentsMember": "Semiconductor"
+  },
+  "IREN": {
+    "BitcoinMiningMember": "Computer Services",
+    "AICloudServicesMember": "Computer Services"
+  },
+  "SPCX": {
+    "SpaceMember": "Aerospace/Defense",
+    "ConnectivityMember": "Telecom. Services",
+    "SIMember": "Software (System & Application)"
+  }
+}

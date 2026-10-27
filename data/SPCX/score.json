@@ -1,30 +1,30 @@
 {
   "ticker": "SPCX",
   "name": "Space Exploration Technologies",
-  "asOf": "2026-10-23",
-  "score": 8.4,
+  "asOf": "2026-10-26",
+  "score": 7.6,
   "status": null,
   "criteriaWithData": 7,
   "trafficLight": "green",
-  "qualityScore": 9.0,
+  "qualityScore": 8.0,
   "marketScore": 6.7,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 23 von 34 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 23 von 35 Metriken verfügbar",
   "missingDataNote": "zu kurze Historie bei C_07. Der Score zählt nur Kriterien mit Daten.",
   "koFlags": [],
   "price": {
-    "close": 147.49,
+    "close": 146.9,
     "currency": "USD",
-    "date": "2026-10-23",
+    "date": "2026-10-26",
     "sourceLabel": "Nasdaq Historical",
-    "sourceUrl": "https://api.nasdaq.com/api/quote/SPCX/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000"
+    "sourceUrl": "https://api.nasdaq.com/api/quote/SPCX/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000"
   },
   "profile": {
     "hq": "Starbase, USA",
     "employees": 21000,
-    "marketCap": 2003071270912,
+    "marketCap": 1995058184192,
     "currency": "USD",
     "source": "Yahoo Finance quoteSummary",
-    "fetchedAt": "2026-10-26"
+    "fetchedAt": "2026-10-27"
   },
   "role": {
     "id": "satellit",
@@ -45,78 +45,66 @@
     {
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
-      "score": 9.9,
+      "score": 8.0,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 5 Metriken verfügbar. Vergleich bis 2026-09-30",
+      "dataQuality": "2 von 4 Metriken. SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22). Nicht in indname (Stand Januar 2026, vor dem Börsengang). EDGAR-SIC 7370 würde Software ergeben. Firmen-Default ist Aerospace/Defense. Das SI-Segment steht in segments.json bei Software, weil das 10-Q Q3/2026 SI als Rechen- und KI-Infrastruktur beschreibt. · Bruttomarge 58,1 % gegen 17,5 % Aerospace/Defense, Firmen-Default statt SIC (Damodaran, Stand Januar 2026), Abstand 40,6 Pp · weniger als 3 Geschäftsjahre mit Bruttomarge · Operatives Ergebnis 705,0 Mio. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · weniger als zwei ROIC-Jahre · Größter Kunde 34,5 % (SEC 10-Q vom 2026-10-22) · Vertragsbindung 39,8 % des Umsatzes 27,1 Mrd. USD",
       "metrics": [
         {
-          "id": "roic_2y",
-          "label": "ROIC, zwei aufeinanderfolgende Jahre",
+          "id": "gm_vs_industry",
+          "label": "Bruttomarge gegenüber Branche",
+          "value": "40,6 Pp",
+          "raw": 0.405666,
+          "points": 10.0,
+          "status": null,
+          "scale": "−20 Pp = 0, 0 Pp = 5, +20 Pp = 10; Bruttomarge ≥ 70 % mindestens 8",
+          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Aerospace/Defense",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-09-30",
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22). Nicht in indname (Stand Januar 2026, vor dem Börsengang). EDGAR-SIC 7370 würde Software ergeben. Firmen-Default ist Aerospace/Defense. Das SI-Segment steht in segments.json bei Software, weil das 10-Q Q3/2026 SI als Rechen- und KI-Infrastruktur beschreibt. · Bruttomarge 58,1 % gegen 17,5 % Aerospace/Defense, Firmen-Default statt SIC (Damodaran, Stand Januar 2026), Abstand 40,6 Pp"
+        },
+        {
+          "id": "gm_stability",
+          "label": "Stabilität und Trend der Bruttomarge",
           "value": null,
           "raw": null,
           "points": null,
           "status": "zu kurze Historie",
-          "scale": "≥ 20 % = 10, 5 % = 0",
+          "scale": "Streuung 8 Pp = 0 und 1 Pp = 10, Trend −3 Pp/Jahr = 0 und +3 Pp/Jahr = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": null
+          "fetchedAt": "2026-10-27",
+          "observedAt": null,
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22). Nicht in indname (Stand Januar 2026, vor dem Börsengang). EDGAR-SIC 7370 würde Software ergeben. Firmen-Default ist Aerospace/Defense. Das SI-Segment steht in segments.json bei Software, weil das 10-Q Q3/2026 SI als Rechen- und KI-Infrastruktur beschreibt. · weniger als 3 Geschäftsjahre mit Bruttomarge"
         },
         {
-          "id": "gross_margin",
-          "label": "Bruttomarge",
-          "value": "58,1 %",
-          "raw": 0.580512,
-          "points": 9.5,
-          "status": null,
-          "scale": "≥ 60 % = 10, 20 % = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-09-30",
-          "note": "Vergleich bis 2026-09-30"
-        },
-        {
-          "id": "gross_margin_change_yoy",
-          "label": "Trend der Bruttomarge",
-          "value": "8,7 Pp",
-          "raw": 0.08722,
-          "points": 10.0,
-          "status": null,
-          "scale": "≥ 5 Pp = 10, -5 Pp = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-09-30",
-          "note": "Vergleich bis 2026-09-30"
-        },
-        {
-          "id": "margin_progress",
-          "label": "Margenfortschritt",
-          "value": "11,5 Pp",
-          "raw": 0.1147,
-          "points": 10.0,
-          "status": null,
-          "scale": "≥ 5 Pp = 10, -3 Pp = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-09-30",
-          "note": "Vergleich bis 2026-09-30"
-        },
-        {
-          "id": "net_cash_or_runway",
-          "label": "Netto-Cash oder Cash-Reichweite",
-          "value": "Netto-Cash",
+          "id": "roic_spread",
+          "label": "ROIC über Kapitalkosten",
+          "value": null,
           "raw": null,
-          "points": 10.0,
-          "status": null,
-          "scale": "Netto-Cash oder mindestens 36 Monate = 10, unter 12 Monaten = 0",
+          "points": null,
+          "status": "zu kurze Historie",
+          "scale": "−5 Pp = 0, +15 Pp = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-09-30"
+          "fetchedAt": "2026-10-27",
+          "observedAt": null,
+          "note": "Operatives Ergebnis 705,0 Mio. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · weniger als zwei ROIC-Jahre"
+        },
+        {
+          "id": "revenue_quality",
+          "label": "Umsatzqualität",
+          "value": "Kunden 34,5 % → 2 · Vertragsbindung 39,8 % → 10",
+          "raw": null,
+          "points": 6.0,
+          "status": null,
+          "scale": "Kunden: unter 10 % = 8, bis 15 % = 6, bis 25 % = 4, bis 40 % = 2, darüber = 0; Vertragsbindung 0 % = 3, ≥ 20 % = 10",
+          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Aerospace/Defense",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-09-30",
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22). Nicht in indname (Stand Januar 2026, vor dem Börsengang). EDGAR-SIC 7370 würde Software ergeben. Firmen-Default ist Aerospace/Defense. Das SI-Segment steht in segments.json bei Software, weil das 10-Q Q3/2026 SI als Rechen- und KI-Infrastruktur beschreibt. · Größter Kunde 34,5 % (SEC 10-Q vom 2026-10-22) · Vertragsbindung 39,8 % des Umsatzes 27,1 Mrd. USD"
         }
       ]
     },
@@ -138,7 +126,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
           "note": "Vergleich bis 2026-09-30"
         },
@@ -152,21 +140,21 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
           "note": "Quartal bis 2026-09-30"
         },
         {
           "id": "revenue_estimate_yoy",
           "label": "Umsatzwachstum, Analystenschätzung nächstes Jahr",
-          "value": "266,8 %",
-          "raw": 2.6675,
+          "value": "264,0 %",
+          "raw": 2.6397,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary, Analystenschätzung",
           "sourceUrl": "https://finance.yahoo.com/quote/SPCX",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null,
           "note": "Analystenschätzung, nächstes Jahr"
         },
@@ -180,7 +168,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
@@ -193,7 +181,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
@@ -206,7 +194,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
@@ -219,7 +207,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
@@ -232,7 +220,7 @@
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
@@ -245,7 +233,7 @@
           "scale": "≥ 10 Pp = 10, -5 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30"
         }
       ]
@@ -253,38 +241,66 @@
     {
       "id": "C_03",
       "label": "Markt & Zukunftsmarkt",
-      "score": 10.0,
+      "score": 6.5,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "2 von 2 Metriken verfügbar. Vergleich bis 2026-09-30",
+      "dataQuality": "4 von 4 Metriken. SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22). Nicht in indname (Stand Januar 2026, vor dem Börsengang). EDGAR-SIC 7370 würde Software ergeben. Firmen-Default ist Aerospace/Defense. Das SI-Segment steht in segments.json bei Software, weil das 10-Q Q3/2026 SI als Rechen- und KI-Infrastruktur beschreibt. · kein volles TTM, längster Zeitraum bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · 47,2 % Connectivity (Telecom. Services), Segmentumsatz 12,8 Mrd. USD, Umsatzwachstum 20,4 %; 40,4 % SI (Software (System & Application)), Segmentumsatz 10,9 Mrd. USD, Umsatzwachstum 19,6 %; 12,4 % Space (Aerospace/Defense), Segmentumsatz 3,3 Mrd. USD, Umsatzwachstum 18,3 % · Damodaran, Stand Januar 2026 · 47,2 % Connectivity (Telecom. Services), Segmentumsatz 12,8 Mrd. USD, EBIT-Wachstum 1,4 %; 40,4 % SI (Software (System & Application)), Segmentumsatz 10,9 Mrd. USD, EBIT-Wachstum 21,6 %; 12,4 % Space (Aerospace/Defense), Segmentumsatz 3,3 Mrd. USD, EBIT-Wachstum 10,9 % · Forschungsquote 43,0 % gegen R&D/Sales 4,0 % Aerospace/Defense (Damodaran, Stand Januar 2026), Faktor 10,71 · log10 1,20 · US-Pool CY2025: 47,2 % Telecom. Services 283,1 Mrd. USD; 40,4 % Software (System & Application) 651,7 Mrd. USD; 12,4 % Aerospace/Defense 497,6 Mrd. USD",
       "metrics": [
         {
-          "id": "revenue_yoy",
-          "label": "Umsatzwachstum zum Vorjahr",
-          "value": "97,5 %",
-          "raw": 0.974843,
-          "points": 10.0,
+          "id": "industry_growth",
+          "label": "Branchenwachstum, umsatzgewichtet",
+          "value": "19,8 %",
+          "raw": 0.197981,
+          "points": 7.6,
           "status": null,
-          "scale": "≥ 30 % = 10, 0 % = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-09-30",
-          "note": "Vergleich bis 2026-09-30"
+          "scale": "3 % = 0, 25 % = 10",
+          "sourceLabel": "Damodaran, Stand Januar 2026 · Aerospace/Defense",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "fetchedAt": "2026-10-27",
+          "observedAt": null,
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22). Nicht in indname (Stand Januar 2026, vor dem Börsengang). EDGAR-SIC 7370 würde Software ergeben. Firmen-Default ist Aerospace/Defense. Das SI-Segment steht in segments.json bei Software, weil das 10-Q Q3/2026 SI als Rechen- und KI-Infrastruktur beschreibt. · kein volles TTM, längster Zeitraum bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · 47,2 % Connectivity (Telecom. Services), Segmentumsatz 12,8 Mrd. USD, Umsatzwachstum 20,4 %; 40,4 % SI (Software (System & Application)), Segmentumsatz 10,9 Mrd. USD, Umsatzwachstum 19,6 %; 12,4 % Space (Aerospace/Defense), Segmentumsatz 3,3 Mrd. USD, Umsatzwachstum 18,3 % · Damodaran, Stand Januar 2026"
         },
         {
-          "id": "rd_intensity",
-          "label": "Forschungsquote",
+          "id": "ebit_pool",
+          "label": "Wachstum des Gewinnpools",
+          "value": "10,8 %",
+          "raw": 0.10761,
+          "points": 5.4,
+          "status": null,
+          "scale": "0 % = 0, 20 % = 10",
+          "sourceLabel": "Damodaran, Stand Januar 2026 · Aerospace/Defense",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "fetchedAt": "2026-10-27",
+          "observedAt": null,
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22). Nicht in indname (Stand Januar 2026, vor dem Börsengang). EDGAR-SIC 7370 würde Software ergeben. Firmen-Default ist Aerospace/Defense. Das SI-Segment steht in segments.json bei Software, weil das 10-Q Q3/2026 SI als Rechen- und KI-Infrastruktur beschreibt. · kein volles TTM, längster Zeitraum bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · 47,2 % Connectivity (Telecom. Services), Segmentumsatz 12,8 Mrd. USD, EBIT-Wachstum 1,4 %; 40,4 % SI (Software (System & Application)), Segmentumsatz 10,9 Mrd. USD, EBIT-Wachstum 21,6 %; 12,4 % Space (Aerospace/Defense), Segmentumsatz 3,3 Mrd. USD, EBIT-Wachstum 10,9 % · Damodaran, Stand Januar 2026"
+        },
+        {
+          "id": "rd_vs_industry",
+          "label": "Innovationsquote gegenüber Branche",
           "value": "43,0 %",
           "raw": 0.430455,
           "points": 10.0,
           "status": null,
-          "scale": "≥ 15 % = 10, 0 % = 0",
+          "scale": "Faktor 0 = 0, 1 = 6, ab 2 = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
-          "note": "Vergleich bis 2026-09-30"
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22). Nicht in indname (Stand Januar 2026, vor dem Börsengang). EDGAR-SIC 7370 würde Software ergeben. Firmen-Default ist Aerospace/Defense. Das SI-Segment steht in segments.json bei Software, weil das 10-Q Q3/2026 SI als Rechen- und KI-Infrastruktur beschreibt. · Forschungsquote 43,0 % gegen R&D/Sales 4,0 % Aerospace/Defense (Damodaran, Stand Januar 2026), Faktor 10,71"
+        },
+        {
+          "id": "headroom",
+          "label": "Kopfraum",
+          "value": "1,20",
+          "raw": 1.195801,
+          "points": 2.8,
+          "status": null,
+          "scale": "log10 0,5 = 0, log10 3 = 10",
+          "sourceLabel": "Damodaran, Stand Januar 2026 · Aerospace/Defense",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-09-30",
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22). Nicht in indname (Stand Januar 2026, vor dem Börsengang). EDGAR-SIC 7370 würde Software ergeben. Firmen-Default ist Aerospace/Defense. Das SI-Segment steht in segments.json bei Software, weil das 10-Q Q3/2026 SI als Rechen- und KI-Infrastruktur beschreibt. · log10 1,20 · US-Pool CY2025: 47,2 % Telecom. Services 283,1 Mrd. USD; 40,4 % Software (System & Application) 651,7 Mrd. USD; 12,4 % Aerospace/Defense 497,6 Mrd. USD"
         }
       ]
     },
@@ -306,7 +322,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30"
         },
         {
@@ -319,7 +335,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
           "note": "Vergleich bis 2026-09-30"
         },
@@ -333,7 +349,7 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
@@ -346,7 +362,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
@@ -359,7 +375,7 @@
           "scale": "≥ 36 Monate = 10, 12 Monate = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30"
         },
         {
@@ -372,7 +388,7 @@
           "scale": "≤ 0,00 = 10, 4,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
           "note": "Netto-Cash, deshalb 10"
         },
@@ -386,7 +402,7 @@
           "scale": "≥ 2,00 = 10, 0,80 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30"
         },
         {
@@ -399,7 +415,7 @@
           "scale": "≤ 0 % = 10, 10 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         }
       ]
@@ -422,7 +438,7 @@
           "scale": "über 10 % = 5, 3–10 % = 3, unter 3 % = 1",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/SPCX/holders",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null,
           "pointsMax": 5
         },
@@ -436,7 +452,7 @@
           "scale": "Netto-Käufe = 3, neutral = 2, Netto-Verkäufe = 0",
           "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-22",
           "pointsMax": 3,
           "caption": "0 Käufe / 6 Verkäufe, davon 5 im 10b5-1-Plan · unter 0,1 % der Marktkapitalisierung",
@@ -453,14 +469,14 @@
         {
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
-          "value": "47,6 %",
-          "raw": 0.47648,
+          "value": "47,7 %",
+          "raw": 0.47667,
           "points": 2.0,
           "status": null,
           "scale": "über 40 % = 2, bis 40 % = 0",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/SPCX/holders",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null,
           "pointsMax": 2
         }
@@ -478,40 +494,40 @@
         {
           "id": "buy_share",
           "label": "Anteil Kaufempfehlungen",
-          "value": "81,6 %",
-          "raw": 0.815789,
-          "points": 10.0,
+          "value": "79,5 %",
+          "raw": 0.794872,
+          "points": 9.9,
           "status": null,
           "scale": "≥ 80 % = 10, 30 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/SPCX",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
           "id": "target_upside",
           "label": "Abstand zum mittleren Kursziel",
-          "value": "74,9 %",
-          "raw": 0.74869,
+          "value": "74,7 %",
+          "raw": 0.746676,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/SPCX",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
           "id": "eps_revision_90d",
           "label": "EPS-Revision, 90 Tage",
-          "value": "520,6 %",
-          "raw": 5.206361,
+          "value": "526,5 %",
+          "raw": 5.26487,
           "points": 10.0,
           "status": null,
           "scale": "≥ 10 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/SPCX",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         }
       ],
@@ -519,7 +535,7 @@
         "current": {
           "strongBuy": 8.0,
           "buy": 23.0,
-          "hold": 5.0,
+          "hold": 6.0,
           "sell": 2.0,
           "strongSell": 0.0
         },
@@ -531,11 +547,11 @@
           "strongSell": 0.0
         },
         "target": {
-          "mean": 257.91428,
-          "median": 245.0,
+          "mean": 256.58667,
+          "median": 247.5,
           "low": 70.0,
           "high": 800.0,
-          "count": 38
+          "count": 39
         },
         "changes": [
           {
@@ -571,7 +587,7 @@
         ],
         "sourceLabel": "Yahoo Finance quoteSummary",
         "sourceUrl": "https://finance.yahoo.com/quote/SPCX",
-        "fetchedAt": "2026-10-26"
+        "fetchedAt": "2026-10-27"
       }
     },
     {
@@ -591,8 +607,8 @@
           "status": "zu kurze Historie",
           "scale": "≥ 30 Pp = 10, 0 Pp = 5, ≤ -50 Pp = 0",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/SPCX/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000",
-          "fetchedAt": "2026-10-26",
+          "sourceUrl": "https://api.nasdaq.com/api/quote/SPCX/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
@@ -604,8 +620,8 @@
           "status": "zu kurze Historie",
           "scale": "über dem 200-Tage-Schnitt = 10, darunter = 5",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/SPCX/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000",
-          "fetchedAt": "2026-10-26",
+          "sourceUrl": "https://api.nasdaq.com/api/quote/SPCX/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
@@ -617,8 +633,8 @@
           "status": "zu kurze Historie",
           "scale": "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/SPCX/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000",
-          "fetchedAt": "2026-10-26",
+          "sourceUrl": "https://api.nasdaq.com/api/quote/SPCX/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         }
       ]
@@ -634,15 +650,15 @@
         {
           "id": "valuation_primary",
           "label": "(EV/Umsatz) / Umsatzwachstum",
-          "value": "0,46",
-          "raw": 0.455596,
+          "value": "0,45",
+          "raw": 0.453753,
           "points": 6.8,
           "status": null,
           "scale": "≤ 0,20 = 10, 1,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-10-23"
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-10-26"
         },
         {
           "id": "fcf_yield",
@@ -654,21 +670,21 @@
           "scale": "≥ 8 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
           "id": "ev_to_ebitda",
           "label": "EV / EBITDA",
-          "value": "92,93",
-          "raw": 92.930429,
+          "value": "92,55",
+          "raw": 92.554531,
           "points": 0.0,
           "status": null,
           "scale": "≤ 8,00 = 10, 30,00 = 0",
           "sourceLabel": "Aktienzahl Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/SPCX",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-10-23"
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-10-26"
         }
       ]
     }

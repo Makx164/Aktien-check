@@ -25,6 +25,24 @@ def point(end, val, form="10-K"):
     return {"end": end, "val": val, "filed": end, "form": form}
 
 
+def _industry_moat(gross_margin=0.40, wacc=0.08, rd=0.10, growth=0.20, ebit=0.10, industry="Software (System & Application)"):
+    bench = {
+        "grossMargin": gross_margin,
+        "rdSales": rd,
+        "costOfCapital": wacc,
+        "revenueGrowth": [growth],
+        "ebitGrowth": ebit,
+    }
+    return {
+        "sec": True,
+        "industry": industry,
+        "label": "Damodaran, Stand Januar 2026",
+        "benchmarks": {industry: bench},
+        "pools": {industry: 1_000_000_000_000},
+        "concentration": {"mode": "na"},
+    }
+
+
 class RampTests(unittest.TestCase):
     def test_higher_and_lower_are_linear(self):
         self.assertEqual(band_points(0.03457, [
@@ -310,13 +328,14 @@ class CompanyScoreTests(unittest.TestCase):
     def test_missing_inputs_do_not_become_zero(self):
         bundle = {"revenue": [point("2024-12-31", 100), point("2025-12-31", 110)]}
         scored = score_company(CONFIG, bundle, {}, {}, "2026-10-16", {})
-        metrics = {m["id"]: m for c in scored["criteria"] for m in c["metrics"]}
-        self.assertIsNone(metrics["rd_intensity"]["points"])
-        self.assertIsNone(metrics["rd_intensity"]["value"])
-        self.assertEqual(metrics["rd_intensity"]["value"], None)
-        yoy = metrics["revenue_yoy"]
-        self.assertEqual(yoy["raw"], 0.1)
-        self.assertNotEqual(yoy["points"], 0)
+        research = metric_map(scored, "C_03")[1]["rd_vs_industry"]
+        self.assertIsNone(research["points"])
+        self.assertIsNone(research["value"])
+        self.assertNotEqual(research["points"], 0)
+        self.assertEqual(research["status"], "nicht ausgewiesen")
+        growth = metric_map(scored, "C_03")[1]["industry_growth"]
+        self.assertIsNone(growth["points"])
+        self.assertNotEqual(growth["points"], 0)
 
     def test_altman_only_when_every_input_exists(self):
         end = "2025-12-31"
@@ -348,32 +367,35 @@ class CompanyScoreTests(unittest.TestCase):
 class MissingDataTests(unittest.TestCase):
     def test_missing_metrics_are_not_scored_as_zero(self):
         bundle = {
-            "revenue": [point("2024-12-31", 100), point("2025-12-31", 110)],
-            "gross_profit": [point("2025-12-31", 66)],
+            "revenue": [point("2024-12-31", 100_000_000), point("2025-12-31", 110_000_000)],
+            "gross_profit": [point("2025-12-31", 66_000_000)],
+            "moat": _industry_moat(gross_margin=0.40),
         }
         scored = score_company(CONFIG, bundle, {}, {}, "2026-10-16", {})
         by_id = {item["id"]: item for item in scored["criteria"]}
         metrics = {metric["id"]: metric for metric in by_id["C_01"]["metrics"]}
-        self.assertEqual(metrics["gross_margin"]["points"], 10)
-        self.assertIsNone(metrics["gross_margin"]["status"])
-        self.assertIsNone(metrics["roic_2y"]["points"])
-        self.assertNotEqual(metrics["roic_2y"]["points"], 0)
-        self.assertEqual(metrics["roic_2y"]["status"], "wenig Daten")
-        self.assertEqual(by_id["C_01"]["score"], 10)
-        self.assertIsNone(by_id["C_01"]["status"])
+        self.assertEqual(metrics["gm_vs_industry"]["points"], 10)
+        self.assertIsNone(metrics["gm_vs_industry"]["status"])
+        self.assertIsNone(metrics["roic_spread"]["points"])
+        self.assertNotEqual(metrics["roic_spread"]["points"], 0)
+        self.assertEqual(metrics["roic_spread"]["status"], "n/a")
+        self.assertIsNone(by_id["C_01"]["score"])
+        self.assertEqual(by_id["C_01"]["status"], "wenig Daten")
+        self.assertIn("1 von 4 Metriken", by_id["C_01"]["dataQuality"])
         self.assertEqual(by_id["C_06"]["status"], "wenig Daten")
         self.assertIsNone(by_id["C_06"]["score"])
 
         zero = {
-            "revenue": [point("2025-12-31", 100)],
-            "gross_profit": [point("2025-12-31", 20)],
+            "revenue": [point("2025-12-31", 100_000_000)],
+            "gross_profit": [point("2025-12-31", 20_000_000)],
+            "moat": _industry_moat(gross_margin=0.40),
         }
         scored_zero = score_company(CONFIG, zero, {}, {}, "2026-10-16", {})
         gross = {m["id"]: m for c in scored_zero["criteria"] if c["id"] == "C_01" for m in c["metrics"]}
-        self.assertEqual(gross["gross_margin"]["points"], 0.0)
-        self.assertIsNone(gross["gross_margin"]["status"])
-        self.assertEqual(gross["margin_progress"]["status"], "wenig Daten")
-        self.assertIsNone(gross["margin_progress"]["points"])
+        self.assertEqual(gross["gm_vs_industry"]["points"], 0.0)
+        self.assertIsNone(gross["gm_vs_industry"]["status"])
+        self.assertEqual(gross["gm_stability"]["status"], "zu kurze Historie")
+        self.assertIsNone(gross["gm_stability"]["points"])
         self.assertTrue(all(
             metric["points"] is None
             for item in scored_zero["criteria"]
@@ -412,8 +434,15 @@ class MissingDataTests(unittest.TestCase):
 
     def test_assemble_marks_a_thin_stock(self):
         bundle = {
-            "revenue": [point("2024-12-31", 100), point("2025-12-31", 110)],
-            "gross_profit": [point("2025-12-31", 66)],
+            "revenue": [point("2024-12-31", 100_000_000), point("2025-12-31", 110_000_000)],
+            "gross_profit": [point("2025-12-31", 66_000_000)],
+            "moat": {
+                "sec": True,
+                "industry": "Software (System & Application)",
+                "label": "Damodaran, Stand Januar 2026",
+                "benchmarks": {"Software (System & Application)": {"grossMargin": 0.40}},
+                "concentration": {"mode": "none"},
+            },
         }
         scored = score_company(CONFIG, bundle, {}, {}, "2026-10-16", {})
         document = assemble("SPCX", "Space Exploration Technologies", None, scored, CONFIG)
@@ -667,13 +696,12 @@ class ReviewRuleTests(unittest.TestCase):
             self.assertNotEqual(finance[metric_id]["points"], 0)
         model = metric_map(scored, "C_01")[1]
         growth = metric_map(scored, "C_02")[1]
-        for metric_id, bucket in (
-            ("gross_margin_change_yoy", model),
-            ("margin_progress", model),
-            ("operating_margin_change_yoy", growth),
-        ):
-            self.assertEqual(bucket[metric_id]["status"], "nicht anwendbar")
-            self.assertIsNone(bucket[metric_id]["points"])
+        for metric_id in ("gm_vs_industry", "gm_stability"):
+            self.assertEqual(model[metric_id]["status"], "nicht anwendbar")
+            self.assertEqual(model[metric_id]["statusReason"], "Finanzwert")
+            self.assertIsNone(model[metric_id]["points"])
+        self.assertEqual(growth["operating_margin_change_yoy"]["status"], "nicht anwendbar")
+        self.assertIsNone(growth["operating_margin_change_yoy"]["points"])
 
     def test_plan_sales_purchases_and_small_net_selling(self):
         bars = [{"date": "2026-10-15", "close": 100.0, "high": 100.0}]
@@ -737,8 +765,10 @@ class ReviewRuleTests(unittest.TestCase):
             self.assertNotEqual(prices[metric_id]["points"], 0)
         swedish = score_company(CONFIG, {}, {}, {}, "2026-10-16", {}, {"sec": False})
         fundamentals = metric_map(swedish, "C_01")[1]
-        self.assertTrue(all(metric["status"] == "keine US-Meldepflicht" for metric in fundamentals.values()))
-        self.assertEqual(metric_map(swedish, "C_01")[0]["status"], "keine US-Meldepflicht")
+        self.assertTrue(all(
+            metric["status"] == "nicht bewertbar – keine US-Meldepflicht" for metric in fundamentals.values()
+        ))
+        self.assertEqual(metric_map(swedish, "C_01")[0]["status"], "nicht bewertbar – keine US-Meldepflicht")
         self.assertIsNone(metric_map(swedish, "C_01")[0]["score"])
         self.assertEqual(metric_map(swedish, "C_06")[0]["status"], "wenig Daten")
 
@@ -825,17 +855,17 @@ class RoundTwoTests(unittest.TestCase):
         for key in ("operating_income", "tax", "pretax", "equity", "debt", "cash"):
             bundle[key] = [row[key] for row in pieces]
         scored = score_company(CONFIG, bundle, {}, {}, "2026-10-20", {})
-        roic = metric_map(scored, "C_01")[1]["roic_2y"]
-        self.assertEqual(roic["status"], "wenig Daten")
+        roic = metric_map(scored, "C_01")[1]["roic_spread"]
+        self.assertEqual(roic["status"], "n/a")
         self.assertIsNone(roic["points"])
         self.assertNotEqual(roic["points"], 0)
 
-        consecutive = {"revenue": [point("2025-12-31", 100)]}
+        consecutive = {"revenue": [point("2025-12-31", 100)], "moat": _industry_moat(wacc=0.0)}
         years = [_roic_year("2024-12-31", 10, 10), _roic_year("2025-12-31", 20, 20)]
         for key in ("operating_income", "tax", "pretax", "equity", "debt", "cash"):
             consecutive[key] = [row[key] for row in years]
         scored_ok = score_company(CONFIG, consecutive, {}, {}, "2026-10-20", {})
-        roic_ok = metric_map(scored_ok, "C_01")[1]["roic_2y"]
+        roic_ok = metric_map(scored_ok, "C_01")[1]["roic_spread"]
         self.assertIsNone(roic_ok["status"])
         self.assertAlmostEqual(roic_ok["raw"], 0.12, places=4)
 
@@ -845,20 +875,26 @@ class RoundTwoTests(unittest.TestCase):
 
         facts = {"ifrs-full": {
             "Revenue": {"units": {"USD": [
-                row("2024-01-01", "2024-12-31", 2830),
-                row("2025-01-01", "2025-12-31", 3370),
+                row("2024-01-01", "2024-12-31", 2830 * 1_000_000),
+                row("2025-01-01", "2025-12-31", 3370 * 1_000_000),
             ]}},
             "CostOfSales": {"units": {"USD": [
-                row("2024-01-01", "2024-12-31", 1641.4),
-                row("2025-01-01", "2025-12-31", 1914),
+                row("2024-01-01", "2024-12-31", 1641.4 * 1_000_000),
+                row("2025-01-01", "2025-12-31", 1914 * 1_000_000),
             ]}},
         }}
         bundle = extract_fundamentals(facts)
+        bundle["moat"] = _industry_moat(gross_margin=0.0, industry="Transportation")
+        bundle["moat"]["ifrs"] = True
+        bundle["moat"]["concentration"] = {"mode": "na"}
         scored = score_company(CONFIG, bundle, {}, {}, "2026-10-20", {})
-        gross = metric_map(scored, "C_01")[1]["gross_margin"]
+        gross = metric_map(scored, "C_01")[1]["gm_vs_industry"]
         self.assertAlmostEqual(gross["raw"], (3370 - 1914) / 3370, places=4)
-        self.assertEqual(gross["value"], "43,2 %")
+        self.assertEqual(gross["value"], "43,2 Pp")
         self.assertIsNone(gross["status"])
+        quality = metric_map(scored, "C_01")[1]["revenue_quality"]
+        self.assertEqual(quality["status"], "n/a")
+        self.assertIsNone(quality["points"])
 
     def test_eps_cagr_falls_back_to_two_positive_years(self):
         bundle = {
@@ -1229,11 +1265,12 @@ class RoundFiveTests(unittest.TestCase):
         }}
         bundle = extract_fundamentals(facts)
         self.assertEqual(bundle["snapshot"]["rd"], 121_086_000_000)
+        bundle["moat"] = _industry_moat(rd=0.05)
         scored = score_company(CONFIG, bundle, {}, {}, "2026-10-20", {
             "fundamentalLabel": "SEC EDGAR companyfacts",
             "fundamentalUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
         })
-        research = metric_map(scored, "C_03")[1]["rd_intensity"]
+        research = metric_map(scored, "C_03")[1]["rd_vs_industry"]
         self.assertEqual(research["label"], "Forschungsquote, Technology and infrastructure")
         self.assertIn("Technology and infrastructure", research["sourceLabel"])
         self.assertEqual(research["points"], 10)
@@ -1295,8 +1332,6 @@ class RoundSixTests(unittest.TestCase):
         self.assertIn("(operativer Cashflow, hohe Investitionen)", finance["fcf_margin_3y"]["label"])
         self.assertAlmostEqual(finance["fcf_margin_3y"]["raw"], 0.2, places=6)
         self.assertEqual(finance["fcf_margin_3y"]["points"], 10)
-        model = metric_map(scored, "C_01")[1]["net_cash_or_runway"]
-        self.assertEqual(model["status"], "nicht anwendbar")
         valuation = metric_map(scored, "C_08")[1]["fcf_yield"]
         self.assertIn("(operativer Cashflow, hohe Investitionen)", valuation["label"])
         self.assertAlmostEqual(valuation["raw"], 200 / 500, places=6)
@@ -1732,11 +1767,15 @@ class DataGapTests(unittest.TestCase):
             "debt": [point("2024-12-31", 0), point("2025-12-31", 0)],
             "cash": [point("2024-12-31", 0), point("2025-12-31", 0)],
         }
+        loss["moat"] = _industry_moat(wacc=0.0)
         scored = score_company(CONFIG, loss, {}, {}, "2026-10-21", {})
-        roic = metric_map(scored, "C_01")[1]["roic_2y"]
-        self.assertEqual(roic["status"], "nicht anwendbar")
-        self.assertEqual(roic["statusReason"], "Verlust bzw. negatives Kapital")
+        roic = metric_map(scored, "C_01")[1]["roic_spread"]
+        # Revenue is under $50m, so M1 is n/a, but operating income is positive.
+        # Build phase does not apply, and a pretax loss does not force 0 points.
+        self.assertEqual(metric_map(scored, "C_01")[1]["gm_vs_industry"]["status"], "n/a")
+        self.assertNotEqual(roic["status"], "n/a (Aufbauphase)")
         self.assertIsNone(roic["points"])
+        self.assertNotIn("Bruttomarge unter Branchenniveau", roic.get("note") or "")
 
         statutory = {
             "revenue": [point("2025-12-31", 100)],
@@ -1747,8 +1786,9 @@ class DataGapTests(unittest.TestCase):
             "debt": [point("2024-12-31", 0), point("2025-12-31", 0)],
             "cash": [point("2024-12-31", 0), point("2025-12-31", 0)],
         }
+        statutory["moat"] = _industry_moat(wacc=0.0)
         taxed = score_company(CONFIG, statutory, {}, {}, "2026-10-21", {})
-        roic_tax = metric_map(taxed, "C_01")[1]["roic_2y"]
+        roic_tax = metric_map(taxed, "C_01")[1]["roic_spread"]
         self.assertAlmostEqual(roic_tax["raw"], 0.158, places=4)
         self.assertIn("21 %", roic_tax["note"])
         self.assertIsNone(roic_tax["status"])
@@ -1763,8 +1803,9 @@ class DataGapTests(unittest.TestCase):
             "cash": [point("2024-12-31", 0), point("2025-12-31", 0)],
             "snapshot": {"debt_explicit_zero": True, "debt": 0, "debt_end": "2025-12-31"},
         }
+        stale_debt["moat"] = _industry_moat(wacc=0.0)
         filled = score_company(CONFIG, stale_debt, {}, {}, "2026-10-21", {})
-        roic_zero = metric_map(filled, "C_01")[1]["roic_2y"]
+        roic_zero = metric_map(filled, "C_01")[1]["roic_spread"]
         self.assertIsNone(roic_zero["status"])
         self.assertAlmostEqual(roic_zero["raw"], 0.2, places=4)
 
@@ -1788,10 +1829,6 @@ class DataGapTests(unittest.TestCase):
         finance = metric_map(scored, "C_04")[1]["net_debt_to_ebitda"]
         self.assertEqual(finance["status"], "nicht anwendbar")
         self.assertEqual(finance["statusReason"], "EBITDA negativ")
-        runway = metric_map(scored, "C_01")[1]["net_cash_or_runway"]
-        self.assertEqual(runway["status"], "nicht anwendbar")
-        self.assertEqual(runway["statusReason"], "Nettoverschuldung bei positivem Free Cashflow")
-        self.assertIsNone(runway["points"])
 
         net_cash = score_company(CONFIG, {
             "revenue": [point("2025-12-31", 100)],
@@ -1817,14 +1854,14 @@ class DataGapTests(unittest.TestCase):
             "snapshot": {"revenue": 10, "end": "2025-12-31", "sourceLabel": "SEC EDGAR companyfacts"},
         }
         scored = score_company(CONFIG, bundle, {}, {}, "2026-10-21", {}, {"sec": True})
-        self.assertEqual(metric_map(scored, "C_01")[1]["roic_2y"]["status"], "zu kurze Historie")
+        self.assertEqual(metric_map(scored, "C_01")[1]["roic_spread"]["status"], "zu kurze Historie")
         self.assertEqual(metric_map(scored, "C_04")[1]["dilution_3y"]["status"], "zu kurze Historie")
         self.assertEqual(metric_map(scored, "C_04")[1]["fcf_margin_3y"]["status"], "zu kurze Historie")
-        research = metric_map(scored, "C_03")[1]["rd_intensity"]
+        research = metric_map(scored, "C_03")[1]["rd_vs_industry"]
         self.assertEqual(research["status"], "nicht ausgewiesen")
         self.assertIsNone(research["points"])
         swedish = score_company(CONFIG, {"revenue": [point("2025-12-31", 10)]}, {}, {}, "2026-10-21", {}, {"sec": False})
-        self.assertEqual(metric_map(swedish, "C_03")[1]["rd_intensity"]["status"], "keine US-Meldepflicht")
+        self.assertEqual(metric_map(swedish, "C_03")[1]["rd_vs_industry"]["status"], "n/a")
 
     def test_merged_revenue_convertible_debt_depreciation_and_equity(self):
         def row(start, end, val, form="10-K"):

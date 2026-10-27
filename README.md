@@ -26,6 +26,14 @@ Pro Ticker eine Datei `data/<TICKER>/score.json`. Schwellen stehen in `config/sc
 
 Phase 1 holt die Zahlen aus SEC EDGAR + Yahoo + Nasdaq. Für eine Bezahlversion sind lizenzierte Quellen nötig. Jahreszahlen und CAGRs kommen aus der SEC-EDGAR-API `companyfacts` (10-K, 20-F, 40-F). Margen, Wachstum zum Vorjahr, Cashflow, Bewertung und Verschuldung nutzen die letzten vier Quartale, sonst den längsten Vorjahresvergleich aus dem 10-Q. Fehlt ein Wert, springt der Lauf auf Yahoo Finance (quoteSummary, Cookie und Crumb) und danach auf die Nasdaq-API. Jeder Wert nennt Quelle, URL und Abrufdatum. Ein fehlender Abruf bleibt „wenig Daten“ und bricht den Lauf nicht ab. Kurse zuerst als Stooq-CSV. Lehnt Stooq den Abruf ab, springt der Lauf auf die öffentliche Nasdaq-Historie und schreibt das in die Datenqualität. Der S&P-500-Vergleich nutzt dann den ETF SPY und benennt ihn so. SIVE (Sivers Semiconductors, Stockholm) hat keine US-Meldepflicht. Fundamentalkennzahlen kommen von Yahoo, Symbol `SIVE.ST`, das Momentum gegen OMXS30. SPCX ist frisch gelistet: Halbjahreszahlen aus dem 10-Q zählen, 12-1-Momentum, 200-Tage-Linie und mehrjährige CAGR ohne Historie stehen als „zu kurze Historie“ und zählen nicht als 0.
 
+Beim Kopfraum von Micron bleibt der Trailing-Umsatz gegen den US-Pool. Zusatz auf der MU-Seite und in dieser Methodik: Halbleiterwachstum 11,7 % (Damodaran, Stand Januar 2026); Pool nur US-Melder (ohne TSMC, ASML, Samsung, SK Hynix); zyklischer Spitzenumsatz drückt den Kopfraum.
+
+Die Branche kommt aus dem Geschäftsmodell und den Segmenten im Geschäftsbericht. Sie wird nicht aus der Börse und nicht aus dem Ticker abgeleitet. Ein Damodaran-Eintrag, der nur an der Börse oder am Tickersymbol hängt, wird nicht verwendet. Die Zuordnung steht in `config/industry_overrides.json`, die Segmentmischung in `config/segments.json`.
+
+„n/a (Aufbauphase)“ gilt nur, wenn M1 n/a ist (noch kein aussagekräftiger Umsatz). Ist M1 bewertet (auch bei M1 ≥ 5) und liegt ein operativer Verlust vor, wird M3 normal als ROIC minus Kapitalkosten gerechnet. Ein negativer Abstand gibt 0 (Untergrenze).
+
+Ist der Umsatz eines Segments größer als der US-Pool seiner Branche, ist der Pool nicht repräsentativ. Dann wird die nächstpassende Damodaran-Branche verwendet und auf der Seite genannt.
+
 `FMP_API_KEY` und `FINNHUB_API_KEY` bleiben optional. C_06 kommt zuerst von Yahoo (`recommendationTrend`, Kursziel, EPS-Trend über 90 Tage), sonst von der Nasdaq-Analysten-API. Unter drei Analysten zählt das Kriterium nicht. Unter fünf Analysten ist es bei 7 gedeckelt. API-Schlüssel stehen nicht in den Quell-URLs.
 
 K.O., nur wenn die Eingaben wirklich da sind: Altman Z unter 1,8, negativer Free Cashflow bei Nettoverschuldung/EBITDA über 3, 8-K Item 4.02 in den letzten 24 Monaten. Ein Going-Concern-Hinweis wird nicht geraten.

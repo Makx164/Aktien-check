@@ -1,32 +1,32 @@
 {
   "ticker": "MU",
   "name": "Micron Technology",
-  "asOf": "2026-10-23",
-  "score": 8.6,
+  "asOf": "2026-10-26",
+  "score": 7.7,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "green",
-  "qualityScore": 8.0,
+  "qualityScore": 6.7,
   "marketScore": 9.4,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 34 von 34 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 35 von 35 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [
     "Plausibilitätswarnung: 12-1 über +300 Pp"
   ],
   "price": {
-    "close": 877.55,
+    "close": 903.7,
     "currency": "USD",
-    "date": "2026-10-23",
+    "date": "2026-10-26",
     "sourceLabel": "Nasdaq Historical",
-    "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000"
+    "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000"
   },
   "profile": {
     "hq": "Boise, USA",
     "employees": 61000,
-    "marketCap": 992880427008,
+    "marketCap": 1022467178496,
     "currency": "USD",
     "source": "Yahoo Finance quoteSummary",
-    "fetchedAt": "2026-10-26"
+    "fetchedAt": "2026-10-27"
   },
   "role": {
     "id": "satellit",
@@ -47,78 +47,66 @@
     {
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
-      "score": 10.0,
+      "score": 7.3,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "5 von 5 Metriken verfügbar. TTM bis 2026-09-03",
+      "dataQuality": "4 von 4 Metriken. MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Bruttomarge 80,7 % gegen 59,0 % Semiconductor (Damodaran, Stand Januar 2026), Abstand 21,7 Pp · Streuung 24,0 Pp, Trend 12,0 Pp pro Jahr (5 Geschäftsjahre bis 2026-09-03, SEC 10-K vom 2026-10-09) · Operatives Ergebnis 99,3 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09) · ROIC 48,9 % minus Kapitalkosten 10,6 % Semiconductor (Damodaran, Stand Januar 2026), Abstand 38,3 Pp · Größter Kunde 17,0 % (SEC 10-K vom 2026-10-09) · Vertragsbindung 9,8 % des Umsatzes 133,2 Mrd. USD",
       "metrics": [
         {
-          "id": "roic_2y",
-          "label": "ROIC, zwei aufeinanderfolgende Jahre",
-          "value": "48,9 %",
-          "raw": 0.48859,
+          "id": "gm_vs_industry",
+          "label": "Bruttomarge gegenüber Branche",
+          "value": "21,7 Pp",
+          "raw": 0.217439,
           "points": 10.0,
           "status": null,
-          "scale": "≥ 20 % = 10, 5 % = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-09-03"
-        },
-        {
-          "id": "gross_margin",
-          "label": "Bruttomarge",
-          "value": "80,7 %",
-          "raw": 0.80716,
-          "points": 10.0,
-          "status": null,
-          "scale": "≥ 60 % = 10, 20 % = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "scale": "−20 Pp = 0, 0 Pp = 5, +20 Pp = 10; Bruttomarge ≥ 70 % mindestens 8",
+          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Semiconductor",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
-          "note": "TTM bis 2026-09-03"
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Bruttomarge 80,7 % gegen 59,0 % Semiconductor (Damodaran, Stand Januar 2026), Abstand 21,7 Pp"
         },
         {
-          "id": "gross_margin_change_yoy",
-          "label": "Trend der Bruttomarge",
-          "value": "40,9 Pp",
-          "raw": 0.409252,
-          "points": 10.0,
-          "status": null,
-          "scale": "≥ 5 Pp = 10, -5 Pp = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-09-03",
-          "note": "TTM bis 2026-09-03"
-        },
-        {
-          "id": "margin_progress",
-          "label": "Margenfortschritt",
-          "value": "48,4 Pp",
-          "raw": 0.484479,
-          "points": 10.0,
-          "status": null,
-          "scale": "≥ 5 Pp = 10, -3 Pp = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-09-03",
-          "note": "TTM bis 2026-09-03"
-        },
-        {
-          "id": "net_cash_or_runway",
-          "label": "Netto-Cash oder Cash-Reichweite",
-          "value": "Netto-Cash",
+          "id": "gm_stability",
+          "label": "Stabilität und Trend der Bruttomarge",
+          "value": "Streuung 24,0 Pp · Trend 12,0 Pp/Jahr",
           "raw": null,
-          "points": 10.0,
+          "points": 4.0,
           "status": null,
-          "scale": "Netto-Cash oder mindestens 36 Monate = 10, unter 12 Monaten = 0",
+          "scale": "Streuung 8 Pp = 0 und 1 Pp = 10, Trend −3 Pp/Jahr = 0 und +3 Pp/Jahr = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-09-03"
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-09-03",
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Streuung 24,0 Pp, Trend 12,0 Pp pro Jahr (5 Geschäftsjahre bis 2026-09-03, SEC 10-K vom 2026-10-09)"
+        },
+        {
+          "id": "roic_spread",
+          "label": "ROIC über Kapitalkosten",
+          "value": "38,3 Pp",
+          "raw": 0.383084,
+          "points": 10.0,
+          "status": null,
+          "scale": "−5 Pp = 0, +15 Pp = 10",
+          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Semiconductor",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-09-03",
+          "note": "Operatives Ergebnis 99,3 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09) · ROIC 48,9 % minus Kapitalkosten 10,6 % Semiconductor (Damodaran, Stand Januar 2026), Abstand 38,3 Pp"
+        },
+        {
+          "id": "revenue_quality",
+          "label": "Umsatzqualität",
+          "value": "Kunden 17,0 % → 4 · Vertragsbindung 9,8 % → 6,4",
+          "raw": null,
+          "points": 5.2,
+          "status": null,
+          "scale": "Kunden: unter 10 % = 8, bis 15 % = 6, bis 25 % = 4, bis 40 % = 2, darüber = 0; Vertragsbindung 0 % = 3, ≥ 20 % = 10",
+          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Semiconductor",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2025-08-28",
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Größter Kunde 17,0 % (SEC 10-K vom 2026-10-09) · Vertragsbindung 9,8 % des Umsatzes 133,2 Mrd. USD"
         }
       ]
     },
@@ -140,7 +128,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
           "note": "TTM bis 2026-09-03"
         },
@@ -154,7 +142,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
           "note": "Quartal bis 2026-09-03"
         },
@@ -168,7 +156,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary, Analystenschätzung",
           "sourceUrl": "https://finance.yahoo.com/quote/MU",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null,
           "note": "Analystenschätzung, nächstes Jahr"
         },
@@ -182,7 +170,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03"
         },
         {
@@ -195,7 +183,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03"
         },
         {
@@ -208,7 +196,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
           "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
         },
@@ -222,7 +210,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
           "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
         },
@@ -236,7 +224,7 @@
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
           "note": "TTM bis 2026-09-03 · Differenz auf ±30 Pp gekappt"
         },
@@ -250,7 +238,7 @@
           "scale": "≥ 10 Pp = 10, -5 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         }
       ]
@@ -258,38 +246,66 @@
     {
       "id": "C_03",
       "label": "Markt & Zukunftsmarkt",
-      "score": 6.4,
+      "score": 2.7,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "2 von 2 Metriken verfügbar. TTM bis 2026-09-03",
+      "dataQuality": "4 von 4 Metriken. MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Geschäftsjahr bis 2026-09-03 (SEC 10-K vom 2026-10-09) · 11,9 % AEBU (Semiconductor), Segmentumsatz 15,9 Mrd. USD, Umsatzwachstum 11,7 %; 0,0 % All Other Segments (Semiconductor), Segmentumsatz 24,0 Mio. USD, Umsatzwachstum 11,7 %; 28,2 % CDBU (Semiconductor), Segmentumsatz 37,6 Mrd. USD, Umsatzwachstum 11,7 %; 32,3 % CMBU (Semiconductor), Segmentumsatz 43,1 Mrd. USD, Umsatzwachstum 11,7 %; 27,5 % MCBU (Semiconductor), Segmentumsatz 36,6 Mrd. USD, Umsatzwachstum 11,7 % · Damodaran, Stand Januar 2026 · 11,9 % AEBU (Semiconductor), Segmentumsatz 15,9 Mrd. USD, EBIT-Wachstum 9,6 %; 0,0 % All Other Segments (Semiconductor), Segmentumsatz 24,0 Mio. USD, EBIT-Wachstum 9,6 %; 28,2 % CDBU (Semiconductor), Segmentumsatz 37,6 Mrd. USD, EBIT-Wachstum 9,6 %; 32,3 % CMBU (Semiconductor), Segmentumsatz 43,1 Mrd. USD, EBIT-Wachstum 9,6 %; 27,5 % MCBU (Semiconductor), Segmentumsatz 36,6 Mrd. USD, EBIT-Wachstum 9,6 % · Forschungsquote 4,2 % gegen R&D/Sales 15,4 % Semiconductor (Damodaran, Stand Januar 2026), Faktor 0,28 · log10 0,61 · US-Pool CY2025: 11,9 % Semiconductor 539,6 Mrd. USD; 0,0 % Semiconductor 539,6 Mrd. USD; 28,2 % Semiconductor 539,6 Mrd. USD; 32,3 % Semiconductor 539,6 Mrd. USD; 27,5 % Semiconductor 539,6 Mrd. USD · Halbleiterwachstum 11,7 % (Damodaran, Stand Januar 2026); Pool nur US-Melder (ohne TSMC, ASML, Samsung, SK Hynix); zyklischer Spitzenumsatz drückt den Kopfraum",
       "metrics": [
         {
-          "id": "revenue_yoy",
-          "label": "Umsatzwachstum zum Vorjahr",
-          "value": "256,3 %",
-          "raw": 2.563273,
-          "points": 10.0,
+          "id": "industry_growth",
+          "label": "Branchenwachstum, umsatzgewichtet",
+          "value": "11,7 %",
+          "raw": 0.117087,
+          "points": 4.0,
           "status": null,
-          "scale": "≥ 30 % = 10, 0 % = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-09-03",
-          "note": "TTM bis 2026-09-03"
+          "scale": "3 % = 0, 25 % = 10",
+          "sourceLabel": "Damodaran, Stand Januar 2026 · Semiconductor",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "fetchedAt": "2026-10-27",
+          "observedAt": null,
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Geschäftsjahr bis 2026-09-03 (SEC 10-K vom 2026-10-09) · 11,9 % AEBU (Semiconductor), Segmentumsatz 15,9 Mrd. USD, Umsatzwachstum 11,7 %; 0,0 % All Other Segments (Semiconductor), Segmentumsatz 24,0 Mio. USD, Umsatzwachstum 11,7 %; 28,2 % CDBU (Semiconductor), Segmentumsatz 37,6 Mrd. USD, Umsatzwachstum 11,7 %; 32,3 % CMBU (Semiconductor), Segmentumsatz 43,1 Mrd. USD, Umsatzwachstum 11,7 %; 27,5 % MCBU (Semiconductor), Segmentumsatz 36,6 Mrd. USD, Umsatzwachstum 11,7 % · Damodaran, Stand Januar 2026"
         },
         {
-          "id": "rd_intensity",
-          "label": "Forschungsquote",
+          "id": "ebit_pool",
+          "label": "Wachstum des Gewinnpools",
+          "value": "9,6 %",
+          "raw": 0.096073,
+          "points": 4.8,
+          "status": null,
+          "scale": "0 % = 0, 20 % = 10",
+          "sourceLabel": "Damodaran, Stand Januar 2026 · Semiconductor",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "fetchedAt": "2026-10-27",
+          "observedAt": null,
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Geschäftsjahr bis 2026-09-03 (SEC 10-K vom 2026-10-09) · 11,9 % AEBU (Semiconductor), Segmentumsatz 15,9 Mrd. USD, EBIT-Wachstum 9,6 %; 0,0 % All Other Segments (Semiconductor), Segmentumsatz 24,0 Mio. USD, EBIT-Wachstum 9,6 %; 28,2 % CDBU (Semiconductor), Segmentumsatz 37,6 Mrd. USD, EBIT-Wachstum 9,6 %; 32,3 % CMBU (Semiconductor), Segmentumsatz 43,1 Mrd. USD, EBIT-Wachstum 9,6 %; 27,5 % MCBU (Semiconductor), Segmentumsatz 36,6 Mrd. USD, EBIT-Wachstum 9,6 % · Damodaran, Stand Januar 2026"
+        },
+        {
+          "id": "rd_vs_industry",
+          "label": "Innovationsquote gegenüber Branche",
           "value": "4,2 %",
           "raw": 0.042421,
-          "points": 2.8,
+          "points": 1.7,
           "status": null,
-          "scale": "≥ 15 % = 10, 0 % = 0",
+          "scale": "Faktor 0 = 0, 1 = 6, ab 2 = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
-          "note": "TTM bis 2026-09-03"
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Forschungsquote 4,2 % gegen R&D/Sales 15,4 % Semiconductor (Damodaran, Stand Januar 2026), Faktor 0,28"
+        },
+        {
+          "id": "headroom",
+          "label": "Kopfraum",
+          "value": "0,61",
+          "raw": 0.607631,
+          "points": 0.4,
+          "status": null,
+          "scale": "log10 0,5 = 0, log10 3 = 10",
+          "sourceLabel": "Damodaran, Stand Januar 2026 · Semiconductor",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-09-03",
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · log10 0,61 · US-Pool CY2025: 11,9 % Semiconductor 539,6 Mrd. USD; 0,0 % Semiconductor 539,6 Mrd. USD; 28,2 % Semiconductor 539,6 Mrd. USD; 32,3 % Semiconductor 539,6 Mrd. USD; 27,5 % Semiconductor 539,6 Mrd. USD · Halbleiterwachstum 11,7 % (Damodaran, Stand Januar 2026); Pool nur US-Melder (ohne TSMC, ASML, Samsung, SK Hynix); zyklischer Spitzenumsatz drückt den Kopfraum"
         }
       ]
     },
@@ -311,7 +327,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03"
         },
         {
@@ -324,7 +340,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
           "note": "TTM bis 2026-09-03"
         },
@@ -338,7 +354,7 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03"
         },
         {
@@ -351,7 +367,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03"
         },
         {
@@ -364,7 +380,7 @@
           "scale": "≥ 36 Monate = 10, 12 Monate = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
@@ -377,7 +393,7 @@
           "scale": "≤ 0,00 = 10, 4,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
           "note": "Netto-Cash, deshalb 10"
         },
@@ -391,7 +407,7 @@
           "scale": "≥ 2,00 = 10, 0,80 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03"
         },
         {
@@ -404,7 +420,7 @@
           "scale": "≤ 0 % = 10, 10 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03"
         }
       ]
@@ -427,7 +443,7 @@
           "scale": "über 10 % = 5, 3–10 % = 3, unter 3 % = 1",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/MU/holders",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null,
           "pointsMax": 5
         },
@@ -441,7 +457,7 @@
           "scale": "Netto-Käufe = 3, neutral = 2, Netto-Verkäufe = 0",
           "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": "2026-10-16",
           "pointsMax": 3,
           "caption": "0 Käufe / 261 Verkäufe, davon 255 im 10b5-1-Plan · unter 0,1 % der Marktkapitalisierung",
@@ -459,13 +475,13 @@
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
           "value": "80,1 %",
-          "raw": 0.80083,
+          "raw": 0.80076,
           "points": 2.0,
           "status": null,
           "scale": "über 40 % = 2, bis 40 % = 0",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/MU/holders",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null,
           "pointsMax": 2
         }
@@ -490,20 +506,20 @@
           "scale": "≥ 80 % = 10, 30 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/MU",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
           "id": "target_upside",
           "label": "Abstand zum mittleren Kursziel",
-          "value": "78,0 %",
-          "raw": 0.779854,
+          "value": "72,8 %",
+          "raw": 0.728351,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/MU",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         },
         {
@@ -516,7 +532,7 @@
           "scale": "≥ 10 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/MU",
-          "fetchedAt": "2026-10-26",
+          "fetchedAt": "2026-10-27",
           "observedAt": null
         }
       ],
@@ -576,7 +592,7 @@
         ],
         "sourceLabel": "Yahoo Finance quoteSummary",
         "sourceUrl": "https://finance.yahoo.com/quote/MU",
-        "fetchedAt": "2026-10-26"
+        "fetchedAt": "2026-10-27"
       }
     },
     {
@@ -590,15 +606,15 @@
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
-          "value": "429,5 Pp",
-          "raw": 429.548188,
+          "value": "408,7 Pp",
+          "raw": 408.748854,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 Pp = 10, 0 Pp = 5, ≤ -50 Pp = 0",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-10-23",
+          "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-10-26",
           "note": "Plausibilitätswarnung: 12-1 über +300 Pp"
         },
         {
@@ -610,29 +626,29 @@
           "status": null,
           "scale": "über dem 200-Tage-Schnitt = 10, darunter = 5",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-10-23"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-10-26"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "30,1 %",
-          "raw": 0.300757,
-          "points": 8.0,
+          "value": "28,0 %",
+          "raw": 0.27992,
+          "points": 7.8,
           "status": null,
           "scale": "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-09&todate=2026-10-26&limit=2000",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-10-23"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/MU/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-10-26"
         }
       ]
     },
     {
       "id": "C_08",
       "label": "Bewertung",
-      "score": 9.0,
+      "score": 8.9,
       "status": null,
       "weight": 0.5,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -641,40 +657,40 @@
           "id": "valuation_primary",
           "label": "PEG",
           "value": "0,01",
-          "raw": 0.012891,
+          "raw": 0.013275,
           "points": 10.0,
           "status": null,
           "scale": "≤ 1,00 = 10, 3,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-10-23"
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-10-26"
         },
         {
           "id": "fcf_yield",
           "label": "Free-Cashflow-Rendite",
-          "value": "5,9 %",
-          "raw": 0.059386,
-          "points": 7.4,
+          "value": "5,8 %",
+          "raw": 0.057667,
+          "points": 7.2,
           "status": null,
           "scale": "≥ 8 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-10-23"
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-10-26"
         },
         {
           "id": "ev_to_ebitda",
           "label": "EV / EBITDA",
-          "value": "8,80",
-          "raw": 8.795315,
-          "points": 9.6,
+          "value": "9,07",
+          "raw": 9.067144,
+          "points": 9.5,
           "status": null,
           "scale": "≤ 8,00 = 10, 30,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
-          "fetchedAt": "2026-10-26",
-          "observedAt": "2026-10-23"
+          "fetchedAt": "2026-10-27",
+          "observedAt": "2026-10-26"
         }
       ]
     }
