@@ -48,7 +48,7 @@
       "score": 5.1,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. TTM bis 2026-09-30 · Branchen-Bruttomarge 10,4 % · Streuung 1,8 Pp, Trend -2,2 Pp pro Jahr (5 Geschäftsjahre) · Kapitalkosten 9,4 % · kein Großkunde ≥ 10 % gemeldet · Vertragsbindung 4,5 % → 4,6",
+      "dataQuality": "4 von 4 Metriken. TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30 · Bruttomarge 19,3 % gegen 10,4 % Auto & Truck (Damodaran, Stand Januar 2026), Abstand 8,9 Pp · Streuung 1,8 Pp, Trend -2,2 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-01-29) · Operatives Ergebnis 4,4 Mrd. USD bis 2025-12-31 (SEC 10-K vom 2026-01-29) · ROIC 6,7 % minus Kapitalkosten 9,4 % Auto & Truck (Damodaran, Stand Januar 2026), Abstand -2,7 Pp · Im 10-K/A vom 2026-04-30 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 4,5 % des Umsatzes 103,6 Mrd. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -62,7 +62,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
-          "note": "TTM bis 2026-09-30 · Branchen-Bruttomarge 10,4 %"
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30 · Bruttomarge 19,3 % gegen 10,4 % Auto & Truck (Damodaran, Stand Januar 2026), Abstand 8,9 Pp"
         },
         {
           "id": "gm_stability",
@@ -76,7 +76,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001318605.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "TTM bis 2026-09-30 · Streuung 1,8 Pp, Trend -2,2 Pp pro Jahr (5 Geschäftsjahre)"
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30 · Streuung 1,8 Pp, Trend -2,2 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-01-29)"
         },
         {
           "id": "roic_spread",
@@ -90,7 +90,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "Kapitalkosten 9,4 %"
+          "note": "Operatives Ergebnis 4,4 Mrd. USD bis 2025-12-31 (SEC 10-K vom 2026-01-29) · ROIC 6,7 % minus Kapitalkosten 9,4 % Auto & Truck (Damodaran, Stand Januar 2026), Abstand -2,7 Pp"
         },
         {
           "id": "revenue_quality",
@@ -104,7 +104,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
-          "note": "kein Großkunde ≥ 10 % gemeldet · Vertragsbindung 4,5 % → 4,6"
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30 · Im 10-K/A vom 2026-04-30 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 4,5 % des Umsatzes 103,6 Mrd. USD"
         }
       ]
     },
@@ -245,7 +245,7 @@
       "score": 3.1,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. TTM bis 2026-09-30 · Faktor 1,61 gegenüber der Branche · US-Umsatzpool CY2025",
+      "dataQuality": "4 von 4 Metriken. TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30 · 100,0 % Auto & Truck laut NasdaqGS:TSLA, Umsatzwachstum 10,3 % · Damodaran, Stand Januar 2026 · 100,0 % Auto & Truck laut NasdaqGS:TSLA, EBIT-Wachstum -0,9 % · Forschungsquote 8,6 % gegen R&D/Sales 5,3 % Auto & Truck (Damodaran, Stand Januar 2026), Faktor 1,61 · log10 0,68 · US-Pool CY2025: 100,0 % Auto & Truck 490,9 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -258,7 +258,8 @@
           "sourceLabel": "Damodaran, Stand Januar 2026 · Auto & Truck",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30 · 100,0 % Auto & Truck laut NasdaqGS:TSLA, Umsatzwachstum 10,3 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -271,7 +272,8 @@
           "sourceLabel": "Damodaran, Stand Januar 2026 · Auto & Truck",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30 · 100,0 % Auto & Truck laut NasdaqGS:TSLA, EBIT-Wachstum -0,9 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -285,7 +287,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
-          "note": "TTM bis 2026-09-30 · Faktor 1,61 gegenüber der Branche"
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30 · Forschungsquote 8,6 % gegen R&D/Sales 5,3 % Auto & Truck (Damodaran, Stand Januar 2026), Faktor 1,61"
         },
         {
           "id": "headroom",
@@ -299,7 +301,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
-          "note": "US-Umsatzpool CY2025"
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30 · log10 0,68 · US-Pool CY2025: 100,0 % Auto & Truck 490,9 Mrd. USD"
         }
       ]
     },

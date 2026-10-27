@@ -50,7 +50,7 @@
       "score": null,
       "status": "wenig Daten",
       "weight": 1.0,
-      "dataQuality": "1 von 4 Metriken. TTM bis 2026-06-30 · Biotech · Kunden 96,0 % → 0 · Vertragsbindung 0,1 % → 3",
+      "dataQuality": "1 von 4 Metriken. IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Branche Drugs (Biotechnology) · Damodaran, Stand Januar 2026 · Operatives Ergebnis −256,0 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · deshalb n/a (Aufbauphase) · Größter Kunde 96,0 % (SEC 10-K vom 2026-02-23) · Vertragsbindung 0,1 % des Umsatzes 165,8 Mio. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -64,7 +64,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "TTM bis 2026-06-30 · Biotech"
+          "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Branche Drugs (Biotechnology) · Damodaran, Stand Januar 2026"
         },
         {
           "id": "gm_stability",
@@ -78,7 +78,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "TTM bis 2026-06-30 · Biotech"
+          "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Branche Drugs (Biotechnology) · Damodaran, Stand Januar 2026"
         },
         {
           "id": "roic_spread",
@@ -91,7 +91,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "Operatives Ergebnis −256,0 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · deshalb n/a (Aufbauphase)"
         },
         {
           "id": "revenue_quality",
@@ -105,7 +106,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "Kunden 96,0 % → 0 · Vertragsbindung 0,1 % → 3"
+          "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Größter Kunde 96,0 % (SEC 10-K vom 2026-02-23) · Vertragsbindung 0,1 % des Umsatzes 165,8 Mio. USD"
         }
       ]
     },
@@ -247,7 +248,7 @@
       "score": 7.5,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. TTM bis 2026-06-30 · Faktor 3,43 gegenüber der Branche · US-Umsatzpool CY2025",
+      "dataQuality": "4 von 4 Metriken. IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · 100,0 % Drugs (Biotechnology) laut NasdaqGS:IBRX, Umsatzwachstum 30,0 % (Deckel 30,0 %, Median 51,5 %) · Damodaran, Stand Januar 2026 · 100,0 % Drugs (Biotechnology) laut NasdaqGS:IBRX, EBIT-Wachstum -1,6 % · Forschungsquote 147,1 % gegen R&D/Sales 42,9 % Drugs (Biotechnology) (Damodaran, Stand Januar 2026), Faktor 3,43 · log10 3,12 · US-Pool CY2025: 100,0 % Drugs (Biotechnology) 219,3 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -260,7 +261,8 @@
           "sourceLabel": "Damodaran, Stand Januar 2026 · Drugs (Biotechnology)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · 100,0 % Drugs (Biotechnology) laut NasdaqGS:IBRX, Umsatzwachstum 30,0 % (Deckel 30,0 %, Median 51,5 %) · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -273,7 +275,8 @@
           "sourceLabel": "Damodaran, Stand Januar 2026 · Drugs (Biotechnology)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · 100,0 % Drugs (Biotechnology) laut NasdaqGS:IBRX, EBIT-Wachstum -1,6 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -287,7 +290,7 @@
           "sourceUrl": "https://finance.yahoo.com/quote/IBRX",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30 · Faktor 3,43 gegenüber der Branche"
+          "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Forschungsquote 147,1 % gegen R&D/Sales 42,9 % Drugs (Biotechnology) (Damodaran, Stand Januar 2026), Faktor 3,43"
         },
         {
           "id": "headroom",
@@ -301,7 +304,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "US-Umsatzpool CY2025"
+          "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · log10 3,12 · US-Pool CY2025: 100,0 % Drugs (Biotechnology) 219,3 Mrd. USD"
         }
       ]
     },

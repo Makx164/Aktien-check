@@ -50,7 +50,7 @@
       "score": 6.9,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "2 von 4 Metriken. Vergleich bis 2025-12-31 · Branchen-Bruttomarge 24,1 % · Streuung 18,5 Pp, Trend 24,0 Pp pro Jahr (5 Geschäftsjahre)",
+      "dataQuality": "2 von 4 Metriken. GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31 · Bruttomarge 43,2 % gegen 24,1 % Transportation (Damodaran, Stand Januar 2026), Abstand 19,1 Pp · Streuung 18,5 Pp, Trend 24,0 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 20-F vom 2026-03-06) · Operatives Ergebnis 65,0 Mio. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06) · ROIC n/a · Kundenkonzentration im 20-F vom 2026-03-06 ist n/a",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -64,7 +64,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "Vergleich bis 2025-12-31 · Branchen-Bruttomarge 24,1 %"
+          "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31 · Bruttomarge 43,2 % gegen 24,1 % Transportation (Damodaran, Stand Januar 2026), Abstand 19,1 Pp"
         },
         {
           "id": "gm_stability",
@@ -78,7 +78,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "Vergleich bis 2025-12-31 · Streuung 18,5 Pp, Trend 24,0 Pp pro Jahr (5 Geschäftsjahre)"
+          "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31 · Streuung 18,5 Pp, Trend 24,0 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 20-F vom 2026-03-06)"
         },
         {
           "id": "roic_spread",
@@ -91,7 +91,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "Operatives Ergebnis 65,0 Mio. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06) · ROIC n/a"
         },
         {
           "id": "revenue_quality",
@@ -104,7 +105,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31 · Kundenkonzentration im 20-F vom 2026-03-06 ist n/a"
         }
       ]
     },
@@ -247,7 +249,7 @@
       "score": 4.0,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "3 von 4 Metriken. Branchen-F&E unter 2 % · US-Umsatzpool CY2025",
+      "dataQuality": "3 von 4 Metriken. GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31 · 100,0 % Transportation laut NasdaqGS:GRAB, Umsatzwachstum 9,1 % · Damodaran, Stand Januar 2026 · 100,0 % Transportation laut NasdaqGS:GRAB, EBIT-Wachstum 6,7 % · R&D/Sales 1,2 % Transportation (Damodaran, Stand Januar 2026) liegt unter 2 % · log10 1,96 · US-Pool CY2025: 100,0 % Transportation 306,9 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -260,7 +262,8 @@
           "sourceLabel": "Damodaran, Stand Januar 2026 · Transportation",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31 · 100,0 % Transportation laut NasdaqGS:GRAB, Umsatzwachstum 9,1 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -273,7 +276,8 @@
           "sourceLabel": "Damodaran, Stand Januar 2026 · Transportation",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31 · 100,0 % Transportation laut NasdaqGS:GRAB, EBIT-Wachstum 6,7 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -287,7 +291,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "Branchen-F&E unter 2 %"
+          "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31 · R&D/Sales 1,2 % Transportation (Damodaran, Stand Januar 2026) liegt unter 2 %"
         },
         {
           "id": "headroom",
@@ -301,7 +305,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "US-Umsatzpool CY2025"
+          "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31 · log10 1,96 · US-Pool CY2025: 100,0 % Transportation 306,9 Mrd. USD"
         }
       ]
     },

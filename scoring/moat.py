@@ -10,7 +10,7 @@ from __future__ import annotations
 import math
 
 from scoring.metrics import _join_notes, gross_margin_series, parse_date, value_at, year_gap
-from scoring.model import format_value, linear_points
+from scoring.model import format_de, format_value, linear_points
 
 C01_IDS = ("gm_vs_industry", "gm_stability", "roic_spread", "revenue_quality")
 C03_IDS = ("industry_growth", "ebit_pool", "rd_vs_industry", "headroom")
@@ -349,6 +349,133 @@ def _source(moat, industry, extra=None):
     return {"label": label, "url": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/"}
 
 
+def _usd(amount):
+    if amount is None:
+        return "n/a"
+    value = float(amount)
+    sign = "−" if value < 0 else ""
+    value = abs(value)
+    if value >= 1_000_000_000_000:
+        text = format_de(value / 1_000_000_000_000, 1) + " Bio. USD"
+    elif value >= 1_000_000_000:
+        text = format_de(value / 1_000_000_000, 1) + " Mrd. USD"
+    elif value >= 1_000_000:
+        text = format_de(value / 1_000_000, 1) + " Mio. USD"
+    else:
+        text = format_de(value, 0) + " USD"
+    return sign + text
+
+
+def _sec_cite(filed, form):
+    if not filed:
+        return "SEC, Einreichungsdatum n/a"
+    return "SEC " + (form or "Filing") + " vom " + str(filed)
+
+
+def _damo(moat):
+    return (moat or {}).get("label") or "Damodaran, Stand n/a"
+
+
+def _cite_end(bundle, end):
+    snap = bundle.get("snapshot") or {}
+    if end and snap.get("end") == end and snap.get("filed"):
+        return snap.get("filed"), snap.get("form")
+    for key in ("revenue", "operating_income", "gross_profit"):
+        for point in bundle.get(key) or []:
+            if point.get("end") == end and point.get("filed"):
+                return point.get("filed"), point.get("form")
+    if snap.get("filed"):
+        return snap.get("filed"), snap.get("form")
+    return None, None
+
+
+def _anchor(bundle, moat):
+    """Company, its own revenue, and the filing or FX source."""
+    ticker = moat.get("ticker") or "n/a"
+    revenue, end, revenue_note = _own_revenue(bundle, moat)
+    when = end or "n/a"
+    filed, form = _cite_end(bundle, end)
+    if revenue_note:
+        text = f"{ticker}: Umsatz {_usd(revenue)} bis {when}. {revenue_note}"
+        if filed and "SEC " not in text and "yfinance" not in text:
+            text += " (" + _sec_cite(filed, form) + ")"
+    else:
+        text = f"{ticker}: Umsatz {_usd(revenue)} bis {when} ({_sec_cite(filed, form)})"
+    label = (bundle.get("snapshot") or {}).get("label")
+    if label and str(label) not in text:
+        text += ". " + str(label)
+    return text
+
+
+def _member_label(member):
+    if not member:
+        return None
+    text = str(member)
+    for suffix in ("SegmentMember", "Member"):
+        if text.endswith(suffix) and len(text) > len(suffix):
+            text = text[: -len(suffix)]
+            break
+    chars = []
+    for index, char in enumerate(text):
+        if index and char.isupper() and text[index - 1].islower():
+            chars.append(" ")
+        chars.append(char)
+    return "".join(chars)
+
+
+def _mix_rows(moat, mix):
+    rows = [
+        item for item in (moat.get("segments") or [])
+        if item.get("industry") and item.get("weight")
+    ]
+    if rows:
+        return rows
+    return [{"industry": name, "weight": weight} for weight, name in mix]
+
+
+def _mix_sentence(moat, mix, kind, low, high):
+    bits = []
+    rows = _mix_rows(moat, mix)
+    listing = ""
+    source = moat.get("industrySource")
+    if len(rows) == 1 and source and ":" in str(source):
+        listing = " laut " + str(source)
+    for item in rows:
+        name = item.get("industry")
+        weight = item.get("weight")
+        bench = _bench(moat, name)
+        if kind == "growth":
+            series = bench.get("revenueGrowth") or []
+            rate = median_capped(series, low, high)
+            what = "Umsatzwachstum"
+            present = sorted(
+                float(value) for value in series
+                if isinstance(value, (int, float)) and not isinstance(value, bool)
+            )
+            uncapped = None
+            if present:
+                count = len(present)
+                if count % 2:
+                    uncapped = present[count // 2]
+                else:
+                    uncapped = (present[count // 2 - 1] + present[count // 2]) / 2.0
+            cap = ""
+            if rate is not None and uncapped is not None and abs(float(rate) - float(uncapped)) > 1e-9:
+                cap = " (Deckel " + format_value("percent", high) + ", Median " + format_value("percent", uncapped) + ")"
+            rate_text = (format_value("percent", rate) if rate is not None else "n/a") + cap
+        else:
+            rate = bench.get("ebitGrowth")
+            what = "EBIT-Wachstum"
+            rate_text = format_value("percent", rate) if rate is not None else "n/a"
+        share = format_value("percent", weight) if weight is not None else "n/a"
+        member = _member_label(item.get("member"))
+        label = name if not member else member + " (" + (name or "n/a") + ")"
+        revenue = item.get("revenue")
+        revenue_text = "" if revenue is None else ", Segmentumsatz " + _usd(revenue)
+        bits.append(f"{share} {label}{listing}{revenue_text}, {what} {rate_text}")
+    return _join_notes(moat.get("segmentNote"), "; ".join(bits) if bits else None, _damo(moat))
+
+
 def apply_moat(raw, bundle, config, profile=None):
     """Fill the eight C_01 and C_03 metrics. Existing raw keys stay in place."""
     rules = _rules(config)
@@ -362,8 +489,9 @@ def apply_moat(raw, bundle, config, profile=None):
     no_us = rules.get("noUsFilingCriterion") or NO_US
     financial_reason = rules.get("financialReason") or "Finanzwert"
     if not sec:
+        note = _join_notes(_anchor(bundle, moat), no_us)
         for metric_id in C01_IDS:
-            _mark(raw, metric_id, no_us)
+            _mark(raw, metric_id, no_us, note=note)
     else:
         _apply_c01(raw, bundle, moat, rules, config, profile, short, na_label, financial_reason)
     _apply_c03(raw, bundle, moat, rules, config, profile, short, na_label, disclosed, sec)
@@ -383,14 +511,19 @@ def _apply_c01(raw, bundle, moat, rules, config, profile, short, na_label, finan
     m1_blocked_special = False
 
     if is_financial:
-        _mark(raw, "gm_vs_industry", na_label, financial_reason, gross_label)
-        _mark(raw, "gm_stability", na_label, financial_reason, gross_label)
+        blocked = _join_notes(
+            _anchor(bundle, moat),
+            f"Branche {industry or 'n/a'}, Bruttomarge nicht anwendbar ({_damo(moat)})",
+        )
+        _mark(raw, "gm_vs_industry", na_label, financial_reason, blocked)
+        _mark(raw, "gm_stability", na_label, financial_reason, blocked)
         m1_blocked_special = True
     elif is_biotech or low_revenue:
         reason_note = _join_notes(
-            gross_label,
-            "Biotech" if is_biotech else None,
+            _anchor(bundle, moat),
+            f"Branche {industry}" if is_biotech else None,
             "Umsatz unter 50 Mio. USD" if low_revenue else None,
+            _damo(moat) if is_biotech else None,
         )
         _mark(raw, "gm_vs_industry", NA, note=reason_note)
         _mark(raw, "gm_stability", NA, note=reason_note)
@@ -398,19 +531,26 @@ def _apply_c01(raw, bundle, moat, rules, config, profile, short, na_label, finan
     else:
         industry_margin = bench.get("grossMargin") if industry else None
         if gross is None or industry_margin is None:
-            _mark(raw, "gm_vs_industry", NA, note=gross_label)
+            _mark(raw, "gm_vs_industry", NA, note=_join_notes(_anchor(bundle, moat), "Bruttomarge n/a"))
         else:
             spread = gross - float(industry_margin)
             m1 = rules.get("m1") or {}
             points = linear_points(spread, m1.get("zeroAt", -0.20), m1.get("tenAt", 0.20))
             if gross >= float(rules.get("grossMarginFloor", 0.70)):
                 points = max(float(points), float(rules.get("grossMarginFloorPoints", 8)))
+            default = ""
+            if moat.get("industrySource") == "override":
+                default = ", Firmen-Default statt SIC"
             note = _join_notes(
-                gross_label,
-                "Branchen-Bruttomarge " + format_value("percent", industry_margin),
+                _anchor(bundle, moat),
+                "Bruttomarge " + format_value("percent", gross)
+                + " gegen " + format_value("percent", industry_margin)
+                + " " + (industry or "n/a")
+                + default
+                + " (" + _damo(moat) + "), Abstand " + format_value("ratioPp", spread),
             )
             _score(raw, "gm_vs_industry", spread, points, gross_end, note=note, source=source)
-        _apply_m2(raw, bundle, rules, short, gross_label)
+        _apply_m2(raw, bundle, moat, rules, short)
 
     _apply_m3(
         raw, bundle, moat, rules, bench, source, short,
@@ -419,7 +559,7 @@ def _apply_c01(raw, bundle, moat, rules, config, profile, short, na_label, finan
     _apply_m4(raw, bundle, moat, rules, source)
 
 
-def _apply_m2(raw, bundle, rules, short, gross_label):
+def _apply_m2(raw, bundle, moat, rules, short):
     spec = rules.get("m2") or {}
     minimum = int(spec.get("minYears", 3))
     maximum = int(spec.get("maxYears", 5))
@@ -427,9 +567,12 @@ def _apply_m2(raw, bundle, rules, short, gross_label):
     fitted = margin_trend(series, maximum, spec.get("residualStdev") or rules.get("residualStdev") or "population")
     if fitted is None or fitted["years"] < minimum:
         if _margin_history_short(bundle, series, minimum):
-            _mark(raw, "gm_stability", short, note=gross_label)
+            _mark(raw, "gm_stability", short, note=_join_notes(
+                _anchor(bundle, moat),
+                "weniger als " + str(minimum) + " Geschäftsjahre mit Bruttomarge",
+            ))
         else:
-            _mark(raw, "gm_stability", NA, note=gross_label)
+            _mark(raw, "gm_stability", NA, note=_join_notes(_anchor(bundle, moat), "Bruttomargen-Historie n/a"))
         return
     stability = linear_points(
         fitted["stdev"], spec.get("stabilityZero", 0.08), spec.get("stabilityTen", 0.01),
@@ -440,11 +583,13 @@ def _apply_m2(raw, bundle, rules, short, gross_label):
     weight_stability = float(spec.get("stabilityWeight", 0.6))
     weight_trend = float(spec.get("trendWeight", 0.4))
     points = weight_stability * stability + weight_trend * trend
+    filed, form = _cite_end(bundle, fitted["end"])
     note = _join_notes(
-        gross_label,
+        _anchor(bundle, moat),
         "Streuung " + format_value("ratioPp", fitted["stdev"])
         + ", Trend " + format_value("ratioPp", fitted["slope"]) + " pro Jahr"
-        + " (" + str(fitted["years"]) + " Geschäftsjahre)",
+        + " (" + str(fitted["years"]) + " Geschäftsjahre bis " + str(fitted["end"]) + ", "
+        + _sec_cite(filed, form) + ")",
     )
     display = (
         "Streuung " + format_value("ratioPp", fitted["stdev"])
@@ -483,34 +628,50 @@ def _apply_m3(raw, bundle, moat, rules, bench, source, short, blocked_special, i
     # An operating profit is scored even when pretax is still negative.
     # The zero-point penalty needs a scored gross margin. When M1 is n/a
     # there is no industry comparison, so an operating loss is build phase.
+    op_filed, op_form = _cite_end(bundle, end)
+    op_fact = "Operatives Ergebnis " + _usd(operating) + " bis " + (end or "n/a") + " (" + _sec_cite(op_filed, op_form) + ")"
     if young and blocked_special and operating_loss:
-        _mark(raw, "roic_spread", BUILD_PHASE, note=tax_note)
+        _mark(raw, "roic_spread", BUILD_PHASE, note=_join_notes(op_fact, "deshalb " + BUILD_PHASE))
         return
     if raw["reasons"].get("gm_vs_industry") == NA and operating_loss:
-        _mark(raw, "roic_spread", BUILD_PHASE, note=tax_note)
+        _mark(raw, "roic_spread", BUILD_PHASE, note=_join_notes(op_fact, "M1 ist n/a, deshalb Aufbauphase"))
         return
     young_penalty = young and not (blocked_special and not operating_loss)
     if young_penalty and m1_points is not None and m1_points >= float(spec.get("youngM1Min", 5)):
-        _mark(raw, "roic_spread", BUILD_PHASE, note=tax_note)
+        _mark(raw, "roic_spread", BUILD_PHASE, note=_join_notes(op_fact, "M1 " + _points_text(m1_points) + " Punkte, deshalb Aufbauphase"))
         return
     if young_penalty:
         spread = None if roic is None or wacc is None else float(roic) - float(wacc)
+        margin = raw["values"].get("gm_vs_industry")
+        margin_text = "n/a" if margin is None else format_value("ratioPp", margin)
         _score(
             raw, "roic_spread", 0 if spread is None else spread, 0.0, end,
-            note=_join_notes(tax_note, WEAK_MARGIN_NOTE),
+            note=_join_notes(
+                op_fact,
+                "Bruttomarge-Abstand " + margin_text + ", M1 " + _points_text(m1_points) + " Punkte (" + _damo(moat) + ")",
+                WEAK_MARGIN_NOTE,
+            ),
             source=source if wacc is not None else None,
         )
         return
     if roic is not None and wacc is not None:
         spread = float(roic) - float(wacc)
         points = linear_points(spread, spec.get("zeroAt", -0.05), spec.get("tenAt", 0.15))
-        note = _join_notes(tax_note, "Kapitalkosten " + format_value("percent", wacc))
+        industry = moat.get("industry") or "n/a"
+        spread_text = (
+            "ROIC " + format_value("percent", roic)
+            + " minus Kapitalkosten " + format_value("percent", wacc)
+            + " " + industry + " (" + _damo(moat) + "), Abstand " + format_value("ratioPp", spread)
+        )
+        if tax_note:
+            spread_text += ". " + tax_note
+        note = _join_notes(op_fact, spread_text)
         _score(raw, "roic_spread", spread, points, raw["observed"].get("roic_2y") or end, note=note, source=source)
         return
     if _is_short(bundle, bundle.get("operating_income") or [], spec.get("minYears", 2)):
-        _mark(raw, "roic_spread", short, note=tax_note)
+        _mark(raw, "roic_spread", short, note=_join_notes(op_fact, "weniger als zwei ROIC-Jahre"))
         return
-    _mark(raw, "roic_spread", NA, note=tax_note)
+    _mark(raw, "roic_spread", NA, note=_join_notes(op_fact, "ROIC n/a"))
 
 
 def _apply_m4(raw, bundle, moat, rules, source):
@@ -520,6 +681,7 @@ def _apply_m4(raw, bundle, moat, rules, source):
     points_a = None
     pct = None
     bits = []
+    cite = _sec_cite(concentration.get("filed"), concentration.get("form"))
     if mode == "none":
         points_a = 8.0
         bits.append(NO_CUSTOMER_NOTE)
@@ -540,15 +702,33 @@ def _apply_m4(raw, bundle, moat, rules, source):
         bits.append("Vertragsbindung " + format_value("percent", ratio) + " → " + _points_text(points_b))
     present = [value for value in (points_a, points_b) if value is not None]
     if not present:
-        _mark(raw, "revenue_quality", NA, note=revenue_note)
+        _mark(raw, "revenue_quality", NA, note=_join_notes(
+            _anchor(bundle, moat),
+            "Kundenkonzentration im " + (concentration.get("form") or "Filing") + " vom " + str(concentration.get("filed") or "n/a") + " ist n/a",
+        ))
         return
     points = sum(present) / len(present)
     when = concentration.get("end") or (bundle.get("snapshot") or {}).get("contract_liability_end") or revenue_end
     value = pct if pct is not None else (ratio if ratio is not None else 0.0)
     display = " · ".join(bits) if bits else None
+    facts = []
+    if mode == "none":
+        facts.append(
+            "Im " + (concentration.get("form") or "10-K") + " vom " + str(concentration.get("filed") or "n/a")
+            + " fehlt ConcentrationRiskPercentage1 (" + NO_CUSTOMER_NOTE + ")"
+        )
+    elif mode == "value" and pct is not None:
+        facts.append("Größter Kunde " + format_value("percent", pct) + " (" + cite + ")")
+    elif mode == "na":
+        facts.append(
+            "Kundenkonzentration im " + (concentration.get("form") or "Filing") + " vom "
+            + str(concentration.get("filed") or "n/a") + " ist n/a"
+        )
+    if ratio is not None:
+        facts.append("Vertragsbindung " + format_value("percent", ratio) + " des Umsatzes " + _usd(revenue))
     _score(
         raw, "revenue_quality", value, points, when,
-        note=_join_notes(revenue_note, display),
+        note=_join_notes(_anchor(bundle, moat), *facts),
         display=display,
         source=source,
     )
@@ -578,21 +758,25 @@ def _apply_c03(raw, bundle, moat, rules, config, profile, short, na_label, discl
         ebit_pairs.append((weight, bench.get("ebitGrowth")))
     growth = weighted_value(growth_pairs)
     spec = rules.get("c03m1") or {}
+    growth_note = _join_notes(_anchor(bundle, moat), _mix_sentence(moat, mix, "growth", low, high))
+    ebit_note = _join_notes(_anchor(bundle, moat), _mix_sentence(moat, mix, "ebit", low, high))
     if growth is None:
-        _mark(raw, "industry_growth", NA, note=segment_note)
+        extra = None if growth_note and "Umsatzwachstum n/a" in growth_note else "Umsatzwachstum n/a"
+        _mark(raw, "industry_growth", NA, note=_join_notes(growth_note, extra))
     else:
         points = linear_points(growth, spec.get("zeroAt", 0.03), spec.get("tenAt", 0.25))
         _score(
             raw, "industry_growth", growth, points, None,
-            note=segment_note, source=source,
+            note=growth_note, source=source,
         )
     ebit = weighted_value(ebit_pairs)
     ebit_spec = rules.get("c03m2") or {}
     if ebit is None:
-        _mark(raw, "ebit_pool", NA, note=segment_note)
+        extra = None if ebit_note and "EBIT-Wachstum n/a" in ebit_note else "EBIT-Wachstum n/a"
+        _mark(raw, "ebit_pool", NA, note=_join_notes(ebit_note, extra))
     else:
         points = linear_points(ebit, ebit_spec.get("zeroAt", 0.0), ebit_spec.get("tenAt", 0.20))
-        _score(raw, "ebit_pool", ebit, points, None, note=segment_note, source=source)
+        _score(raw, "ebit_pool", ebit, points, None, note=ebit_note, source=source)
     _apply_rd(raw, bundle, moat, rules, disclosed, sec, source)
     _apply_headroom(raw, bundle, moat, rules, mix, source, segment_note)
 
@@ -603,10 +787,17 @@ def _apply_rd(raw, bundle, moat, rules, disclosed, sec, source):
     bench = _bench(moat, industry)
     industry_rd = bench.get("rdSales") if industry else None
     if not sec:
-        _mark(raw, "rd_vs_industry", NA, note="aktivierte Forschungsquote nicht vergleichbar")
+        _mark(raw, "rd_vs_industry", NA, note=_join_notes(
+            _anchor(bundle, moat),
+            "aktivierte Forschungsquote nicht vergleichbar",
+        ))
         return
     if industry_rd is not None and float(industry_rd) < float(rules.get("industryRdMin", 0.02)):
-        _mark(raw, "rd_vs_industry", NA, note="Branchen-F&E unter 2 %")
+        _mark(raw, "rd_vs_industry", NA, note=_join_notes(
+            _anchor(bundle, moat),
+            "R&D/Sales " + format_value("percent", industry_rd) + " " + (industry or "n/a")
+            + " (" + _damo(moat) + ") liegt unter 2 %",
+        ))
         return
     ratio, end = _company_rd_ratio(bundle)
     snap = bundle.get("snapshot") or {}
@@ -619,14 +810,24 @@ def _apply_rd(raw, bundle, moat, rules, disclosed, sec, source):
     if ratio is None or industry_rd is None or float(industry_rd) <= 0:
         revenue_known = bool(snap.get("revenue") or bundle.get("revenue"))
         research_missing = not bundle.get("rd") and snap.get("rd") is None
+        filed, form = _cite_end(bundle, snap.get("end"))
+        missing = _join_notes(
+            _anchor(bundle, moat),
+            "ResearchAndDevelopmentExpense n/a (" + _sec_cite(filed, form) + ")",
+        )
         if sec and revenue_known and research_missing:
-            _mark(raw, "rd_vs_industry", disclosed, note=snap.get("label"))
+            _mark(raw, "rd_vs_industry", disclosed, note=missing)
         else:
-            _mark(raw, "rd_vs_industry", NA, note=snap.get("label"))
+            _mark(raw, "rd_vs_industry", NA, note=missing)
         return
     factor = ratio / float(industry_rd)
     points = rd_factor_points(factor, spec)
-    note = _join_notes(snap.get("label"), "Faktor " + format_value("multiple", factor) + " gegenüber der Branche")
+    note = _join_notes(
+        _anchor(bundle, moat),
+        "Forschungsquote " + format_value("percent", ratio)
+        + " gegen R&D/Sales " + format_value("percent", industry_rd)
+        + " " + (industry or "n/a") + " (" + _damo(moat) + "), Faktor " + format_value("multiple", factor),
+    )
     rd_source = source
     if provenance.get("label"):
         rd_source = {"label": provenance.get("label"), "url": provenance.get("url") or source.get("url")}
@@ -638,7 +839,7 @@ def _apply_headroom(raw, bundle, moat, rules, mix, source, segment_note):
     revenue, end, revenue_note = _own_revenue(bundle, moat)
     pools = moat.get("pools") or {}
     if not revenue or revenue <= 0 or not mix:
-        _mark(raw, "headroom", NA, note=_join_notes(segment_note, revenue_note))
+        _mark(raw, "headroom", NA, note=_join_notes(_anchor(bundle, moat), segment_note))
         return
     pairs = []
     for weight, industry in mix:
@@ -648,13 +849,27 @@ def _apply_headroom(raw, bundle, moat, rules, mix, source, segment_note):
         pairs.append((weight, math.log10(float(pool) / float(revenue))))
     log_ratio = weighted_value(pairs)
     if log_ratio is None:
-        _mark(raw, "headroom", NA, note=_join_notes(segment_note, revenue_note))
+        _mark(raw, "headroom", NA, note=_join_notes(_anchor(bundle, moat), segment_note))
         return
     points = linear_points(log_ratio, spec.get("zeroAt", 0.5), spec.get("tenAt", 3.0))
     year = moat.get("poolYear")
-    pool_note = None if year is None else "US-Umsatzpool CY" + str(year)
+    pool_bits = []
+    for weight, name in mix:
+        pool_bits.append(
+            (format_value("percent", weight) or "n/a") + " " + name + " " + _usd((moat.get("pools") or {}).get(name))
+        )
+    pool_note = "US-Pool CY" + (str(year) if year is not None else "n/a") + ": " + "; ".join(pool_bits)
     ticker_note = (rules.get("headroomNotes") or {}).get(moat.get("ticker"))
-    note = _join_notes(segment_note, revenue_note, pool_note, ticker_note)
+    if moat.get("ticker") == "MU":
+        low = float(rules.get("growthCapLow", -0.05))
+        high = float(rules.get("growthCapHigh", 0.30))
+        semi = None
+        for weight, name in mix:
+            if name == "Semiconductor":
+                semi = median_capped(_bench(moat, name).get("revenueGrowth") or [], low, high)
+        growth_text = format_value("percent", semi) if semi is not None else "n/a"
+        ticker_note = "Halbleiterwachstum " + growth_text + " (" + _damo(moat) + "); " + (ticker_note or "")
+    note = _join_notes(_anchor(bundle, moat), "log10 " + format_value("multiple", log_ratio), pool_note, ticker_note)
     pool_source = dict(source)
     if moat.get("poolUrl"):
         pool_source["url"] = moat["poolUrl"]

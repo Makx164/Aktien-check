@@ -76,6 +76,7 @@ def _quarters(rows, allow_derived=True, allow_negative_derived=True):
                     "start": row["start"],
                     "val": float(row["val"]),
                     "filed": row.get("filed") or "",
+                    "form": row.get("form") or "",
                 }
         elif days > QUARTER_MAX:
             longer.append(row)
@@ -100,6 +101,7 @@ def _quarters(rows, allow_derived=True, allow_negative_derived=True):
                         "start": previous["end"],
                         "val": derived,
                         "filed": row.get("filed") or "",
+                        "form": row.get("form") or "",
                     }
             previous = row
     return [explicit[end] for end in sorted(explicit)]
@@ -125,6 +127,7 @@ def _sum_window(window):
         "start": window[0].get("start") or window[0]["end"],
         "val": sum(point["val"] for point in window),
         "filed": window[-1].get("filed") or "",
+        "form": window[-1].get("form") or "",
         "label": "TTM bis " + window[-1]["end"],
         "months": 12.0,
     }
@@ -185,6 +188,7 @@ def _stub_pair(rows):
         "start": row.get("start"),
         "val": float(row["val"]),
         "filed": row.get("filed") or "",
+        "form": row.get("form") or "",
         "label": label,
         "months": months,
     }
@@ -462,6 +466,8 @@ def build_snapshot(facts, annual):
         "revenue_quarter_end": None if quarter is None else quarter["end"],
         "revenue_quarter_label": None if quarter is None else quarter["label"],
         "sourceLabel": "SEC EDGAR companyfacts",
+        "filed": revenue.get("filed") or "",
+        "form": revenue.get("form") or "",
     }
     provenance = {}
     sec = "SEC EDGAR companyfacts"

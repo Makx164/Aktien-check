@@ -189,6 +189,7 @@ def _segment_rows(instances, mapping):
                 "end": fact["end"],
                 "days": _days(fact["start"], fact["end"]),
                 "filed": filing["filed"],
+                "form": filing.get("form"),
                 "tag": fact["name"],
             })
     return rows
@@ -219,22 +220,24 @@ def segment_weights(instances, mapping):
     if annual:
         end = max(row["end"] for row in annual)
         chosen = [row for row in annual if row["end"] == end]
-        note = "Geschäftsjahr bis " + end
-        return _weights(chosen, mapping), note
+        weights = _weights(chosen, mapping)
+        return weights, _period_note("Geschäftsjahr bis", end, weights)
     quarters = [row for row in rows if row["days"] and 70 <= row["days"] <= 120]
     window = _trailing_quarters(quarters)
     if window:
         end = max(row["end"] for row in window)
-        return _weights(window, mapping), "TTM bis " + end
+        weights = _weights(window, mapping)
+        return weights, _period_note("TTM bis", end, weights)
     latest_end = max(row["end"] for row in rows)
     ending = [row for row in rows if row["end"] == latest_end]
     longest = max(row["days"] or 0 for row in ending)
     chosen = [row for row in ending if (row["days"] or 0) == longest]
+    weights = _weights(chosen, mapping)
     if longest >= 160:
-        note = "kein volles TTM, längster Zeitraum bis " + latest_end
+        prefix = "kein volles TTM, längster Zeitraum bis"
     else:
-        note = "Quartal bis " + latest_end
-    return _weights(chosen, mapping), note
+        prefix = "Quartal bis"
+    return weights, _period_note(prefix, latest_end, weights)
 
 
 def _trailing_quarters(quarters):
@@ -264,6 +267,16 @@ def _trailing_quarters(quarters):
     return chosen
 
 
+def _period_note(prefix, end, weights):
+    filed = [str(item.get("filed"))[:10] for item in weights if item.get("filed")]
+    forms = [item.get("form") for item in weights if item.get("form")]
+    if not filed:
+        cite = "SEC, Einreichungsdatum n/a"
+    else:
+        cite = "SEC " + (forms[-1] or "Filing") + " vom " + max(filed)
+    return prefix + " " + str(end) + " (" + cite + ")"
+
+
 def _weights(rows, mapping):
     totals = defaultdict(float)
     for row in rows:
@@ -276,11 +289,15 @@ def _weights(rows, mapping):
         industry = (mapping or {}).get(member)
         if not industry:
             continue
+        filed = [row.get("filed") for row in rows if row["member"] == member and row.get("filed")]
+        forms = [row.get("form") for row in rows if row["member"] == member and row.get("form")]
         weights.append({
             "member": member,
             "industry": industry,
             "weight": value / grand,
             "revenue": value,
+            "filed": max(filed) if filed else None,
+            "form": forms[-1] if forms else None,
         })
     return weights
 
@@ -316,13 +333,17 @@ def customer_concentration(instances, ifrs):
                 "days": _days(fact["start"], fact["end"]),
                 "member": members.get("MajorCustomersAxis") or "",
                 "filed": filing["filed"],
+                "form": filing.get("form"),
             })
     if not rows:
         if ifrs or parsed_20f:
-            return {"mode": "na"}
+            filed, form = _latest_filed(instances, ("20-F", "40-F"))
+            return {"mode": "na", "filed": filed, "form": form}
         if parsed_10k:
-            return {"mode": "none"}
-        return {"mode": "na"}
+            filed, form = _latest_filed(instances, ("10-K",))
+            return {"mode": "none", "filed": filed, "form": form}
+        filed, form = _latest_filed(instances, ("10-Q",))
+        return {"mode": "na", "filed": filed, "form": form}
     annual = [row for row in rows if row["days"] and 300 <= row["days"] <= 400]
     pool = annual or rows
     end = max(row["end"] for row in pool if row["end"])
@@ -336,7 +357,20 @@ def customer_concentration(instances, ifrs):
         "end": best["end"],
         "member": best["member"],
         "days": best["days"],
+        "filed": best.get("filed"),
+        "form": best.get("form"),
     }
+
+
+def _latest_filed(instances, prefixes):
+    found = []
+    for item in instances or []:
+        form = str(item.get("form") or "")
+        if item.get("filed") and any(form.startswith(prefix) for prefix in prefixes):
+            found.append((item["filed"], form))
+    if not found:
+        return None, None
+    return max(found)
 
 
 def _frame_url(tag, year):

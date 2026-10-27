@@ -50,7 +50,7 @@
       "score": null,
       "status": "nicht bewertbar – keine US-Meldepflicht",
       "weight": 1.0,
-      "dataQuality": "0 von 4 Metriken",
+      "dataQuality": "0 von 4 Metriken. SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nicht bewertbar – keine US-Meldepflicht",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -63,7 +63,8 @@
           "sourceLabel": null,
           "sourceUrl": null,
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nicht bewertbar – keine US-Meldepflicht"
         },
         {
           "id": "gm_stability",
@@ -76,7 +77,8 @@
           "sourceLabel": null,
           "sourceUrl": null,
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nicht bewertbar – keine US-Meldepflicht"
         },
         {
           "id": "roic_spread",
@@ -89,7 +91,8 @@
           "sourceLabel": null,
           "sourceUrl": null,
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nicht bewertbar – keine US-Meldepflicht"
         },
         {
           "id": "revenue_quality",
@@ -102,7 +105,8 @@
           "sourceLabel": null,
           "sourceUrl": null,
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nicht bewertbar – keine US-Meldepflicht"
         }
       ]
     },
@@ -241,7 +245,7 @@
       "score": 6.3,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "3 von 4 Metriken. nur Branchenebene, keine Segmentdaten · aktivierte Forschungsquote nicht vergleichbar · niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter · US-Umsatzpool CY2025",
+      "dataQuality": "3 von 4 Metriken. SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nur Branchenebene, keine Segmentdaten · 100,0 % Semiconductor laut OM:SIVE, Umsatzwachstum 11,7 % · Damodaran, Stand Januar 2026 · 100,0 % Semiconductor laut OM:SIVE, EBIT-Wachstum 9,6 % · aktivierte Forschungsquote nicht vergleichbar · log10 4,28 · US-Pool CY2025: 100,0 % Semiconductor 539,6 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -255,7 +259,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "nur Branchenebene, keine Segmentdaten"
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nur Branchenebene, keine Segmentdaten · 100,0 % Semiconductor laut OM:SIVE, Umsatzwachstum 11,7 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -269,7 +273,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "nur Branchenebene, keine Segmentdaten"
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nur Branchenebene, keine Segmentdaten · 100,0 % Semiconductor laut OM:SIVE, EBIT-Wachstum 9,6 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -283,7 +287,7 @@
           "sourceUrl": null,
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "aktivierte Forschungsquote nicht vergleichbar"
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · aktivierte Forschungsquote nicht vergleichbar"
         },
         {
           "id": "headroom",
@@ -297,7 +301,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "nur Branchenebene, keine Segmentdaten · niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter · US-Umsatzpool CY2025"
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · log10 4,28 · US-Pool CY2025: 100,0 % Semiconductor 539,6 Mrd. USD"
         }
       ]
     },

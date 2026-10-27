@@ -48,7 +48,7 @@
       "score": null,
       "status": "wenig Daten",
       "weight": 1.0,
-      "dataQuality": "1 von 4 Metriken. H1 bis 2026-06-30 · Umsatz unter 50 Mio. USD · Steuersatz außerhalb −0,5 bis 1, daher 21 % · Kunden 22,0 % → 4 · Vertragsbindung 2,6 % → 3,9",
+      "dataQuality": "1 von 4 Metriken. OSS: Umsatz 32,2 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-03-18). H1 bis 2026-06-30 · Umsatz unter 50 Mio. USD · Operatives Ergebnis −3,4 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-03-18) · M1 ist n/a, deshalb Aufbauphase · Größter Kunde 22,0 % (SEC 10-K vom 2026-03-18) · Vertragsbindung 2,6 % des Umsatzes 32,2 Mio. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -62,7 +62,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001394056.json",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "H1 bis 2026-06-30 · Umsatz unter 50 Mio. USD"
+          "note": "OSS: Umsatz 32,2 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-03-18). H1 bis 2026-06-30 · Umsatz unter 50 Mio. USD"
         },
         {
           "id": "gm_stability",
@@ -76,7 +76,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001394056.json",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "H1 bis 2026-06-30 · Umsatz unter 50 Mio. USD"
+          "note": "OSS: Umsatz 32,2 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-03-18). H1 bis 2026-06-30 · Umsatz unter 50 Mio. USD"
         },
         {
           "id": "roic_spread",
@@ -90,7 +90,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001394056.json",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "Steuersatz außerhalb −0,5 bis 1, daher 21 %"
+          "note": "Operatives Ergebnis −3,4 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-03-18) · M1 ist n/a, deshalb Aufbauphase"
         },
         {
           "id": "revenue_quality",
@@ -104,7 +104,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "Kunden 22,0 % → 4 · Vertragsbindung 2,6 % → 3,9"
+          "note": "OSS: Umsatz 32,2 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-03-18). H1 bis 2026-06-30 · Größter Kunde 22,0 % (SEC 10-K vom 2026-03-18) · Vertragsbindung 2,6 % des Umsatzes 32,2 Mio. USD"
         }
       ]
     },
@@ -246,7 +246,7 @@
       "score": 6.3,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. H1 bis 2026-06-30 · Faktor 1,35 gegenüber der Branche · US-Umsatzpool CY2025",
+      "dataQuality": "4 von 4 Metriken. OSS: Umsatz 32,2 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-03-18). H1 bis 2026-06-30 · 100,0 % Computers/Peripherals laut NasdaqCM:OSS, Umsatzwachstum 10,0 % · Damodaran, Stand Januar 2026 · 100,0 % Computers/Peripherals laut NasdaqCM:OSS, EBIT-Wachstum 9,6 % · Forschungsquote 9,6 % gegen R&D/Sales 7,1 % Computers/Peripherals (Damodaran, Stand Januar 2026), Faktor 1,35 · log10 4,31 · US-Pool CY2025: 100,0 % Computers/Peripherals 664,9 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -259,7 +259,8 @@
           "sourceLabel": "Damodaran, Stand Januar 2026 · Computers/Peripherals",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "OSS: Umsatz 32,2 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-03-18). H1 bis 2026-06-30 · 100,0 % Computers/Peripherals laut NasdaqCM:OSS, Umsatzwachstum 10,0 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -272,7 +273,8 @@
           "sourceLabel": "Damodaran, Stand Januar 2026 · Computers/Peripherals",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "OSS: Umsatz 32,2 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-03-18). H1 bis 2026-06-30 · 100,0 % Computers/Peripherals laut NasdaqCM:OSS, EBIT-Wachstum 9,6 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -286,7 +288,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "H1 bis 2026-06-30 · Faktor 1,35 gegenüber der Branche"
+          "note": "OSS: Umsatz 32,2 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-03-18). H1 bis 2026-06-30 · Forschungsquote 9,6 % gegen R&D/Sales 7,1 % Computers/Peripherals (Damodaran, Stand Januar 2026), Faktor 1,35"
         },
         {
           "id": "headroom",
@@ -300,7 +302,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "US-Umsatzpool CY2025"
+          "note": "OSS: Umsatz 32,2 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-03-18). H1 bis 2026-06-30 · log10 4,31 · US-Pool CY2025: 100,0 % Computers/Peripherals 664,9 Mrd. USD"
         }
       ]
     },

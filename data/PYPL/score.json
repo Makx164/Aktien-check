@@ -48,7 +48,7 @@
       "score": 7.7,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "2 von 4 Metriken. TTM bis 2026-03-31 · Kapitalkosten 5,0 % · kein Großkunde ≥ 10 % gemeldet",
+      "dataQuality": "2 von 4 Metriken. PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31 · Branche Financial Svcs. (Non-bank & Insurance), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026) · Operatives Ergebnis 6,1 Mrd. USD bis 2025-12-31 (SEC 10-K vom 2026-02-03) · ROIC 14,8 % minus Kapitalkosten 5,0 % Financial Svcs. (Non-bank & Insurance) (Damodaran, Stand Januar 2026), Abstand 9,8 Pp · Im 10-K vom 2026-02-03 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet)",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -63,7 +63,7 @@
           "fetchedAt": "2026-10-27",
           "observedAt": null,
           "statusReason": "Finanzwert",
-          "note": "TTM bis 2026-03-31"
+          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31 · Branche Financial Svcs. (Non-bank & Insurance), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026)"
         },
         {
           "id": "gm_stability",
@@ -78,7 +78,7 @@
           "fetchedAt": "2026-10-27",
           "observedAt": null,
           "statusReason": "Finanzwert",
-          "note": "TTM bis 2026-03-31"
+          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31 · Branche Financial Svcs. (Non-bank & Insurance), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026)"
         },
         {
           "id": "roic_spread",
@@ -92,7 +92,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2022-12-31",
-          "note": "Kapitalkosten 5,0 %"
+          "note": "Operatives Ergebnis 6,1 Mrd. USD bis 2025-12-31 (SEC 10-K vom 2026-02-03) · ROIC 14,8 % minus Kapitalkosten 5,0 % Financial Svcs. (Non-bank & Insurance) (Damodaran, Stand Januar 2026), Abstand 9,8 Pp"
         },
         {
           "id": "revenue_quality",
@@ -106,7 +106,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-03-31",
-          "note": "kein Großkunde ≥ 10 % gemeldet"
+          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31 · Im 10-K vom 2026-02-03 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet)"
         }
       ]
     },
@@ -247,7 +247,7 @@
       "score": 5.5,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "3 von 4 Metriken. TTM bis 2026-03-31 · Faktor 4,25 gegenüber der Branche · US-Umsatzpool CY2025",
+      "dataQuality": "3 von 4 Metriken. PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31 · 100,0 % Financial Svcs. (Non-bank & Insurance) laut NasdaqGS:PYPL, Umsatzwachstum 11,3 % · Damodaran, Stand Januar 2026 · 100,0 % Financial Svcs. (Non-bank & Insurance) laut NasdaqGS:PYPL, EBIT-Wachstum n/a · Forschungsquote 9,6 % gegen R&D/Sales 2,3 % Financial Svcs. (Non-bank & Insurance) (Damodaran, Stand Januar 2026), Faktor 4,25 · log10 1,19 · US-Pool CY2025: 100,0 % Financial Svcs. (Non-bank & Insurance) 518,3 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -260,7 +260,8 @@
           "sourceLabel": "Damodaran, Stand Januar 2026 · Financial Svcs. (Non-bank & Insurance)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31 · 100,0 % Financial Svcs. (Non-bank & Insurance) laut NasdaqGS:PYPL, Umsatzwachstum 11,3 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -273,7 +274,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31 · 100,0 % Financial Svcs. (Non-bank & Insurance) laut NasdaqGS:PYPL, EBIT-Wachstum n/a · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -287,7 +289,7 @@
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-03-31",
-          "note": "TTM bis 2026-03-31 · Faktor 4,25 gegenüber der Branche"
+          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31 · Forschungsquote 9,6 % gegen R&D/Sales 2,3 % Financial Svcs. (Non-bank & Insurance) (Damodaran, Stand Januar 2026), Faktor 4,25"
         },
         {
           "id": "headroom",
@@ -301,7 +303,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-03-31",
-          "note": "US-Umsatzpool CY2025"
+          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31 · log10 1,19 · US-Pool CY2025: 100,0 % Financial Svcs. (Non-bank & Insurance) 518,3 Mrd. USD"
         }
       ]
     },

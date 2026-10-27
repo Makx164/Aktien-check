@@ -48,7 +48,7 @@
       "score": 8.0,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "2 von 4 Metriken. Vergleich bis 2026-09-30 · Branchen-Bruttomarge 17,5 % · Kunden 34,5 % → 2 · Vertragsbindung 39,8 % → 10",
+      "dataQuality": "2 von 4 Metriken. SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · Bruttomarge 58,1 % gegen 17,5 % Aerospace/Defense, Firmen-Default statt SIC (Damodaran, Stand Januar 2026), Abstand 40,6 Pp · weniger als 3 Geschäftsjahre mit Bruttomarge · Operatives Ergebnis 705,0 Mio. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · weniger als zwei ROIC-Jahre · Größter Kunde 34,5 % (SEC 10-Q vom 2026-10-22) · Vertragsbindung 39,8 % des Umsatzes 27,1 Mrd. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -62,7 +62,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
-          "note": "Vergleich bis 2026-09-30 · Branchen-Bruttomarge 17,5 %"
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · Bruttomarge 58,1 % gegen 17,5 % Aerospace/Defense, Firmen-Default statt SIC (Damodaran, Stand Januar 2026), Abstand 40,6 Pp"
         },
         {
           "id": "gm_stability",
@@ -76,7 +76,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "Vergleich bis 2026-09-30"
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · weniger als 3 Geschäftsjahre mit Bruttomarge"
         },
         {
           "id": "roic_spread",
@@ -89,7 +89,8 @@
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001181412.json",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "Operatives Ergebnis 705,0 Mio. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · weniger als zwei ROIC-Jahre"
         },
         {
           "id": "revenue_quality",
@@ -103,7 +104,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
-          "note": "Vergleich bis 2026-09-30 · Kunden 34,5 % → 2 · Vertragsbindung 39,8 % → 10"
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · Größter Kunde 34,5 % (SEC 10-Q vom 2026-10-22) · Vertragsbindung 39,8 % des Umsatzes 27,1 Mrd. USD"
         }
       ]
     },
@@ -243,7 +244,7 @@
       "score": 6.5,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. kein volles TTM, längster Zeitraum bis 2026-09-30 · Vergleich bis 2026-09-30 · Faktor 10,71 gegenüber der Branche · US-Umsatzpool CY2025",
+      "dataQuality": "4 von 4 Metriken. SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · kein volles TTM, längster Zeitraum bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · 47,2 % Connectivity (Telecom. Services), Segmentumsatz 12,8 Mrd. USD, Umsatzwachstum 20,4 %; 40,4 % SI (Software (System & Application)), Segmentumsatz 10,9 Mrd. USD, Umsatzwachstum 19,6 %; 12,4 % Space (Aerospace/Defense), Segmentumsatz 3,3 Mrd. USD, Umsatzwachstum 18,3 % · Damodaran, Stand Januar 2026 · 47,2 % Connectivity (Telecom. Services), Segmentumsatz 12,8 Mrd. USD, EBIT-Wachstum 1,4 %; 40,4 % SI (Software (System & Application)), Segmentumsatz 10,9 Mrd. USD, EBIT-Wachstum 21,6 %; 12,4 % Space (Aerospace/Defense), Segmentumsatz 3,3 Mrd. USD, EBIT-Wachstum 10,9 % · Forschungsquote 43,0 % gegen R&D/Sales 4,0 % Aerospace/Defense (Damodaran, Stand Januar 2026), Faktor 10,71 · log10 1,20 · US-Pool CY2025: 47,2 % Telecom. Services 283,1 Mrd. USD; 40,4 % Software (System & Application) 651,7 Mrd. USD; 12,4 % Aerospace/Defense 497,6 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -257,7 +258,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "kein volles TTM, längster Zeitraum bis 2026-09-30"
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · kein volles TTM, längster Zeitraum bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · 47,2 % Connectivity (Telecom. Services), Segmentumsatz 12,8 Mrd. USD, Umsatzwachstum 20,4 %; 40,4 % SI (Software (System & Application)), Segmentumsatz 10,9 Mrd. USD, Umsatzwachstum 19,6 %; 12,4 % Space (Aerospace/Defense), Segmentumsatz 3,3 Mrd. USD, Umsatzwachstum 18,3 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -271,7 +272,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "kein volles TTM, längster Zeitraum bis 2026-09-30"
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · kein volles TTM, längster Zeitraum bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · 47,2 % Connectivity (Telecom. Services), Segmentumsatz 12,8 Mrd. USD, EBIT-Wachstum 1,4 %; 40,4 % SI (Software (System & Application)), Segmentumsatz 10,9 Mrd. USD, EBIT-Wachstum 21,6 %; 12,4 % Space (Aerospace/Defense), Segmentumsatz 3,3 Mrd. USD, EBIT-Wachstum 10,9 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -285,7 +286,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
-          "note": "Vergleich bis 2026-09-30 · Faktor 10,71 gegenüber der Branche"
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · Forschungsquote 43,0 % gegen R&D/Sales 4,0 % Aerospace/Defense (Damodaran, Stand Januar 2026), Faktor 10,71"
         },
         {
           "id": "headroom",
@@ -299,7 +300,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
-          "note": "kein volles TTM, längster Zeitraum bis 2026-09-30 · Vergleich bis 2026-09-30 · US-Umsatzpool CY2025"
+          "note": "SPCX: Umsatz 27,1 Mrd. USD bis 2026-09-30. Vergleich bis 2026-09-30 (SEC 10-Q vom 2026-10-22) · log10 1,20 · US-Pool CY2025: 47,2 % Telecom. Services 283,1 Mrd. USD; 40,4 % Software (System & Application) 651,7 Mrd. USD; 12,4 % Aerospace/Defense 497,6 Mrd. USD"
         }
       ]
     },

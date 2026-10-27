@@ -224,6 +224,41 @@ class RuleTests(unittest.TestCase):
         self.assertIsNotNone(market["headroom"]["raw"])
         self.assertNotEqual(market["headroom"]["points"], 5)
 
+    def test_segment_mix_feeds_growth_and_ebit_with_the_same_weights(self):
+        moat = _industry_moat(growth=0.196, ebit=0.2163)
+        moat["ticker"] = "AMZN"
+        moat["benchmarks"]["Retail (General)"] = {
+            "grossMargin": 0.33,
+            "rdSales": 0.05,
+            "costOfCapital": 0.07,
+            "revenueGrowth": [0.0415],
+            "ebitGrowth": 0.1277,
+        }
+        moat["segments"] = [
+            {"member": "AmazonWebServicesSegmentMember", "industry": "Software (System & Application)", "weight": 0.18, "revenue": 100_000_000},
+            {"member": "NorthAmericaSegmentMember", "industry": "Retail (General)", "weight": 0.82, "revenue": 450_000_000},
+        ]
+        rows = [_year(2025, 550_000_000, 200_000_000)]
+        scored = score_company(CONFIG, _bundle(rows, moat), {}, {}, "2026-10-27", {})
+        market = metric_map(scored, "C_03")[1]
+        growth = 0.18 * 0.196 + 0.82 * 0.0415
+        ebit = 0.18 * 0.2163 + 0.82 * 0.1277
+        self.assertAlmostEqual(market["industry_growth"]["raw"], growth, places=4)
+        self.assertAlmostEqual(market["ebit_pool"]["raw"], ebit, places=4)
+        for metric_id in ("industry_growth", "ebit_pool"):
+            note = market[metric_id]["note"]
+            self.assertIn("Software (System & Application)", note)
+            self.assertIn("Retail (General)", note)
+            self.assertIn("18,0 %", note)
+            self.assertIn("82,0 %", note)
+            self.assertIn("Damodaran, Stand Januar 2026", note)
+            self.assertIn("AMZN", note)
+            self.assertIn("SEC 10-K vom 2025-12-31", note)
+        self.assertIn("Umsatzwachstum 19,6 %", market["industry_growth"]["note"])
+        self.assertIn("Umsatzwachstum 4,2 %", market["industry_growth"]["note"])
+        self.assertIn("EBIT-Wachstum 21,6 %", market["ebit_pool"]["note"])
+        self.assertIn("EBIT-Wachstum 12,8 %", market["ebit_pool"]["note"])
+
     def test_swedish_listing_skips_the_model_and_keeps_the_industry(self):
         moat = _industry_moat(industry="Semiconductor", growth=0.117, ebit=0.096)
         moat["sec"] = False

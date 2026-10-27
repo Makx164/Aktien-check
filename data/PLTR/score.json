@@ -48,7 +48,7 @@
       "score": 7.6,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. TTM bis 2026-06-30 · Branchen-Bruttomarge 71,7 % · Streuung 0,5 Pp, Trend 1,0 Pp pro Jahr (5 Geschäftsjahre) · Kapitalkosten 9,3 % · kein Großkunde ≥ 10 % gemeldet · Vertragsbindung 9,4 % → 6,3",
+      "dataQuality": "4 von 4 Metriken. PLTR: Umsatz 6,2 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Bruttomarge 84,8 % gegen 71,7 % Software (System & Application) (Damodaran, Stand Januar 2026), Abstand 13,1 Pp · Streuung 0,5 Pp, Trend 1,0 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-17) · Operatives Ergebnis 1,4 Mrd. USD bis 2025-12-31 (SEC 10-K vom 2026-02-17) · ROIC 16,8 % minus Kapitalkosten 9,3 % Software (System & Application) (Damodaran, Stand Januar 2026), Abstand 7,5 Pp · Im 10-K vom 2026-02-17 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 9,4 % des Umsatzes 6,2 Mrd. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -62,7 +62,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30 · Branchen-Bruttomarge 71,7 %"
+          "note": "PLTR: Umsatz 6,2 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Bruttomarge 84,8 % gegen 71,7 % Software (System & Application) (Damodaran, Stand Januar 2026), Abstand 13,1 Pp"
         },
         {
           "id": "gm_stability",
@@ -76,7 +76,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001321655.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "TTM bis 2026-06-30 · Streuung 0,5 Pp, Trend 1,0 Pp pro Jahr (5 Geschäftsjahre)"
+          "note": "PLTR: Umsatz 6,2 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Streuung 0,5 Pp, Trend 1,0 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-17)"
         },
         {
           "id": "roic_spread",
@@ -90,7 +90,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "Kapitalkosten 9,3 %"
+          "note": "Operatives Ergebnis 1,4 Mrd. USD bis 2025-12-31 (SEC 10-K vom 2026-02-17) · ROIC 16,8 % minus Kapitalkosten 9,3 % Software (System & Application) (Damodaran, Stand Januar 2026), Abstand 7,5 Pp"
         },
         {
           "id": "revenue_quality",
@@ -104,7 +104,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "kein Großkunde ≥ 10 % gemeldet · Vertragsbindung 9,4 % → 6,3"
+          "note": "PLTR: Umsatz 6,2 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Im 10-K vom 2026-02-17 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 9,4 % des Umsatzes 6,2 Mrd. USD"
         }
       ]
     },
@@ -246,7 +246,7 @@
       "score": 6.9,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. TTM bis 2026-06-30 · Faktor 0,65 gegenüber der Branche · US-Umsatzpool CY2025",
+      "dataQuality": "4 von 4 Metriken. PLTR: Umsatz 6,2 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · 100,0 % Software (System & Application) laut NasdaqGS:PLTR, Umsatzwachstum 19,6 % · Damodaran, Stand Januar 2026 · 100,0 % Software (System & Application) laut NasdaqGS:PLTR, EBIT-Wachstum 21,6 % · Forschungsquote 10,4 % gegen R&D/Sales 16,0 % Software (System & Application) (Damodaran, Stand Januar 2026), Faktor 0,65 · log10 2,02 · US-Pool CY2025: 100,0 % Software (System & Application) 651,7 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -259,7 +259,8 @@
           "sourceLabel": "Damodaran, Stand Januar 2026 · Software (System & Application)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "PLTR: Umsatz 6,2 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · 100,0 % Software (System & Application) laut NasdaqGS:PLTR, Umsatzwachstum 19,6 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -272,7 +273,8 @@
           "sourceLabel": "Damodaran, Stand Januar 2026 · Software (System & Application)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "PLTR: Umsatz 6,2 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · 100,0 % Software (System & Application) laut NasdaqGS:PLTR, EBIT-Wachstum 21,6 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -286,7 +288,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30 · Faktor 0,65 gegenüber der Branche"
+          "note": "PLTR: Umsatz 6,2 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Forschungsquote 10,4 % gegen R&D/Sales 16,0 % Software (System & Application) (Damodaran, Stand Januar 2026), Faktor 0,65"
         },
         {
           "id": "headroom",
@@ -300,7 +302,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "US-Umsatzpool CY2025"
+          "note": "PLTR: Umsatz 6,2 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · log10 2,02 · US-Pool CY2025: 100,0 % Software (System & Application) 651,7 Mrd. USD"
         }
       ]
     },

@@ -50,7 +50,7 @@
       "score": 3.8,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. TTM bis 2026-06-30 · Branchen-Bruttomarge 71,7 % · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre) · Bruttomarge unter Branchenniveau, Aufbauphase zählt nicht · Kunden 100,0 % → 0 · Vertragsbindung 6,6 % → 5,3",
+      "dataQuality": "4 von 4 Metriken. IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · Bruttomarge 68,9 % gegen 71,7 % Software (System & Application) (Damodaran, Stand Januar 2026), Abstand -2,8 Pp · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre bis 2026-06-30, SEC 10-K vom 2026-08-27) · Operatives Ergebnis −1,0 Mrd. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27) · Bruttomarge-Abstand -2,8 Pp, M1 4,3 Punkte (Damodaran, Stand Januar 2026) · Bruttomarge unter Branchenniveau, Aufbauphase zählt nicht · Größter Kunde 100,0 % (SEC 10-K vom 2026-08-27) · Vertragsbindung 6,6 % des Umsatzes 707,0 Mio. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -64,7 +64,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30 · Branchen-Bruttomarge 71,7 %"
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · Bruttomarge 68,9 % gegen 71,7 % Software (System & Application) (Damodaran, Stand Januar 2026), Abstand -2,8 Pp"
         },
         {
           "id": "gm_stability",
@@ -78,7 +78,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30 · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre)"
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre bis 2026-06-30, SEC 10-K vom 2026-08-27)"
         },
         {
           "id": "roic_spread",
@@ -92,7 +92,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "Bruttomarge unter Branchenniveau, Aufbauphase zählt nicht"
+          "note": "Operatives Ergebnis −1,0 Mrd. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27) · Bruttomarge-Abstand -2,8 Pp, M1 4,3 Punkte (Damodaran, Stand Januar 2026) · Bruttomarge unter Branchenniveau, Aufbauphase zählt nicht"
         },
         {
           "id": "revenue_quality",
@@ -106,7 +106,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "Kunden 100,0 % → 0 · Vertragsbindung 6,6 % → 5,3"
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · Größter Kunde 100,0 % (SEC 10-K vom 2026-08-27) · Vertragsbindung 6,6 % des Umsatzes 707,0 Mio. USD"
         }
       ]
     },
@@ -249,7 +249,7 @@
       "score": 9.1,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "3 von 4 Metriken. TTM bis 2026-06-30 · US-Umsatzpool CY2025",
+      "dataQuality": "3 von 4 Metriken. IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · 100,0 % Software (System & Application) laut NasdaqGS:IREN, Umsatzwachstum 19,6 % · Damodaran, Stand Januar 2026 · 100,0 % Software (System & Application) laut NasdaqGS:IREN, EBIT-Wachstum 21,6 % · ResearchAndDevelopmentExpense n/a (SEC 10-K vom 2026-08-27) · log10 2,96 · US-Pool CY2025: 100,0 % Software (System & Application) 651,7 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -262,7 +262,8 @@
           "sourceLabel": "Damodaran, Stand Januar 2026 · Software (System & Application)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · 100,0 % Software (System & Application) laut NasdaqGS:IREN, Umsatzwachstum 19,6 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -275,7 +276,8 @@
           "sourceLabel": "Damodaran, Stand Januar 2026 · Software (System & Application)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null
+          "observedAt": null,
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · 100,0 % Software (System & Application) laut NasdaqGS:IREN, EBIT-Wachstum 21,6 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -289,7 +291,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "TTM bis 2026-06-30"
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · ResearchAndDevelopmentExpense n/a (SEC 10-K vom 2026-08-27)"
         },
         {
           "id": "headroom",
@@ -303,7 +305,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "US-Umsatzpool CY2025"
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · log10 2,96 · US-Pool CY2025: 100,0 % Software (System & Application) 651,7 Mrd. USD"
         }
       ]
     },
