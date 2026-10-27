@@ -6,7 +6,7 @@
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "red",
-  "qualityScore": 5.3,
+  "qualityScore": 5.4,
   "marketScore": 3.1,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 35 von 35 Metriken verfügbar",
   "missingDataNote": null,
@@ -48,7 +48,7 @@
       "score": 5.1,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Green & Renewable Energy (Damodaran, Stand Januar 2026). · Bruttomarge 19,3 % gegen 10,4 % Auto & Truck (Damodaran, Stand Januar 2026), Abstand 8,9 Pp · Streuung 1,8 Pp, Trend -2,2 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-01-29) · Operatives Ergebnis 4,4 Mrd. USD bis 2025-12-31 (SEC 10-K vom 2026-01-29) · ROIC 6,7 % minus Kapitalkosten 9,4 % Auto & Truck (Damodaran, Stand Januar 2026), Abstand -2,7 Pp · Im 10-K/A vom 2026-04-30 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 4,5 % des Umsatzes 103,6 Mrd. USD",
+      "dataQuality": "4 von 4 Metriken. TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Batteriespeicher. Der US-Pool Green & Renewable Energy ist nicht repräsentativ, deshalb Electrical Equipment (Damodaran, Stand Januar 2026). · Bruttomarge 19,3 % gegen 10,4 % Auto & Truck (Damodaran, Stand Januar 2026), Abstand 8,9 Pp · Streuung 1,8 Pp, Trend -2,2 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-01-29) · Operatives Ergebnis 4,4 Mrd. USD bis 2025-12-31 (SEC 10-K vom 2026-01-29) · ROIC 6,7 % minus Kapitalkosten 9,4 % Auto & Truck (Damodaran, Stand Januar 2026), Abstand -2,7 Pp · Im 10-K/A vom 2026-04-30 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 4,5 % des Umsatzes 103,6 Mrd. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -62,7 +62,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
-          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Green & Renewable Energy (Damodaran, Stand Januar 2026). · Bruttomarge 19,3 % gegen 10,4 % Auto & Truck (Damodaran, Stand Januar 2026), Abstand 8,9 Pp"
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Batteriespeicher. Der US-Pool Green & Renewable Energy ist nicht repräsentativ, deshalb Electrical Equipment (Damodaran, Stand Januar 2026). · Bruttomarge 19,3 % gegen 10,4 % Auto & Truck (Damodaran, Stand Januar 2026), Abstand 8,9 Pp"
         },
         {
           "id": "gm_stability",
@@ -76,7 +76,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001318605.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Green & Renewable Energy (Damodaran, Stand Januar 2026). · Streuung 1,8 Pp, Trend -2,2 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-01-29)"
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Batteriespeicher. Der US-Pool Green & Renewable Energy ist nicht repräsentativ, deshalb Electrical Equipment (Damodaran, Stand Januar 2026). · Streuung 1,8 Pp, Trend -2,2 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-01-29)"
         },
         {
           "id": "roic_spread",
@@ -104,7 +104,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
-          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Green & Renewable Energy (Damodaran, Stand Januar 2026). · Im 10-K/A vom 2026-04-30 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 4,5 % des Umsatzes 103,6 Mrd. USD"
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Batteriespeicher. Der US-Pool Green & Renewable Energy ist nicht repräsentativ, deshalb Electrical Equipment (Damodaran, Stand Januar 2026). · Im 10-K/A vom 2026-04-30 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 4,5 % des Umsatzes 103,6 Mrd. USD"
         }
       ]
     },
@@ -242,38 +242,38 @@
     {
       "id": "C_03",
       "label": "Markt & Zukunftsmarkt",
-      "score": 3.0,
+      "score": 3.4,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Green & Renewable Energy (Damodaran, Stand Januar 2026). · Geschäftsjahr bis 2025-12-31 (SEC 10-K vom 2026-01-29) · 86,5 % Automotive (Auto & Truck), Segmentumsatz 82,1 Mrd. USD, Umsatzwachstum 10,3 %; 13,5 % Energy Generation And Storage (Green & Renewable Energy), Segmentumsatz 12,8 Mrd. USD, Umsatzwachstum 13,0 % · Damodaran, Stand Januar 2026 · 86,5 % Automotive (Auto & Truck), Segmentumsatz 82,1 Mrd. USD, EBIT-Wachstum -0,9 %; 13,5 % Energy Generation And Storage (Green & Renewable Energy), Segmentumsatz 12,8 Mrd. USD, EBIT-Wachstum 2,3 % · Forschungsquote 8,6 % gegen R&D/Sales 5,3 % Auto & Truck (Damodaran, Stand Januar 2026), Faktor 1,61 · log10 0,25 · US-Pool CY2025: 86,5 % Auto & Truck 490,9 Mrd. USD; 13,5 % Green & Renewable Energy 316,3 Mio. USD",
+      "dataQuality": "4 von 4 Metriken. TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Batteriespeicher. Der US-Pool Green & Renewable Energy ist nicht repräsentativ, deshalb Electrical Equipment (Damodaran, Stand Januar 2026). · Geschäftsjahr bis 2025-12-31 (SEC 10-K vom 2026-01-29) · Segmentumsatz 12,8 Mrd. USD ist größer als der US-Pool Green & Renewable Energy 316,3 Mio. USD (CY2025). Der Pool ist nicht repräsentativ, deshalb Electrical Equipment (Damodaran, Stand Januar 2026). · 86,5 % Automotive (Auto & Truck), Segmentumsatz 82,1 Mrd. USD, Umsatzwachstum 10,3 %; 13,5 % Energy Generation And Storage (Electrical Equipment), Segmentumsatz 12,8 Mrd. USD, Umsatzwachstum 27,3 % · Damodaran, Stand Januar 2026 · 86,5 % Automotive (Auto & Truck), Segmentumsatz 82,1 Mrd. USD, EBIT-Wachstum -0,9 %; 13,5 % Energy Generation And Storage (Electrical Equipment), Segmentumsatz 12,8 Mrd. USD, EBIT-Wachstum 8,5 % · Forschungsquote 8,6 % gegen R&D/Sales 5,3 % Auto & Truck (Damodaran, Stand Januar 2026), Faktor 1,61 · log10 0,64 · US-Pool CY2025: 86,5 % Auto & Truck 490,9 Mrd. USD; 13,5 % Electrical Equipment 286,4 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
           "label": "Branchenwachstum, umsatzgewichtet",
-          "value": "10,7 %",
-          "raw": 0.106854,
-          "points": 3.5,
+          "value": "12,6 %",
+          "raw": 0.126061,
+          "points": 4.4,
           "status": null,
           "scale": "3 % = 0, 25 % = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Auto & Truck",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Green & Renewable Energy (Damodaran, Stand Januar 2026). · Geschäftsjahr bis 2025-12-31 (SEC 10-K vom 2026-01-29) · 86,5 % Automotive (Auto & Truck), Segmentumsatz 82,1 Mrd. USD, Umsatzwachstum 10,3 %; 13,5 % Energy Generation And Storage (Green & Renewable Energy), Segmentumsatz 12,8 Mrd. USD, Umsatzwachstum 13,0 % · Damodaran, Stand Januar 2026"
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Batteriespeicher. Der US-Pool Green & Renewable Energy ist nicht repräsentativ, deshalb Electrical Equipment (Damodaran, Stand Januar 2026). · Geschäftsjahr bis 2025-12-31 (SEC 10-K vom 2026-01-29) · Segmentumsatz 12,8 Mrd. USD ist größer als der US-Pool Green & Renewable Energy 316,3 Mio. USD (CY2025). Der Pool ist nicht repräsentativ, deshalb Electrical Equipment (Damodaran, Stand Januar 2026). · 86,5 % Automotive (Auto & Truck), Segmentumsatz 82,1 Mrd. USD, Umsatzwachstum 10,3 %; 13,5 % Energy Generation And Storage (Electrical Equipment), Segmentumsatz 12,8 Mrd. USD, Umsatzwachstum 27,3 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
           "label": "Wachstum des Gewinnpools",
-          "value": "-0,4 %",
-          "raw": -0.004372,
-          "points": 0.0,
+          "value": "0,4 %",
+          "raw": 0.003987,
+          "points": 0.2,
           "status": null,
           "scale": "0 % = 0, 20 % = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Auto & Truck",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Green & Renewable Energy (Damodaran, Stand Januar 2026). · Geschäftsjahr bis 2025-12-31 (SEC 10-K vom 2026-01-29) · 86,5 % Automotive (Auto & Truck), Segmentumsatz 82,1 Mrd. USD, EBIT-Wachstum -0,9 %; 13,5 % Energy Generation And Storage (Green & Renewable Energy), Segmentumsatz 12,8 Mrd. USD, EBIT-Wachstum 2,3 % · Damodaran, Stand Januar 2026"
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Batteriespeicher. Der US-Pool Green & Renewable Energy ist nicht repräsentativ, deshalb Electrical Equipment (Damodaran, Stand Januar 2026). · Geschäftsjahr bis 2025-12-31 (SEC 10-K vom 2026-01-29) · Segmentumsatz 12,8 Mrd. USD ist größer als der US-Pool Green & Renewable Energy 316,3 Mio. USD (CY2025). Der Pool ist nicht repräsentativ, deshalb Electrical Equipment (Damodaran, Stand Januar 2026). · 86,5 % Automotive (Auto & Truck), Segmentumsatz 82,1 Mrd. USD, EBIT-Wachstum -0,9 %; 13,5 % Energy Generation And Storage (Electrical Equipment), Segmentumsatz 12,8 Mrd. USD, EBIT-Wachstum 8,5 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -287,21 +287,21 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
-          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Green & Renewable Energy (Damodaran, Stand Januar 2026). · Forschungsquote 8,6 % gegen R&D/Sales 5,3 % Auto & Truck (Damodaran, Stand Januar 2026), Faktor 1,61"
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Batteriespeicher. Der US-Pool Green & Renewable Energy ist nicht repräsentativ, deshalb Electrical Equipment (Damodaran, Stand Januar 2026). · Forschungsquote 8,6 % gegen R&D/Sales 5,3 % Auto & Truck (Damodaran, Stand Januar 2026), Faktor 1,61"
         },
         {
           "id": "headroom",
           "label": "Kopfraum",
-          "value": "0,25",
-          "raw": 0.245994,
-          "points": 0.0,
+          "value": "0,64",
+          "raw": 0.644224,
+          "points": 0.6,
           "status": null,
           "scale": "log10 0,5 = 0, log10 3 = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Auto & Truck",
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-30",
-          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Green & Renewable Energy (Damodaran, Stand Januar 2026). · log10 0,25 · US-Pool CY2025: 86,5 % Auto & Truck 490,9 Mrd. USD; 13,5 % Green & Renewable Energy 316,3 Mio. USD"
+          "note": "TSLA: Umsatz 103,6 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-22). TTM bis 2026-09-30. Fahrzeughersteller. Energy generation and storage ist Batteriespeicher. Der US-Pool Green & Renewable Energy ist nicht repräsentativ, deshalb Electrical Equipment (Damodaran, Stand Januar 2026). · Segmentumsatz 12,8 Mrd. USD ist größer als der US-Pool Green & Renewable Energy 316,3 Mio. USD (CY2025). Der Pool ist nicht repräsentativ, deshalb Electrical Equipment (Damodaran, Stand Januar 2026). · log10 0,64 · US-Pool CY2025: 86,5 % Auto & Truck 490,9 Mrd. USD; 13,5 % Electrical Equipment 286,4 Mrd. USD"
         }
       ]
     },

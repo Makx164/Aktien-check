@@ -2,13 +2,13 @@
   "ticker": "IREN",
   "name": "IREN Limited",
   "asOf": "2026-10-26",
-  "score": 6.4,
+  "score": 6.2,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
-  "qualityScore": 6.7,
+  "qualityScore": 6.4,
   "marketScore": 5.9,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 28 von 31 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 29 von 31 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [
     "Altman Z 0,61 unter 1,8"
@@ -47,10 +47,10 @@
     {
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
-      "score": 7.0,
+      "score": 5.3,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "3 von 4 Metriken. IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Bruttomarge 68,9 % gegen 24,3 % Computer Services (Damodaran, Stand Januar 2026), Abstand 44,7 Pp · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre bis 2026-06-30, SEC 10-K vom 2026-08-27) · Operatives Ergebnis −1,0 Mrd. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27) · M1 10 Punkte, deshalb Aufbauphase · Größter Kunde 100,0 % (SEC 10-K vom 2026-08-27) · Vertragsbindung 6,6 % des Umsatzes 707,0 Mio. USD",
+      "dataQuality": "4 von 4 Metriken. IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Bruttomarge 68,9 % gegen 24,3 % Computer Services (Damodaran, Stand Januar 2026), Abstand 44,7 Pp · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre bis 2026-06-30, SEC 10-K vom 2026-08-27) · Operatives Ergebnis −1,0 Mrd. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27) · ROIC -8,5 % minus Kapitalkosten 7,8 % Computer Services (Damodaran, Stand Januar 2026), Abstand -16,3 Pp · Größter Kunde 100,0 % (SEC 10-K vom 2026-08-27) · Vertragsbindung 6,6 % des Umsatzes 707,0 Mio. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -83,16 +83,16 @@
         {
           "id": "roic_spread",
           "label": "ROIC über Kapitalkosten",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "n/a (Aufbauphase)",
+          "value": "-16,3 Pp",
+          "raw": -0.162885,
+          "points": 0.0,
+          "status": null,
           "scale": "−5 Pp = 0, +15 Pp = 10",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
+          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Computer Services",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null,
-          "note": "Operatives Ergebnis −1,0 Mrd. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27) · M1 10 Punkte, deshalb Aufbauphase"
+          "observedAt": "2026-06-30",
+          "note": "Operatives Ergebnis −1,0 Mrd. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27) · ROIC -8,5 % minus Kapitalkosten 7,8 % Computer Services (Damodaran, Stand Januar 2026), Abstand -16,3 Pp"
         },
         {
           "id": "revenue_quality",

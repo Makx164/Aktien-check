@@ -163,7 +163,7 @@
       "minYears": 3,
       "maxYears": 5
     },
-    "m3": {"zeroAt": -0.05, "tenAt": 0.15, "youngM1Min": 5, "minYears": 2},
+    "m3": {"zeroAt": -0.05, "tenAt": 0.15, "minYears": 2},
     "m4a": [
       {"below": 0.10, "points": 8},
       {"atMost": 0.15, "points": 6},

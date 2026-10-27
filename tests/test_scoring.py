@@ -1770,9 +1770,12 @@ class DataGapTests(unittest.TestCase):
         loss["moat"] = _industry_moat(wacc=0.0)
         scored = score_company(CONFIG, loss, {}, {}, "2026-10-21", {})
         roic = metric_map(scored, "C_01")[1]["roic_spread"]
-        self.assertIsNone(roic["status"])
-        self.assertEqual(roic["points"], 0.0)
-        self.assertIn("Bruttomarge unter Branchenniveau", roic["note"])
+        # Revenue is under $50m, so M1 is n/a, but operating income is positive.
+        # Build phase does not apply, and a pretax loss does not force 0 points.
+        self.assertEqual(metric_map(scored, "C_01")[1]["gm_vs_industry"]["status"], "n/a")
+        self.assertNotEqual(roic["status"], "n/a (Aufbauphase)")
+        self.assertIsNone(roic["points"])
+        self.assertNotIn("Bruttomarge unter Branchenniveau", roic.get("note") or "")
 
         statutory = {
             "revenue": [point("2025-12-31", 100)],

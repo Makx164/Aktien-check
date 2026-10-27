@@ -6,7 +6,10 @@
   },
   "TSLA": {
     "AutomotiveSegmentMember": "Auto & Truck",
-    "EnergyGenerationAndStorageSegmentMember": "Green & Renewable Energy"
+    "EnergyGenerationAndStorageSegmentMember": {
+      "industry": "Green & Renewable Energy",
+      "poolFallback": "Electrical Equipment"
+    }
   },
   "PLTR": {
     "CommercialMember": "Software (System & Application)",

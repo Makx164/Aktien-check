@@ -48,7 +48,7 @@
       "score": null,
       "status": "wenig Daten",
       "weight": 1.0,
-      "dataQuality": "1 von 4 Metriken. LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · Branche Insurance (Prop/Cas.), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026) · Operatives Ergebnis −115,3 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04) · deshalb n/a (Aufbauphase) · Im 10-K vom 2026-02-25 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet)",
+      "dataQuality": "1 von 4 Metriken. LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · Branche Insurance (Prop/Cas.), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026) · Operatives Ergebnis −115,3 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04) · ROIC n/a · Im 10-K vom 2026-02-25 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet)",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -86,13 +86,13 @@
           "value": null,
           "raw": null,
           "points": null,
-          "status": "n/a (Aufbauphase)",
+          "status": "n/a",
           "scale": "−5 Pp = 0, +15 Pp = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "Operatives Ergebnis −115,3 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04) · deshalb n/a (Aufbauphase)"
+          "note": "Operatives Ergebnis −115,3 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04) · ROIC n/a"
         },
         {
           "id": "revenue_quality",

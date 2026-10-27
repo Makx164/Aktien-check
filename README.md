@@ -30,6 +30,10 @@ Beim Kopfraum von Micron bleibt der Trailing-Umsatz gegen den US-Pool. Zusatz au
 
 Die Branche kommt aus dem Geschäftsmodell und den Segmenten im Geschäftsbericht. Sie wird nicht aus der Börse und nicht aus dem Ticker abgeleitet. Ein Damodaran-Eintrag, der nur an der Börse oder am Tickersymbol hängt, wird nicht verwendet. Die Zuordnung steht in `config/industry_overrides.json`, die Segmentmischung in `config/segments.json`.
 
+„n/a (Aufbauphase)“ gilt nur, wenn M1 n/a ist (noch kein aussagekräftiger Umsatz). Ist M1 bewertet (auch bei M1 ≥ 5) und liegt ein operativer Verlust vor, wird M3 normal als ROIC minus Kapitalkosten gerechnet. Ein negativer Abstand gibt 0 (Untergrenze).
+
+Ist der Umsatz eines Segments größer als der US-Pool seiner Branche, ist der Pool nicht repräsentativ. Dann wird die nächstpassende Damodaran-Branche verwendet und auf der Seite genannt.
+
 `FMP_API_KEY` und `FINNHUB_API_KEY` bleiben optional. C_06 kommt zuerst von Yahoo (`recommendationTrend`, Kursziel, EPS-Trend über 90 Tage), sonst von der Nasdaq-Analysten-API. Unter drei Analysten zählt das Kriterium nicht. Unter fünf Analysten ist es bei 7 gedeckelt. API-Schlüssel stehen nicht in den Quell-URLs.
 
 K.O., nur wenn die Eingaben wirklich da sind: Altman Z unter 1,8, negativer Free Cashflow bei Nettoverschuldung/EBITDA über 3, 8-K Item 4.02 in den letzten 24 Monaten. Ein Going-Concern-Hinweis wird nicht geraten.

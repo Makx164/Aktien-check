@@ -50,7 +50,7 @@
       "score": null,
       "status": "wenig Daten",
       "weight": 1.0,
-      "dataQuality": "1 von 4 Metriken. IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Branchenumsatz wächst stark (Median 51,5 %, auf 30 % gekappt), die Gewinne der Branche aber kaum (−1,6 %, Damodaran Jan. 2026) · Branche Drugs (Biotechnology) · Damodaran, Stand Januar 2026 · Operatives Ergebnis −256,0 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · deshalb n/a (Aufbauphase) · Größter Kunde 96,0 % (SEC 10-K vom 2026-02-23) · Vertragsbindung 0,1 % des Umsatzes 165,8 Mio. USD",
+      "dataQuality": "1 von 4 Metriken. IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Branchenumsatz wächst stark (Median 51,5 %, auf 30 % gekappt), die Gewinne der Branche aber kaum (−1,6 %, Damodaran Jan. 2026) · Branche Drugs (Biotechnology) · Damodaran, Stand Januar 2026 · Operatives Ergebnis −256,0 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · M1 ist n/a, deshalb Aufbauphase · Größter Kunde 96,0 % (SEC 10-K vom 2026-02-23) · Vertragsbindung 0,1 % des Umsatzes 165,8 Mio. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -92,7 +92,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "Operatives Ergebnis −256,0 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · deshalb n/a (Aufbauphase)"
+          "note": "Operatives Ergebnis −256,0 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · M1 ist n/a, deshalb Aufbauphase"
         },
         {
           "id": "revenue_quality",

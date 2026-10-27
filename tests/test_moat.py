@@ -169,10 +169,15 @@ class RuleTests(unittest.TestCase):
             weak.append(_year(year, 200_000_000, 40_000_000, operating, operating))
         strong_score = score_company(CONFIG, _bundle(strong), {}, {}, "2026-10-27", {})
         weak_score = score_company(CONFIG, _bundle(weak, _industry_moat(gross_margin=0.50)), {}, {}, "2026-10-27", {})
+        strong_m1 = metric_map(strong_score, "C_01")[1]["gm_vs_industry"]
         strong_m3 = metric_map(strong_score, "C_01")[1]["roic_spread"]
         weak_m3 = metric_map(weak_score, "C_01")[1]["roic_spread"]
-        self.assertEqual(strong_m3["status"], BUILD_PHASE)
-        self.assertIsNone(strong_m3["points"])
+        self.assertGreaterEqual(strong_m1["points"], 5)
+        self.assertIsNone(strong_m3["status"])
+        self.assertEqual(strong_m3["points"], 0.0)
+        self.assertIn("ROIC", strong_m3["note"])
+        self.assertIn("Kapitalkosten", strong_m3["note"])
+        self.assertNotIn(BUILD_PHASE, strong_m3["note"])
         self.assertIsNone(weak_m3["status"])
         self.assertEqual(weak_m3["points"], 0.0)
 
@@ -203,6 +208,91 @@ class RuleTests(unittest.TestCase):
         self.assertIsNone(market["rd_vs_industry"]["points"])
         self.assertEqual(market["ebit_pool"]["status"], "n/a")
         self.assertIsNone(market["ebit_pool"]["points"])
+
+    def test_operating_loss_is_build_phase_only_when_m1_is_na(self):
+        readme = (Path(__file__).resolve().parents[1] / "README.md").read_text(encoding="utf-8")
+        self.assertIn("„n/a (Aufbauphase)“ gilt nur, wenn M1 n/a ist", readme)
+        self.assertIn("Ein negativer Abstand gibt 0", readme)
+        self.assertIn("ist der Pool nicht repräsentativ", readme)
+
+        missing = _industry_moat()
+        missing_rows = [_year(2025, 30_000_000, 12_000_000, -2_000_000, -2_000_000)]
+        missing_score = score_company(CONFIG, _bundle(missing_rows, missing), {}, {}, "2026-10-27", {})
+        missing_metrics = metric_map(missing_score, "C_01")[1]
+        self.assertEqual(missing_metrics["gm_vs_industry"]["status"], "n/a")
+        self.assertEqual(missing_metrics["roic_spread"]["status"], BUILD_PHASE)
+        self.assertIsNone(missing_metrics["roic_spread"]["points"])
+
+        # Gross margin 80 % against 40 % scores M1 at 10. The operating loss
+        # still produces ROIC minus the cost of capital, and that spread is negative.
+        scored_moat = _industry_moat()
+        scored_moat["concentration"] = {"mode": "none"}
+        scored_rows = [_year(year, 200_000_000, 160_000_000, -5, -5) for year in (2023, 2024, 2025)]
+        scored = score_company(CONFIG, _bundle(scored_rows, scored_moat), {}, {}, "2026-10-27", {})
+        model, metrics = metric_map(scored, "C_01")
+        self.assertEqual(metrics["gm_vs_industry"]["points"], 10)
+        self.assertIsNone(metrics["roic_spread"]["status"])
+        self.assertEqual(metrics["roic_spread"]["points"], 0.0)
+        self.assertIn("ROIC", metrics["roic_spread"]["note"])
+        self.assertIn("Kapitalkosten", metrics["roic_spread"]["note"])
+        self.assertNotIn(BUILD_PHASE, metrics["roic_spread"]["note"])
+        parts = [metrics[key]["points"] for key in ("gm_vs_industry", "gm_stability", "roic_spread", "revenue_quality")]
+        self.assertEqual(model["score"], round1(sum(parts) / 4))
+        self.assertIn("4 von 4 Metriken", model["dataQuality"])
+
+    def test_segment_larger_than_the_pool_uses_the_next_industry(self):
+        def moat(energy_revenue):
+            built = _industry_moat(industry="Auto & Truck", growth=0.10, ebit=0.05)
+            built["benchmarks"]["Green & Renewable Energy"] = {
+                "grossMargin": 0.55,
+                "rdSales": 0.01,
+                "costOfCapital": 0.06,
+                "revenueGrowth": [0.20],
+                "ebitGrowth": 0.02,
+            }
+            built["benchmarks"]["Electrical Equipment"] = {
+                "grossMargin": 0.32,
+                "rdSales": 0.04,
+                "costOfCapital": 0.09,
+                "revenueGrowth": [0.25],
+                "ebitGrowth": 0.08,
+            }
+            built["pools"] = {
+                "Auto & Truck": 500_000_000_000,
+                "Green & Renewable Energy": 500_000_000,
+                "Electrical Equipment": 200_000_000_000,
+            }
+            built["poolYear"] = 2025
+            built["segments"] = [
+                {"member": "AutomotiveSegmentMember", "industry": "Auto & Truck", "weight": 0.8, "revenue": 8_000_000_000},
+                {
+                    "member": "EnergyGenerationAndStorageSegmentMember",
+                    "industry": "Green & Renewable Energy",
+                    "poolFallback": "Electrical Equipment",
+                    "weight": 0.2,
+                    "revenue": energy_revenue,
+                },
+            ]
+            built["segmentNote"] = "Geschäftsjahr bis 2025-12-31 (SEC 10-K vom 2026-01-29)"
+            return built
+
+        switched = score_company(CONFIG, _bundle([_year(2025, 10_000_000_000, 2_000_000_000)], moat(2_000_000_000)), {}, {}, "2026-10-27", {})
+        market = metric_map(switched, "C_03")[1]
+        self.assertAlmostEqual(market["industry_growth"]["raw"], 0.8 * 0.10 + 0.2 * 0.25, places=4)
+        self.assertAlmostEqual(market["ebit_pool"]["raw"], 0.8 * 0.05 + 0.2 * 0.08, places=4)
+        note = market["industry_growth"]["note"]
+        self.assertIn("Electrical Equipment", note)
+        self.assertIn("nicht repräsentativ", note)
+        self.assertIn("2,0 Mrd. USD", note)
+        self.assertIn("500,0 Mio. USD", note)
+        self.assertIn("Green & Renewable Energy", note)
+        self.assertIn("nicht repräsentativ", market["headroom"]["note"])
+        self.assertIn("200,0 Mrd. USD", market["headroom"]["note"])
+
+        kept = score_company(CONFIG, _bundle([_year(2025, 10_000_000_000, 2_000_000_000)], moat(100_000_000)), {}, {}, "2026-10-27", {})
+        kept_market = metric_map(kept, "C_03")[1]
+        self.assertAlmostEqual(kept_market["industry_growth"]["raw"], 0.8 * 0.10 + 0.2 * 0.20, places=4)
+        self.assertNotIn("nicht repräsentativ", kept_market["industry_growth"]["note"])
 
     def test_segment_weights_change_growth_and_headroom(self):
         moat = _industry_moat(growth=0.196)
@@ -451,6 +541,18 @@ class FilingTests(unittest.TestCase):
         self.assertEqual(by_member["BitcoinMiningMember"]["industry"], "Computer Services")
         self.assertIn("2026-06-30", note)
         self.assertIn("SEC 10-K vom 2026-08-27", note)
+        mapped, _mapped_note = segment_weights(instances, {
+            "BitcoinMiningMember": {
+                "industry": "Green & Renewable Energy",
+                "poolFallback": "Electrical Equipment",
+            },
+            "AICloudServicesMember": "Computer Services",
+        })
+        by_fallback = {item["member"]: item for item in mapped}
+        self.assertEqual(by_fallback["BitcoinMiningMember"]["industry"], "Green & Renewable Energy")
+        self.assertEqual(by_fallback["BitcoinMiningMember"]["poolFallback"], "Electrical Equipment")
+        self.assertEqual(by_fallback["AICloudServicesMember"]["industry"], "Computer Services")
+        self.assertNotIn("poolFallback", by_fallback["AICloudServicesMember"])
 
     def test_trailing_yahoo_revenue_is_dated_at_the_newest_quarter(self):
         annual = yahoo_annual_revenue({

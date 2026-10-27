@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import math
 
-from scoring.metrics import _join_notes, gross_margin_series, parse_date, value_at, year_gap
+from scoring.metrics import _join_notes, gross_margin_series, parse_date, roic_for_year, value_at, year_gap
 from scoring.model import format_de, format_value, linear_points
 
 C01_IDS = ("gm_vs_industry", "gm_stability", "roic_spread", "revenue_quality")
@@ -18,7 +18,6 @@ NO_CUSTOMER_NOTE = "kein Großkunde ≥ 10 % gemeldet"
 BRANCH_NOTE = "nur Branchenebene, keine Segmentdaten"
 BUILD_PHASE = "n/a (Aufbauphase)"
 NO_US = "nicht bewertbar – keine US-Meldepflicht"
-WEAK_MARGIN_NOTE = "Bruttomarge unter Branchenniveau, Aufbauphase zählt nicht"
 NA = "n/a"
 
 
@@ -186,6 +185,8 @@ def assemble_context(book, overrides, segment_map, pools, ticker, sic, sec, inst
     for item in weights:
         if item.get("industry"):
             names.add(item["industry"])
+        if item.get("poolFallback"):
+            names.add(item["poolFallback"])
     benchmarks = {}
     for name in names:
         row = (book.benchmarks or {}).get(name) if book is not None else None
@@ -510,7 +511,6 @@ def _apply_c01(raw, bundle, moat, rules, config, profile, short, na_label, finan
     low_revenue = revenue is not None and revenue < float(rules.get("biotechRevenueUsd", 50_000_000))
     gross, gross_end, gross_label = _ttm_gross(bundle)
     source = _source(moat, industry, "SEC EDGAR companyfacts")
-    m1_blocked_special = False
 
     if is_financial:
         blocked = _join_notes(
@@ -519,7 +519,6 @@ def _apply_c01(raw, bundle, moat, rules, config, profile, short, na_label, finan
         )
         _mark(raw, "gm_vs_industry", na_label, financial_reason, blocked)
         _mark(raw, "gm_stability", na_label, financial_reason, blocked)
-        m1_blocked_special = True
     elif is_biotech or low_revenue:
         reason_note = _join_notes(
             _anchor(bundle, moat),
@@ -529,7 +528,6 @@ def _apply_c01(raw, bundle, moat, rules, config, profile, short, na_label, finan
         )
         _mark(raw, "gm_vs_industry", NA, note=reason_note)
         _mark(raw, "gm_stability", NA, note=reason_note)
-        m1_blocked_special = is_biotech or is_financial
     else:
         industry_margin = bench.get("grossMargin") if industry else None
         if gross is None or industry_margin is None:
@@ -554,10 +552,7 @@ def _apply_c01(raw, bundle, moat, rules, config, profile, short, na_label, finan
             _score(raw, "gm_vs_industry", spread, points, gross_end, note=note, source=source)
         _apply_m2(raw, bundle, moat, rules, short)
 
-    _apply_m3(
-        raw, bundle, moat, rules, bench, source, short,
-        m1_blocked_special, is_financial, is_biotech,
-    )
+    _apply_m3(raw, bundle, moat, rules, bench, source, short)
     _apply_m4(raw, bundle, moat, rules, source)
 
 
@@ -617,45 +612,48 @@ def _margin_history_short(bundle, series, minimum):
     return False
 
 
-def _apply_m3(raw, bundle, moat, rules, bench, source, short, blocked_special, is_financial, is_biotech):
+def _loss_roic(bundle):
+    """Two-year ROIC when the latest pretax year is a loss.
+
+    The stored average skips a negative pretax year. M3 still needs that
+    year once the gross margin has been scored: NOPAT over invested capital,
+    then the same two-year mean.
+    """
+    years = sorted(point["end"] for point in (bundle.get("operating_income") or []) if point.get("end"))
+    if len(years) < 2 or year_gap(years[-2], years[-1]) > 1.4:
+        return None, None, None
+    got = []
+    notes = []
+    for year in years[-2:]:
+        value, _loss, note = roic_for_year(year, bundle, allow_negative_pretax=True)
+        if value is None:
+            return None, None, None
+        got.append(value)
+        if note:
+            notes.append(note)
+    return (got[0] + got[1]) / 2.0, _join_notes(*notes), years[-1]
+
+
+def _apply_m3(raw, bundle, moat, rules, bench, source, short):
     spec = rules.get("m3") or {}
-    operating, pretax, end = _last_result(bundle)
-    young = (operating is not None and operating <= 0) or (pretax is not None and pretax <= 0)
+    operating, _pretax, end = _last_result(bundle)
     roic = raw["values"].get("roic_2y")
     wacc = bench.get("costOfCapital") if moat.get("industry") else None
     tax_note = raw["labels"].get("roic_2y_note")
-    m1_points = raw["points"].get("gm_vs_industry") if "gm_vs_industry" not in raw["reasons"] else None
     operating_loss = operating is not None and operating <= 0
-    # Biotech and financials with an operating loss stay in the build phase.
-    # An operating profit is scored even when pretax is still negative.
-    # The zero-point penalty needs a scored gross margin. When M1 is n/a
-    # there is no industry comparison, so an operating loss is build phase.
+    # "n/a (Aufbauphase)" only when M1 is n/a. A scored margin, including
+    # M1 at or above 5, keeps the normal ROIC spread. A negative spread
+    # is 0 through the ramp.
     op_filed, op_form = _cite_end(bundle, end)
     op_fact = "Operatives Ergebnis " + _usd(operating) + " bis " + (end or "n/a") + " (" + _sec_cite(op_filed, op_form) + ")"
-    if young and blocked_special and operating_loss:
-        _mark(raw, "roic_spread", BUILD_PHASE, note=_join_notes(op_fact, "deshalb " + BUILD_PHASE))
-        return
     if raw["reasons"].get("gm_vs_industry") == NA and operating_loss:
         _mark(raw, "roic_spread", BUILD_PHASE, note=_join_notes(op_fact, "M1 ist n/a, deshalb Aufbauphase"))
         return
-    young_penalty = young and not (blocked_special and not operating_loss)
-    if young_penalty and m1_points is not None and m1_points >= float(spec.get("youngM1Min", 5)):
-        _mark(raw, "roic_spread", BUILD_PHASE, note=_join_notes(op_fact, "M1 " + _points_text(m1_points) + " Punkte, deshalb Aufbauphase"))
-        return
-    if young_penalty:
-        spread = None if roic is None or wacc is None else float(roic) - float(wacc)
-        margin = raw["values"].get("gm_vs_industry")
-        margin_text = "n/a" if margin is None else format_value("ratioPp", margin)
-        _score(
-            raw, "roic_spread", 0 if spread is None else spread, 0.0, end,
-            note=_join_notes(
-                op_fact,
-                "Bruttomarge-Abstand " + margin_text + ", M1 " + _points_text(m1_points) + " Punkte (" + _damo(moat) + ")",
-                WEAK_MARGIN_NOTE,
-            ),
-            source=source if wacc is not None else None,
-        )
-        return
+    if roic is None and operating_loss and "gm_vs_industry" not in raw["reasons"]:
+        roic, loss_note, loss_end = _loss_roic(bundle)
+        tax_note = _join_notes(tax_note, loss_note)
+        if loss_end:
+            end = loss_end
     if roic is not None and wacc is not None:
         spread = float(roic) - float(wacc)
         points = linear_points(spread, spec.get("zeroAt", -0.05), spec.get("tenAt", 0.15))
@@ -745,7 +743,41 @@ def _points_text(points):
     return str(rounded).replace(".", ",")
 
 
+def apply_pool_rule(moat):
+    """A segment larger than its US pool uses the configured next industry.
+
+    The pool is then not representative. The replacement is the segment's
+    ``poolFallback``. The page note names both industries and the two amounts.
+    """
+    pools = moat.get("pools") or {}
+    year = moat.get("poolYear")
+    notes = []
+    for item in moat.get("segments") or []:
+        industry = item.get("industry")
+        revenue = item.get("revenue")
+        fallback = item.get("poolFallback")
+        pool = pools.get(industry) if industry else None
+        if revenue is None or pool is None or float(pool) <= 0 or float(revenue) <= float(pool):
+            continue
+        if not fallback:
+            continue
+        item["replacedIndustry"] = industry
+        item["industry"] = fallback
+        notes.append(
+            "Segmentumsatz " + _usd(revenue)
+            + " ist größer als der US-Pool " + industry + " " + _usd(pool)
+            + " (CY" + (str(year) if year is not None else "n/a") + "). "
+            + "Der Pool ist nicht repräsentativ, deshalb " + fallback
+            + " (" + _damo(moat) + ")."
+        )
+    if notes:
+        moat["poolNote"] = " ".join(notes)
+        moat["segmentNote"] = _join_notes(moat.get("segmentNote"), moat["poolNote"])
+    return moat
+
+
 def _apply_c03(raw, bundle, moat, rules, config, profile, short, na_label, disclosed, sec):
+    apply_pool_rule(moat)
     mix = _mix(moat)
     low = float(rules.get("growthCapLow", -0.05))
     high = float(rules.get("growthCapHigh", 0.30))
@@ -871,7 +903,13 @@ def _apply_headroom(raw, bundle, moat, rules, mix, source, segment_note):
                 semi = median_capped(_bench(moat, name).get("revenueGrowth") or [], low, high)
         growth_text = format_value("percent", semi) if semi is not None else "n/a"
         ticker_note = "Halbleiterwachstum " + growth_text + " (" + _damo(moat) + "); " + (ticker_note or "")
-    note = _join_notes(_anchor(bundle, moat), "log10 " + format_value("multiple", log_ratio), pool_note, ticker_note)
+    note = _join_notes(
+        _anchor(bundle, moat),
+        moat.get("poolNote"),
+        "log10 " + format_value("multiple", log_ratio),
+        pool_note,
+        ticker_note,
+    )
     pool_source = dict(source)
     if moat.get("poolUrl"):
         pool_source["url"] = moat["poolUrl"]

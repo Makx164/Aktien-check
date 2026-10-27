@@ -299,6 +299,16 @@ def _period_note(prefix, end, weights):
     return prefix + " " + str(end) + " (" + cite + ")"
 
 
+def _mapped_industry(mapping, member):
+    """A segment maps to an industry, optionally with a pool fallback."""
+    raw = (mapping or {}).get(member)
+    if isinstance(raw, dict):
+        return raw.get("industry"), raw.get("poolFallback")
+    if raw:
+        return raw, None
+    return None, None
+
+
 def _weights(rows, mapping):
     totals = defaultdict(float)
     for row in rows:
@@ -308,19 +318,22 @@ def _weights(rows, mapping):
         return []
     weights = []
     for member, value in sorted(totals.items()):
-        industry = (mapping or {}).get(member)
+        industry, fallback = _mapped_industry(mapping, member)
         if not industry:
             continue
         filed = [row.get("filed") for row in rows if row["member"] == member and row.get("filed")]
         forms = [row.get("form") for row in rows if row["member"] == member and row.get("form")]
-        weights.append({
+        item = {
             "member": member,
             "industry": industry,
             "weight": value / grand,
             "revenue": value,
             "filed": max(filed) if filed else None,
             "form": forms[-1] if forms else None,
-        })
+        }
+        if fallback:
+            item["poolFallback"] = fallback
+        weights.append(item)
     return weights
 
 

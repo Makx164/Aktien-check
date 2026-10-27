@@ -420,11 +420,13 @@ def _latest_end(*series):
     return max(ends)
 
 
-def roic_for_year(end, bundle):
+def roic_for_year(end, bundle, allow_negative_pretax=False):
     """Return value, loss flag and an optional statutory-tax note.
 
     A tax rate outside −0.5…1 is replaced by 21 %. Pretax or invested capital
-    at or below zero is a loss, not a missing fetch.
+    at or below zero is a loss, not a missing fetch. M3 passes
+    ``allow_negative_pretax`` when the gross margin is already scored, so a
+    loss year still produces ROIC minus the cost of capital.
     """
     operating = value_at(bundle["operating_income"], end)
     tax = value_at(bundle["tax"], end)
@@ -440,13 +442,17 @@ def roic_for_year(end, bundle):
             debt = 0.0
     if None in (operating, tax, pretax, equity, debt, cash):
         return None, False, None
-    if pretax <= 0:
+    if pretax <= 0 and not allow_negative_pretax:
         return None, True, None
-    tax_rate = tax / pretax
     note = None
-    if tax_rate < -0.5 or tax_rate > 1:
+    if pretax == 0:
         tax_rate = 0.21
         note = STATUTORY_TAX_NOTE
+    else:
+        tax_rate = tax / pretax
+        if tax_rate < -0.5 or tax_rate > 1:
+            tax_rate = 0.21
+            note = STATUTORY_TAX_NOTE
     invested = equity + debt - cash
     if invested <= 0:
         return None, True, None
