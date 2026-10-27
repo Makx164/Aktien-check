@@ -1,0 +1,8 @@
+# Weiterleitung nur für GitHub Pages (Ordner /docs).
+# yoursidequest.org lädt diese Dateien nicht hoch.
+/docs
+/.vercelignore
+/tests/pages_redirect_logic.js
+/tests/build_pages_redirect.js
+/tests/pages_redirect.test.js
+/tests/pages_redirect_browser.js
