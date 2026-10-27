@@ -48,7 +48,7 @@
       "score": null,
       "status": "wenig Daten",
       "weight": 1.0,
-      "dataQuality": "1 von 4 Metriken. LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Branche Insurance (Prop/Cas.), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026) · Operatives Ergebnis −115,3 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04) · deshalb n/a (Aufbauphase) · Im 10-K vom 2026-02-25 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet)",
+      "dataQuality": "1 von 4 Metriken. LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · Branche Insurance (Prop/Cas.), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026) · Operatives Ergebnis −115,3 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04) · deshalb n/a (Aufbauphase) · Im 10-K vom 2026-02-25 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet)",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -63,7 +63,7 @@
           "fetchedAt": "2026-10-27",
           "observedAt": null,
           "statusReason": "Finanzwert",
-          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Branche Insurance (Prop/Cas.), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026)"
+          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · Branche Insurance (Prop/Cas.), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026)"
         },
         {
           "id": "gm_stability",
@@ -78,7 +78,7 @@
           "fetchedAt": "2026-10-27",
           "observedAt": null,
           "statusReason": "Finanzwert",
-          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Branche Insurance (Prop/Cas.), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026)"
+          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · Branche Insurance (Prop/Cas.), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026)"
         },
         {
           "id": "roic_spread",
@@ -106,7 +106,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · Im 10-K vom 2026-02-25 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet)"
+          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · Im 10-K vom 2026-02-25 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet)"
         }
       ]
     },
@@ -249,7 +249,7 @@
       "score": 3.9,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "3 von 4 Metriken. LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · 100,0 % Insurance (Prop/Cas.) laut NYSE:LMND, Umsatzwachstum 8,8 % · Damodaran, Stand Januar 2026 · 100,0 % Insurance (Prop/Cas.) laut NYSE:LMND, EBIT-Wachstum 0,4 % · R&D/Sales 0,0 % Insurance (Prop/Cas.) (Damodaran, Stand Januar 2026) liegt unter 2 % · log10 2,74 · US-Pool CY2025: 100,0 % Insurance (Prop/Cas.) 533,8 Mrd. USD",
+      "dataQuality": "3 von 4 Metriken. LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · 100,0 % Insurance (Prop/Cas.), Umsatzwachstum 8,8 % · Damodaran, Stand Januar 2026 · 100,0 % Insurance (Prop/Cas.), EBIT-Wachstum 0,4 % · R&D/Sales 0,0 % Insurance (Prop/Cas.) (Damodaran, Stand Januar 2026) liegt unter 2 % · log10 2,74 · US-Pool CY2025: 100,0 % Insurance (Prop/Cas.) 533,8 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -263,7 +263,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · 100,0 % Insurance (Prop/Cas.) laut NYSE:LMND, Umsatzwachstum 8,8 % · Damodaran, Stand Januar 2026"
+          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · 100,0 % Insurance (Prop/Cas.), Umsatzwachstum 8,8 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -277,7 +277,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · 100,0 % Insurance (Prop/Cas.) laut NYSE:LMND, EBIT-Wachstum 0,4 % · Damodaran, Stand Januar 2026"
+          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · 100,0 % Insurance (Prop/Cas.), EBIT-Wachstum 0,4 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -291,7 +291,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · R&D/Sales 0,0 % Insurance (Prop/Cas.) (Damodaran, Stand Januar 2026) liegt unter 2 %"
+          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · R&D/Sales 0,0 % Insurance (Prop/Cas.) (Damodaran, Stand Januar 2026) liegt unter 2 %"
         },
         {
           "id": "headroom",
@@ -305,7 +305,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30 · log10 2,74 · US-Pool CY2025: 100,0 % Insurance (Prop/Cas.) 533,8 Mrd. USD"
+          "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · log10 2,74 · US-Pool CY2025: 100,0 % Insurance (Prop/Cas.) 533,8 Mrd. USD"
         }
       ]
     },

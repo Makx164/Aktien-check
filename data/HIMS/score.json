@@ -2,13 +2,13 @@
   "ticker": "HIMS",
   "name": "Hims & Hers Health",
   "asOf": "2026-10-26",
-  "score": 6.0,
+  "score": 5.6,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
-  "qualityScore": 6.0,
+  "qualityScore": 5.3,
   "marketScore": 6.1,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 31 von 32 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 32 von 32 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [],
   "price": {
@@ -45,24 +45,24 @@
     {
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
-      "score": 7.2,
+      "score": 7.0,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30 · Bruttomarge 68,4 % gegen 12,1 % Healthcare Support Services (Damodaran, Stand Januar 2026), Abstand 56,3 Pp · Streuung 2,9 Pp, Trend -0,1 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-23) · Operatives Ergebnis 105,6 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · ROIC 13,8 % minus Kapitalkosten 6,8 % Healthcare Support Services (Damodaran, Stand Januar 2026), Abstand 7,0 Pp. Steuersatz außerhalb −0,5 bis 1, daher 21 % · Im 10-K vom 2026-02-23 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 5,5 % des Umsatzes 2,6 Mrd. USD",
+      "dataQuality": "4 von 4 Metriken. HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Bruttomarge 68,4 % gegen 48,3 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Abstand 20,1 Pp · Streuung 2,9 Pp, Trend -0,1 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-23) · Operatives Ergebnis 105,6 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · ROIC 13,8 % minus Kapitalkosten 8,2 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Abstand 5,6 Pp. Steuersatz außerhalb −0,5 bis 1, daher 21 % · Im 10-K vom 2026-02-23 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 5,5 % des Umsatzes 2,6 Mrd. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
           "label": "Bruttomarge gegenüber Branche",
-          "value": "56,3 Pp",
-          "raw": 0.56347,
+          "value": "20,1 Pp",
+          "raw": 0.201071,
           "points": 10.0,
           "status": null,
           "scale": "−20 Pp = 0, 0 Pp = 5, +20 Pp = 10; Bruttomarge ≥ 70 % mindestens 8",
-          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Healthcare Support Services",
+          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Heathcare Information and Technology",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30 · Bruttomarge 68,4 % gegen 12,1 % Healthcare Support Services (Damodaran, Stand Januar 2026), Abstand 56,3 Pp"
+          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Bruttomarge 68,4 % gegen 48,3 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Abstand 20,1 Pp"
         },
         {
           "id": "gm_stability",
@@ -76,21 +76,21 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30 · Streuung 2,9 Pp, Trend -0,1 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-23)"
+          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Streuung 2,9 Pp, Trend -0,1 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-23)"
         },
         {
           "id": "roic_spread",
           "label": "ROIC über Kapitalkosten",
-          "value": "7,0 Pp",
-          "raw": 0.069771,
-          "points": 6.0,
+          "value": "5,6 Pp",
+          "raw": 0.055802,
+          "points": 5.3,
           "status": null,
           "scale": "−5 Pp = 0, +15 Pp = 10",
-          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Healthcare Support Services",
+          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Heathcare Information and Technology",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "Operatives Ergebnis 105,6 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · ROIC 13,8 % minus Kapitalkosten 6,8 % Healthcare Support Services (Damodaran, Stand Januar 2026), Abstand 7,0 Pp. Steuersatz außerhalb −0,5 bis 1, daher 21 %"
+          "note": "Operatives Ergebnis 105,6 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · ROIC 13,8 % minus Kapitalkosten 8,2 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Abstand 5,6 Pp. Steuersatz außerhalb −0,5 bis 1, daher 21 %"
         },
         {
           "id": "revenue_quality",
@@ -100,11 +100,11 @@
           "points": 6.5,
           "status": null,
           "scale": "Kunden: unter 10 % = 8, bis 15 % = 6, bis 25 % = 4, bis 40 % = 2, darüber = 0; Vertragsbindung 0 % = 3, ≥ 20 % = 10",
-          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Healthcare Support Services",
+          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Heathcare Information and Technology",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30 · Im 10-K vom 2026-02-23 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 5,5 % des Umsatzes 2,6 Mrd. USD"
+          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Im 10-K vom 2026-02-23 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 5,5 % des Umsatzes 2,6 Mrd. USD"
         }
       ]
     },
@@ -244,66 +244,66 @@
     {
       "id": "C_03",
       "label": "Markt & Zukunftsmarkt",
-      "score": 6.9,
+      "score": 3.6,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "3 von 4 Metriken. HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30 · 100,0 % Healthcare Support Services laut NYSE:HIMS, Umsatzwachstum 9,0 % · Damodaran, Stand Januar 2026 · 100,0 % Healthcare Support Services laut NYSE:HIMS, EBIT-Wachstum 15,8 % · R&D/Sales 0,1 % Healthcare Support Services (Damodaran, Stand Januar 2026) liegt unter 2 % · log10 3,04 · US-Pool CY2025: 100,0 % Healthcare Support Services 2,8 Bio. USD",
+      "dataQuality": "4 von 4 Metriken. HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · 100,0 % Heathcare Information and Technology, Umsatzwachstum 7,9 % · Damodaran, Stand Januar 2026 · 100,0 % Heathcare Information and Technology, EBIT-Wachstum 1,7 % · Forschungsquote 7,1 % gegen R&D/Sales 6,9 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Faktor 1,03 · log10 1,80 · US-Pool CY2025: 100,0 % Heathcare Information and Technology 164,0 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
           "label": "Branchenwachstum, umsatzgewichtet",
-          "value": "9,0 %",
-          "raw": 0.090491,
-          "points": 2.7,
+          "value": "7,9 %",
+          "raw": 0.079051,
+          "points": 2.2,
           "status": null,
           "scale": "3 % = 0, 25 % = 10",
-          "sourceLabel": "Damodaran, Stand Januar 2026 · Healthcare Support Services",
+          "sourceLabel": "Damodaran, Stand Januar 2026 · Heathcare Information and Technology",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30 · 100,0 % Healthcare Support Services laut NYSE:HIMS, Umsatzwachstum 9,0 % · Damodaran, Stand Januar 2026"
+          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · 100,0 % Heathcare Information and Technology, Umsatzwachstum 7,9 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
           "label": "Wachstum des Gewinnpools",
-          "value": "15,8 %",
-          "raw": 0.158194,
-          "points": 7.9,
+          "value": "1,7 %",
+          "raw": 0.01662,
+          "points": 0.8,
           "status": null,
           "scale": "0 % = 0, 20 % = 10",
-          "sourceLabel": "Damodaran, Stand Januar 2026 · Healthcare Support Services",
+          "sourceLabel": "Damodaran, Stand Januar 2026 · Heathcare Information and Technology",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30 · 100,0 % Healthcare Support Services laut NYSE:HIMS, EBIT-Wachstum 15,8 % · Damodaran, Stand Januar 2026"
+          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · 100,0 % Heathcare Information and Technology, EBIT-Wachstum 1,7 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
-          "label": "Innovationsquote gegenüber Branche",
-          "value": null,
-          "raw": null,
-          "points": null,
-          "status": "n/a",
+          "label": "Forschungsquote, Technology and development",
+          "value": "7,1 %",
+          "raw": 0.071128,
+          "points": 6.1,
+          "status": null,
           "scale": "Faktor 0 = 0, 1 = 6, ab 2 = 10",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
+          "sourceLabel": "SEC EDGAR, Technology and development",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
-          "observedAt": null,
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30 · R&D/Sales 0,1 % Healthcare Support Services (Damodaran, Stand Januar 2026) liegt unter 2 %"
+          "observedAt": "2026-06-30",
+          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Forschungsquote 7,1 % gegen R&D/Sales 6,9 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Faktor 1,03"
         },
         {
           "id": "headroom",
           "label": "Kopfraum",
-          "value": "3,04",
-          "raw": 3.038795,
-          "points": 10.0,
+          "value": "1,80",
+          "raw": 1.803422,
+          "points": 5.2,
           "status": null,
           "scale": "log10 0,5 = 0, log10 3 = 10",
-          "sourceLabel": "Damodaran, Stand Januar 2026 · Healthcare Support Services",
+          "sourceLabel": "Damodaran, Stand Januar 2026 · Heathcare Information and Technology",
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30 · log10 3,04 · US-Pool CY2025: 100,0 % Healthcare Support Services 2,8 Bio. USD"
+          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · log10 1,80 · US-Pool CY2025: 100,0 % Heathcare Information and Technology 164,0 Mrd. USD"
         }
       ]
     },

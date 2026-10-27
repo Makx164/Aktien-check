@@ -48,7 +48,7 @@
       "score": 8.3,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30 · Bruttomarge 50,8 % gegen 33,2 % Retail (General) (Damodaran, Stand Januar 2026), Abstand 17,6 Pp · Streuung 0,4 Pp, Trend 2,2 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-06) · Operatives Ergebnis 80,0 Mrd. USD bis 2025-12-31 (SEC 10-K vom 2026-02-06) · ROIC 19,3 % minus Kapitalkosten 7,3 % Retail (General) (Damodaran, Stand Januar 2026), Abstand 12,1 Pp · Im 10-K vom 2026-02-06 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 2,6 % des Umsatzes 775,7 Mrd. USD",
+      "dataQuality": "4 von 4 Metriken. AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30. Nordamerika und International sind Handel, AWS ist Software. Die Firma folgt dem Handelsanteil. · Bruttomarge 50,8 % gegen 33,2 % Retail (General) (Damodaran, Stand Januar 2026), Abstand 17,6 Pp · Streuung 0,4 Pp, Trend 2,2 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-06) · Operatives Ergebnis 80,0 Mrd. USD bis 2025-12-31 (SEC 10-K vom 2026-02-06) · ROIC 19,3 % minus Kapitalkosten 7,3 % Retail (General) (Damodaran, Stand Januar 2026), Abstand 12,1 Pp · Im 10-K vom 2026-02-06 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 2,6 % des Umsatzes 775,7 Mrd. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -62,7 +62,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30 · Bruttomarge 50,8 % gegen 33,2 % Retail (General) (Damodaran, Stand Januar 2026), Abstand 17,6 Pp"
+          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30. Nordamerika und International sind Handel, AWS ist Software. Die Firma folgt dem Handelsanteil. · Bruttomarge 50,8 % gegen 33,2 % Retail (General) (Damodaran, Stand Januar 2026), Abstand 17,6 Pp"
         },
         {
           "id": "gm_stability",
@@ -76,7 +76,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-12-31",
-          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30 · Streuung 0,4 Pp, Trend 2,2 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-06)"
+          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30. Nordamerika und International sind Handel, AWS ist Software. Die Firma folgt dem Handelsanteil. · Streuung 0,4 Pp, Trend 2,2 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-06)"
         },
         {
           "id": "roic_spread",
@@ -104,7 +104,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30 · Im 10-K vom 2026-02-06 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 2,6 % des Umsatzes 775,7 Mrd. USD"
+          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30. Nordamerika und International sind Handel, AWS ist Software. Die Firma folgt dem Handelsanteil. · Im 10-K vom 2026-02-06 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 2,6 % des Umsatzes 775,7 Mrd. USD"
         }
       ]
     },
@@ -246,7 +246,7 @@
       "score": 4.8,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30 · Geschäftsjahr bis 2025-12-31 (SEC 10-K vom 2026-02-06) · 18,0 % Amazon Web Services (Software (System & Application)), Segmentumsatz 128,7 Mrd. USD, Umsatzwachstum 19,6 %; 22,6 % International (Retail (General)), Segmentumsatz 161,9 Mrd. USD, Umsatzwachstum 4,2 %; 59,5 % North America (Retail (General)), Segmentumsatz 426,3 Mrd. USD, Umsatzwachstum 4,2 % · Damodaran, Stand Januar 2026 · 18,0 % Amazon Web Services (Software (System & Application)), Segmentumsatz 128,7 Mrd. USD, EBIT-Wachstum 21,6 %; 22,6 % International (Retail (General)), Segmentumsatz 161,9 Mrd. USD, EBIT-Wachstum 12,8 %; 59,5 % North America (Retail (General)), Segmentumsatz 426,3 Mrd. USD, EBIT-Wachstum 12,8 % · Forschungsquote 15,6 % gegen R&D/Sales 5,2 % Retail (General) (Damodaran, Stand Januar 2026), Faktor 2,99 · log10 0,33 · US-Pool CY2025: 18,0 % Software (System & Application) 651,7 Mrd. USD; 22,6 % Retail (General) 2,0 Bio. USD; 59,5 % Retail (General) 2,0 Bio. USD",
+      "dataQuality": "4 von 4 Metriken. AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30. Nordamerika und International sind Handel, AWS ist Software. Die Firma folgt dem Handelsanteil. · Geschäftsjahr bis 2025-12-31 (SEC 10-K vom 2026-02-06) · 18,0 % Amazon Web Services (Software (System & Application)), Segmentumsatz 128,7 Mrd. USD, Umsatzwachstum 19,6 %; 22,6 % International (Retail (General)), Segmentumsatz 161,9 Mrd. USD, Umsatzwachstum 4,2 %; 59,5 % North America (Retail (General)), Segmentumsatz 426,3 Mrd. USD, Umsatzwachstum 4,2 % · Damodaran, Stand Januar 2026 · 18,0 % Amazon Web Services (Software (System & Application)), Segmentumsatz 128,7 Mrd. USD, EBIT-Wachstum 21,6 %; 22,6 % International (Retail (General)), Segmentumsatz 161,9 Mrd. USD, EBIT-Wachstum 12,8 %; 59,5 % North America (Retail (General)), Segmentumsatz 426,3 Mrd. USD, EBIT-Wachstum 12,8 % · Forschungsquote 15,6 % gegen R&D/Sales 5,2 % Retail (General) (Damodaran, Stand Januar 2026), Faktor 2,99 · log10 0,33 · US-Pool CY2025: 18,0 % Software (System & Application) 651,7 Mrd. USD; 22,6 % Retail (General) 2,0 Bio. USD; 59,5 % Retail (General) 2,0 Bio. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -260,7 +260,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30 · Geschäftsjahr bis 2025-12-31 (SEC 10-K vom 2026-02-06) · 18,0 % Amazon Web Services (Software (System & Application)), Segmentumsatz 128,7 Mrd. USD, Umsatzwachstum 19,6 %; 22,6 % International (Retail (General)), Segmentumsatz 161,9 Mrd. USD, Umsatzwachstum 4,2 %; 59,5 % North America (Retail (General)), Segmentumsatz 426,3 Mrd. USD, Umsatzwachstum 4,2 % · Damodaran, Stand Januar 2026"
+          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30. Nordamerika und International sind Handel, AWS ist Software. Die Firma folgt dem Handelsanteil. · Geschäftsjahr bis 2025-12-31 (SEC 10-K vom 2026-02-06) · 18,0 % Amazon Web Services (Software (System & Application)), Segmentumsatz 128,7 Mrd. USD, Umsatzwachstum 19,6 %; 22,6 % International (Retail (General)), Segmentumsatz 161,9 Mrd. USD, Umsatzwachstum 4,2 %; 59,5 % North America (Retail (General)), Segmentumsatz 426,3 Mrd. USD, Umsatzwachstum 4,2 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -274,7 +274,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30 · Geschäftsjahr bis 2025-12-31 (SEC 10-K vom 2026-02-06) · 18,0 % Amazon Web Services (Software (System & Application)), Segmentumsatz 128,7 Mrd. USD, EBIT-Wachstum 21,6 %; 22,6 % International (Retail (General)), Segmentumsatz 161,9 Mrd. USD, EBIT-Wachstum 12,8 %; 59,5 % North America (Retail (General)), Segmentumsatz 426,3 Mrd. USD, EBIT-Wachstum 12,8 % · Damodaran, Stand Januar 2026"
+          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30. Nordamerika und International sind Handel, AWS ist Software. Die Firma folgt dem Handelsanteil. · Geschäftsjahr bis 2025-12-31 (SEC 10-K vom 2026-02-06) · 18,0 % Amazon Web Services (Software (System & Application)), Segmentumsatz 128,7 Mrd. USD, EBIT-Wachstum 21,6 %; 22,6 % International (Retail (General)), Segmentumsatz 161,9 Mrd. USD, EBIT-Wachstum 12,8 %; 59,5 % North America (Retail (General)), Segmentumsatz 426,3 Mrd. USD, EBIT-Wachstum 12,8 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -288,7 +288,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30 · Forschungsquote 15,6 % gegen R&D/Sales 5,2 % Retail (General) (Damodaran, Stand Januar 2026), Faktor 2,99"
+          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30. Nordamerika und International sind Handel, AWS ist Software. Die Firma folgt dem Handelsanteil. · Forschungsquote 15,6 % gegen R&D/Sales 5,2 % Retail (General) (Damodaran, Stand Januar 2026), Faktor 2,99"
         },
         {
           "id": "headroom",
@@ -302,7 +302,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30 · log10 0,33 · US-Pool CY2025: 18,0 % Software (System & Application) 651,7 Mrd. USD; 22,6 % Retail (General) 2,0 Bio. USD; 59,5 % Retail (General) 2,0 Bio. USD"
+          "note": "AMZN: Umsatz 775,7 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-07-31). TTM bis 2026-06-30. Nordamerika und International sind Handel, AWS ist Software. Die Firma folgt dem Handelsanteil. · log10 0,33 · US-Pool CY2025: 18,0 % Software (System & Application) 651,7 Mrd. USD; 22,6 % Retail (General) 2,0 Bio. USD; 59,5 % Retail (General) 2,0 Bio. USD"
         }
       ]
     },

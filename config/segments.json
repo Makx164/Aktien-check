@@ -4,6 +4,25 @@
     "NorthAmericaSegmentMember": "Retail (General)",
     "InternationalSegmentMember": "Retail (General)"
   },
+  "TSLA": {
+    "AutomotiveSegmentMember": "Auto & Truck",
+    "EnergyGenerationAndStorageSegmentMember": "Green & Renewable Energy"
+  },
+  "PLTR": {
+    "CommercialMember": "Software (System & Application)",
+    "GovernmentOperatingSegmentMember": "Software (System & Application)"
+  },
+  "MU": {
+    "CMBUMember": "Semiconductor",
+    "CDBUMember": "Semiconductor",
+    "MCBUMember": "Semiconductor",
+    "AEBUMember": "Semiconductor",
+    "AllOtherSegmentsMember": "Semiconductor"
+  },
+  "IREN": {
+    "BitcoinMiningMember": "Computer Services",
+    "AICloudServicesMember": "Computer Services"
+  },
   "SPCX": {
     "SpaceMember": "Aerospace/Defense",
     "ConnectivityMember": "Telecom. Services",

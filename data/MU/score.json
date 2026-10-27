@@ -50,7 +50,7 @@
       "score": 7.3,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03 · Bruttomarge 80,7 % gegen 59,0 % Semiconductor (Damodaran, Stand Januar 2026), Abstand 21,7 Pp · Streuung 24,0 Pp, Trend 12,0 Pp pro Jahr (5 Geschäftsjahre bis 2026-09-03, SEC 10-K vom 2026-10-09) · Operatives Ergebnis 99,3 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09) · ROIC 48,9 % minus Kapitalkosten 10,6 % Semiconductor (Damodaran, Stand Januar 2026), Abstand 38,3 Pp · Größter Kunde 17,0 % (SEC 10-K vom 2026-10-09) · Vertragsbindung 9,8 % des Umsatzes 133,2 Mrd. USD",
+      "dataQuality": "4 von 4 Metriken. MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Bruttomarge 80,7 % gegen 59,0 % Semiconductor (Damodaran, Stand Januar 2026), Abstand 21,7 Pp · Streuung 24,0 Pp, Trend 12,0 Pp pro Jahr (5 Geschäftsjahre bis 2026-09-03, SEC 10-K vom 2026-10-09) · Operatives Ergebnis 99,3 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09) · ROIC 48,9 % minus Kapitalkosten 10,6 % Semiconductor (Damodaran, Stand Januar 2026), Abstand 38,3 Pp · Größter Kunde 17,0 % (SEC 10-K vom 2026-10-09) · Vertragsbindung 9,8 % des Umsatzes 133,2 Mrd. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -64,7 +64,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
-          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03 · Bruttomarge 80,7 % gegen 59,0 % Semiconductor (Damodaran, Stand Januar 2026), Abstand 21,7 Pp"
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Bruttomarge 80,7 % gegen 59,0 % Semiconductor (Damodaran, Stand Januar 2026), Abstand 21,7 Pp"
         },
         {
           "id": "gm_stability",
@@ -78,7 +78,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000723125.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
-          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03 · Streuung 24,0 Pp, Trend 12,0 Pp pro Jahr (5 Geschäftsjahre bis 2026-09-03, SEC 10-K vom 2026-10-09)"
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Streuung 24,0 Pp, Trend 12,0 Pp pro Jahr (5 Geschäftsjahre bis 2026-09-03, SEC 10-K vom 2026-10-09)"
         },
         {
           "id": "roic_spread",
@@ -106,7 +106,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2025-08-28",
-          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03 · Größter Kunde 17,0 % (SEC 10-K vom 2026-10-09) · Vertragsbindung 9,8 % des Umsatzes 133,2 Mrd. USD"
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Größter Kunde 17,0 % (SEC 10-K vom 2026-10-09) · Vertragsbindung 9,8 % des Umsatzes 133,2 Mrd. USD"
         }
       ]
     },
@@ -249,7 +249,7 @@
       "score": 2.7,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03 · 100,0 % Semiconductor laut NasdaqGS:MU, Umsatzwachstum 11,7 % · Damodaran, Stand Januar 2026 · 100,0 % Semiconductor laut NasdaqGS:MU, EBIT-Wachstum 9,6 % · Forschungsquote 4,2 % gegen R&D/Sales 15,4 % Semiconductor (Damodaran, Stand Januar 2026), Faktor 0,28 · log10 0,61 · US-Pool CY2025: 100,0 % Semiconductor 539,6 Mrd. USD · Halbleiterwachstum 11,7 % (Damodaran, Stand Januar 2026); Pool nur US-Melder (ohne TSMC, ASML, Samsung, SK Hynix); zyklischer Spitzenumsatz drückt den Kopfraum",
+      "dataQuality": "4 von 4 Metriken. MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Geschäftsjahr bis 2026-09-03 (SEC 10-K vom 2026-10-09) · 11,9 % AEBU (Semiconductor), Segmentumsatz 15,9 Mrd. USD, Umsatzwachstum 11,7 %; 0,0 % All Other Segments (Semiconductor), Segmentumsatz 24,0 Mio. USD, Umsatzwachstum 11,7 %; 28,2 % CDBU (Semiconductor), Segmentumsatz 37,6 Mrd. USD, Umsatzwachstum 11,7 %; 32,3 % CMBU (Semiconductor), Segmentumsatz 43,1 Mrd. USD, Umsatzwachstum 11,7 %; 27,5 % MCBU (Semiconductor), Segmentumsatz 36,6 Mrd. USD, Umsatzwachstum 11,7 % · Damodaran, Stand Januar 2026 · 11,9 % AEBU (Semiconductor), Segmentumsatz 15,9 Mrd. USD, EBIT-Wachstum 9,6 %; 0,0 % All Other Segments (Semiconductor), Segmentumsatz 24,0 Mio. USD, EBIT-Wachstum 9,6 %; 28,2 % CDBU (Semiconductor), Segmentumsatz 37,6 Mrd. USD, EBIT-Wachstum 9,6 %; 32,3 % CMBU (Semiconductor), Segmentumsatz 43,1 Mrd. USD, EBIT-Wachstum 9,6 %; 27,5 % MCBU (Semiconductor), Segmentumsatz 36,6 Mrd. USD, EBIT-Wachstum 9,6 % · Forschungsquote 4,2 % gegen R&D/Sales 15,4 % Semiconductor (Damodaran, Stand Januar 2026), Faktor 0,28 · log10 0,61 · US-Pool CY2025: 11,9 % Semiconductor 539,6 Mrd. USD; 0,0 % Semiconductor 539,6 Mrd. USD; 28,2 % Semiconductor 539,6 Mrd. USD; 32,3 % Semiconductor 539,6 Mrd. USD; 27,5 % Semiconductor 539,6 Mrd. USD · Halbleiterwachstum 11,7 % (Damodaran, Stand Januar 2026); Pool nur US-Melder (ohne TSMC, ASML, Samsung, SK Hynix); zyklischer Spitzenumsatz drückt den Kopfraum",
       "metrics": [
         {
           "id": "industry_growth",
@@ -263,7 +263,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03 · 100,0 % Semiconductor laut NasdaqGS:MU, Umsatzwachstum 11,7 % · Damodaran, Stand Januar 2026"
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Geschäftsjahr bis 2026-09-03 (SEC 10-K vom 2026-10-09) · 11,9 % AEBU (Semiconductor), Segmentumsatz 15,9 Mrd. USD, Umsatzwachstum 11,7 %; 0,0 % All Other Segments (Semiconductor), Segmentumsatz 24,0 Mio. USD, Umsatzwachstum 11,7 %; 28,2 % CDBU (Semiconductor), Segmentumsatz 37,6 Mrd. USD, Umsatzwachstum 11,7 %; 32,3 % CMBU (Semiconductor), Segmentumsatz 43,1 Mrd. USD, Umsatzwachstum 11,7 %; 27,5 % MCBU (Semiconductor), Segmentumsatz 36,6 Mrd. USD, Umsatzwachstum 11,7 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -277,7 +277,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03 · 100,0 % Semiconductor laut NasdaqGS:MU, EBIT-Wachstum 9,6 % · Damodaran, Stand Januar 2026"
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Geschäftsjahr bis 2026-09-03 (SEC 10-K vom 2026-10-09) · 11,9 % AEBU (Semiconductor), Segmentumsatz 15,9 Mrd. USD, EBIT-Wachstum 9,6 %; 0,0 % All Other Segments (Semiconductor), Segmentumsatz 24,0 Mio. USD, EBIT-Wachstum 9,6 %; 28,2 % CDBU (Semiconductor), Segmentumsatz 37,6 Mrd. USD, EBIT-Wachstum 9,6 %; 32,3 % CMBU (Semiconductor), Segmentumsatz 43,1 Mrd. USD, EBIT-Wachstum 9,6 %; 27,5 % MCBU (Semiconductor), Segmentumsatz 36,6 Mrd. USD, EBIT-Wachstum 9,6 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -291,7 +291,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
-          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03 · Forschungsquote 4,2 % gegen R&D/Sales 15,4 % Semiconductor (Damodaran, Stand Januar 2026), Faktor 0,28"
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · Forschungsquote 4,2 % gegen R&D/Sales 15,4 % Semiconductor (Damodaran, Stand Januar 2026), Faktor 0,28"
         },
         {
           "id": "headroom",
@@ -305,7 +305,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
-          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03 · log10 0,61 · US-Pool CY2025: 100,0 % Semiconductor 539,6 Mrd. USD · Halbleiterwachstum 11,7 % (Damodaran, Stand Januar 2026); Pool nur US-Melder (ohne TSMC, ASML, Samsung, SK Hynix); zyklischer Spitzenumsatz drückt den Kopfraum"
+          "note": "MU: Umsatz 133,2 Mrd. USD bis 2026-09-03 (SEC 10-K vom 2026-10-09). TTM bis 2026-09-03. Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor. · log10 0,61 · US-Pool CY2025: 11,9 % Semiconductor 539,6 Mrd. USD; 0,0 % Semiconductor 539,6 Mrd. USD; 28,2 % Semiconductor 539,6 Mrd. USD; 32,3 % Semiconductor 539,6 Mrd. USD; 27,5 % Semiconductor 539,6 Mrd. USD · Halbleiterwachstum 11,7 % (Damodaran, Stand Januar 2026); Pool nur US-Melder (ohne TSMC, ASML, Samsung, SK Hynix); zyklischer Spitzenumsatz drückt den Kopfraum"
         }
       ]
     },

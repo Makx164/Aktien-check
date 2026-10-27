@@ -28,6 +28,8 @@ Phase 1 holt die Zahlen aus SEC EDGAR + Yahoo + Nasdaq. Für eine Bezahlversion 
 
 Beim Kopfraum von Micron bleibt der Trailing-Umsatz gegen den US-Pool. Zusatz auf der MU-Seite und in dieser Methodik: Halbleiterwachstum 11,7 % (Damodaran, Stand Januar 2026); Pool nur US-Melder (ohne TSMC, ASML, Samsung, SK Hynix); zyklischer Spitzenumsatz drückt den Kopfraum.
 
+Die Branche kommt aus dem Geschäftsmodell und den Segmenten im Geschäftsbericht. Sie wird nicht aus der Börse und nicht aus dem Ticker abgeleitet. Ein Damodaran-Eintrag, der nur an der Börse oder am Tickersymbol hängt, wird nicht verwendet. Die Zuordnung steht in `config/industry_overrides.json`, die Segmentmischung in `config/segments.json`.
+
 `FMP_API_KEY` und `FINNHUB_API_KEY` bleiben optional. C_06 kommt zuerst von Yahoo (`recommendationTrend`, Kursziel, EPS-Trend über 90 Tage), sonst von der Nasdaq-Analysten-API. Unter drei Analysten zählt das Kriterium nicht. Unter fünf Analysten ist es bei 7 gedeckelt. API-Schlüssel stehen nicht in den Quell-URLs.
 
 K.O., nur wenn die Eingaben wirklich da sind: Altman Z unter 1,8, negativer Free Cashflow bei Nettoverschuldung/EBITDA über 3, 8-K Item 4.02 in den letzten 24 Monaten. Ein Going-Concern-Hinweis wird nicht geraten.

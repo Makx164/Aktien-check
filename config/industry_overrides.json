@@ -1,6 +1,54 @@
 {
+  "PLTR": {
+    "industry": "Software (System & Application)",
+    "note": "Software für Unternehmen und Behörden. Die Segmente Commercial und Government sind dieselbe Branche, nicht der Nasdaq-Eintrag."
+  },
+  "OSS": {
+    "industry": "Computers/Peripherals",
+    "note": "Elektronische Computer, EDGAR-SIC 3571. Deshalb Computers/Peripherals, nicht der Börsenplatz."
+  },
+  "AMZN": {
+    "industry": "Retail (General)",
+    "note": "Nordamerika und International sind Handel, AWS ist Software. Die Firma folgt dem Handelsanteil."
+  },
+  "TSLA": {
+    "industry": "Auto & Truck",
+    "note": "Fahrzeughersteller. Energy generation and storage ist Green & Renewable Energy (Damodaran, Stand Januar 2026)."
+  },
+  "HIMS": {
+    "industry": "Heathcare Information and Technology",
+    "note": "Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht."
+  },
+  "LMND": {
+    "industry": "Insurance (Prop/Cas.)",
+    "note": "Sachversicherung, deshalb Insurance (Prop/Cas.)."
+  },
+  "IBRX": {
+    "industry": "Drugs (Biotechnology)",
+    "note": "Branchenumsatz wächst stark (Median 51,5 %, auf 30 % gekappt), die Gewinne der Branche aber kaum (−1,6 %, Damodaran Jan. 2026)"
+  },
+  "MU": {
+    "industry": "Semiconductor",
+    "note": "Die Speichersegmente CMBU, CDBU, MCBU und AEBU sind Semiconductor."
+  },
+  "IREN": {
+    "industry": "Computer Services",
+    "note": "Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software."
+  },
+  "GRAB": {
+    "industry": "Transportation",
+    "note": "Mobilitäts- und Lieferplattform, deshalb Transportation."
+  },
+  "SIVE": {
+    "industry": "Semiconductor",
+    "note": "Chips und Photonik auf Halbleiterbasis, deshalb Semiconductor. Keine US-Segmentdaten."
+  },
   "SPCX": {
     "industry": "Aerospace/Defense",
     "note": "Nicht in indname (Stand Januar 2026, vor dem Börsengang). EDGAR-SIC 7370 würde Software ergeben. Firmen-Default ist Aerospace/Defense. Das SI-Segment steht in segments.json bei Software, weil das 10-Q Q3/2026 SI als Rechen- und KI-Infrastruktur beschreibt."
+  },
+  "PYPL": {
+    "industry": "Financial Svcs. (Non-bank & Insurance)",
+    "note": "Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance)."
   }
 }

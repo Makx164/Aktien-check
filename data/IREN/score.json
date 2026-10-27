@@ -2,13 +2,13 @@
   "ticker": "IREN",
   "name": "IREN Limited",
   "asOf": "2026-10-26",
-  "score": 6.1,
+  "score": 6.4,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
-  "qualityScore": 6.3,
+  "qualityScore": 6.7,
   "marketScore": 5.9,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 29 von 31 Metriken verfügbar",
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 28 von 31 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [
     "Altman Z 0,61 unter 1,8"
@@ -47,24 +47,24 @@
     {
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
-      "score": 3.8,
+      "score": 7.0,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · Bruttomarge 68,9 % gegen 71,7 % Software (System & Application) (Damodaran, Stand Januar 2026), Abstand -2,8 Pp · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre bis 2026-06-30, SEC 10-K vom 2026-08-27) · Operatives Ergebnis −1,0 Mrd. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27) · Bruttomarge-Abstand -2,8 Pp, M1 4,3 Punkte (Damodaran, Stand Januar 2026) · Bruttomarge unter Branchenniveau, Aufbauphase zählt nicht · Größter Kunde 100,0 % (SEC 10-K vom 2026-08-27) · Vertragsbindung 6,6 % des Umsatzes 707,0 Mio. USD",
+      "dataQuality": "3 von 4 Metriken. IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Bruttomarge 68,9 % gegen 24,3 % Computer Services (Damodaran, Stand Januar 2026), Abstand 44,7 Pp · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre bis 2026-06-30, SEC 10-K vom 2026-08-27) · Operatives Ergebnis −1,0 Mrd. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27) · M1 10 Punkte, deshalb Aufbauphase · Größter Kunde 100,0 % (SEC 10-K vom 2026-08-27) · Vertragsbindung 6,6 % des Umsatzes 707,0 Mio. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
           "label": "Bruttomarge gegenüber Branche",
-          "value": "-2,8 Pp",
-          "raw": -0.027962,
-          "points": 4.3,
+          "value": "44,7 Pp",
+          "raw": 0.446651,
+          "points": 10.0,
           "status": null,
           "scale": "−20 Pp = 0, 0 Pp = 5, +20 Pp = 10; Bruttomarge ≥ 70 % mindestens 8",
-          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Software (System & Application)",
+          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Computer Services",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · Bruttomarge 68,9 % gegen 71,7 % Software (System & Application) (Damodaran, Stand Januar 2026), Abstand -2,8 Pp"
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Bruttomarge 68,9 % gegen 24,3 % Computer Services (Damodaran, Stand Januar 2026), Abstand 44,7 Pp"
         },
         {
           "id": "gm_stability",
@@ -78,21 +78,21 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre bis 2026-06-30, SEC 10-K vom 2026-08-27)"
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre bis 2026-06-30, SEC 10-K vom 2026-08-27)"
         },
         {
           "id": "roic_spread",
           "label": "ROIC über Kapitalkosten",
-          "value": "0,0 Pp",
-          "raw": 0.0,
-          "points": 0.0,
-          "status": null,
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "n/a (Aufbauphase)",
           "scale": "−5 Pp = 0, +15 Pp = 10",
-          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Software (System & Application)",
-          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-27",
-          "observedAt": "2026-06-30",
-          "note": "Operatives Ergebnis −1,0 Mrd. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27) · Bruttomarge-Abstand -2,8 Pp, M1 4,3 Punkte (Damodaran, Stand Januar 2026) · Bruttomarge unter Branchenniveau, Aufbauphase zählt nicht"
+          "observedAt": null,
+          "note": "Operatives Ergebnis −1,0 Mrd. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27) · M1 10 Punkte, deshalb Aufbauphase"
         },
         {
           "id": "revenue_quality",
@@ -102,11 +102,11 @@
           "points": 2.7,
           "status": null,
           "scale": "Kunden: unter 10 % = 8, bis 15 % = 6, bis 25 % = 4, bis 40 % = 2, darüber = 0; Vertragsbindung 0 % = 3, ≥ 20 % = 10",
-          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Software (System & Application)",
+          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Computer Services",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · Größter Kunde 100,0 % (SEC 10-K vom 2026-08-27) · Vertragsbindung 6,6 % des Umsatzes 707,0 Mio. USD"
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Größter Kunde 100,0 % (SEC 10-K vom 2026-08-27) · Vertragsbindung 6,6 % des Umsatzes 707,0 Mio. USD"
         }
       ]
     },
@@ -246,38 +246,38 @@
     {
       "id": "C_03",
       "label": "Markt & Zukunftsmarkt",
-      "score": 9.1,
+      "score": 8.3,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "3 von 4 Metriken. IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · 100,0 % Software (System & Application) laut NasdaqGS:IREN, Umsatzwachstum 19,6 % · Damodaran, Stand Januar 2026 · 100,0 % Software (System & Application) laut NasdaqGS:IREN, EBIT-Wachstum 21,6 % · ResearchAndDevelopmentExpense n/a (SEC 10-K vom 2026-08-27) · log10 2,96 · US-Pool CY2025: 100,0 % Software (System & Application) 651,7 Mrd. USD",
+      "dataQuality": "3 von 4 Metriken. IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Geschäftsjahr bis 2026-06-30 (SEC 10-K vom 2026-08-27) · 18,2 % AI Cloud Services (Computer Services), Segmentumsatz 128,8 Mio. USD, Umsatzwachstum 27,1 %; 81,8 % Bitcoin Mining (Computer Services), Segmentumsatz 578,2 Mio. USD, Umsatzwachstum 27,1 % · Damodaran, Stand Januar 2026 · 18,2 % AI Cloud Services (Computer Services), Segmentumsatz 128,8 Mio. USD, EBIT-Wachstum 11,7 %; 81,8 % Bitcoin Mining (Computer Services), Segmentumsatz 578,2 Mio. USD, EBIT-Wachstum 11,7 % · ResearchAndDevelopmentExpense n/a (SEC 10-K vom 2026-08-27) · log10 2,77 · US-Pool CY2025: 18,2 % Computer Services 417,2 Mrd. USD; 81,8 % Computer Services 417,2 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
           "label": "Branchenwachstum, umsatzgewichtet",
-          "value": "19,6 %",
-          "raw": 0.195645,
-          "points": 7.5,
+          "value": "27,1 %",
+          "raw": 0.270998,
+          "points": 10.0,
           "status": null,
           "scale": "3 % = 0, 25 % = 10",
-          "sourceLabel": "Damodaran, Stand Januar 2026 · Software (System & Application)",
+          "sourceLabel": "Damodaran, Stand Januar 2026 · Computer Services",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · 100,0 % Software (System & Application) laut NasdaqGS:IREN, Umsatzwachstum 19,6 % · Damodaran, Stand Januar 2026"
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Geschäftsjahr bis 2026-06-30 (SEC 10-K vom 2026-08-27) · 18,2 % AI Cloud Services (Computer Services), Segmentumsatz 128,8 Mio. USD, Umsatzwachstum 27,1 %; 81,8 % Bitcoin Mining (Computer Services), Segmentumsatz 578,2 Mio. USD, Umsatzwachstum 27,1 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
           "label": "Wachstum des Gewinnpools",
-          "value": "21,6 %",
-          "raw": 0.216308,
-          "points": 10.0,
+          "value": "11,7 %",
+          "raw": 0.117008,
+          "points": 5.9,
           "status": null,
           "scale": "0 % = 0, 20 % = 10",
-          "sourceLabel": "Damodaran, Stand Januar 2026 · Software (System & Application)",
+          "sourceLabel": "Damodaran, Stand Januar 2026 · Computer Services",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · 100,0 % Software (System & Application) laut NasdaqGS:IREN, EBIT-Wachstum 21,6 % · Damodaran, Stand Januar 2026"
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Geschäftsjahr bis 2026-06-30 (SEC 10-K vom 2026-08-27) · 18,2 % AI Cloud Services (Computer Services), Segmentumsatz 128,8 Mio. USD, EBIT-Wachstum 11,7 %; 81,8 % Bitcoin Mining (Computer Services), Segmentumsatz 578,2 Mio. USD, EBIT-Wachstum 11,7 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -291,21 +291,21 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · ResearchAndDevelopmentExpense n/a (SEC 10-K vom 2026-08-27)"
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · ResearchAndDevelopmentExpense n/a (SEC 10-K vom 2026-08-27)"
         },
         {
           "id": "headroom",
           "label": "Kopfraum",
-          "value": "2,96",
-          "raw": 2.964599,
-          "points": 9.9,
+          "value": "2,77",
+          "raw": 2.770882,
+          "points": 9.1,
           "status": null,
           "scale": "log10 0,5 = 0, log10 3 = 10",
-          "sourceLabel": "Damodaran, Stand Januar 2026 · Software (System & Application)",
+          "sourceLabel": "Damodaran, Stand Januar 2026 · Computer Services",
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30 · log10 2,96 · US-Pool CY2025: 100,0 % Software (System & Application) 651,7 Mrd. USD"
+          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · log10 2,77 · US-Pool CY2025: 18,2 % Computer Services 417,2 Mrd. USD; 81,8 % Computer Services 417,2 Mrd. USD"
         }
       ]
     },

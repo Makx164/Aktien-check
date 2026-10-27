@@ -166,23 +166,40 @@ def _is_elimination(member):
     return any(token in text for token in ELIMINATION)
 
 
+def _segment_member(members):
+    """Operating-segment revenue. A second product axis does not count.
+
+    Rank 0 is a fact with only the segment axis. Rank 1 is the same segment
+    tagged as the operating-segment total. Anything else is ignored.
+    """
+    axes = set(members or {})
+    member = (members or {}).get("StatementBusinessSegmentsAxis")
+    if not member:
+        return None, None
+    if axes == {"StatementBusinessSegmentsAxis"}:
+        return member, 0
+    if (
+        axes == {"StatementBusinessSegmentsAxis", "ConsolidationItemsAxis"}
+        and members.get("ConsolidationItemsAxis") == "OperatingSegmentsMember"
+    ):
+        return member, 1
+    return None, None
+
+
 def _segment_rows(instances, mapping):
-    """Configured segment revenues. Only a single business-segment axis counts."""
+    """Configured segment revenues from the business-segment axis."""
     wanted = set(mapping or {})
-    rows = []
+    found = {}
     for filing in instances:
         for fact in filing["facts"]:
             if fact["name"] not in REVENUE_TAGS:
                 continue
-            members = fact["members"] or {}
-            if list(members) != ["StatementBusinessSegmentsAxis"] and set(members) != {"StatementBusinessSegmentsAxis"}:
-                continue
-            member = members.get("StatementBusinessSegmentsAxis")
-            if not member or member not in wanted or _is_elimination(member):
+            member, rank = _segment_member(fact["members"] or {})
+            if member is None or member not in wanted or _is_elimination(member):
                 continue
             if fact["value"] is None or fact["value"] <= 0 or not fact["start"] or not fact["end"]:
                 continue
-            rows.append({
+            row = {
                 "member": member,
                 "value": float(fact["value"]),
                 "start": fact["start"],
@@ -191,8 +208,13 @@ def _segment_rows(instances, mapping):
                 "filed": filing["filed"],
                 "form": filing.get("form"),
                 "tag": fact["name"],
-            })
-    return rows
+                "rank": rank,
+            }
+            key = (member, fact["start"], fact["end"], fact["name"])
+            current = found.get(key)
+            if current is None or rank < current["rank"]:
+                found[key] = row
+    return list(found.values())
 
 
 def _pick_tag(rows):

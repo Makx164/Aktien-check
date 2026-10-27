@@ -148,28 +148,28 @@ def margin_trend(series, max_years, residual="population"):
 
 
 def resolve_industry(ticker, sic, book, overrides):
-    """Override, then the US listing, then the most common industry for the SIC."""
+    """Business-model configuration only.
+
+    The Damodaran ticker table and the exchange are not a source. A listing
+    that says Software does not score a miner, and a missing business entry
+    stays empty rather than falling back to the ticker or the SIC mode.
+    `sic` and `book` stay in the signature so a caller cannot silently switch
+    back to that lookup.
+    """
+    del sic, book
     chosen = (overrides or {}).get((ticker or "").upper()) or (overrides or {}).get(ticker)
     if isinstance(chosen, str) and chosen:
-        return chosen, "override"
+        return chosen, "business", None
     if isinstance(chosen, dict) and chosen.get("industry"):
-        return chosen["industry"], "override"
-    if book is None:
-        return None, None
-    industry, label = book.industry_for_ticker(ticker)
-    if industry:
-        return industry, label
-    industry = book.industry_for_sic(sic)
-    if industry:
-        return industry, "sic:" + str(sic or "")
-    return None, None
+        return chosen["industry"], "business", chosen.get("note")
+    return None, None, None
 
 
 def assemble_context(book, overrides, segment_map, pools, ticker, sic, sec, instances, ifrs, own_revenue):
     """Bundle the inputs score_company reads from bundle['moat']."""
     from scoring.filings import customer_concentration, segment_weights
 
-    industry, source = resolve_industry(ticker, sic, book, overrides)
+    industry, source, business_note = resolve_industry(ticker, sic, book, overrides)
     mapping = (segment_map or {}).get(ticker) or (segment_map or {}).get((ticker or "").upper()) or {}
     weights = []
     segment_note = None
@@ -197,6 +197,7 @@ def assemble_context(book, overrides, segment_map, pools, ticker, sic, sec, inst
     return {
         "industry": industry,
         "industrySource": source,
+        "businessNote": business_note,
         "benchmarks": benchmarks,
         "segments": weights,
         "segmentNote": segment_note,
@@ -404,6 +405,9 @@ def _anchor(bundle, moat):
     label = (bundle.get("snapshot") or {}).get("label")
     if label and str(label) not in text:
         text += ". " + str(label)
+    business = moat.get("businessNote")
+    if business and str(business) not in text:
+        text += ". " + str(business)
     return text
 
 
@@ -417,7 +421,9 @@ def _member_label(member):
             break
     chars = []
     for index, char in enumerate(text):
-        if index and char.isupper() and text[index - 1].islower():
+        previous = text[index - 1] if index else ""
+        nxt = text[index + 1] if index + 1 < len(text) else ""
+        if index and char.isupper() and (previous.islower() or (previous.isupper() and nxt.islower())):
             chars.append(" ")
         chars.append(char)
     return "".join(chars)
@@ -436,10 +442,6 @@ def _mix_rows(moat, mix):
 def _mix_sentence(moat, mix, kind, low, high):
     bits = []
     rows = _mix_rows(moat, mix)
-    listing = ""
-    source = moat.get("industrySource")
-    if len(rows) == 1 and source and ":" in str(source):
-        listing = " laut " + str(source)
     for item in rows:
         name = item.get("industry")
         weight = item.get("weight")
@@ -472,7 +474,7 @@ def _mix_sentence(moat, mix, kind, low, high):
         label = name if not member else member + " (" + (name or "n/a") + ")"
         revenue = item.get("revenue")
         revenue_text = "" if revenue is None else ", Segmentumsatz " + _usd(revenue)
-        bits.append(f"{share} {label}{listing}{revenue_text}, {what} {rate_text}")
+        bits.append(f"{share} {label}{revenue_text}, {what} {rate_text}")
     return _join_notes(moat.get("segmentNote"), "; ".join(bits) if bits else None, _damo(moat))
 
 
@@ -539,7 +541,7 @@ def _apply_c01(raw, bundle, moat, rules, config, profile, short, na_label, finan
             if gross >= float(rules.get("grossMarginFloor", 0.70)):
                 points = max(float(points), float(rules.get("grossMarginFloorPoints", 8)))
             default = ""
-            if moat.get("industrySource") == "override":
+            if moat.get("industrySource") == "business" and "Firmen-Default" in str(moat.get("businessNote") or ""):
                 default = ", Firmen-Default statt SIC"
             note = _join_notes(
                 _anchor(bundle, moat),

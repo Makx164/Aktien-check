@@ -50,7 +50,7 @@
       "score": null,
       "status": "nicht bewertbar – keine US-Meldepflicht",
       "weight": 1.0,
-      "dataQuality": "0 von 4 Metriken. SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nicht bewertbar – keine US-Meldepflicht",
+      "dataQuality": "0 von 4 Metriken. SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo). Chips und Photonik auf Halbleiterbasis, deshalb Semiconductor. Keine US-Segmentdaten. · nicht bewertbar – keine US-Meldepflicht",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -64,7 +64,7 @@
           "sourceUrl": null,
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nicht bewertbar – keine US-Meldepflicht"
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo). Chips und Photonik auf Halbleiterbasis, deshalb Semiconductor. Keine US-Segmentdaten. · nicht bewertbar – keine US-Meldepflicht"
         },
         {
           "id": "gm_stability",
@@ -78,7 +78,7 @@
           "sourceUrl": null,
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nicht bewertbar – keine US-Meldepflicht"
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo). Chips und Photonik auf Halbleiterbasis, deshalb Semiconductor. Keine US-Segmentdaten. · nicht bewertbar – keine US-Meldepflicht"
         },
         {
           "id": "roic_spread",
@@ -92,7 +92,7 @@
           "sourceUrl": null,
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nicht bewertbar – keine US-Meldepflicht"
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo). Chips und Photonik auf Halbleiterbasis, deshalb Semiconductor. Keine US-Segmentdaten. · nicht bewertbar – keine US-Meldepflicht"
         },
         {
           "id": "revenue_quality",
@@ -106,7 +106,7 @@
           "sourceUrl": null,
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nicht bewertbar – keine US-Meldepflicht"
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo). Chips und Photonik auf Halbleiterbasis, deshalb Semiconductor. Keine US-Segmentdaten. · nicht bewertbar – keine US-Meldepflicht"
         }
       ]
     },
@@ -245,7 +245,7 @@
       "score": 6.3,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "3 von 4 Metriken. SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nur Branchenebene, keine Segmentdaten · 100,0 % Semiconductor laut OM:SIVE, Umsatzwachstum 11,7 % · Damodaran, Stand Januar 2026 · 100,0 % Semiconductor laut OM:SIVE, EBIT-Wachstum 9,6 % · aktivierte Forschungsquote nicht vergleichbar · log10 4,28 · US-Pool CY2025: 100,0 % Semiconductor 539,6 Mrd. USD",
+      "dataQuality": "3 von 4 Metriken. SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo). Chips und Photonik auf Halbleiterbasis, deshalb Semiconductor. Keine US-Segmentdaten. · nur Branchenebene, keine Segmentdaten · 100,0 % Semiconductor, Umsatzwachstum 11,7 % · Damodaran, Stand Januar 2026 · 100,0 % Semiconductor, EBIT-Wachstum 9,6 % · aktivierte Forschungsquote nicht vergleichbar · log10 4,28 · US-Pool CY2025: 100,0 % Semiconductor 539,6 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -259,7 +259,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nur Branchenebene, keine Segmentdaten · 100,0 % Semiconductor laut OM:SIVE, Umsatzwachstum 11,7 % · Damodaran, Stand Januar 2026"
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo). Chips und Photonik auf Halbleiterbasis, deshalb Semiconductor. Keine US-Segmentdaten. · nur Branchenebene, keine Segmentdaten · 100,0 % Semiconductor, Umsatzwachstum 11,7 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -273,7 +273,7 @@
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · nur Branchenebene, keine Segmentdaten · 100,0 % Semiconductor laut OM:SIVE, EBIT-Wachstum 9,6 % · Damodaran, Stand Januar 2026"
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo). Chips und Photonik auf Halbleiterbasis, deshalb Semiconductor. Keine US-Segmentdaten. · nur Branchenebene, keine Segmentdaten · 100,0 % Semiconductor, EBIT-Wachstum 9,6 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -287,7 +287,7 @@
           "sourceUrl": null,
           "fetchedAt": "2026-10-27",
           "observedAt": null,
-          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · aktivierte Forschungsquote nicht vergleichbar"
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo). Chips und Photonik auf Halbleiterbasis, deshalb Semiconductor. Keine US-Segmentdaten. · aktivierte Forschungsquote nicht vergleichbar"
         },
         {
           "id": "headroom",
@@ -301,7 +301,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-06-30",
-          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo) · log10 4,28 · US-Pool CY2025: 100,0 % Semiconductor 539,6 Mrd. USD"
+          "note": "SIVE: Umsatz 28,5 Mio. USD bis 2026-06-30. niedrige Datenqualität (yfinance). 0,10271 USD je SEK am 2026-06-30, Europäische Zentralbank, Frankfurter. TTM bis 2026-06-30 (Yahoo). Chips und Photonik auf Halbleiterbasis, deshalb Semiconductor. Keine US-Segmentdaten. · log10 4,28 · US-Pool CY2025: 100,0 % Semiconductor 539,6 Mrd. USD"
         }
       ]
     },

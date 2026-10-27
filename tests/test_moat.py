@@ -3,6 +3,9 @@
 import unittest
 from datetime import date
 
+import json
+from pathlib import Path
+
 from scoring.filings import customer_concentration, parse_instance, segment_weights, yahoo_annual_revenue
 from scoring.moat import (
     BUILD_PHASE,
@@ -11,6 +14,7 @@ from scoring.moat import (
     margin_trend,
     median_capped,
     rd_factor_points,
+    resolve_industry,
 )
 from scoring.model import linear_points, round1
 from tests.test_scoring import CONFIG, _industry_moat, metric_map, point
@@ -259,6 +263,44 @@ class RuleTests(unittest.TestCase):
         self.assertIn("EBIT-Wachstum 21,6 %", market["ebit_pool"]["note"])
         self.assertIn("EBIT-Wachstum 12,8 %", market["ebit_pool"]["note"])
 
+    def test_listing_cannot_assign_the_industry(self):
+        class Book:
+            def industry_for_ticker(self, ticker):
+                raise AssertionError(ticker)
+
+            def industry_for_sic(self, sic):
+                raise AssertionError(sic)
+
+        overrides = json.loads((Path(__file__).resolve().parents[1] / "config" / "industry_overrides.json").read_text())
+        industry, source, note = resolve_industry("IREN", "7374", Book(), overrides)
+        self.assertEqual(industry, "Computer Services")
+        self.assertEqual(source, "business")
+        self.assertIn("nicht Software", note)
+        self.assertNotIn("Nasdaq", note)
+        hims, hims_source, hims_note = resolve_industry("HIMS", "8011", Book(), overrides)
+        self.assertEqual(hims, "Heathcare Information and Technology")
+        self.assertEqual(hims_source, "business")
+        self.assertIn("12,1 %", hims_note)
+        empty, empty_source, empty_note = resolve_industry("IREN", "7374", Book(), {})
+        self.assertIsNone(empty)
+        self.assertIsNone(empty_source)
+        self.assertIsNone(empty_note)
+        readme = (Path(__file__).resolve().parents[1] / "README.md").read_text(encoding="utf-8")
+        self.assertIn("nicht aus der Börse und nicht aus dem Ticker", readme)
+
+        moat = _industry_moat(industry="Drugs (Biotechnology)")
+        moat["ticker"] = "IBRX"
+        moat["businessNote"] = overrides["IBRX"]["note"]
+        moat["industrySource"] = "NasdaqGS:IBRX"
+        rows = [_year(2025, 200_000_000, 120_000_000, -1, -1)]
+        scored = score_company(CONFIG, _bundle(rows, moat), {}, {}, "2026-10-27", {})
+        quality = metric_map(scored, "C_03")[0]["dataQuality"]
+        self.assertIn(
+            "Branchenumsatz wächst stark (Median 51,5 %, auf 30 % gekappt), die Gewinne der Branche aber kaum (−1,6 %, Damodaran Jan. 2026)",
+            quality,
+        )
+        self.assertNotIn("NasdaqGS", quality)
+
     def test_swedish_listing_skips_the_model_and_keeps_the_industry(self):
         moat = _industry_moat(industry="Semiconductor", growth=0.117, ebit=0.096)
         moat["sec"] = False
@@ -369,6 +411,46 @@ class FilingTests(unittest.TestCase):
         self.assertEqual(weights[0]["industry"], "Aerospace/Defense")
         self.assertIn("2025-12-31", note)
         self.assertNotEqual(date.today().year, 0)
+
+    def test_operating_segment_total_keeps_mining_and_cloud(self):
+        xml = """<?xml version="1.0"?>
+        <xbrl>
+          <context id="mine">
+            <period><startDate>2025-07-01</startDate><endDate>2026-06-30</endDate></period>
+            <entity><segment>
+              <explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">iren:BitcoinMiningMember</explicitMember>
+              <explicitMember dimension="us-gaap:ConsolidationItemsAxis">us-gaap:OperatingSegmentsMember</explicitMember>
+            </segment></entity>
+          </context>
+          <context id="cloud">
+            <period><startDate>2025-07-01</startDate><endDate>2026-06-30</endDate></period>
+            <entity><segment>
+              <explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">iren:AICloudServicesMember</explicitMember>
+              <explicitMember dimension="us-gaap:ConsolidationItemsAxis">us-gaap:OperatingSegmentsMember</explicitMember>
+            </segment></entity>
+          </context>
+          <context id="product">
+            <period><startDate>2025-07-01</startDate><endDate>2026-06-30</endDate></period>
+            <entity><segment>
+              <explicitMember dimension="us-gaap:StatementBusinessSegmentsAxis">iren:BitcoinMiningMember</explicitMember>
+              <explicitMember dimension="us-gaap:ProductOrServiceAxis">iren:HostingMember</explicitMember>
+            </segment></entity>
+          </context>
+          <RevenueFromContractWithCustomerExcludingAssessedTax contextRef="mine">578212000</RevenueFromContractWithCustomerExcludingAssessedTax>
+          <RevenueFromContractWithCustomerExcludingAssessedTax contextRef="cloud">128795000</RevenueFromContractWithCustomerExcludingAssessedTax>
+          <RevenueFromContractWithCustomerExcludingAssessedTax contextRef="product">999</RevenueFromContractWithCustomerExcludingAssessedTax>
+        </xbrl>""".encode()
+        instances = [{"form": "10-K", "filed": "2026-08-27", "facts": parse_instance(xml)}]
+        weights, note = segment_weights(instances, {
+            "BitcoinMiningMember": "Computer Services",
+            "AICloudServicesMember": "Computer Services",
+        })
+        by_member = {item["member"]: item for item in weights}
+        self.assertAlmostEqual(by_member["BitcoinMiningMember"]["weight"], 578212000 / 707007000, places=4)
+        self.assertAlmostEqual(by_member["AICloudServicesMember"]["weight"], 128795000 / 707007000, places=4)
+        self.assertEqual(by_member["BitcoinMiningMember"]["industry"], "Computer Services")
+        self.assertIn("2026-06-30", note)
+        self.assertIn("SEC 10-K vom 2026-08-27", note)
 
     def test_trailing_yahoo_revenue_is_dated_at_the_newest_quarter(self):
         annual = yahoo_annual_revenue({
