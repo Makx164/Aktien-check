@@ -205,6 +205,7 @@ def assemble_context(book, overrides, segment_map, pools, ticker, sic, sec, inst
         "poolYear": pool_payload.get("year"),
         "poolUrl": pool_payload.get("url"),
         "label": book.label if book is not None else "Damodaran",
+        "ticker": (ticker or "").upper(),
         "sec": bool(sec),
         "ifrs": bool(ifrs),
         "ownRevenue": None if not own_revenue else own_revenue.get("usd"),
@@ -480,7 +481,12 @@ def _apply_m3(raw, bundle, moat, rules, bench, source, short, blocked_special, i
     operating_loss = operating is not None and operating <= 0
     # Biotech and financials with an operating loss stay in the build phase.
     # An operating profit is scored even when pretax is still negative.
+    # The zero-point penalty needs a scored gross margin. When M1 is n/a
+    # there is no industry comparison, so an operating loss is build phase.
     if young and blocked_special and operating_loss:
+        _mark(raw, "roic_spread", BUILD_PHASE, note=tax_note)
+        return
+    if raw["reasons"].get("gm_vs_industry") == NA and operating_loss:
         _mark(raw, "roic_spread", BUILD_PHASE, note=tax_note)
         return
     young_penalty = young and not (blocked_special and not operating_loss)
@@ -647,7 +653,8 @@ def _apply_headroom(raw, bundle, moat, rules, mix, source, segment_note):
     points = linear_points(log_ratio, spec.get("zeroAt", 0.5), spec.get("tenAt", 3.0))
     year = moat.get("poolYear")
     pool_note = None if year is None else "US-Umsatzpool CY" + str(year)
-    note = _join_notes(segment_note, revenue_note, pool_note)
+    ticker_note = (rules.get("headroomNotes") or {}).get(moat.get("ticker"))
+    note = _join_notes(segment_note, revenue_note, pool_note, ticker_note)
     pool_source = dict(source)
     if moat.get("poolUrl"):
         pool_source["url"] = moat["poolUrl"]

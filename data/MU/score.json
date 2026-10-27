@@ -249,7 +249,7 @@
       "score": 2.7,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. TTM bis 2026-09-03 · Faktor 0,28 gegenüber der Branche · US-Umsatzpool CY2025",
+      "dataQuality": "4 von 4 Metriken. TTM bis 2026-09-03 · Faktor 0,28 gegenüber der Branche · US-Umsatzpool CY2025 · Pool nur US-Melder (ohne TSMC, ASML, Samsung, SK Hynix); zyklischer Spitzenumsatz drückt den Kopfraum",
       "metrics": [
         {
           "id": "industry_growth",
@@ -303,7 +303,7 @@
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
           "fetchedAt": "2026-10-27",
           "observedAt": "2026-09-03",
-          "note": "US-Umsatzpool CY2025"
+          "note": "US-Umsatzpool CY2025 · Pool nur US-Melder (ohne TSMC, ASML, Samsung, SK Hynix); zyklischer Spitzenumsatz drückt den Kopfraum"
         }
       ]
     },

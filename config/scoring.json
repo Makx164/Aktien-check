@@ -175,7 +175,10 @@
     "c03m1": {"zeroAt": 0.03, "tenAt": 0.25},
     "c03m2": {"zeroAt": 0.0, "tenAt": 0.20},
     "c03m3": {"zeroFactor": 0, "midFactor": 1.0, "midPoints": 6, "tenFactor": 2.0, "tenPoints": 10},
-    "c03m4": {"zeroAt": 0.5, "tenAt": 3.0}
+    "c03m4": {"zeroAt": 0.5, "tenAt": 3.0},
+    "headroomNotes": {
+      "MU": "Pool nur US-Melder (ohne TSMC, ASML, Samsung, SK Hynix); zyklischer Spitzenumsatz drückt den Kopfraum"
+    }
   },
   "valuation": {
     "profitable": {

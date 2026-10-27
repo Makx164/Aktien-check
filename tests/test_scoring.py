@@ -1164,11 +1164,11 @@ class RoundThreeTests(unittest.TestCase):
             for metric in criterion["metrics"]:
                 self.assertNotIn("weight", metric)
         oss = json.loads((ROOT / "data" / "OSS" / "score.json").read_text(encoding="utf-8"))
-        self.assertEqual(oss["score"], 6.2)
+        self.assertEqual(oss["score"], 6.8)
         growth = next(item for item in oss["criteria"] if item["id"] == "C_02")
         self.assertEqual(growth["score"], 5.6)
         present = [item["score"] for item in oss["criteria"] if item.get("score") is not None]
-        self.assertEqual(round(sum(present) / len(present) + 1e-9, 1), 6.2)
+        self.assertEqual(round(sum(present) / len(present) + 1e-9, 1), 6.8)
         weighted = 0.0
         weight_sum = 0.0
         for item in oss["criteria"]:

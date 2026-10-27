@@ -2,14 +2,14 @@
   "ticker": "OSS",
   "name": "One Stop Systems",
   "asOf": "2026-10-26",
-  "score": 6.2,
+  "score": 6.8,
   "status": null,
-  "criteriaWithData": 8,
+  "criteriaWithData": 7,
   "trafficLight": "orange",
-  "qualityScore": 5.0,
+  "qualityScore": 5.8,
   "marketScore": 8.2,
-  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 29 von 33 Metriken verfügbar",
-  "missingDataNote": null,
+  "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 28 von 33 Metriken verfügbar",
+  "missingDataNote": "wenig Daten bei C_01. Der Score zählt nur Kriterien mit Daten.",
   "koFlags": [],
   "price": {
     "close": 5.98,
@@ -45,10 +45,10 @@
     {
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
-      "score": 2.0,
-      "status": null,
+      "score": null,
+      "status": "wenig Daten",
       "weight": 1.0,
-      "dataQuality": "2 von 4 Metriken. H1 bis 2026-06-30 · Umsatz unter 50 Mio. USD · Steuersatz außerhalb −0,5 bis 1, daher 21 % · Bruttomarge unter Branchenniveau, Aufbauphase zählt nicht · Kunden 22,0 % → 4 · Vertragsbindung 2,6 % → 3,9",
+      "dataQuality": "1 von 4 Metriken. H1 bis 2026-06-30 · Umsatz unter 50 Mio. USD · Steuersatz außerhalb −0,5 bis 1, daher 21 % · Kunden 22,0 % → 4 · Vertragsbindung 2,6 % → 3,9",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -81,16 +81,16 @@
         {
           "id": "roic_spread",
           "label": "ROIC über Kapitalkosten",
-          "value": "-6,6 Pp",
-          "raw": -0.066086,
-          "points": 0.0,
-          "status": null,
+          "value": null,
+          "raw": null,
+          "points": null,
+          "status": "n/a (Aufbauphase)",
           "scale": "−5 Pp = 0, +15 Pp = 10",
-          "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Computers/Peripherals",
-          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "sourceLabel": "SEC EDGAR companyfacts",
+          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001394056.json",
           "fetchedAt": "2026-10-27",
-          "observedAt": "2025-12-31",
-          "note": "Steuersatz außerhalb −0,5 bis 1, daher 21 % · Bruttomarge unter Branchenniveau, Aufbauphase zählt nicht"
+          "observedAt": null,
+          "note": "Steuersatz außerhalb −0,5 bis 1, daher 21 %"
         },
         {
           "id": "revenue_quality",

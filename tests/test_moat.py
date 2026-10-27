@@ -108,6 +108,55 @@ class RuleTests(unittest.TestCase):
         self.assertIsNone(model["score"])
         self.assertIn("1 von 4 Metriken", model["dataQuality"])
 
+    def test_missing_margin_and_an_operating_loss_is_build_phase(self):
+        moat = _industry_moat()
+        moat["concentration"] = {"mode": "none"}
+        loss_rows = [_year(2025, 30_000_000, 12_000_000, -2_000_000, -2_000_000)]
+        loss = score_company(CONFIG, _bundle(loss_rows, moat), {}, {}, "2026-10-27", {})
+        model, metrics = metric_map(loss, "C_01")
+        self.assertEqual(metrics["gm_vs_industry"]["status"], "n/a")
+        self.assertEqual(metrics["roic_spread"]["status"], BUILD_PHASE)
+        self.assertIsNone(metrics["roic_spread"]["points"])
+        self.assertNotIn("Bruttomarge unter Branchenniveau", metrics["roic_spread"].get("note") or "")
+        self.assertEqual(metrics["revenue_quality"]["points"], 8.0)
+        self.assertEqual(model["status"], "wenig Daten")
+        self.assertIsNone(model["score"])
+        self.assertIn("1 von 4 Metriken", model["dataQuality"])
+
+        # The same rule applies when M1 is n/a because the gross margin is missing.
+        bare_moat = _industry_moat()
+        bare = {
+            "revenue": [point("2025-12-31", 200_000_000)],
+            "operating_income": [point("2025-12-31", -1_000_000)],
+            "pretax": [point("2025-12-31", -1_000_000)],
+            "moat": bare_moat,
+        }
+        bare_score = score_company(CONFIG, bare, {}, {}, "2026-10-27", {})
+        bare_m3 = metric_map(bare_score, "C_01")[1]["roic_spread"]
+        self.assertEqual(metric_map(bare_score, "C_01")[1]["gm_vs_industry"]["status"], "n/a")
+        self.assertEqual(bare_m3["status"], BUILD_PHASE)
+        self.assertIsNone(bare_m3["points"])
+
+        profit_rows = [
+            _year(year, 30_000_000, 12_000_000, 2_000_000, 2_000_000) for year in (2024, 2025)
+        ]
+        profit = score_company(CONFIG, _bundle(profit_rows, moat), {}, {}, "2026-10-27", {})
+        profit_m3 = metric_map(profit, "C_01")[1]["roic_spread"]
+        self.assertIsNone(profit_m3["status"])
+        self.assertIsNotNone(profit_m3["points"])
+        self.assertNotEqual(profit_m3["status"], BUILD_PHASE)
+
+    def test_micron_headroom_names_the_us_pool(self):
+        moat = _industry_moat(industry="Semiconductor", growth=0.117, ebit=0.096)
+        moat["ticker"] = "MU"
+        rows = [_year(2025, 200_000_000, 120_000_000)]
+        scored = score_company(CONFIG, _bundle(rows, moat), {}, {}, "2026-10-27", {})
+        note = metric_map(scored, "C_03")[1]["headroom"]["note"]
+        self.assertIn(
+            "Pool nur US-Melder (ohne TSMC, ASML, Samsung, SK Hynix); zyklischer Spitzenumsatz drückt den Kopfraum",
+            note,
+        )
+
     def test_young_company_needs_an_industry_level_margin(self):
         strong = []
         weak = []
