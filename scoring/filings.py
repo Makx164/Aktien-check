@@ -463,29 +463,47 @@ def fx_rate(cache_dir, as_of):
     }
 
 
+def _statement_end(row):
+    end_raw = (row.get("endDate") or {}).get("raw")
+    end_fmt = (row.get("endDate") or {}).get("fmt")
+    if end_raw:
+        try:
+            return datetime.utcfromtimestamp(int(end_raw)).date().isoformat()
+        except (OverflowError, OSError, ValueError):
+            return None
+    return str(end_fmt)[:10] if end_fmt else None
+
+
 def yahoo_annual_revenue(summary):
-    """Latest annual totalRevenue from a Yahoo quoteSummary, currency aside."""
-    history = (summary or {}).get("incomeStatementHistory") or {}
-    rows = history.get("incomeStatementHistory") or []
+    """Latest annual totalRevenue from a Yahoo quoteSummary, currency aside.
+
+    Annual statements win. When Yahoo only publishes a trailing total, use
+    financialData.totalRevenue and date it at the newest quarterly period end.
+    """
+    summary = summary or {}
+    history = summary.get("incomeStatementHistory") or {}
     best = None
-    for row in rows:
-        revenue = ((row.get("totalRevenue") or {}).get("raw"))
-        end_raw = (row.get("endDate") or {}).get("raw")
-        end_fmt = (row.get("endDate") or {}).get("fmt")
-        if revenue is None:
-            continue
-        if end_raw:
-            try:
-                end = datetime.utcfromtimestamp(int(end_raw)).date().isoformat()
-            except (OverflowError, OSError, ValueError):
-                end = None
-        else:
-            end = str(end_fmt)[:10] if end_fmt else None
-        if not end:
+    for row in history.get("incomeStatementHistory") or []:
+        revenue = (row.get("totalRevenue") or {}).get("raw")
+        end = _statement_end(row)
+        if revenue is None or not end:
             continue
         if best is None or end > best["end"]:
             best = {"revenue": float(revenue), "end": end}
-    return best
+    if best:
+        return best
+    trailing = ((summary.get("financialData") or {}).get("totalRevenue") or {}).get("raw")
+    if trailing is None:
+        return None
+    quarterly = summary.get("incomeStatementHistoryQuarterly") or {}
+    end = None
+    for row in quarterly.get("incomeStatementHistory") or []:
+        candidate = _statement_end(row)
+        if candidate and (end is None or candidate > end):
+            end = candidate
+    if not end:
+        return None
+    return {"revenue": float(trailing), "end": end}
 
 
 def parse_date_or_none(value):

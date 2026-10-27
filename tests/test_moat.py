@@ -3,7 +3,7 @@
 import unittest
 from datetime import date
 
-from scoring.filings import customer_concentration, parse_instance, segment_weights
+from scoring.filings import customer_concentration, parse_instance, segment_weights, yahoo_annual_revenue
 from scoring.moat import (
     BUILD_PHASE,
     NO_CUSTOMER_NOTE,
@@ -285,3 +285,26 @@ class FilingTests(unittest.TestCase):
         self.assertEqual(weights[0]["industry"], "Aerospace/Defense")
         self.assertIn("2025-12-31", note)
         self.assertNotEqual(date.today().year, 0)
+
+    def test_trailing_yahoo_revenue_is_dated_at_the_newest_quarter(self):
+        annual = yahoo_annual_revenue({
+            "incomeStatementHistory": {
+                "incomeStatementHistory": [
+                    {"endDate": {"fmt": "2024-12-31"}, "totalRevenue": {"raw": 100}},
+                ]
+            },
+            "financialData": {"totalRevenue": {"raw": 999}},
+        })
+        self.assertEqual(annual, {"revenue": 100.0, "end": "2024-12-31"})
+        trailing = yahoo_annual_revenue({
+            "financialData": {"totalRevenue": {"raw": 277857984}, "financialCurrency": "SEK"},
+            "incomeStatementHistoryQuarterly": {
+                "incomeStatementHistory": [
+                    {"endDate": {"raw": 1774915200, "fmt": "2026-03-31"}, "totalRevenue": {"raw": 61900000}},
+                    {"endDate": {"fmt": "2026-06-30"}, "totalRevenue": {"raw": 53800000}},
+                ]
+            },
+        })
+        self.assertEqual(trailing["revenue"], 277857984.0)
+        self.assertEqual(trailing["end"], "2026-06-30")
+        self.assertIsNone(yahoo_annual_revenue({"financialData": {"totalRevenue": {"raw": 1}}}))

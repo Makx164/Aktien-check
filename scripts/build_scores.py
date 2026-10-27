@@ -368,7 +368,8 @@ def main():
                         "end": yahoo_revenue["end"],
                         "note": (
                             "niedrige Datenqualität (yfinance). "
-                            + f"{float(fx['rate']):.4f} USD je SEK am {fx['date']}, {fx['source']}"
+                            + f"{float(fx['rate']):.5f}".replace(".", ",")
+                            + f" USD je SEK am {fx['date']}, {fx['source']}"
                         ),
                     }
                     print("  yfinance revenue", round(own_revenue["usd"]), "USD at", fx["date"])
