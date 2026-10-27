@@ -401,12 +401,27 @@ def build_snapshot(facts, annual):
     ], ["shares"]))
     debt = _debt_latest(facts)
     quarter = quarter_yoy(facts, revenue_concepts, ["USD"])
+    reported_gross, reported_gross_prior = flow_matching(facts, ["GrossProfit"], ["USD"], revenue)
     gross = None
     gross_prior = None
-    if cogs and cogs["end"] == revenue["end"]:
+    if reported_gross and reported_gross.get("end") == revenue["end"] and reported_gross.get("val") is not None:
+        gross = reported_gross["val"]
+        if (
+            reported_gross_prior
+            and revenue_prior
+            and reported_gross_prior.get("end") == revenue_prior.get("end")
+        ):
+            gross_prior = reported_gross_prior["val"]
+    elif cogs and cogs["end"] == revenue["end"]:
         gross = revenue["val"] - cogs["val"]
-    if cogs_prior and revenue_prior and cogs_prior["end"] == revenue_prior["end"]:
-        gross_prior = revenue_prior["val"] - cogs_prior["val"]
+        if cogs_prior and revenue_prior and cogs_prior["end"] == revenue_prior["end"]:
+            gross_prior = revenue_prior["val"] - cogs_prior["val"]
+    contract = _point(latest_position(facts, [
+        "ContractWithCustomerLiabilityCurrent",
+        "DeferredRevenueCurrent",
+        "ContractWithCustomerLiability",
+        "DeferredRevenue",
+    ], ["USD"]))
     fcf = None
     if cfo and capex and cfo["end"] == capex["end"]:
         fcf = cfo["val"] - abs(capex["val"])
@@ -426,6 +441,8 @@ def build_snapshot(facts, annual):
         "rd": None if research is None or research["end"] != revenue["end"] else research["val"],
         "gross_profit": gross,
         "gross_profit_prior": gross_prior,
+        "contract_liability": None if contract is None else contract["val"],
+        "contract_liability_end": None if contract is None else contract["end"],
         "cash": None if cash is None else cash["val"],
         "debt": None if debt is None else debt["val"],
         "equity": None if equity is None else equity["val"],

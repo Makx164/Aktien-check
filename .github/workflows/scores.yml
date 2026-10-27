@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Install scoring dependencies
+        run: pip install xlrd==2.0.2
       - name: Build score files
         env:
           FMP_API_KEY: ${{ secrets.FMP_API_KEY }}

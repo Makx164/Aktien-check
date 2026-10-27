@@ -1,0 +1,6 @@
+{
+  "SPCX": {
+    "industry": "Aerospace/Defense",
+    "note": "Nicht in indname (Stand Januar 2026, vor dem Börsengang). EDGAR-SIC 7370 würde Software ergeben. Firmen-Default ist Aerospace/Defense. Das SI-Segment steht in segments.json bei Software, weil das 10-Q Q3/2026 SI als Rechen- und KI-Infrastruktur beschreibt."
+  }
+}

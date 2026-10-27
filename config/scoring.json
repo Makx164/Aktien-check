@@ -24,8 +24,6 @@
     "insurer": [
       "current_ratio",
       "net_debt_to_ebitda",
-      "gross_margin_change_yoy",
-      "margin_progress",
       "operating_margin_change_yoy"
     ]
   },
@@ -40,7 +38,6 @@
       "revenue_cagr_5y": {"series": "revenue", "years": 5},
       "eps_cagr_3y": {"series": "eps", "years": 3},
       "fcf_cagr_3y": {"series": "fcf", "years": 3},
-      "roic_2y": {"series": "operating_income", "years": 2, "tolerance": 0.6, "emptyBelow": 2},
       "dilution_3y": {"series": "shares_diluted", "years": 3, "tolerance": 0.6, "emptyBelow": 3},
       "fcf_margin_3y": {"series": "fcf", "years": 3, "tolerance": 0.6, "emptyBelow": 3},
       "operating_margin_change_yoy": {"series": "operating_income", "years": 1, "tolerance": 0.4, "emptyBelow": 2},
@@ -127,6 +124,59 @@
     "miniBaseRevenueUsd": 10000000,
     "miniBasePriorGrowth": 2.0
   },
+  "moat": {
+    "grossMarginFloor": 0.70,
+    "grossMarginFloorPoints": 8,
+    "biotechRevenueUsd": 50000000,
+    "biotechIndustries": ["Drugs (Biotechnology)", "Drugs (Pharmaceutical)"],
+    "financialIndustries": [
+      "Bank (Money Center)",
+      "Banks (Regional)",
+      "Brokerage & Investment Banking",
+      "Financial Svcs. (Non-bank & Insurance)",
+      "Insurance (General)",
+      "Insurance (Life)",
+      "Insurance (Prop/Cas.)",
+      "Reinsurance"
+    ],
+    "industryRdMin": 0.02,
+    "growthCapLow": -0.05,
+    "growthCapHigh": 0.30,
+    "residualStdev": "population",
+    "noUsFilingCriterion": "nicht bewertbar – keine US-Meldepflicht",
+    "financialReason": "Finanzwert",
+    "sharedCriterionStatuses": [
+      "nicht bewertbar – keine US-Meldepflicht",
+      "zu kurze Historie",
+      "nicht anwendbar",
+      "n/a (Aufbauphase)",
+      "nicht ausgewiesen"
+    ],
+    "m1": {"zeroAt": -0.20, "tenAt": 0.20},
+    "m2": {
+      "stabilityWeight": 0.6,
+      "trendWeight": 0.4,
+      "stabilityZero": 0.08,
+      "stabilityTen": 0.01,
+      "trendZero": -0.03,
+      "trendTen": 0.03,
+      "minYears": 3,
+      "maxYears": 5
+    },
+    "m3": {"zeroAt": -0.05, "tenAt": 0.15, "youngM1Min": 5, "minYears": 2},
+    "m4a": [
+      {"below": 0.10, "points": 8},
+      {"atMost": 0.15, "points": 6},
+      {"atMost": 0.25, "points": 4},
+      {"atMost": 0.40, "points": 2},
+      {"else": true, "points": 0}
+    ],
+    "m4b": {"atZero": 3, "tenAt": 0.20},
+    "c03m1": {"zeroAt": 0.03, "tenAt": 0.25},
+    "c03m2": {"zeroAt": 0.0, "tenAt": 0.20},
+    "c03m3": {"zeroFactor": 0, "midFactor": 1.0, "midPoints": 6, "tenFactor": 2.0, "tenPoints": 10},
+    "c03m4": {"zeroAt": 0.5, "tenAt": 3.0}
+  },
   "valuation": {
     "profitable": {
       "label": "PEG",
@@ -145,12 +195,13 @@
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
       "weight": 1.0,
+      "metricSlots": 4,
+      "minMetrics": 2,
       "metrics": [
-        {"id": "roic_2y", "label": "ROIC, zwei aufeinanderfolgende Jahre", "kind": "percent", "zeroAt": 0.05, "tenAt": 0.2},
-        {"id": "gross_margin", "label": "Bruttomarge", "kind": "percent", "zeroAt": 0.2, "tenAt": 0.6},
-        {"id": "gross_margin_change_yoy", "label": "Trend der Bruttomarge", "kind": "ratioPp", "zeroAt": -0.05, "tenAt": 0.05},
-        {"id": "margin_progress", "label": "Margenfortschritt", "kind": "ratioPp", "zeroAt": -0.03, "tenAt": 0.05},
-        {"id": "net_cash_or_runway", "label": "Netto-Cash oder Cash-Reichweite", "kind": "text", "scale": "Netto-Cash oder mindestens 36 Monate = 10, unter 12 Monaten = 0"}
+        {"id": "gm_vs_industry", "label": "Bruttomarge gegenüber Branche", "kind": "ratioPp", "scale": "−20 Pp = 0, 0 Pp = 5, +20 Pp = 10; Bruttomarge ≥ 70 % mindestens 8"},
+        {"id": "gm_stability", "label": "Stabilität und Trend der Bruttomarge", "kind": "ratioPp", "scale": "Streuung 8 Pp = 0 und 1 Pp = 10, Trend −3 Pp/Jahr = 0 und +3 Pp/Jahr = 10"},
+        {"id": "roic_spread", "label": "ROIC über Kapitalkosten", "kind": "ratioPp", "scale": "−5 Pp = 0, +15 Pp = 10"},
+        {"id": "revenue_quality", "label": "Umsatzqualität", "kind": "percent", "scale": "Kunden: unter 10 % = 8, bis 15 % = 6, bis 25 % = 4, bis 40 % = 2, darüber = 0; Vertragsbindung 0 % = 3, ≥ 20 % = 10"}
       ]
     },
     {
@@ -173,9 +224,13 @@
       "id": "C_03",
       "label": "Markt & Zukunftsmarkt",
       "weight": 1,
+      "metricSlots": 4,
+      "minMetrics": 2,
       "metrics": [
-        {"id": "revenue_yoy", "label": "Umsatzwachstum zum Vorjahr", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.3},
-        {"id": "rd_intensity", "label": "Forschungsquote", "kind": "percent", "zeroAt": 0.0, "tenAt": 0.15}
+        {"id": "industry_growth", "label": "Branchenwachstum, umsatzgewichtet", "kind": "percent", "scale": "3 % = 0, 25 % = 10"},
+        {"id": "ebit_pool", "label": "Wachstum des Gewinnpools", "kind": "percent", "scale": "0 % = 0, 20 % = 10"},
+        {"id": "rd_vs_industry", "label": "Innovationsquote gegenüber Branche", "kind": "percent", "scale": "Faktor 0 = 0, 1 = 6, ab 2 = 10"},
+        {"id": "headroom", "label": "Kopfraum", "kind": "multiple", "scale": "log10 0,5 = 0, log10 3 = 10"}
       ]
     },
     {

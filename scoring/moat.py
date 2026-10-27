@@ -1,0 +1,654 @@
+"""C_01 and C_03 from industry benchmarks, segments and filing facts.
+
+Thresholds live in config.scoring.json under "moat". A missing input is
+"n/a", never a neutral 5. Custom points are returned without zeroAt/tenAt
+so the linear scorer does not overwrite them.
+"""
+
+from __future__ import annotations
+
+import math
+
+from scoring.metrics import _join_notes, gross_margin_series, parse_date, value_at, year_gap
+from scoring.model import format_value, linear_points
+
+C01_IDS = ("gm_vs_industry", "gm_stability", "roic_spread", "revenue_quality")
+C03_IDS = ("industry_growth", "ebit_pool", "rd_vs_industry", "headroom")
+NO_CUSTOMER_NOTE = "kein Großkunde ≥ 10 % gemeldet"
+BRANCH_NOTE = "nur Branchenebene, keine Segmentdaten"
+BUILD_PHASE = "n/a (Aufbauphase)"
+NO_US = "nicht bewertbar – keine US-Meldepflicht"
+WEAK_MARGIN_NOTE = "Bruttomarge unter Branchenniveau, Aufbauphase zählt nicht"
+NA = "n/a"
+
+
+def _rules(config):
+    return (config or {}).get("moat") or {}
+
+
+def _status_text(config, key, default):
+    return ((config.get("statuses") or {}).get(key) or default)
+
+
+def median_capped(values, low, high):
+    """Median of the present rates, then clipped to the industry cap."""
+    present = sorted(float(value) for value in values if isinstance(value, (int, float)) and not isinstance(value, bool))
+    if not present:
+        return None
+    count = len(present)
+    if count % 2:
+        middle = present[count // 2]
+    else:
+        middle = (present[count // 2 - 1] + present[count // 2]) / 2.0
+    return min(float(high), max(float(low), middle))
+
+
+def concentration_points(pct, bands):
+    """Customer-share bands. `below` is exclusive, `atMost` is inclusive."""
+    if pct is None:
+        return None
+    pct = float(pct)
+    for band in bands or []:
+        if band.get("else"):
+            return float(band["points"])
+        if "below" in band and pct < float(band["below"]):
+            return float(band["points"])
+        if "atMost" in band and pct <= float(band["atMost"]):
+            return float(band["points"])
+    return None
+
+
+def liability_points(ratio, at_zero, ten_at):
+    """0 % scores at_zero, ten_at and above score 10, linear in between."""
+    if ratio is None or ten_at is None or float(ten_at) <= 0:
+        return None
+    ratio = float(ratio)
+    at_zero = float(at_zero)
+    ten_at = float(ten_at)
+    if ratio <= 0:
+        return at_zero
+    if ratio >= ten_at:
+        return 10.0
+    return at_zero + (10.0 - at_zero) * (ratio / ten_at)
+
+
+def rd_factor_points(factor, rules):
+    """0 → 0, midFactor → midPoints, tenFactor and above → tenPoints."""
+    if factor is None:
+        return None
+    factor = float(factor)
+    zero = float(rules.get("zeroFactor", 0))
+    mid_factor = float(rules.get("midFactor", 1))
+    mid_points = float(rules.get("midPoints", 6))
+    ten_factor = float(rules.get("tenFactor", 2))
+    ten_points = float(rules.get("tenPoints", 10))
+    if factor <= zero:
+        return 0.0
+    if factor <= mid_factor:
+        if mid_factor == zero:
+            return mid_points
+        return mid_points * (factor - zero) / (mid_factor - zero)
+    if factor >= ten_factor:
+        return ten_points
+    if ten_factor == mid_factor:
+        return ten_points
+    return mid_points + (ten_points - mid_points) * (factor - mid_factor) / (ten_factor - mid_factor)
+
+
+def weighted_value(pairs):
+    """Renormalize over pairs whose value is present."""
+    numerator = 0.0
+    denominator = 0.0
+    for weight, value in pairs:
+        if value is None or weight is None:
+            continue
+        numerator += float(weight) * float(value)
+        denominator += float(weight)
+    if denominator <= 0:
+        return None
+    return numerator / denominator
+
+
+def margin_trend(series, max_years, residual="population"):
+    """Residual stdev and slope per year for the last fiscal years.
+
+    `population` divides by n, `sample` by n−1, `dof` by n−2.
+    """
+    window = list(series or [])[-int(max_years):]
+    if len(window) < 3:
+        return None
+    origin = parse_date(window[0]["end"]).toordinal()
+    points = []
+    for item in window:
+        years = (parse_date(item["end"]).toordinal() - origin) / 365.25
+        points.append((years, float(item["val"])))
+    count = len(points)
+    x_mean = sum(point[0] for point in points) / count
+    y_mean = sum(point[1] for point in points) / count
+    variance = sum((point[0] - x_mean) ** 2 for point in points)
+    if variance <= 0:
+        slope = 0.0
+    else:
+        slope = sum((point[0] - x_mean) * (point[1] - y_mean) for point in points) / variance
+    intercept = y_mean - slope * x_mean
+    residuals = [point[1] - (intercept + slope * point[0]) for point in points]
+    if residual == "sample" and count > 1:
+        divisor = count - 1
+    elif residual == "dof" and count > 2:
+        divisor = count - 2
+    else:
+        divisor = count
+    stdev = math.sqrt(sum(value * value for value in residuals) / divisor)
+    return {
+        "stdev": stdev,
+        "slope": slope,
+        "end": window[-1]["end"],
+        "years": count,
+    }
+
+
+def resolve_industry(ticker, sic, book, overrides):
+    """Override, then the US listing, then the most common industry for the SIC."""
+    chosen = (overrides or {}).get((ticker or "").upper()) or (overrides or {}).get(ticker)
+    if isinstance(chosen, str) and chosen:
+        return chosen, "override"
+    if isinstance(chosen, dict) and chosen.get("industry"):
+        return chosen["industry"], "override"
+    if book is None:
+        return None, None
+    industry, label = book.industry_for_ticker(ticker)
+    if industry:
+        return industry, label
+    industry = book.industry_for_sic(sic)
+    if industry:
+        return industry, "sic:" + str(sic or "")
+    return None, None
+
+
+def assemble_context(book, overrides, segment_map, pools, ticker, sic, sec, instances, ifrs, own_revenue):
+    """Bundle the inputs score_company reads from bundle['moat']."""
+    from scoring.filings import customer_concentration, segment_weights
+
+    industry, source = resolve_industry(ticker, sic, book, overrides)
+    mapping = (segment_map or {}).get(ticker) or (segment_map or {}).get((ticker or "").upper()) or {}
+    weights = []
+    segment_note = None
+    if mapping and instances:
+        weights, segment_note = segment_weights(instances, mapping)
+    concentration = None
+    if instances:
+        concentration = customer_concentration(instances, bool(ifrs))
+    elif sec:
+        concentration = {"mode": "na"}
+    names = set()
+    if industry:
+        names.add(industry)
+    for item in weights:
+        if item.get("industry"):
+            names.add(item["industry"])
+    benchmarks = {}
+    for name in names:
+        row = (book.benchmarks or {}).get(name) if book is not None else None
+        if row:
+            benchmarks[name] = row
+    if not sec:
+        segment_note = _join_notes(segment_note, BRANCH_NOTE)
+    pool_payload = pools or {}
+    return {
+        "industry": industry,
+        "industrySource": source,
+        "benchmarks": benchmarks,
+        "segments": weights,
+        "segmentNote": segment_note,
+        "concentration": concentration,
+        "pools": pool_payload.get("pools") or {},
+        "poolYear": pool_payload.get("year"),
+        "poolUrl": pool_payload.get("url"),
+        "label": book.label if book is not None else "Damodaran",
+        "sec": bool(sec),
+        "ifrs": bool(ifrs),
+        "ownRevenue": None if not own_revenue else own_revenue.get("usd"),
+        "ownRevenueEnd": None if not own_revenue else own_revenue.get("end"),
+        "revenueNote": None if not own_revenue else own_revenue.get("note"),
+    }
+
+
+def _mark(raw, metric_id, status, reason=None, note=None):
+    raw["values"].pop(metric_id, None)
+    raw["observed"].pop(metric_id, None)
+    raw["points"].pop(metric_id, None)
+    raw["reasons"][metric_id] = status
+    if reason:
+        raw["statusReasons"][metric_id] = reason
+    else:
+        raw["statusReasons"].pop(metric_id, None)
+    if note:
+        raw["labels"][metric_id + "_note"] = _join_notes(raw["labels"].get(metric_id + "_note"), note)
+
+
+def _score(raw, metric_id, value, points, when, note=None, display=None, source=None, label=None):
+    raw["reasons"].pop(metric_id, None)
+    raw["statusReasons"].pop(metric_id, None)
+    raw["values"][metric_id] = value
+    raw["points"][metric_id] = points
+    raw["observed"][metric_id] = when
+    if label:
+        raw["labels"][metric_id] = label
+    if note:
+        raw["labels"][metric_id + "_note"] = _join_notes(raw["labels"].get(metric_id + "_note"), note)
+    if display:
+        raw["labels"][metric_id + "_display"] = display
+    if source:
+        raw["sources"][metric_id] = source
+
+
+def _bench(moat, industry):
+    return ((moat or {}).get("benchmarks") or {}).get(industry) or {}
+
+
+def _mix(moat):
+    rows = []
+    for item in (moat or {}).get("segments") or []:
+        if item.get("industry") and item.get("weight"):
+            rows.append((float(item["weight"]), item["industry"]))
+    if rows:
+        return rows
+    industry = (moat or {}).get("industry")
+    if industry:
+        return [(1.0, industry)]
+    return []
+
+
+def _window_years(bundle):
+    start = bundle.get("_history_start")
+    end = bundle.get("_history_end") or (bundle.get("snapshot") or {}).get("end")
+    if not start or not end:
+        return None
+    return year_gap(end, start)
+
+
+def _is_short(bundle, series, years):
+    window = _window_years(bundle)
+    if window is not None:
+        return window < float(years)
+    series = series or []
+    if len(series) < 2:
+        return bool(series) and float(years) > 1
+    span = year_gap(series[-1]["end"], series[0]["end"])
+    if len(series) >= int(years) and span >= float(years) - 0.6:
+        return False
+    if span >= float(years) - 0.6:
+        return False
+    return True
+
+
+def _own_revenue(bundle, moat):
+    if moat.get("ownRevenue"):
+        return float(moat["ownRevenue"]), moat.get("ownRevenueEnd"), moat.get("revenueNote")
+    snap = bundle.get("snapshot") or {}
+    annual = bundle.get("revenue") or []
+    if snap.get("revenue") and (snap.get("months") or 0) >= 11:
+        return float(snap["revenue"]), snap.get("end"), None
+    if annual and annual[-1].get("val"):
+        return float(annual[-1]["val"]), annual[-1].get("end"), None
+    if snap.get("revenue"):
+        return float(snap["revenue"]), snap.get("end"), snap.get("label")
+    return None, None, None
+
+
+def _ttm_gross(bundle):
+    snap = bundle.get("snapshot") or {}
+    if snap.get("revenue") and snap.get("gross_profit") is not None and snap["revenue"] > 0:
+        return snap["gross_profit"] / float(snap["revenue"]), snap.get("end"), snap.get("label")
+    series = gross_margin_series(bundle.get("revenue") or [], bundle.get("gross_profit") or [])
+    if not series:
+        return None, None, None
+    return series[-1]["val"], series[-1]["end"], None
+
+
+def _company_rd_ratio(bundle):
+    snap = bundle.get("snapshot") or {}
+    if snap.get("rd") is not None and snap.get("revenue"):
+        return snap["rd"] / float(snap["revenue"]), snap.get("end")
+    end = None
+    revenue = bundle.get("revenue") or []
+    research = bundle.get("rd") or []
+    if revenue:
+        end = revenue[-1]["end"]
+    ratio_revenue = value_at(revenue, end) if end else None
+    ratio_rd = value_at(research, end) if end else None
+    if ratio_rd is None and research:
+        ratio_rd = research[-1]["val"]
+        end = research[-1]["end"]
+        ratio_revenue = value_at(revenue, end)
+    if ratio_rd is None or not ratio_revenue:
+        return None, end
+    return ratio_rd / float(ratio_revenue), end
+
+
+def _last_result(bundle):
+    """Last fiscal operating income and pretax, else the snapshot."""
+    operating = bundle.get("operating_income") or []
+    snap = bundle.get("snapshot") or {}
+    if operating:
+        end = operating[-1]["end"]
+        pretax = value_at(bundle.get("pretax") or [], end)
+        return operating[-1]["val"], pretax, end
+    if snap.get("operating_income") is not None:
+        return snap.get("operating_income"), None, snap.get("end")
+    return None, None, None
+
+
+def _source(moat, industry, extra=None):
+    label = moat.get("label") or "Damodaran"
+    if industry:
+        label = label + " · " + industry
+    if extra:
+        label = extra + "; " + label
+    return {"label": label, "url": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/"}
+
+
+def apply_moat(raw, bundle, config, profile=None):
+    """Fill the eight C_01 and C_03 metrics. Existing raw keys stay in place."""
+    rules = _rules(config)
+    moat = dict(bundle.get("moat") or {})
+    if "sec" not in moat:
+        moat["sec"] = (profile or {}).get("sec", True)
+    sec = bool(moat.get("sec"))
+    short = _status_text(config, "shortHistory", "zu kurze Historie")
+    na_label = _status_text(config, "notApplicable", "nicht anwendbar")
+    disclosed = _status_text(config, "notDisclosed", "nicht ausgewiesen")
+    no_us = rules.get("noUsFilingCriterion") or NO_US
+    financial_reason = rules.get("financialReason") or "Finanzwert"
+    if not sec:
+        for metric_id in C01_IDS:
+            _mark(raw, metric_id, no_us)
+    else:
+        _apply_c01(raw, bundle, moat, rules, config, profile, short, na_label, financial_reason)
+    _apply_c03(raw, bundle, moat, rules, config, profile, short, na_label, disclosed, sec)
+
+
+def _apply_c01(raw, bundle, moat, rules, config, profile, short, na_label, financial_reason):
+    industry = moat.get("industry")
+    bench = _bench(moat, industry)
+    financials = set(rules.get("financialIndustries") or [])
+    biotech_names = set(rules.get("biotechIndustries") or [])
+    is_financial = industry in financials or (profile or {}).get("sector") == "insurer"
+    is_biotech = industry in biotech_names
+    revenue, _revenue_end, revenue_note = _own_revenue(bundle, moat)
+    low_revenue = revenue is not None and revenue < float(rules.get("biotechRevenueUsd", 50_000_000))
+    gross, gross_end, gross_label = _ttm_gross(bundle)
+    source = _source(moat, industry, "SEC EDGAR companyfacts")
+    m1_blocked_special = False
+
+    if is_financial:
+        _mark(raw, "gm_vs_industry", na_label, financial_reason, gross_label)
+        _mark(raw, "gm_stability", na_label, financial_reason, gross_label)
+        m1_blocked_special = True
+    elif is_biotech or low_revenue:
+        reason_note = _join_notes(
+            gross_label,
+            "Biotech" if is_biotech else None,
+            "Umsatz unter 50 Mio. USD" if low_revenue else None,
+        )
+        _mark(raw, "gm_vs_industry", NA, note=reason_note)
+        _mark(raw, "gm_stability", NA, note=reason_note)
+        m1_blocked_special = is_biotech or is_financial
+    else:
+        industry_margin = bench.get("grossMargin") if industry else None
+        if gross is None or industry_margin is None:
+            _mark(raw, "gm_vs_industry", NA, note=gross_label)
+        else:
+            spread = gross - float(industry_margin)
+            m1 = rules.get("m1") or {}
+            points = linear_points(spread, m1.get("zeroAt", -0.20), m1.get("tenAt", 0.20))
+            if gross >= float(rules.get("grossMarginFloor", 0.70)):
+                points = max(float(points), float(rules.get("grossMarginFloorPoints", 8)))
+            note = _join_notes(
+                gross_label,
+                "Branchen-Bruttomarge " + format_value("percent", industry_margin),
+            )
+            _score(raw, "gm_vs_industry", spread, points, gross_end, note=note, source=source)
+        _apply_m2(raw, bundle, rules, short, gross_label)
+
+    _apply_m3(
+        raw, bundle, moat, rules, bench, source, short,
+        m1_blocked_special, is_financial, is_biotech,
+    )
+    _apply_m4(raw, bundle, moat, rules, source)
+
+
+def _apply_m2(raw, bundle, rules, short, gross_label):
+    spec = rules.get("m2") or {}
+    minimum = int(spec.get("minYears", 3))
+    maximum = int(spec.get("maxYears", 5))
+    series = gross_margin_series(bundle.get("revenue") or [], bundle.get("gross_profit") or [])
+    fitted = margin_trend(series, maximum, spec.get("residualStdev") or rules.get("residualStdev") or "population")
+    if fitted is None or fitted["years"] < minimum:
+        if _margin_history_short(bundle, series, minimum):
+            _mark(raw, "gm_stability", short, note=gross_label)
+        else:
+            _mark(raw, "gm_stability", NA, note=gross_label)
+        return
+    stability = linear_points(
+        fitted["stdev"], spec.get("stabilityZero", 0.08), spec.get("stabilityTen", 0.01),
+    )
+    trend = linear_points(
+        fitted["slope"], spec.get("trendZero", -0.03), spec.get("trendTen", 0.03),
+    )
+    weight_stability = float(spec.get("stabilityWeight", 0.6))
+    weight_trend = float(spec.get("trendWeight", 0.4))
+    points = weight_stability * stability + weight_trend * trend
+    note = _join_notes(
+        gross_label,
+        "Streuung " + format_value("ratioPp", fitted["stdev"])
+        + ", Trend " + format_value("ratioPp", fitted["slope"]) + " pro Jahr"
+        + " (" + str(fitted["years"]) + " Geschäftsjahre)",
+    )
+    display = (
+        "Streuung " + format_value("ratioPp", fitted["stdev"])
+        + " · Trend " + format_value("ratioPp", fitted["slope"]) + "/Jahr"
+    )
+    _score(
+        raw, "gm_stability", fitted["stdev"], points, fitted["end"],
+        note=note, display=display,
+    )
+
+
+def _margin_history_short(bundle, series, minimum):
+    if len(series or []) >= minimum:
+        return False
+    if _window_years(bundle) is not None and _window_years(bundle) < float(minimum):
+        return True
+    annual = bundle.get("revenue") or []
+    snap = bundle.get("snapshot") or {}
+    if len(annual) < minimum and (annual or snap.get("revenue") or bundle.get("_history_start")):
+        if _window_years(bundle) is not None and _window_years(bundle) >= float(minimum):
+            return False
+        return True
+    return False
+
+
+def _apply_m3(raw, bundle, moat, rules, bench, source, short, blocked_special, is_financial, is_biotech):
+    spec = rules.get("m3") or {}
+    operating, pretax, end = _last_result(bundle)
+    young = (operating is not None and operating <= 0) or (pretax is not None and pretax <= 0)
+    roic = raw["values"].get("roic_2y")
+    wacc = bench.get("costOfCapital") if moat.get("industry") else None
+    tax_note = raw["labels"].get("roic_2y_note")
+    m1_points = raw["points"].get("gm_vs_industry") if "gm_vs_industry" not in raw["reasons"] else None
+    operating_loss = operating is not None and operating <= 0
+    # Biotech and financials with an operating loss stay in the build phase.
+    # An operating profit is scored even when pretax is still negative.
+    if young and blocked_special and operating_loss:
+        _mark(raw, "roic_spread", BUILD_PHASE, note=tax_note)
+        return
+    young_penalty = young and not (blocked_special and not operating_loss)
+    if young_penalty and m1_points is not None and m1_points >= float(spec.get("youngM1Min", 5)):
+        _mark(raw, "roic_spread", BUILD_PHASE, note=tax_note)
+        return
+    if young_penalty:
+        spread = None if roic is None or wacc is None else float(roic) - float(wacc)
+        _score(
+            raw, "roic_spread", 0 if spread is None else spread, 0.0, end,
+            note=_join_notes(tax_note, WEAK_MARGIN_NOTE),
+            source=source if wacc is not None else None,
+        )
+        return
+    if roic is not None and wacc is not None:
+        spread = float(roic) - float(wacc)
+        points = linear_points(spread, spec.get("zeroAt", -0.05), spec.get("tenAt", 0.15))
+        note = _join_notes(tax_note, "Kapitalkosten " + format_value("percent", wacc))
+        _score(raw, "roic_spread", spread, points, raw["observed"].get("roic_2y") or end, note=note, source=source)
+        return
+    if _is_short(bundle, bundle.get("operating_income") or [], spec.get("minYears", 2)):
+        _mark(raw, "roic_spread", short, note=tax_note)
+        return
+    _mark(raw, "roic_spread", NA, note=tax_note)
+
+
+def _apply_m4(raw, bundle, moat, rules, source):
+    concentration = moat.get("concentration") or {}
+    mode = concentration.get("mode")
+    bands = rules.get("m4a") or []
+    points_a = None
+    pct = None
+    bits = []
+    if mode == "none":
+        points_a = 8.0
+        bits.append(NO_CUSTOMER_NOTE)
+    elif mode == "value" and concentration.get("pct") is not None:
+        pct = float(concentration["pct"])
+        points_a = concentration_points(pct, bands)
+        bits.append("Kunden " + format_value("percent", pct) + " → " + _points_text(points_a))
+    liability = (bundle.get("snapshot") or {}).get("contract_liability")
+    if liability is None:
+        liability = moat.get("contractLiability")
+    revenue, revenue_end, revenue_note = _own_revenue(bundle, moat)
+    ratio = None
+    points_b = None
+    if liability is not None and revenue:
+        ratio = float(liability) / float(revenue)
+        band = rules.get("m4b") or {}
+        points_b = liability_points(ratio, band.get("atZero", 3), band.get("tenAt", 0.20))
+        bits.append("Vertragsbindung " + format_value("percent", ratio) + " → " + _points_text(points_b))
+    present = [value for value in (points_a, points_b) if value is not None]
+    if not present:
+        _mark(raw, "revenue_quality", NA, note=revenue_note)
+        return
+    points = sum(present) / len(present)
+    when = concentration.get("end") or (bundle.get("snapshot") or {}).get("contract_liability_end") or revenue_end
+    value = pct if pct is not None else (ratio if ratio is not None else 0.0)
+    display = " · ".join(bits) if bits else None
+    _score(
+        raw, "revenue_quality", value, points, when,
+        note=_join_notes(revenue_note, display),
+        display=display,
+        source=source,
+    )
+
+
+def _points_text(points):
+    if points is None:
+        return "n/a"
+    rounded = round(float(points) + 0.0, 1)
+    if abs(rounded - int(rounded)) < 1e-9:
+        return str(int(rounded))
+    return str(rounded).replace(".", ",")
+
+
+def _apply_c03(raw, bundle, moat, rules, config, profile, short, na_label, disclosed, sec):
+    mix = _mix(moat)
+    low = float(rules.get("growthCapLow", -0.05))
+    high = float(rules.get("growthCapHigh", 0.30))
+    industry = moat.get("industry")
+    source = _source(moat, industry)
+    segment_note = moat.get("segmentNote")
+    growth_pairs = []
+    ebit_pairs = []
+    for weight, name in mix:
+        bench = _bench(moat, name)
+        growth_pairs.append((weight, median_capped(bench.get("revenueGrowth") or [], low, high)))
+        ebit_pairs.append((weight, bench.get("ebitGrowth")))
+    growth = weighted_value(growth_pairs)
+    spec = rules.get("c03m1") or {}
+    if growth is None:
+        _mark(raw, "industry_growth", NA, note=segment_note)
+    else:
+        points = linear_points(growth, spec.get("zeroAt", 0.03), spec.get("tenAt", 0.25))
+        _score(
+            raw, "industry_growth", growth, points, None,
+            note=segment_note, source=source,
+        )
+    ebit = weighted_value(ebit_pairs)
+    ebit_spec = rules.get("c03m2") or {}
+    if ebit is None:
+        _mark(raw, "ebit_pool", NA, note=segment_note)
+    else:
+        points = linear_points(ebit, ebit_spec.get("zeroAt", 0.0), ebit_spec.get("tenAt", 0.20))
+        _score(raw, "ebit_pool", ebit, points, None, note=segment_note, source=source)
+    _apply_rd(raw, bundle, moat, rules, disclosed, sec, source)
+    _apply_headroom(raw, bundle, moat, rules, mix, source, segment_note)
+
+
+def _apply_rd(raw, bundle, moat, rules, disclosed, sec, source):
+    spec = rules.get("c03m3") or {}
+    industry = moat.get("industry")
+    bench = _bench(moat, industry)
+    industry_rd = bench.get("rdSales") if industry else None
+    if not sec:
+        _mark(raw, "rd_vs_industry", NA, note="aktivierte Forschungsquote nicht vergleichbar")
+        return
+    if industry_rd is not None and float(industry_rd) < float(rules.get("industryRdMin", 0.02)):
+        _mark(raw, "rd_vs_industry", NA, note="Branchen-F&E unter 2 %")
+        return
+    ratio, end = _company_rd_ratio(bundle)
+    snap = bundle.get("snapshot") or {}
+    provenance = ((snap.get("provenance") or {}).get("rd") or {})
+    label = None
+    if "Technology and infrastructure" in str(provenance.get("label") or ""):
+        label = "Forschungsquote, Technology and infrastructure"
+    elif "Technology and development" in str(provenance.get("label") or ""):
+        label = "Forschungsquote, Technology and development"
+    if ratio is None or industry_rd is None or float(industry_rd) <= 0:
+        revenue_known = bool(snap.get("revenue") or bundle.get("revenue"))
+        research_missing = not bundle.get("rd") and snap.get("rd") is None
+        if sec and revenue_known and research_missing:
+            _mark(raw, "rd_vs_industry", disclosed, note=snap.get("label"))
+        else:
+            _mark(raw, "rd_vs_industry", NA, note=snap.get("label"))
+        return
+    factor = ratio / float(industry_rd)
+    points = rd_factor_points(factor, spec)
+    note = _join_notes(snap.get("label"), "Faktor " + format_value("multiple", factor) + " gegenüber der Branche")
+    rd_source = source
+    if provenance.get("label"):
+        rd_source = {"label": provenance.get("label"), "url": provenance.get("url") or source.get("url")}
+    _score(raw, "rd_vs_industry", ratio, points, end, note=note, source=rd_source, label=label)
+
+
+def _apply_headroom(raw, bundle, moat, rules, mix, source, segment_note):
+    spec = rules.get("c03m4") or {}
+    revenue, end, revenue_note = _own_revenue(bundle, moat)
+    pools = moat.get("pools") or {}
+    if not revenue or revenue <= 0 or not mix:
+        _mark(raw, "headroom", NA, note=_join_notes(segment_note, revenue_note))
+        return
+    pairs = []
+    for weight, industry in mix:
+        pool = pools.get(industry)
+        if pool is None or float(pool) <= 0:
+            continue
+        pairs.append((weight, math.log10(float(pool) / float(revenue))))
+    log_ratio = weighted_value(pairs)
+    if log_ratio is None:
+        _mark(raw, "headroom", NA, note=_join_notes(segment_note, revenue_note))
+        return
+    points = linear_points(log_ratio, spec.get("zeroAt", 0.5), spec.get("tenAt", 3.0))
+    year = moat.get("poolYear")
+    pool_note = None if year is None else "US-Umsatzpool CY" + str(year)
+    note = _join_notes(segment_note, revenue_note, pool_note)
+    pool_source = dict(source)
+    if moat.get("poolUrl"):
+        pool_source["url"] = moat["poolUrl"]
+    _score(raw, "headroom", log_ratio, points, end, note=note, source=pool_source)

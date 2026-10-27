@@ -1,0 +1,12 @@
+{
+  "AMZN": {
+    "AmazonWebServicesSegmentMember": "Software (System & Application)",
+    "NorthAmericaSegmentMember": "Retail (General)",
+    "InternationalSegmentMember": "Retail (General)"
+  },
+  "SPCX": {
+    "SpaceMember": "Aerospace/Defense",
+    "ConnectivityMember": "Telecom. Services",
+    "SIMember": "Software (System & Application)"
+  }
+}

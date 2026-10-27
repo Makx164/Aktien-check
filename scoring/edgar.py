@@ -35,6 +35,11 @@ class EdgarClient:
             self._cik = mapping
         return self._cik.get(ticker.upper())
 
+    def ticker_map(self):
+        """Ticker to CIK for every SEC filer in company_tickers.json."""
+        self.cik_for("A")
+        return dict(self._cik or {})
+
     def companyfacts(self, cik):
         url = f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json"
         return self._get_json(url, self.cache_dir / f"facts-{cik:010d}.json"), url

@@ -818,12 +818,11 @@ def _history_short(series, end, years, tolerance):
 
 
 EDGAR_METRIC_IDS = {
-    "roic_2y", "gross_margin", "gross_margin_stability", "operating_margin", "fcf_margin",
-    "margin_progress", "net_cash_or_runway", "ocf_margin", "fcf_margin_3y",
+    "operating_margin", "fcf_margin",
+    "ocf_margin", "fcf_margin_3y",
     "dividend_yield", "payout_to_fcf", "dividend_no_cut_5y",
     "revenue_cagr_3y", "revenue_cagr_5y", "eps_cagr_3y", "fcf_cagr_3y", "revenue_acceleration",
     "operating_margin_change_yoy",
-    "revenue_yoy", "rd_intensity", "gross_margin_change_yoy",
     "operating_margin_fin", "fcf_margin_fin", "roe", "cash_runway_months",
     "net_debt_to_ebitda", "current_ratio", "dilution_3y",
     "insider_market_balance",
@@ -1228,6 +1227,12 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
             criterion_score = sum(present) if present else None
         else:
             criterion_score = weighted_mean(points)
+        slots = criterion.get("metricSlots")
+        minimum_metrics = criterion.get("minMetrics")
+        if slots:
+            quality = f"{available} von {int(slots)} Metriken"
+        else:
+            quality = f"{available} von {applicable} Metriken verfügbar"
         floor_note = None
         if criterion["id"] == "C_07" and c02_score is not None and criterion_score is not None:
             rules = config.get("momentum") or {}
@@ -1242,12 +1247,20 @@ def score_company(config, bundle, prices, analysts, fetched_at, sources, profile
                 config["analystCap"]["below"],
                 config["analystCap"]["maxPoints"],
             )
-        quality = f"{available} von {applicable} Metriken verfügbar"
         notes = [row["note"] for row in metrics if row.get("note")]
         quality_notes = _join_notes(*notes, floor_note)
         if quality_notes:
             quality = quality + ". " + quality_notes
-        if criterion_score is None:
+        shared_statuses = set((config.get("moat") or {}).get("sharedCriterionStatuses") or [])
+        if minimum_metrics is not None and available < int(minimum_metrics):
+            criterion_score = None
+            gap_labels = {row["status"] for row in metrics if row.get("status")}
+            only = next(iter(gap_labels)) if len(gap_labels) == 1 else None
+            if available == 0 and only in shared_statuses:
+                criterion_status = only
+            else:
+                criterion_status = missing_label
+        elif criterion_score is None:
             gap_labels = {row["status"] for row in metrics if row.get("status")}
             criterion_status = gap_labels.pop() if len(gap_labels) == 1 else missing_label
         else:
@@ -1890,7 +1903,7 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
     ):
         reasons["rd_intensity"] = disclosed
     _apply_provenance(sources_by_metric, labels, observed, snap)
-    return {
+    raw = {
         "values": values,
         "observed": observed,
         "labels": labels,
@@ -1901,6 +1914,9 @@ def _raw_metrics(bundle, end, market_cap, price, momentum, analysts, config, pro
         "sources": sources_by_metric,
         "dividend": dividend_points if end else {},
     }
+    from scoring.moat import apply_moat
+    apply_moat(raw, bundle, config, profile)
+    return raw
 
 
 def _ko_flags(config, bundle, end, market_cap, sources):
