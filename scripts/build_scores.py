@@ -188,6 +188,10 @@ def fetch_failed(previous, document, prices):
 
 
 def main():
+    raise SystemExit(
+        "Abgeschaltet am 29.10.2026. Die Seite liest data/<TICKER>/metrics.json. "
+        "Aktualisieren: python3 scripts/build_metrics.py"
+    )
     config = load_json(ROOT / "config" / "scoring.json")
     tickers = load_json(ROOT / "config" / "tickers.json")
     today = date.today().isoformat()

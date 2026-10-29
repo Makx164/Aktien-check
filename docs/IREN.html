@@ -8,18 +8,11 @@
    Nur https://yoursidequest.org, nur bekannte Ticker und Seiten. */
 
 var SIDEQUEST_ORIGIN = "https://yoursidequest.org";
-var SIDEQUEST_TICKERS = ["PLTR", "OSS", "AMZN", "TSLA", "HIMS", "LMND", "IBRX", "MU", "IREN", "GRAB", "SIVE", "SPCX", "PYPL"];
-var SIDEQUEST_CODES = ["C_01", "C_02", "C_03", "C_04", "C_05", "C_06", "C_07", "C_08", "C_09"];
+var SIDEQUEST_TICKERS = ["PLTR", "OSS", "AMZN", "TSLA", "HIMS", "LMND", "IBRX", "MU", "IREN", "GRAB"];
 
 function sidequestTickerMap() {
   var map = {};
   for (var i = 0; i < SIDEQUEST_TICKERS.length; i++) map[SIDEQUEST_TICKERS[i]] = 1;
-  return map;
-}
-
-function sidequestCodeMap() {
-  var map = {};
-  for (var i = 0; i < SIDEQUEST_CODES.length; i++) map[SIDEQUEST_CODES[i]] = 1;
   return map;
 }
 
@@ -50,7 +43,7 @@ function sidequestHash(loc, tickers) {
   return "#/" + ticker;
 }
 
-function sidequestSearch(loc, tickers, codes) {
+function sidequestOpenTicker(loc, tickers) {
   var raw = String(loc && loc.search || "");
   if (raw.charAt(0) === "?") raw = raw.slice(1);
   if (!raw) return "";
@@ -64,21 +57,17 @@ function sidequestSearch(loc, tickers, codes) {
     if (key !== "open") continue;
     try { open = decodeURIComponent(value.replace(/\+/g, " ")); } catch (e) { open = ""; }
   }
-  if (!open) return "";
-  var bits = open.split("-");
-  var ticker = String(bits[0] || "").trim().toUpperCase();
-  if (!tickers[ticker]) return "";
-  var code = bits.slice(1).join("-").trim().toUpperCase();
-  if (code && !codes[code]) return "?open=" + ticker;
-  return "?open=" + ticker + (code ? "-" + code : "");
+  var ticker = String((open.split("-")[0] || "")).trim().toUpperCase();
+  return tickers[ticker] ? ticker : "";
 }
 
 function sidequestTarget(loc) {
   var tickers = sidequestTickerMap();
-  var codes = sidequestCodeMap();
   var path = sidequestNormalizePath(loc && loc.pathname);
   if (path === "/") {
-    return SIDEQUEST_ORIGIN + "/" + sidequestSearch(loc, tickers, codes) + sidequestHash(loc, tickers);
+    var openTicker = sidequestOpenTicker(loc, tickers);
+    if (openTicker) return SIDEQUEST_ORIGIN + "/#/" + openTicker;
+    return SIDEQUEST_ORIGIN + "/" + sidequestHash(loc, tickers);
   }
   if (path === "/impressum") return SIDEQUEST_ORIGIN + "/impressum";
   if (path === "/datenschutz") return SIDEQUEST_ORIGIN + "/datenschutz";

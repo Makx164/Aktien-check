@@ -38,17 +38,5 @@
   "GRAB": {
     "text": "Grab betreibt eine Plattform für Mobilität, Lieferdienste und Finanzangebote in Südostasien. Nutzer bestellen darüber Fahrten und Lieferungen, Partner bieten ihre Dienste an. Ergänzend umfasst das Angebot Zahlungen und weitere Finanzdienste.",
     "segments": ["Mobilität", "Lieferdienste", "Finanzdienste"]
-  },
-  "SIVE": {
-    "text": "Sivers Semiconductors entwickelt Chips und Module für drahtlose Netze und für Photonik. Die Produkte kommen in Mobilfunk, Satellitenkommunikation und optischen Verbindungen von Rechenzentren zum Einsatz. Kunden sind Ausrüster von Netzen und Rechenzentren.",
-    "segments": ["Drahtlos", "Photonik"]
-  },
-  "SPCX": {
-    "text": "Space Exploration Technologies entwickelt und startet Raketen und betreibt das Satellitennetz Starlink. Das Geschäft umfasst Transporte ins All und Satelliteninternet. Kunden sind staatliche Auftraggeber, Unternehmen und Nutzer von Starlink.",
-    "segments": ["Raketen", "Starlink"]
-  },
-  "PYPL": {
-    "text": "PayPal betreibt ein digitales Zahlungsnetz für Verbraucher und Händler. Über das Konto lassen sich Zahlungen senden, empfangen und im Onlinehandel abwickeln. Zum Angebot gehören PayPal, Venmo und Bezahldienste für Händler.",
-    "segments": ["Verbraucher", "Händler"]
   }
 }

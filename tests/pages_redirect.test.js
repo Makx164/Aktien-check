@@ -17,10 +17,11 @@ test("ticker list matches config/tickers.json and the live page", function () {
     .map(function (row) { return row.ticker; });
   assert.deepStrictEqual(logic.SIDEQUEST_TICKERS, configured);
   var html = fs.readFileSync(path.join(root, "index.html"), "utf8");
-  var match = html.match(/var CODES = \[([^\]]+)\]/);
-  assert.ok(match, "CODES array");
-  var codes = match[1].match(/C_\d+/g);
-  assert.deepStrictEqual(logic.SIDEQUEST_CODES, codes);
+  var match = html.match(/var TICKERS = \[([^\]]+)\]/);
+  assert.ok(match, "TICKERS array");
+  var tickers = match[1].match(/[A-Z]+/g);
+  assert.deepStrictEqual(tickers, configured);
+  assert.strictEqual(html.indexOf("C_01"), -1);
 });
 
 test("home, hash routes and open query keep the matching page", function () {
@@ -31,12 +32,14 @@ test("home, hash routes and open query keep the matching page", function () {
   assert.strictEqual(at("/Aktien-check/", "", "#/pltr"), "https://yoursidequest.org/#/PLTR");
   assert.strictEqual(at("/Aktien-check/", "", "#/NOPE"), "https://yoursidequest.org/");
   assert.strictEqual(at("/Aktien-check/", "", "#/PLTR/extra"), "https://yoursidequest.org/#/PLTR");
-  assert.strictEqual(at("/Aktien-check/", "?open=TSLA-C_05"), "https://yoursidequest.org/?open=TSLA-C_05");
-  assert.strictEqual(at("/Aktien-check/", "?open=hims-c_02"), "https://yoursidequest.org/?open=HIMS-C_02");
-  assert.strictEqual(at("/Aktien-check/", "?open=TSLA-C_99"), "https://yoursidequest.org/?open=TSLA");
-  assert.strictEqual(at("/Aktien-check/", "?evil=https://evil.example&open=MU-C_01", "#/MU"), "https://yoursidequest.org/?open=MU-C_01#/MU");
+  assert.strictEqual(at("/Aktien-check/", "?open=TSLA-C_05"), "https://yoursidequest.org/#/TSLA");
+  assert.strictEqual(at("/Aktien-check/", "?open=hims-c_02"), "https://yoursidequest.org/#/HIMS");
+  assert.strictEqual(at("/Aktien-check/", "?open=TSLA-C_99"), "https://yoursidequest.org/#/TSLA");
+  assert.strictEqual(at("/Aktien-check/", "?evil=https://evil.example&open=MU-C_01", "#/MU"), "https://yoursidequest.org/#/MU");
   assert.strictEqual(at("/Aktien-check/", "?open=https://evil.example"), "https://yoursidequest.org/");
-  assert.strictEqual(at("/", "", "#/SIVE"), "https://yoursidequest.org/#/SIVE");
+  assert.strictEqual(at("/", "", "#/SIVE"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/", "", "#/PYPL"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/", "", "#/SPCX"), "https://yoursidequest.org/");
 });
 
 test("legal pages, ticker paths and unknown paths", function () {
@@ -105,7 +108,7 @@ test("builder is deterministic", function () {
   var os = require("os");
   var dir = fs.mkdtempSync(path.join(os.tmpdir(), "pages-redirect-"));
   build.writePages(dir);
-  ["index.html", "404.html", "PYPL.html", "sw.js"].forEach(function (name) {
+  ["index.html", "404.html", "OSS.html", "sw.js"].forEach(function (name) {
     assert.strictEqual(
       fs.readFileSync(path.join(dir, name), "utf8"),
       fs.readFileSync(path.join(root, "docs", name), "utf8")

@@ -1,0 +1,43 @@
+name: metrics
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements-metrics.txt
+      - name: Refresh metrics
+        run: python3 scripts/build_metrics.py
+      - name: Open a preview pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${GITHUB_REF}" != "refs/heads/main" ]; then
+            echo "Diesen Lauf auf main starten. Er schreibt nicht auf main, sondern öffnet eine Vorschau-PR."
+            exit 1
+          fi
+          branch="metrics/$(date -u +%Y-%m-%d)-${GITHUB_RUN_ID}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add data/*/metrics.json
+          if git diff --cached --quiet; then
+            echo "Keine Änderung an den Kennzahlen."
+            exit 0
+          fi
+          git commit -m "Update metric data"
+          git push -u origin "$branch"
+          gh pr create --base main --head "$branch" \
+            --title "Kennzahlen $(date -u +%Y-%m-%d)" \
+            --body "Monatlicher Abruf der sechs Kennzahlen aus Yahoo Finance, bei einem neueren Quartal aus SEC companyfacts. Kein Finnhub. Diese Action pusht nicht auf main. Merge erst nach Freigabe."

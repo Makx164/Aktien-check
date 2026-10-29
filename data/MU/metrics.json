@@ -1,0 +1,110 @@
+{
+  "ticker": "MU",
+  "name": "Micron Technology",
+  "yahoo": "MU",
+  "currency": "USD",
+  "asOf": "2026-10-29",
+  "thesis": "These folgt",
+  "price": {
+    "close": 959.7,
+    "currency": "USD",
+    "date": "2026-10-29",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/MU/history",
+    "fetchedAt": "2026-10-29"
+  },
+  "profile": {
+    "hq": "Boise, USA",
+    "employees": 61000,
+    "employeesDisplay": "61.000",
+    "marketCap": 1086381293568,
+    "marketCapDisplay": "1.086,38 Mrd. USD",
+    "currency": "USD",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/MU/profile",
+    "fetchedAt": "2026-10-29"
+  },
+  "metrics": [
+    {
+      "id": "revenueGrowthYoy",
+      "label": "Umsatzwachstum y/y",
+      "value": 3.7926646,
+      "display": "+379,3 %",
+      "detail": "54,23 Mrd. USD vs. 11,31 Mrd. USD",
+      "period": "Quartal bis 31.08.2026 vs. Quartal bis 31.08.2025",
+      "source": "Yahoo Finance quarterly_income_stmt",
+      "sourceUrl": "https://finance.yahoo.com/quote/MU/financials",
+      "observedAt": "2026-08-31",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "grossMarginTtm",
+      "label": "Bruttomarge",
+      "value": 0.8071598,
+      "display": "80,7 %",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 31.08.2026)",
+      "source": "Yahoo Finance quarterly_income_stmt",
+      "sourceUrl": "https://finance.yahoo.com/quote/MU/financials",
+      "observedAt": "2026-08-31",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "freeCashFlowTtm",
+      "label": "Free Cashflow",
+      "value": 58963000000,
+      "display": "+58,96 Mrd. USD",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 31.08.2026)",
+      "source": "Yahoo Finance quarterly_cashflow",
+      "sourceUrl": "https://finance.yahoo.com/quote/MU/cash-flow",
+      "observedAt": "2026-08-31",
+      "fetchedAt": "2026-10-29",
+      "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
+    },
+    {
+      "id": "cashVsDebt",
+      "label": "Cash vs. Schulden",
+      "value": {
+        "cash": 43434000000,
+        "debt": 5179000000
+      },
+      "display": "Cash 43,43 Mrd. · Schulden 5,179 Mrd. USD",
+      "detail": "Netto-Cash 38,26 Mrd. USD",
+      "period": "letzte Bilanz 31.08.2026",
+      "source": "Yahoo Finance quarterly_balance_sheet",
+      "sourceUrl": "https://finance.yahoo.com/quote/MU/balance-sheet",
+      "observedAt": "2026-08-31",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "dilutionYoy",
+      "label": "Verwässerung",
+      "value": 0.00892857,
+      "display": "+0,9 %",
+      "detail": "1,130 Mrd. vs. 1,120 Mrd. Basic Average Shares",
+      "period": "Quartal bis 31.08.2026 vs. Quartal bis 31.08.2025",
+      "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
+      "sourceUrl": "https://finance.yahoo.com/quote/MU/financials",
+      "observedAt": "2026-08-31",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "nextEarnings",
+      "label": "Nächster Zahlentermin",
+      "value": "2026-12-23T21:00:00+01:00",
+      "display": "23.12.2026, 21:00 MEZ",
+      "detail": null,
+      "period": null,
+      "source": "Yahoo Finance earnings_dates",
+      "sourceUrl": "https://finance.yahoo.com/quote/MU",
+      "observedAt": "2026-12-23",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    }
+  ]
+}

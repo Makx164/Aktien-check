@@ -94,7 +94,7 @@ main{position:relative;padding:8px 26px 18px;outline:none}
     </header>
     <main id="inhalt" class="legal" tabindex="-1">
       <h1>Datenschutz</h1>
-      <p class="mlabel">Stand: 21. Oktober 2026</p>
+      <p class="mlabel">Stand: 29. Oktober 2026</p>
       <p>Diese Hinweise gelten für die Website sidequest und beschreiben, was beim Besuch tatsächlich geschieht.</p>
 
       <h2>Verantwortlicher</h2>
@@ -122,8 +122,8 @@ main{position:relative;padding:8px 26px 18px;outline:none}
       <p>Vercel Web Analytics, Speed Insights und andere Analysewerkzeuge sind nicht eingebunden. Es werden keine Nutzungsprofile erstellt.</p>
 
       <h2>Abruf der Inhalte</h2>
-      <p>Der Browser lädt die Seite selbst und, auf der Übersicht und den Einzelwerten, die bereits erzeugten Dateien unter data und config/profiles.json von derselben Website. Quellenangaben zu SEC, Yahoo Finance und Nasdaq stehen nur als Text auf der Seite. Der Browser ruft diese Dienste nicht auf.</p>
-      <p>SEC EDGAR, Yahoo Finance und Nasdaq liest ein serverseitiger Lauf, die GitHub Action über scripts/build_scores.py, und schreibt das Ergebnis vorher in diese Dateien.</p>
+      <p>Der Browser lädt die Seite selbst und, auf der Übersicht und den Einzelwerten, die bereits erzeugten Dateien unter data von derselben Website. Quellenangaben zu Yahoo Finance und SEC stehen nur als Text auf der Seite. Der Browser ruft diese Dienste nicht auf.</p>
+      <p>Yahoo Finance und, zum Abgleich oder bei einem neueren Quartal, SEC EDGAR liest ein serverseitiger Lauf, die GitHub Action über scripts/build_metrics.py, und schreibt das Ergebnis vorher in diese Dateien. Der Lauf startet nur manuell und öffnet eine Vorschau. Er läuft nicht von selbst.</p>
       <p>Ein früher registrierter Service Worker wird abgemeldet, falls der Browser ihn noch führt. Die aktuelle Seite registriert keinen Service Worker und legt keinen eigenen Cache an.</p>
       <p>Die Links in dieser Erklärung, etwa zur Datenschutzerklärung von Vercel oder zur Aufsichtsbehörde, stellt der Browser erst her, wenn sie angeklickt werden. Für die dortige Verarbeitung gilt die Erklärung des jeweiligen Anbieters.</p>
 
@@ -133,7 +133,7 @@ main{position:relative;padding:8px 26px 18px;outline:none}
     </main>
     <footer class="footer">
       <div class="foot-band">
-        <div class="discl-big compact"><span class="mlabel">KEINE ANLAGEBERATUNG</span>Keine Anlageberatung und keine Kauf- oder Verkaufsempfehlung. Die Scores sind eigene, regelbasierte Einschätzungen: öffentliche Unternehmens- und Marktdaten (u. a. SEC, Yahoo Finance, Nasdaq) werden nach festen Kriterien in Punkte von 0 bis 10 umgerechnet und gemittelt. Sie können unvollständig oder veraltet sein und ersetzen keine eigene Prüfung.</div>
+        <div class="discl-big compact"><span class="mlabel">KEINE ANLAGEBERATUNG</span>Keine Anlageberatung und keine Kauf- oder Verkaufsempfehlung. Die Kennzahlen sind öffentliche Unternehmensdaten mit Quelle und Stand. Sie können unvollständig oder veraltet sein und ersetzen keine eigene Prüfung.</div>
         <nav class="foot-legal" aria-label="Rechtliches">
           <a href="impressum.html">Impressum</a><span class="sep" aria-hidden="true">·</span><a href="datenschutz.html" aria-current="page">Datenschutz</a>
         </nav>
