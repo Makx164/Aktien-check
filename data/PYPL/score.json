@@ -1,30 +1,30 @@
 {
   "ticker": "PYPL",
   "name": "PayPal",
-  "asOf": "2026-10-26",
+  "asOf": "2026-10-28",
   "score": 6.2,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
-  "qualityScore": 6.3,
+  "qualityScore": 6.2,
   "marketScore": 6.1,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 32 von 33 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [],
   "price": {
-    "close": 54.99,
+    "close": 56.55,
     "currency": "USD",
-    "date": "2026-10-26",
+    "date": "2026-10-28",
     "sourceLabel": "Nasdaq Historical",
-    "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000"
+    "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000"
   },
   "profile": {
     "hq": "San Jose, USA",
     "employees": 23800,
-    "marketCap": 47401381888,
+    "marketCap": 47332347904,
     "currency": "USD",
     "source": "Yahoo Finance quoteSummary",
-    "fetchedAt": "2026-10-27"
+    "fetchedAt": "2026-10-29"
   },
   "role": {
     "id": "satellit",
@@ -48,7 +48,7 @@
       "score": 7.7,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "2 von 4 Metriken. PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · Branche Financial Svcs. (Non-bank & Insurance), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026) · Operatives Ergebnis 6,1 Mrd. USD bis 2025-12-31 (SEC 10-K vom 2026-02-03) · ROIC 14,8 % minus Kapitalkosten 5,0 % Financial Svcs. (Non-bank & Insurance) (Damodaran, Stand Januar 2026), Abstand 9,8 Pp · Im 10-K vom 2026-02-03 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet)",
+      "dataQuality": "2 von 4 Metriken. PYPL: Umsatz 34,3 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-27). TTM bis 2026-09-30. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · Branche Financial Svcs. (Non-bank & Insurance), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026) · Operatives Ergebnis 6,1 Mrd. USD bis 2025-12-31 (SEC 10-K vom 2026-02-03) · ROIC 14,8 % minus Kapitalkosten 5,0 % Financial Svcs. (Non-bank & Insurance) (Damodaran, Stand Januar 2026), Abstand 9,8 Pp · Im 10-K vom 2026-02-03 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet)",
       "metrics": [
         {
           "id": "gm_vs_industry",
@@ -60,10 +60,10 @@
           "scale": "−20 Pp = 0, 0 Pp = 5, +20 Pp = 10; Bruttomarge ≥ 70 % mindestens 8",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "statusReason": "Finanzwert",
-          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · Branche Financial Svcs. (Non-bank & Insurance), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026)"
+          "note": "PYPL: Umsatz 34,3 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-27). TTM bis 2026-09-30. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · Branche Financial Svcs. (Non-bank & Insurance), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026)"
         },
         {
           "id": "gm_stability",
@@ -75,10 +75,10 @@
           "scale": "Streuung 8 Pp = 0 und 1 Pp = 10, Trend −3 Pp/Jahr = 0 und +3 Pp/Jahr = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "statusReason": "Finanzwert",
-          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · Branche Financial Svcs. (Non-bank & Insurance), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026)"
+          "note": "PYPL: Umsatz 34,3 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-27). TTM bis 2026-09-30. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · Branche Financial Svcs. (Non-bank & Insurance), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026)"
         },
         {
           "id": "roic_spread",
@@ -90,7 +90,7 @@
           "scale": "−5 Pp = 0, +15 Pp = 10",
           "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Financial Svcs. (Non-bank & Insurance)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2022-12-31",
           "note": "Operatives Ergebnis 6,1 Mrd. USD bis 2025-12-31 (SEC 10-K vom 2026-02-03) · ROIC 14,8 % minus Kapitalkosten 5,0 % Financial Svcs. (Non-bank & Insurance) (Damodaran, Stand Januar 2026), Abstand 9,8 Pp"
         },
@@ -104,59 +104,59 @@
           "scale": "Kunden: unter 10 % = 8, bis 15 % = 6, bis 25 % = 4, bis 40 % = 2, darüber = 0; Vertragsbindung 0 % = 3, ≥ 20 % = 10",
           "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Financial Svcs. (Non-bank & Insurance)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-03-31",
-          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · Im 10-K vom 2026-02-03 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet)"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-09-30",
+          "note": "PYPL: Umsatz 34,3 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-27). TTM bis 2026-09-30. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · Im 10-K vom 2026-02-03 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet)"
         }
       ]
     },
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 3.7,
+      "score": 3.4,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "8 von 8 Metriken verfügbar. TTM bis 2026-03-31 · Quartal bis 2026-03-31 · Analystenschätzung, nächstes Jahr",
+      "dataQuality": "8 von 8 Metriken verfügbar. TTM bis 2026-09-30 · Quartal bis 2026-09-30 · Analystenschätzung, nächstes Jahr",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
           "label": "Umsatzwachstum, TTM",
-          "value": "5,8 %",
-          "raw": 0.057857,
-          "points": 1.9,
+          "value": "4,4 %",
+          "raw": 0.043607,
+          "points": 1.5,
           "status": null,
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-03-31",
-          "note": "TTM bis 2026-03-31"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-09-30",
+          "note": "TTM bis 2026-09-30"
         },
         {
           "id": "revenue_quarter_yoy",
           "label": "Umsatzwachstum, letztes Quartal zum Vorjahresquartal",
-          "value": "7,2 %",
-          "raw": 0.072135,
-          "points": 2.4,
+          "value": "2,0 %",
+          "raw": 0.019841,
+          "points": 0.7,
           "status": null,
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-03-31",
-          "note": "Quartal bis 2026-03-31"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-09-30",
+          "note": "Quartal bis 2026-09-30"
         },
         {
           "id": "revenue_estimate_yoy",
           "label": "Umsatzwachstum, Analystenschätzung nächstes Jahr",
           "value": "4,2 %",
-          "raw": 0.0424,
+          "raw": 0.0417,
           "points": 1.4,
           "status": null,
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary, Analystenschätzung",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "Analystenschätzung, nächstes Jahr"
         },
@@ -170,7 +170,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -183,7 +183,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -196,7 +196,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -209,22 +209,22 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
           "id": "revenue_acceleration",
           "label": "Umsatzbeschleunigung",
-          "value": "1,0 Pp",
-          "raw": 0.009911,
-          "points": 5.5,
+          "value": "-0,1 Pp",
+          "raw": -0.001058,
+          "points": 4.9,
           "status": null,
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-03-31",
-          "note": "TTM bis 2026-03-31"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-09-30",
+          "note": "TTM bis 2026-09-30"
         },
         {
           "id": "operating_margin_change_yoy",
@@ -236,7 +236,7 @@
           "scale": "≥ 10 Pp = 10, -5 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         }
       ]
@@ -247,7 +247,7 @@
       "score": 5.5,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "3 von 4 Metriken. PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · 100,0 % Financial Svcs. (Non-bank & Insurance), Umsatzwachstum 11,3 % · Damodaran, Stand Januar 2026 · 100,0 % Financial Svcs. (Non-bank & Insurance), EBIT-Wachstum n/a · Forschungsquote 9,6 % gegen R&D/Sales 2,3 % Financial Svcs. (Non-bank & Insurance) (Damodaran, Stand Januar 2026), Faktor 4,25 · log10 1,19 · US-Pool CY2025: 100,0 % Financial Svcs. (Non-bank & Insurance) 518,3 Mrd. USD",
+      "dataQuality": "3 von 4 Metriken. PYPL: Umsatz 34,3 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-27). TTM bis 2026-09-30. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · 100,0 % Financial Svcs. (Non-bank & Insurance), Umsatzwachstum 11,3 % · Damodaran, Stand Januar 2026 · 100,0 % Financial Svcs. (Non-bank & Insurance), EBIT-Wachstum n/a · Forschungsquote 9,6 % gegen R&D/Sales 2,3 % Financial Svcs. (Non-bank & Insurance) (Damodaran, Stand Januar 2026), Faktor 4,22 · log10 1,18 · US-Pool CY2025: 100,0 % Financial Svcs. (Non-bank & Insurance) 518,3 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -259,9 +259,9 @@
           "scale": "3 % = 0, 25 % = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Financial Svcs. (Non-bank & Insurance)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
-          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · 100,0 % Financial Svcs. (Non-bank & Insurance), Umsatzwachstum 11,3 % · Damodaran, Stand Januar 2026"
+          "note": "PYPL: Umsatz 34,3 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-27). TTM bis 2026-09-30. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · 100,0 % Financial Svcs. (Non-bank & Insurance), Umsatzwachstum 11,3 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -273,74 +273,74 @@
           "scale": "0 % = 0, 20 % = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
-          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · 100,0 % Financial Svcs. (Non-bank & Insurance), EBIT-Wachstum n/a · Damodaran, Stand Januar 2026"
+          "note": "PYPL: Umsatz 34,3 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-27). TTM bis 2026-09-30. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · 100,0 % Financial Svcs. (Non-bank & Insurance), EBIT-Wachstum n/a · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
-          "label": "Innovationsquote gegenüber Branche",
+          "label": "Forschungsquote, Technology and development",
           "value": "9,6 %",
-          "raw": 0.096253,
+          "raw": 0.095553,
           "points": 10.0,
           "status": null,
           "scale": "Faktor 0 = 0, 1 = 6, ab 2 = 10",
-          "sourceLabel": "Nasdaq Financials",
-          "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-03-31",
-          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · Forschungsquote 9,6 % gegen R&D/Sales 2,3 % Financial Svcs. (Non-bank & Insurance) (Damodaran, Stand Januar 2026), Faktor 4,25"
+          "sourceLabel": "SEC EDGAR, Technology and development",
+          "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-09-30",
+          "note": "PYPL: Umsatz 34,3 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-27). TTM bis 2026-09-30. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · Forschungsquote 9,6 % gegen R&D/Sales 2,3 % Financial Svcs. (Non-bank & Insurance) (Damodaran, Stand Januar 2026), Faktor 4,22"
         },
         {
           "id": "headroom",
           "label": "Kopfraum",
-          "value": "1,19",
-          "raw": 1.186479,
+          "value": "1,18",
+          "raw": 1.179316,
           "points": 2.7,
           "status": null,
           "scale": "log10 0,5 = 0, log10 3 = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Financial Svcs. (Non-bank & Insurance)",
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-03-31",
-          "note": "PYPL: Umsatz 33,7 Mrd. USD bis 2026-03-31 (SEC 10-Q vom 2026-05-05). TTM bis 2026-03-31. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · log10 1,19 · US-Pool CY2025: 100,0 % Financial Svcs. (Non-bank & Insurance) 518,3 Mrd. USD"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-09-30",
+          "note": "PYPL: Umsatz 34,3 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-10-27). TTM bis 2026-09-30. Zahlungsdienst, deshalb Financial Svcs. (Non-bank & Insurance). · log10 1,18 · US-Pool CY2025: 100,0 % Financial Svcs. (Non-bank & Insurance) 518,3 Mrd. USD"
         }
       ]
     },
     {
       "id": "C_04",
       "label": "Profitabilität & Finanzkraft",
-      "score": 8.5,
+      "score": 8.3,
       "status": null,
       "weight": 0.75,
-      "dataQuality": "7 von 7 Metriken verfügbar. TTM bis 2026-03-31 · financialData, Stichtag nicht ausgewiesen",
+      "dataQuality": "7 von 7 Metriken verfügbar. TTM bis 2026-09-30 · financialData, Stichtag nicht ausgewiesen",
       "metrics": [
         {
           "id": "operating_margin_fin",
           "label": "Operative Marge",
-          "value": "17,9 %",
-          "raw": 0.178544,
-          "points": 7.1,
+          "value": "17,0 %",
+          "raw": 0.169937,
+          "points": 6.8,
           "status": null,
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-03-31"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-09-30"
         },
         {
           "id": "ocf_margin",
           "label": "Operative Cashflow-Marge",
-          "value": "22,2 %",
-          "raw": 0.221587,
+          "value": "20,7 %",
+          "raw": 0.206823,
           "points": 10.0,
           "status": null,
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
-          "note": "TTM bis 2026-03-31 · financialData, Stichtag nicht ausgewiesen"
+          "note": "TTM bis 2026-09-30 · financialData, Stichtag nicht ausgewiesen"
         },
         {
           "id": "fcf_margin_3y",
@@ -352,20 +352,20 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
           "id": "roe",
           "label": "Eigenkapitalrendite",
-          "value": "25,0 %",
-          "raw": 0.250192,
-          "points": 10.0,
+          "value": "23,7 %",
+          "raw": 0.236942,
+          "points": 9.5,
           "status": null,
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -378,34 +378,34 @@
           "scale": "≥ 36 Monate = 10, 12 Monate = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
           "id": "net_debt_to_ebitda",
           "label": "Nettoverschuldung / EBITDA, Finanzschulden ohne Leasing",
-          "value": "0,56",
-          "raw": 0.561735,
-          "points": 8.6,
+          "value": "0,91",
+          "raw": 0.914771,
+          "points": 7.7,
           "status": null,
           "scale": "≤ 0,00 = 10, 4,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-03-31"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-09-30"
         },
         {
           "id": "current_ratio",
           "label": "Current Ratio",
           "value": "1,26",
-          "raw": 1.25942,
-          "points": 3.8,
+          "raw": 1.264335,
+          "points": 3.9,
           "status": null,
           "scale": "≥ 2,00 = 10, 0,80 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-03-31"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-09-30"
         },
         {
           "id": "dilution_3y",
@@ -417,7 +417,7 @@
           "scale": "≤ 0 % = 10, 10 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         }
       ]
@@ -434,13 +434,13 @@
           "id": "insider_ownership",
           "label": "Insider-Anteil",
           "value": "0,7 %",
-          "raw": 0.00707,
+          "raw": 0.00728,
           "points": 1.0,
           "status": null,
           "scale": "über 10 % = 5, 3–10 % = 3, unter 3 % = 1",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL/holders",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "pointsMax": 5
         },
@@ -454,7 +454,7 @@
           "scale": "Netto-Käufe = 3, neutral = 2, Netto-Verkäufe = 0",
           "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-10-15",
           "pointsMax": 3,
           "caption": "1 Käufe / 19 Verkäufe, davon 19 im 10b5-1-Plan",
@@ -471,14 +471,14 @@
         {
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
-          "value": "79,3 %",
-          "raw": 0.79339,
+          "value": "81,7 %",
+          "raw": 0.81679,
           "points": 2.0,
           "status": null,
           "scale": "über 40 % = 2, bis 40 % = 0",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL/holders",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "pointsMax": 2
         }
@@ -488,7 +488,7 @@
     {
       "id": "C_06",
       "label": "Analysten & Stimmung",
-      "score": 2.9,
+      "score": 2.8,
       "status": null,
       "weight": 0.75,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -496,40 +496,40 @@
         {
           "id": "buy_share",
           "label": "Anteil Kaufempfehlungen",
-          "value": "15,9 %",
-          "raw": 0.159091,
+          "value": "16,3 %",
+          "raw": 0.162791,
           "points": 0.0,
           "status": null,
           "scale": "≥ 80 % = 10, 30 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
           "id": "target_upside",
           "label": "Abstand zum mittleren Kursziel",
-          "value": "3,5 %",
-          "raw": 0.034541,
-          "points": 3.4,
+          "value": "1,1 %",
+          "raw": 0.01136,
+          "points": 2.8,
           "status": null,
           "scale": "≥ 30 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
           "id": "eps_revision_90d",
           "label": "EPS-Revision, 90 Tage",
-          "value": "0,5 %",
-          "raw": 0.005343,
-          "points": 5.3,
+          "value": "1,4 %",
+          "raw": 0.014431,
+          "points": 5.7,
           "status": null,
           "scale": "≥ 10 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         }
       ],
@@ -537,7 +537,7 @@
         "current": {
           "strongBuy": 3.0,
           "buy": 4.0,
-          "hold": 33.0,
+          "hold": 32.0,
           "sell": 3.0,
           "strongSell": 1.0
         },
@@ -549,47 +549,47 @@
           "strongSell": 0.0
         },
         "target": {
-          "mean": 56.88939,
-          "median": 56.0,
+          "mean": 57.19242,
+          "median": 58.0,
           "low": 36.0,
           "high": 80.0,
-          "count": 44
+          "count": 43
         },
         "changes": [
           {
-            "date": "2026-10-23",
-            "firm": "Truist Securities",
-            "grade": "Hold",
+            "date": "2026-10-28",
+            "firm": "UBS",
+            "grade": "Neutral",
+            "target": 60.0
+          },
+          {
+            "date": "2026-10-28",
+            "firm": "Citigroup",
+            "grade": "Neutral",
             "target": 58.0
           },
           {
-            "date": "2026-10-09",
-            "firm": "Barclays",
-            "grade": "Equal-Weight",
-            "target": 56.0
+            "date": "2026-10-28",
+            "firm": "BMO Capital",
+            "grade": "Market Perform",
+            "target": 59.0
           },
           {
-            "date": "2026-08-31",
-            "firm": "Truist Securities",
+            "date": "2026-10-28",
+            "firm": "TD Cowen",
             "grade": "Hold",
-            "target": 53.0
+            "target": 60.0
           },
           {
-            "date": "2026-08-31",
-            "firm": "RBC Capital",
-            "grade": "Outperform",
-            "target": 70.0
-          },
-          {
-            "date": "2026-08-28",
-            "firm": "Loop Capital",
-            "grade": "Hold",
-            "target": 50.0
+            "date": "2026-10-28",
+            "firm": "Evercore ISI Group",
+            "grade": "In-Line",
+            "target": 45.0
           }
         ],
         "sourceLabel": "Yahoo Finance quoteSummary",
         "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-        "fetchedAt": "2026-10-27"
+        "fetchedAt": "2026-10-29"
       }
     },
     {
@@ -603,15 +603,15 @@
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
-          "value": "-35,8 Pp",
-          "raw": -35.81289,
-          "points": 1.4,
+          "value": "-34,8 Pp",
+          "raw": -34.811226,
+          "points": 1.5,
           "status": null,
           "scale": "≥ 30 Pp = 10, 0 Pp = 5, ≤ -50 Pp = 0",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         },
         {
           "id": "above_sma_200",
@@ -622,22 +622,22 @@
           "status": null,
           "scale": "über dem 200-Tage-Schnitt = 10, darunter = 5",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "30,6 %",
-          "raw": 0.305813,
+          "value": "28,6 %",
+          "raw": 0.28612,
           "points": 5.0,
           "status": null,
           "scale": "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/PYPL/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         }
       ]
     },
@@ -652,42 +652,42 @@
         {
           "id": "valuation_primary",
           "label": "PEG",
-          "value": "0,27",
-          "raw": 0.272549,
+          "value": "0,28",
+          "raw": 0.280281,
           "points": 10.0,
           "status": null,
           "scale": "≤ 1,00 = 10, 3,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         },
         {
           "id": "fcf_yield",
           "label": "Free-Cashflow-Rendite",
-          "value": "9,1 %",
-          "raw": 0.091185,
+          "value": "9,8 %",
+          "raw": 0.097951,
           "points": 10.0,
           "status": null,
           "scale": "≥ 8 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/PYPL",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "financialData, Stichtag nicht ausgewiesen"
         },
         {
           "id": "ev_to_ebitda",
           "label": "EV / EBITDA",
-          "value": "7,55",
-          "raw": 7.550206,
+          "value": "7,85",
+          "raw": 7.853283,
           "points": 10.0,
           "status": null,
           "scale": "≤ 8,00 = 10, 30,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001633917.json",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         }
       ]
     }

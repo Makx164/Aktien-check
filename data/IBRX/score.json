@@ -1,32 +1,32 @@
 {
   "ticker": "IBRX",
   "name": "ImmunityBio",
-  "asOf": "2026-10-26",
-  "score": 7.6,
+  "asOf": "2026-10-28",
+  "score": 7.5,
   "status": null,
   "criteriaWithData": 7,
   "trafficLight": "green",
   "qualityScore": 6.8,
-  "marketScore": 8.5,
+  "marketScore": 8.3,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 28 von 31 Metriken verfügbar",
   "missingDataNote": "wenig Daten bei C_01. Der Score zählt nur Kriterien mit Daten.",
   "koFlags": [
-    "Altman Z -6,29 unter 1,8"
+    "Altman Z -5,65 unter 1,8"
   ],
   "price": {
-    "close": 7.81,
+    "close": 8.81,
     "currency": "USD",
-    "date": "2026-10-26",
+    "date": "2026-10-28",
     "sourceLabel": "Nasdaq Historical",
-    "sourceUrl": "https://api.nasdaq.com/api/quote/IBRX/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000"
+    "sourceUrl": "https://api.nasdaq.com/api/quote/IBRX/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000"
   },
   "profile": {
     "hq": "San Diego, USA",
     "employees": 684,
-    "marketCap": 8277321216,
+    "marketCap": 9337157632,
     "currency": "USD",
     "source": "Yahoo Finance quoteSummary",
-    "fetchedAt": "2026-10-27"
+    "fetchedAt": "2026-10-29"
   },
   "role": {
     "id": "satellit",
@@ -62,7 +62,7 @@
           "scale": "−20 Pp = 0, 0 Pp = 5, +20 Pp = 10; Bruttomarge ≥ 70 % mindestens 8",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Branchenumsatz wächst stark (Median 51,5 %, auf 30 % gekappt), die Gewinne der Branche aber kaum (−1,6 %, Damodaran Jan. 2026) · Branche Drugs (Biotechnology) · Damodaran, Stand Januar 2026"
         },
@@ -76,7 +76,7 @@
           "scale": "Streuung 8 Pp = 0 und 1 Pp = 10, Trend −3 Pp/Jahr = 0 und +3 Pp/Jahr = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Branchenumsatz wächst stark (Median 51,5 %, auf 30 % gekappt), die Gewinne der Branche aber kaum (−1,6 %, Damodaran Jan. 2026) · Branche Drugs (Biotechnology) · Damodaran, Stand Januar 2026"
         },
@@ -90,7 +90,7 @@
           "scale": "−5 Pp = 0, +15 Pp = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "Operatives Ergebnis −256,0 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · M1 ist n/a, deshalb Aufbauphase"
         },
@@ -104,7 +104,7 @@
           "scale": "Kunden: unter 10 % = 8, bis 15 % = 6, bis 25 % = 4, bis 40 % = 2, darüber = 0; Vertragsbindung 0 % = 3, ≥ 20 % = 10",
           "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Drugs (Biotechnology)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31",
           "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Branchenumsatz wächst stark (Median 51,5 %, auf 30 % gekappt), die Gewinne der Branche aber kaum (−1,6 %, Damodaran Jan. 2026) · Größter Kunde 96,0 % (SEC 10-K vom 2026-02-23) · Vertragsbindung 0,1 % des Umsatzes 165,8 Mio. USD"
         }
@@ -128,7 +128,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30",
           "note": "TTM bis 2026-06-30"
         },
@@ -142,7 +142,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30",
           "note": "Quartal bis 2026-06-30"
         },
@@ -156,7 +156,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary, Analystenschätzung",
           "sourceUrl": "https://finance.yahoo.com/quote/IBRX",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "Analystenschätzung, nächstes Jahr"
         },
@@ -170,7 +170,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -183,7 +183,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -196,7 +196,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "statusReason": "Verlust bzw. negativer Wert in der Basisperiode"
         },
@@ -210,7 +210,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "statusReason": "Verlust bzw. negativer Wert in der Basisperiode"
         },
@@ -224,7 +224,7 @@
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
@@ -237,7 +237,7 @@
           "scale": "≥ 10 Pp = 10, -5 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30"
         }
       ]
@@ -260,7 +260,7 @@
           "scale": "3 % = 0, 25 % = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Drugs (Biotechnology)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Branchenumsatz wächst stark (Median 51,5 %, auf 30 % gekappt), die Gewinne der Branche aber kaum (−1,6 %, Damodaran Jan. 2026) · 100,0 % Drugs (Biotechnology), Umsatzwachstum 30,0 % (Deckel 30,0 %, Median 51,5 %) · Damodaran, Stand Januar 2026"
         },
@@ -274,7 +274,7 @@
           "scale": "0 % = 0, 20 % = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Drugs (Biotechnology)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Branchenumsatz wächst stark (Median 51,5 %, auf 30 % gekappt), die Gewinne der Branche aber kaum (−1,6 %, Damodaran Jan. 2026) · 100,0 % Drugs (Biotechnology), EBIT-Wachstum -1,6 % · Damodaran, Stand Januar 2026"
         },
@@ -288,7 +288,7 @@
           "scale": "Faktor 0 = 0, 1 = 6, ab 2 = 10",
           "sourceLabel": "Nasdaq Financials",
           "sourceUrl": "https://finance.yahoo.com/quote/IBRX",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30",
           "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Branchenumsatz wächst stark (Median 51,5 %, auf 30 % gekappt), die Gewinne der Branche aber kaum (−1,6 %, Damodaran Jan. 2026) · Forschungsquote 147,1 % gegen R&D/Sales 42,9 % Drugs (Biotechnology) (Damodaran, Stand Januar 2026), Faktor 3,43"
         },
@@ -302,7 +302,7 @@
           "scale": "log10 0,5 = 0, log10 3 = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Drugs (Biotechnology)",
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30",
           "note": "IBRX: Umsatz 165,8 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Branchenumsatz wächst stark (Median 51,5 %, auf 30 % gekappt), die Gewinne der Branche aber kaum (−1,6 %, Damodaran Jan. 2026) · log10 3,12 · US-Pool CY2025: 100,0 % Drugs (Biotechnology) 219,3 Mrd. USD"
         }
@@ -326,7 +326,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30"
         },
         {
@@ -339,7 +339,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/IBRX",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "TTM bis 2026-06-30 · financialData, Stichtag nicht ausgewiesen"
         },
@@ -353,7 +353,7 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -366,7 +366,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
@@ -379,7 +379,7 @@
           "scale": "≥ 36 Monate = 10, 12 Monate = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30"
         },
         {
@@ -392,7 +392,7 @@
           "scale": "≤ 0,00 = 10, 4,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2023-12-31",
           "note": "Netto-Cash, deshalb 10 · Finanzschulden explizit 0"
         },
@@ -406,7 +406,7 @@
           "scale": "≥ 2,00 = 10, 0,80 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30"
         },
         {
@@ -419,7 +419,7 @@
           "scale": "≤ 0 % = 10, 10 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         }
       ]
@@ -442,7 +442,7 @@
           "scale": "über 10 % = 5, 3–10 % = 3, unter 3 % = 1",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/IBRX/holders",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "pointsMax": 5
         },
@@ -456,7 +456,7 @@
           "scale": "Netto-Käufe = 3, neutral = 2, Netto-Verkäufe = 0",
           "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-10-05",
           "pointsMax": 3,
           "caption": "0 Käufe / 8 Verkäufe, davon 8 im 10b5-1-Plan · unter 0,1 % der Marktkapitalisierung",
@@ -474,13 +474,13 @@
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
           "value": "19,8 %",
-          "raw": 0.19781,
+          "raw": 0.19801,
           "points": 0.0,
           "status": null,
           "scale": "über 40 % = 2, bis 40 % = 0",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/IBRX/holders",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "pointsMax": 2
         }
@@ -505,20 +505,20 @@
           "scale": "≥ 80 % = 10, 30 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/IBRX",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
           "id": "target_upside",
           "label": "Abstand zum mittleren Kursziel",
-          "value": "82,5 %",
-          "raw": 0.824584,
+          "value": "61,7 %",
+          "raw": 0.61748,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/IBRX",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
@@ -531,7 +531,7 @@
           "scale": "≥ 10 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/IBRX",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         }
       ],
@@ -591,13 +591,13 @@
         ],
         "sourceLabel": "Yahoo Finance quoteSummary",
         "sourceUrl": "https://finance.yahoo.com/quote/IBRX",
-        "fetchedAt": "2026-10-27"
+        "fetchedAt": "2026-10-29"
       }
     },
     {
       "id": "C_07",
       "label": "Kursverlauf & Momentum",
-      "score": 9.6,
+      "score": 9.3,
       "status": null,
       "weight": 0.25,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -605,15 +605,15 @@
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
-          "value": "238,3 Pp",
-          "raw": 238.31284,
+          "value": "220,4 Pp",
+          "raw": 220.431917,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 Pp = 10, 0 Pp = 5, ≤ -50 Pp = 0",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/IBRX/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/IBRX/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         },
         {
           "id": "above_sma_200",
@@ -624,29 +624,29 @@
           "status": null,
           "scale": "über dem 200-Tage-Schnitt = 10, darunter = 5",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/IBRX/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/IBRX/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "37,2 %",
-          "raw": 0.371681,
-          "points": 8.7,
+          "value": "29,1 %",
+          "raw": 0.291231,
+          "points": 7.9,
           "status": null,
           "scale": "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/IBRX/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/IBRX/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         }
       ]
     },
     {
       "id": "C_08",
       "label": "Bewertung",
-      "score": 9.3,
+      "score": 8.9,
       "status": null,
       "weight": 0.5,
       "dataQuality": "1 von 1 Metriken verfügbar",
@@ -654,15 +654,15 @@
         {
           "id": "valuation_primary",
           "label": "(EV/Umsatz) / Umsatzwachstum",
-          "value": "0,26",
-          "raw": 0.256427,
-          "points": 9.3,
+          "value": "0,29",
+          "raw": 0.289563,
+          "points": 8.9,
           "status": null,
           "scale": "≤ 0,20 = 10, 1,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         },
         {
           "id": "fcf_yield",
@@ -674,7 +674,7 @@
           "scale": "≥ 8 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
@@ -687,7 +687,7 @@
           "scale": "≤ 8,00 = 10, 30,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326110.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "statusReason": "EBITDA negativ"
         }

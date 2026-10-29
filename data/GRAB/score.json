@@ -1,32 +1,32 @@
 {
   "ticker": "GRAB",
   "name": "Grab Holdings",
-  "asOf": "2026-10-26",
-  "score": 6.2,
+  "asOf": "2026-10-28",
+  "score": 6.3,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
   "qualityScore": 6.7,
-  "marketScore": 5.3,
+  "marketScore": 5.6,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 30 von 33 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [
-    "Altman Z -0,16 unter 1,8"
+    "Altman Z -0,14 unter 1,8"
   ],
   "price": {
-    "close": 2.71,
+    "close": 2.75,
     "currency": "USD",
-    "date": "2026-10-26",
+    "date": "2026-10-28",
     "sourceLabel": "Nasdaq Historical",
-    "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000"
+    "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000"
   },
   "profile": {
     "hq": "Singapur",
     "employees": 12012,
-    "marketCap": 11087428608,
+    "marketCap": 11251080192,
     "currency": "USD",
     "source": "Yahoo Finance quoteSummary",
-    "fetchedAt": "2026-10-27"
+    "fetchedAt": "2026-10-29"
   },
   "role": {
     "id": "satellit",
@@ -62,7 +62,7 @@
           "scale": "−20 Pp = 0, 0 Pp = 5, +20 Pp = 10; Bruttomarge ≥ 70 % mindestens 8",
           "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Transportation",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31",
           "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31. Mobilitäts- und Lieferplattform, deshalb Transportation. · Bruttomarge 43,2 % gegen 24,1 % Transportation (Damodaran, Stand Januar 2026), Abstand 19,1 Pp"
         },
@@ -76,7 +76,7 @@
           "scale": "Streuung 8 Pp = 0 und 1 Pp = 10, Trend −3 Pp/Jahr = 0 und +3 Pp/Jahr = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31",
           "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31. Mobilitäts- und Lieferplattform, deshalb Transportation. · Streuung 18,5 Pp, Trend 24,0 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 20-F vom 2026-03-06)"
         },
@@ -90,7 +90,7 @@
           "scale": "−5 Pp = 0, +15 Pp = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "Operatives Ergebnis 65,0 Mio. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06) · ROIC n/a"
         },
@@ -104,7 +104,7 @@
           "scale": "Kunden: unter 10 % = 8, bis 15 % = 6, bis 25 % = 4, bis 40 % = 2, darüber = 0; Vertragsbindung 0 % = 3, ≥ 20 % = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31. Mobilitäts- und Lieferplattform, deshalb Transportation. · Kundenkonzentration im 20-F vom 2026-03-06 ist n/a"
         }
@@ -128,7 +128,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31",
           "note": "Vergleich bis 2025-12-31"
         },
@@ -142,21 +142,21 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31",
           "note": "Yahoo revenueGrowth · revenueGrowth, in der Regel das letzte Quartal zum Vorjahr"
         },
         {
           "id": "revenue_estimate_yoy",
           "label": "Umsatzwachstum, Analystenschätzung nächstes Jahr",
-          "value": "25,0 %",
-          "raw": 0.25,
+          "value": "24,8 %",
+          "raw": 0.2481,
           "points": 8.3,
           "status": null,
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary, Analystenschätzung",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "Analystenschätzung, nächstes Jahr"
         },
@@ -170,7 +170,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -183,7 +183,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -196,7 +196,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "statusReason": "Verlust bzw. negativer Wert in der Basisperiode"
         },
@@ -210,7 +210,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "statusReason": "Verlust bzw. negativer Wert in der Basisperiode"
         },
@@ -224,7 +224,7 @@
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31",
           "note": "Vergleich bis 2025-12-31"
         },
@@ -238,7 +238,7 @@
           "scale": "≥ 10 Pp = 10, -5 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         }
       ]
@@ -261,7 +261,7 @@
           "scale": "3 % = 0, 25 % = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Transportation",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31. Mobilitäts- und Lieferplattform, deshalb Transportation. · 100,0 % Transportation, Umsatzwachstum 9,1 % · Damodaran, Stand Januar 2026"
         },
@@ -275,7 +275,7 @@
           "scale": "0 % = 0, 20 % = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Transportation",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31. Mobilitäts- und Lieferplattform, deshalb Transportation. · 100,0 % Transportation, EBIT-Wachstum 6,7 % · Damodaran, Stand Januar 2026"
         },
@@ -289,7 +289,7 @@
           "scale": "Faktor 0 = 0, 1 = 6, ab 2 = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31. Mobilitäts- und Lieferplattform, deshalb Transportation. · R&D/Sales 1,2 % Transportation (Damodaran, Stand Januar 2026) liegt unter 2 %"
         },
@@ -303,7 +303,7 @@
           "scale": "log10 0,5 = 0, log10 3 = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Transportation",
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31",
           "note": "GRAB: Umsatz 3,4 Mrd. USD bis 2025-12-31 (SEC 20-F vom 2026-03-06). Vergleich bis 2025-12-31. Mobilitäts- und Lieferplattform, deshalb Transportation. · log10 1,96 · US-Pool CY2025: 100,0 % Transportation 306,9 Mrd. USD"
         }
@@ -327,7 +327,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -340,7 +340,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31",
           "note": "Vergleich bis 2025-12-31"
         },
@@ -354,7 +354,7 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -367,7 +367,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
@@ -380,7 +380,7 @@
           "scale": "≥ 36 Monate = 10, 12 Monate = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -393,7 +393,7 @@
           "scale": "≤ 0,00 = 10, 4,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -406,7 +406,7 @@
           "scale": "≥ 2,00 = 10, 0,80 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -419,7 +419,7 @@
           "scale": "≤ 0 % = 10, 10 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         }
       ]
@@ -442,7 +442,7 @@
           "scale": "über 10 % = 5, 3–10 % = 3, unter 3 % = 1",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB/holders",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "pointsMax": 5
         },
@@ -456,7 +456,7 @@
           "scale": "Netto-Käufe = 3, neutral = 2, Netto-Verkäufe = 0",
           "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-10-15",
           "pointsMax": 3,
           "caption": "2 Käufe / 26 Verkäufe, davon 25 im 10b5-1-Plan",
@@ -473,14 +473,14 @@
         {
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
-          "value": "66,3 %",
-          "raw": 0.66337,
+          "value": "66,6 %",
+          "raw": 0.66575,
           "points": 2.0,
           "status": null,
           "scale": "über 40 % = 2, bis 40 % = 0",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB/holders",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "pointsMax": 2
         }
@@ -490,7 +490,7 @@
     {
       "id": "C_06",
       "label": "Analysten & Stimmung",
-      "score": 7.7,
+      "score": 8.4,
       "status": null,
       "weight": 0.75,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -505,33 +505,33 @@
           "scale": "≥ 80 % = 10, 30 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
           "id": "target_upside",
           "label": "Abstand zum mittleren Kursziel",
-          "value": "104,3 %",
-          "raw": 1.04348,
+          "value": "99,6 %",
+          "raw": 0.996364,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
           "id": "eps_revision_90d",
           "label": "EPS-Revision, 90 Tage",
-          "value": "-4,1 %",
-          "raw": -0.040624,
-          "points": 3.0,
+          "value": "0,3 %",
+          "raw": 0.002539,
+          "points": 5.1,
           "status": null,
           "scale": "≥ 10 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         }
       ],
@@ -551,13 +551,19 @@
           "strongSell": 0.0
         },
         "target": {
-          "mean": 5.53783,
+          "mean": 5.49,
           "median": 5.6,
           "low": 4.0,
           "high": 7.0,
           "count": 24
         },
         "changes": [
+          {
+            "date": "2026-10-28",
+            "firm": "JP Morgan",
+            "grade": "Overweight",
+            "target": 4.8
+          },
           {
             "date": "2026-10-20",
             "firm": "Barclays",
@@ -581,17 +587,11 @@
             "firm": "JP Morgan",
             "grade": "Overweight",
             "target": 5.8
-          },
-          {
-            "date": "2026-05-05",
-            "firm": "Mizuho",
-            "grade": "Outperform",
-            "target": 6.0
           }
         ],
         "sourceLabel": "Yahoo Finance quoteSummary",
         "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-        "fetchedAt": "2026-10-27"
+        "fetchedAt": "2026-10-29"
       }
     },
     {
@@ -605,15 +605,15 @@
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
-          "value": "-60,1 Pp",
-          "raw": -60.104955,
+          "value": "-60,5 Pp",
+          "raw": -60.542578,
           "points": 0.0,
           "status": null,
           "scale": "≥ 30 Pp = 10, 0 Pp = 5, ≤ -50 Pp = 0",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         },
         {
           "id": "above_sma_200",
@@ -624,22 +624,22 @@
           "status": null,
           "scale": "über dem 200-Tage-Schnitt = 10, darunter = 5",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "56,6 %",
-          "raw": 0.565705,
+          "value": "55,9 %",
+          "raw": 0.559295,
           "points": 10.0,
           "status": null,
           "scale": "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/GRAB/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         }
       ]
     },
@@ -655,41 +655,41 @@
           "id": "valuation_primary",
           "label": "(EV/Umsatz) / Umsatzwachstum",
           "value": "0,16",
-          "raw": 0.160319,
+          "raw": 0.162622,
           "points": 10.0,
           "status": null,
           "scale": "≤ 0,20 = 10, 1,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28",
           "note": "Ersatz für PEG, weil das EPS-Wachstum nicht berechenbar ist"
         },
         {
           "id": "fcf_yield",
           "label": "Free-Cashflow-Rendite",
           "value": "-0,2 %",
-          "raw": -0.001677,
+          "raw": -0.001653,
           "points": 0.0,
           "status": null,
           "scale": "≥ 8 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001855612.json",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         },
         {
           "id": "ev_to_ebitda",
           "label": "EV / EBITDA",
-          "value": "45,58",
-          "raw": 45.579967,
+          "value": "46,23",
+          "raw": 46.234499,
           "points": 0.0,
           "status": null,
           "scale": "≤ 8,00 = 10, 30,00 = 0",
           "sourceLabel": "Aktienzahl Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/GRAB",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         }
       ]
     }

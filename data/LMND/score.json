@@ -1,30 +1,30 @@
 {
   "ticker": "LMND",
   "name": "Lemonade",
-  "asOf": "2026-10-26",
+  "asOf": "2026-10-28",
   "score": 6.0,
   "status": null,
   "criteriaWithData": 7,
   "trafficLight": "orange",
   "qualityScore": 5.8,
-  "marketScore": 6.4,
+  "marketScore": 6.2,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 25 von 27 Metriken verfügbar",
   "missingDataNote": "wenig Daten bei C_01. Der Score zählt nur Kriterien mit Daten.",
   "koFlags": [],
   "price": {
-    "close": 45.08,
+    "close": 45.36,
     "currency": "USD",
-    "date": "2026-10-26",
+    "date": "2026-10-28",
     "sourceLabel": "Nasdaq Historical",
-    "sourceUrl": "https://api.nasdaq.com/api/quote/LMND/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000"
+    "sourceUrl": "https://api.nasdaq.com/api/quote/LMND/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000"
   },
   "profile": {
     "hq": "New York, USA",
     "employees": 1282,
-    "marketCap": 3489039616,
+    "marketCap": 3510710528,
     "currency": "USD",
     "source": "Yahoo Finance quoteSummary",
-    "fetchedAt": "2026-10-27"
+    "fetchedAt": "2026-10-29"
   },
   "role": {
     "id": "satellit",
@@ -60,7 +60,7 @@
           "scale": "−20 Pp = 0, 0 Pp = 5, +20 Pp = 10; Bruttomarge ≥ 70 % mindestens 8",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "statusReason": "Finanzwert",
           "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · Branche Insurance (Prop/Cas.), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026)"
@@ -75,7 +75,7 @@
           "scale": "Streuung 8 Pp = 0 und 1 Pp = 10, Trend −3 Pp/Jahr = 0 und +3 Pp/Jahr = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "statusReason": "Finanzwert",
           "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · Branche Insurance (Prop/Cas.), Bruttomarge nicht anwendbar (Damodaran, Stand Januar 2026)"
@@ -90,7 +90,7 @@
           "scale": "−5 Pp = 0, +15 Pp = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "Operatives Ergebnis −115,3 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04) · ROIC n/a"
         },
@@ -104,7 +104,7 @@
           "scale": "Kunden: unter 10 % = 8, bis 15 % = 6, bis 25 % = 4, bis 40 % = 2, darüber = 0; Vertragsbindung 0 % = 3, ≥ 20 % = 10",
           "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Insurance (Prop/Cas.)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30",
           "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · Im 10-K vom 2026-02-25 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet)"
         }
@@ -128,7 +128,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30",
           "note": "TTM bis 2026-06-30"
         },
@@ -142,7 +142,7 @@
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30",
           "note": "Quartal bis 2026-06-30"
         },
@@ -150,13 +150,13 @@
           "id": "revenue_estimate_yoy",
           "label": "Umsatzwachstum, Analystenschätzung nächstes Jahr",
           "value": "34,9 %",
-          "raw": 0.3488,
+          "raw": 0.349,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary, Analystenschätzung",
           "sourceUrl": "https://finance.yahoo.com/quote/LMND",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "Analystenschätzung, nächstes Jahr"
         },
@@ -170,7 +170,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -183,7 +183,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -196,7 +196,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "statusReason": "Verlust bzw. negativer Wert in der Basisperiode"
         },
@@ -210,7 +210,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "statusReason": "Verlust bzw. negativer Wert in der Basisperiode"
         },
@@ -224,7 +224,7 @@
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30",
           "note": "TTM bis 2026-06-30 · Differenz auf ±30 Pp gekappt"
         },
@@ -238,7 +238,7 @@
           "scale": "≥ 10 Pp = 10, -5 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         }
       ]
@@ -261,7 +261,7 @@
           "scale": "3 % = 0, 25 % = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Insurance (Prop/Cas.)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · 100,0 % Insurance (Prop/Cas.), Umsatzwachstum 8,8 % · Damodaran, Stand Januar 2026"
         },
@@ -275,7 +275,7 @@
           "scale": "0 % = 0, 20 % = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Insurance (Prop/Cas.)",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · 100,0 % Insurance (Prop/Cas.), EBIT-Wachstum 0,4 % · Damodaran, Stand Januar 2026"
         },
@@ -289,7 +289,7 @@
           "scale": "Faktor 0 = 0, 1 = 6, ab 2 = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · R&D/Sales 0,0 % Insurance (Prop/Cas.) (Damodaran, Stand Januar 2026) liegt unter 2 %"
         },
@@ -303,7 +303,7 @@
           "scale": "log10 0,5 = 0, log10 3 = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Insurance (Prop/Cas.)",
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30",
           "note": "LMND: Umsatz 975,0 Mio. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-04). TTM bis 2026-06-30. Sachversicherung, deshalb Insurance (Prop/Cas.). · log10 2,74 · US-Pool CY2025: 100,0 % Insurance (Prop/Cas.) 533,8 Mrd. USD"
         }
@@ -327,7 +327,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/LMND",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30",
           "note": "operative Marge aus financialData"
         },
@@ -341,7 +341,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/LMND",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "TTM bis 2026-06-30 · financialData, Stichtag nicht ausgewiesen"
         },
@@ -355,7 +355,7 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         },
         {
@@ -368,7 +368,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
@@ -381,7 +381,7 @@
           "scale": "≥ 36 Monate = 10, 12 Monate = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-06-30"
         },
         {
@@ -394,7 +394,7 @@
           "scale": "≤ 0,00 = 10, 4,00 = 0",
           "sourceLabel": "Cash: SEC EDGAR companyfacts; Finanzschulden: Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/LMND",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "Netto-Cash, deshalb 10 · totalDebt"
         },
@@ -408,7 +408,7 @@
           "scale": "≥ 2,00 = 10, 0,80 = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/LMND",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "note": "financialData currentRatio"
         },
@@ -422,7 +422,7 @@
           "scale": "≤ 0 % = 10, 10 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2025-12-31"
         }
       ]
@@ -445,7 +445,7 @@
           "scale": "über 10 % = 5, 3–10 % = 3, unter 3 % = 1",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/LMND/holders",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "pointsMax": 5
         },
@@ -459,7 +459,7 @@
           "scale": "Netto-Käufe = 3, neutral = 2, Netto-Verkäufe = 0",
           "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": "2026-09-04",
           "pointsMax": 3,
           "caption": "0 Käufe / 11 Verkäufe, davon 5 im 10b5-1-Plan · unter 0,1 % der Marktkapitalisierung",
@@ -477,13 +477,13 @@
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
           "value": "61,1 %",
-          "raw": 0.61069,
+          "raw": 0.61083,
           "points": 2.0,
           "status": null,
           "scale": "über 40 % = 2, bis 40 % = 0",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/LMND/holders",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "pointsMax": 2
         }
@@ -493,7 +493,7 @@
     {
       "id": "C_06",
       "label": "Analysten & Stimmung",
-      "score": 3.3,
+      "score": 3.2,
       "status": null,
       "weight": 0.75,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -508,20 +508,20 @@
           "scale": "≥ 80 % = 10, 30 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/LMND",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
           "id": "target_upside",
           "label": "Abstand zum mittleren Kursziel",
-          "value": "29,6 %",
-          "raw": 0.296461,
-          "points": 9.9,
+          "value": "28,8 %",
+          "raw": 0.288458,
+          "points": 9.7,
           "status": null,
           "scale": "≥ 30 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/LMND",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
@@ -534,7 +534,7 @@
           "scale": "≥ 10 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/LMND",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         }
       ],
@@ -588,13 +588,13 @@
         ],
         "sourceLabel": "Yahoo Finance quoteSummary",
         "sourceUrl": "https://finance.yahoo.com/quote/LMND",
-        "fetchedAt": "2026-10-27"
+        "fetchedAt": "2026-10-29"
       }
     },
     {
       "id": "C_07",
       "label": "Kursverlauf & Momentum",
-      "score": 5.8,
+      "score": 5.5,
       "status": null,
       "weight": 0.25,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -602,15 +602,15 @@
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
-          "value": "-27,4 Pp",
-          "raw": -27.395774,
-          "points": 2.3,
+          "value": "-35,2 Pp",
+          "raw": -35.218436,
+          "points": 1.5,
           "status": null,
           "scale": "≥ 30 Pp = 10, 0 Pp = 5, ≤ -50 Pp = 0",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/LMND/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/LMND/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         },
         {
           "id": "above_sma_200",
@@ -621,22 +621,22 @@
           "status": null,
           "scale": "über dem 200-Tage-Schnitt = 10, darunter = 5",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/LMND/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/LMND/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "54,9 %",
-          "raw": 0.548749,
+          "value": "54,6 %",
+          "raw": 0.545946,
           "points": 10.0,
           "status": null,
           "scale": "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/LMND/historical?assetclass=stocks&fromdate=2024-05-10&todate=2026-10-27&limit=2000",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/LMND/historical?assetclass=stocks&fromdate=2024-05-12&todate=2026-10-29&limit=2000",
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         }
       ]
     },
@@ -652,14 +652,14 @@
           "id": "valuation_primary",
           "label": "(EV/Umsatz) / Umsatzwachstum",
           "value": "0,06",
-          "raw": 0.055106,
+          "raw": 0.055463,
           "points": 10.0,
           "status": null,
           "scale": "≤ 0,20 = 10, 1,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
-          "observedAt": "2026-10-26"
+          "fetchedAt": "2026-10-29",
+          "observedAt": "2026-10-28"
         },
         {
           "id": "fcf_yield",
@@ -671,7 +671,7 @@
           "scale": "≥ 8 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null
         },
         {
@@ -684,7 +684,7 @@
           "scale": "≤ 8,00 = 10, 30,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001691421.json",
-          "fetchedAt": "2026-10-27",
+          "fetchedAt": "2026-10-29",
           "observedAt": null,
           "statusReason": "EBITDA negativ"
         }
