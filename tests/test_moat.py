@@ -210,11 +210,6 @@ class RuleTests(unittest.TestCase):
         self.assertIsNone(market["ebit_pool"]["points"])
 
     def test_operating_loss_is_build_phase_only_when_m1_is_na(self):
-        readme = (Path(__file__).resolve().parents[1] / "README.md").read_text(encoding="utf-8")
-        self.assertIn("„n/a (Aufbauphase)“ gilt nur, wenn M1 n/a ist", readme)
-        self.assertIn("Ein negativer Abstand gibt 0", readme)
-        self.assertIn("ist der Pool nicht repräsentativ", readme)
-
         missing = _industry_moat()
         missing_rows = [_year(2025, 30_000_000, 12_000_000, -2_000_000, -2_000_000)]
         missing_score = score_company(CONFIG, _bundle(missing_rows, missing), {}, {}, "2026-10-27", {})
@@ -375,8 +370,6 @@ class RuleTests(unittest.TestCase):
         self.assertIsNone(empty)
         self.assertIsNone(empty_source)
         self.assertIsNone(empty_note)
-        readme = (Path(__file__).resolve().parents[1] / "README.md").read_text(encoding="utf-8")
-        self.assertIn("nicht aus der Börse und nicht aus dem Ticker", readme)
 
         moat = _industry_moat(industry="Drugs (Biotechnology)")
         moat["ticker"] = "IBRX"

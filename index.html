@@ -13,36 +13,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#c6c7c1">
   <title>sidequest</title>
-  <meta name="description" content="Eigene, regelbasierte Aktien-Scores aus öffentlichen Unternehmensdaten. Keine Anlageberatung.">
+  <meta name="description" content="Kennzahlen zu ausgewählten Aktien, mit Quelle und Stand. Kein Score, keine Anlageberatung.">
   <meta property="og:title" content="sidequest">
-  <meta property="og:description" content="Eigene, regelbasierte Aktien-Scores aus öffentlichen Unternehmensdaten. Keine Anlageberatung.">
+  <meta property="og:description" content="Kennzahlen zu ausgewählten Aktien, mit Quelle und Stand. Kein Score, keine Anlageberatung.">
   <meta property="og:url" content="https://yoursidequest.org/">
   <meta property="og:type" content="website">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23e8305a'/%3E%3Cpath d='M5 17l5-5 3 3 6-7' fill='none' stroke='%23111' stroke-width='2.6'/%3E%3C/svg%3E">
   <link rel="canonical" href="https://yoursidequest.org/">
   <style>
-
-/* Aktien-Check v1 · Design "VOID / Ops" – Prototyp */
 @font-face{font-family:"Space Mono";src:url("fonts/space-mono-400.woff2") format("woff2");font-weight:400;font-display:swap}
 @font-face{font-family:"Space Mono";src:url("fonts/space-mono-700.woff2") format("woff2");font-weight:700;font-display:swap}
 @font-face{font-family:"JetBrains Mono";src:url("fonts/jetbrains-mono.woff2") format("woff2");font-weight:100 800;font-display:swap}
 @font-face{font-family:"Space Grotesk";src:url("fonts/space-grotesk.woff2") format("woff2");font-weight:300 700;font-display:swap}
-
 :root,[data-theme="light"]{
   --bg:#c6c7c1; --bg2:#cfd0ca; --panel:#d3d4ce; --panel2:#dcddd7; --ink:#111214; --ink2:#3a3c40; --mut:#5f625f;
   --hair:rgba(17,18,20,.55); --hair2:rgba(17,18,20,.22); --grid:rgba(17,18,20,.045);
-  --red:#e8305a; --red-ink:#c41c45; --purple:#6d3ae0; --blue:#2b55e0;
-  --ok:#0e7a3b; --warn:#a35f00; --bad:#c41c3a; --ok-bg:rgba(14,122,59,.10); --warn-bg:rgba(163,95,0,.11); --bad-bg:rgba(196,28,58,.10);
-  --wm:none;
-  --scan:none;
-  color-scheme:light;
+  --red:#e8305a; --red-ink:#c41c45; --blue:#2b55e0; --bad:#c41c3a; --bad-bg:rgba(196,28,58,.10);
+  --scan:none; color-scheme:light;
 }
 [data-theme="dark"]{
   --bg:#0a0b0c; --bg2:#0f1012; --panel:#111316; --panel2:#171a1e; --ink:#eceeee; --ink2:#c3c6c8; --mut:#8a8f93;
   --hair:rgba(236,238,238,.42); --hair2:rgba(236,238,238,.16); --grid:rgba(236,238,238,.035);
-  --red:#ff3b63; --red-ink:#ff5a7c; --purple:#a888ff; --blue:#6f93ff;
-  --ok:#36e07a; --warn:#ffb21f; --bad:#ff4d66; --ok-bg:rgba(54,224,122,.09); --warn-bg:rgba(255,178,31,.10); --bad-bg:rgba(255,77,102,.10);
-  --wm:none;
+  --red:#ff3b63; --red-ink:#ff5a7c; --blue:#6f93ff; --bad:#ff4d66; --bad-bg:rgba(255,77,102,.10);
   --scan:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px);
   color-scheme:dark;
 }
@@ -51,384 +43,63 @@ html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:15px/1.55 "Space Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;
   background-image:var(--scan),linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
   background-size:auto,32px 32px,32px 32px}
-.mono,.mlabel,code{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-.disp{font-family:"Space Mono",ui-monospace,monospace}
 a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
-.muted{color:var(--mut)}
-.mlabel{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
-
-/* Banner */
-.proto-banner{position:sticky;top:0;z-index:60;background:var(--red);color:#111;text-align:center;font:600 11.5px/1.3 "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;border-bottom:1px solid #111}
-.proto-banner .sep{margin:0 8px;opacity:.6}
-.pb-blink{margin-right:6px;animation:blink 1.4s steps(2,start) infinite}
-@keyframes blink{to{visibility:hidden}}
-@media (prefers-reduced-motion:reduce){.pb-blink{animation:none}}
-
-/* Frame */
+.mlabel{display:inline-block;font:600 11px "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
 .shell{position:relative;max-width:1060px;margin:26px auto 34px;border:1px solid var(--hair);background:color-mix(in srgb,var(--bg) 80%,transparent)}
 .cx{position:absolute;width:19px;height:19px;pointer-events:none}
 .cx::before,.cx::after{content:"";position:absolute;background:var(--ink)}
 .cx::before{left:9px;top:0;width:1px;height:19px} .cx::after{top:9px;left:0;height:1px;width:19px}
 .cx.tl{left:-10px;top:-10px} .cx.tr{right:-10px;top:-10px} .cx.bl{left:-10px;bottom:-10px} .cx.br{right:-10px;bottom:-10px}
-
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 26px;border-bottom:1px solid var(--hair2)}
 .brand{display:flex;align-items:center;gap:12px;color:var(--ink)} .brand:hover{text-decoration:none}
 .logo{width:26px;height:26px;color:var(--ink)} .logo svg{width:100%;height:100%}
-.brand-t{font:700 16px/1.1 "Space Mono",monospace;letter-spacing:.08em}
-.brand-t small{display:block;font:500 10.5px "JetBrains Mono",monospace;letter-spacing:.14em;color:var(--mut);margin-top:3px}
-.top-r{display:flex;align-items:center;gap:10px}
-.badge-proto{font:700 10.5px "JetBrains Mono",monospace;letter-spacing:.2em;color:var(--red-ink);border:1px solid var(--red);padding:5px 8px}
+.brand-t{font:700 16px/1.1 "Space Mono",monospace;letter-spacing:.08em;text-transform:none}
 .theme-tg{display:flex;border:1px solid var(--hair);background:transparent;padding:0;cursor:pointer;font:600 10.5px "JetBrains Mono",monospace;letter-spacing:.14em}
 .theme-tg span{padding:5px 9px;color:var(--mut)}
 [data-theme="light"] .theme-tg [data-v="light"],[data-theme="dark"] .theme-tg [data-v="dark"]{background:var(--ink);color:var(--bg)}
-
 main{position:relative;padding:8px 26px 30px;outline:none}
 .footer{padding:0 26px 22px}
-.disclaimer{border:1px solid var(--bad);background:var(--bad-bg);padding:12px 14px;font-size:13px;color:var(--ink2)}
-.disclaimer .mlabel{color:var(--bad);margin-bottom:4px}
-.disclaimer p{margin:2px 0 0}
+.discl-big{border:1px solid var(--bad);background:var(--bad-bg);padding:12px 14px;font-size:13px;color:var(--ink2)}
+.discl-big .mlabel{color:var(--bad);margin-bottom:4px;display:block}
 .foot-band{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 18px}
 .footer .discl-big.compact{flex:1 1 320px;margin-top:12px}
 .foot-legal{flex:0 0 auto;margin:12px 0 0;text-align:right;font:500 11px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
-.foot-legal a{color:var(--ink2)}
-.foot-legal a:hover{color:var(--ink)}
+.foot-legal a{color:var(--ink2)} .foot-legal a:hover{color:var(--ink)}
 .foot-legal .sep{margin:0 8px;color:var(--mut)}
 .foot-legal a[aria-current="page"]{color:var(--ink)}
 .foot-url{text-align:center;font:500 11px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--ink2);margin:12px 0 0}
-
-/* Typo blocks */
-.h-red{font:700 clamp(40px,8.4vw,86px)/.95 "Space Mono",monospace;color:var(--red);letter-spacing:.01em;margin:0;text-transform:uppercase}
-.h-ink{font:700 clamp(20px,4.1vw,40px)/1.1 "Space Mono",monospace;color:var(--ink);letter-spacing:.06em;margin:10px 0 0;text-transform:uppercase}
-.lead{font-size:clamp(15px,2vw,18px);color:var(--ink2);margin:18px 0 0;max-width:640px}
-.lead em{color:var(--purple);font-style:italic;font-weight:700}
-.sec-t{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:34px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--hair2)}
+.sec-t{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:28px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--hair2)}
 .sec-t h2{margin:0;font:700 15px "Space Mono",monospace;letter-spacing:.1em;text-transform:uppercase}
-.sec-t .mlabel{color:var(--mut)}
-
-/* Tags */
-.tag{display:inline-block;font:600 10.5px/1.2 "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;padding:2px 6px;border:1px solid currentColor;vertical-align:middle;white-space:nowrap}
-.tag.ki{color:var(--purple)} .tag.daten{color:var(--blue)} .tag.bsp{color:var(--warn);background:var(--warn-bg)}
-.tag.warn{color:var(--warn);background:var(--warn-bg)} .tag.red{color:var(--red-ink)}
-.st{display:inline-flex;align-items:center;gap:8px;font:700 12px/1 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;padding:8px 11px;border:1px solid currentColor}
-.st i{width:9px;height:9px;background:currentColor;display:block}
-.st.gruen{color:var(--ok);background:var(--ok-bg)} .st.gelb{color:var(--warn);background:var(--warn-bg)} .st.rot{color:var(--bad);background:var(--bad-bg)}
-.sq{display:inline-block;width:8px;height:8px;vertical-align:middle}
-.sq.gruen{background:var(--ok)} .sq.gelb{background:var(--warn)} .sq.rot{background:var(--bad)}
-
-/* Start */
-.hero{padding:34px 0 6px}
-.search{position:relative;max-width:620px;margin-top:30px}
-.search form{display:flex;border:1px solid var(--hair);background:var(--panel)}
-.prompt{display:flex;align-items:center;padding:0 0 0 14px;font:700 18px "JetBrains Mono",monospace;color:var(--red)}
-.search input{flex:1;min-width:0;font:600 19px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;padding:15px 12px;border:0;background:transparent;color:var(--ink)}
-.search input::placeholder{color:var(--mut);letter-spacing:.08em}
-.search input:focus{outline:none}
-.search form:focus-within{outline:2px solid var(--red);outline-offset:2px}
-.btn{font:700 14px "Space Mono",monospace;letter-spacing:.14em;text-transform:uppercase;padding:0 22px;border:0;background:var(--red);color:#111;cursor:pointer}
-.btn:hover{filter:brightness(1.07)}
-.ac{position:absolute;left:0;right:0;top:calc(100% + 4px);background:var(--panel2);border:1px solid var(--hair);z-index:30;box-shadow:0 14px 30px rgba(0,0,0,.18)}
-.ac button{display:flex;width:100%;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;background:none;border:0;border-bottom:1px solid var(--hair2);color:var(--ink);font:500 13px "JetBrains Mono",monospace;letter-spacing:.06em;cursor:pointer;text-align:left}
-.ac button:last-child{border-bottom:0}
-.ac button:hover,.ac button.sel{background:var(--panel)}
-.ac b{color:var(--red-ink)}
-.note-demo{margin-top:10px;font:500 11.5px "JetBrains Mono",monospace;letter-spacing:.1em;color:var(--warn);text-transform:uppercase}
-
-/* Diagram (boxed modules → bracket → hub) */
-.diagram{display:grid;grid-template-columns:minmax(0,1fr) 300px;column-gap:56px;align-items:center;margin-top:26px}
-.mods{position:relative;display:flex;flex-direction:column;gap:10px}
-.mods::after{content:"";position:absolute;right:-28px;top:19px;bottom:19px;border-right:1px solid var(--hair)}
-.mod{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;min-height:38px;padding:8px 12px;border:1px solid var(--hair);background:var(--panel);color:var(--ink);font:500 12.5px "JetBrains Mono",monospace;letter-spacing:.06em;text-transform:uppercase}
-.mod::after{content:"";position:absolute;left:100%;top:50%;width:28px;border-top:1px solid var(--hair)}
-a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink)}
-.mod .ml{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mod .ml small{color:var(--mut);margin-left:6px}
-.mod .mr{display:flex;align-items:center;gap:10px;font-weight:700}
-.hub{position:relative;border:1px solid var(--hair);background:var(--panel);padding:16px}
-.hub::before{content:"";position:absolute;right:100%;top:50%;width:28px;border-top:1px solid var(--hair)}
-.hub-h{display:flex;justify-content:space-between;gap:8px}
-.hub .big{font:700 34px/1 "Space Mono",monospace;letter-spacing:.04em;margin:14px 0 10px;display:flex;align-items:center;gap:10px}
-.hub .url{border:1px solid var(--hair);padding:6px 9px;font:500 12px "JetBrains Mono",monospace;display:inline-block}
-.legend{display:grid;gap:6px;margin-top:12px;font:500 11.5px "JetBrains Mono",monospace;letter-spacing:.06em;color:var(--ink2);text-transform:uppercase}
-
-/* Segment bars */
-.seg{display:inline-flex;gap:2px}
-.seg i{width:6px;height:12px;background:var(--hair2);display:block}
-.seg i.on{background:var(--ink)}
-.seg.gruen i.on{background:var(--ok)} .seg.gelb i.on{background:var(--warn)} .seg.rot i.on{background:var(--bad)}
-
-/* Result */
-.result{position:relative}
-.watermark{position:absolute;inset:-8px -26px 0;pointer-events:none;z-index:5;background-image:var(--wm);background-repeat:repeat}
-.back{display:inline-block;margin:10px 0 4px;font:600 11.5px "JetBrains Mono",monospace;letter-spacing:.14em;color:var(--ink2);text-transform:uppercase}
-.r-head{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;padding:18px 0 22px;border-bottom:1px solid var(--hair2)}
-.r-head .h-red{font-size:clamp(54px,11vw,104px)}
-.r-name{font:700 clamp(15px,2.4vw,21px)/1.25 "Space Mono",monospace;letter-spacing:.06em;text-transform:uppercase;margin:8px 0 14px}
-.r-name small{display:block;font:500 11.5px "JetBrains Mono",monospace;letter-spacing:.12em;color:var(--mut);margin-top:4px}
-.stamp{position:absolute;top:12px;right:0;transform:rotate(5deg);border:2px solid var(--red);color:var(--red-ink);font:700 12px/1.2 "Space Mono",monospace;letter-spacing:.2em;padding:4px 9px;text-align:center;background:color-mix(in srgb,var(--bg) 70%,transparent);z-index:6}
-.stamp small{display:block;font:500 9.5px "JetBrains Mono",monospace;letter-spacing:.12em}
-.term{font:500 12.5px/1.75 "JetBrains Mono",monospace;color:var(--ink2)}
-.term b{color:var(--ink);font-weight:700}
-.term .p{color:var(--red)}
-.warnline{margin-top:14px;border:1px solid var(--warn);background:var(--warn-bg);padding:9px 12px;font:500 12.5px "JetBrains Mono",monospace;letter-spacing:.04em}
-.warnline a{margin-left:8px}
-.ko{margin-top:14px;border:1px solid var(--bad);background:var(--bad-bg);padding:11px 13px;font-size:14px}
-.ko ul{margin:6px 0 0;padding-left:18px}
-
-.ring{position:relative;width:216px;height:216px;flex:none}
-.ring svg{width:100%;height:100%}
-.ring .val{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
-.ring .val b{display:block;font:700 66px/1 "Space Mono",monospace;letter-spacing:-.02em}
-.ring .val small{display:block;font:500 11px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--mut);margin-top:6px}
-.score-hub{display:flex;flex-direction:column;align-items:center;gap:12px}
-
-.verdict{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:22px;border:1px solid var(--hair)}
-.verdict>div{padding:13px 14px;font-size:14px;border-right:1px solid var(--hair2);background:var(--panel)}
-.verdict>div:last-child{border-right:0}
-.verdict h4{margin:0 0 6px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font:700 11.5px "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase}
-.verdict .bull h4{color:var(--ok)} .verdict .bear h4{color:var(--bad)} .verdict .multi h4{color:var(--blue)}
-
-.diagram.crits{grid-template-columns:minmax(0,1fr) 270px}
-.crit-hub .big{font-size:56px;margin:8px 0 6px}
-.crit-hub .big small{font:500 14px "JetBrains Mono",monospace;color:var(--mut)}
-
-.crit{border:1px solid var(--hair);background:var(--panel);margin-bottom:10px}
-.crit summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto 16px;gap:14px;align-items:center;padding:12px 14px}
-.crit summary::-webkit-details-marker{display:none}
-.crit .cid{font:600 10.5px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--red-ink);text-transform:uppercase}
-.crit .cn{display:block;font:700 15px "Space Mono",monospace;letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
-.crit .ctags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.crit .score{font:700 22px "Space Mono",monospace;text-align:right;white-space:nowrap}
-.crit .score small{font:500 12px "JetBrains Mono",monospace;color:var(--mut)}
-.crit .score .seg{display:flex;justify-content:flex-end;margin-top:4px}
-.crit .chev{font:700 14px "JetBrains Mono",monospace;color:var(--mut);transition:transform .15s}
-.crit[open] .chev{transform:rotate(90deg)}
-.crit[open]{border-color:var(--ink)}
-.crit{min-width:0;max-width:100%}
-.crit .body{padding:4px 14px 14px;border-top:1px dashed var(--hair2);min-width:0;max-width:100%;overflow:hidden}
-.kv{margin:10px 0 6px;font:500 12.5px/1.5 "JetBrains Mono",monospace}
-.kv .row{display:flex;align-items:baseline;gap:8px;padding:4px 0}
-.kv .k{color:var(--mut);text-transform:uppercase;letter-spacing:.04em;flex:none;max-width:58%}
-.kv .k::before{content:"> ";color:var(--red)}
-.kv .lead-d{flex:1;min-width:16px;border-bottom:1px dotted var(--hair);transform:translateY(-4px)}
-.kv .v{color:var(--ink);font-weight:600;text-align:right;max-width:52%}
-.kv .row.long{display:block}
-.kv .row.long .lead-d{display:none}
-.kv .row.long .v{display:block;text-align:left;max-width:none;padding-left:16px;margin-top:2px;font-weight:500}
-.kv .v.nd{color:var(--warn)}
-.mtbl{width:100%;max-width:100%;table-layout:fixed;border-collapse:collapse;margin:10px 0 4px;font:500 12.5px/1.45 "JetBrains Mono",monospace}
-.mtbl col.c-name{width:32%}
-.mtbl col.c-val{width:26%}
-.mtbl col.c-pts{width:18%}
-.mtbl col.c-scale{width:24%}
-.mtbl th{text-align:left;font:500 10px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);padding:4px 8px 4px 0;border-bottom:1px solid var(--hair)}
-.mtbl td{padding:6px 8px 6px 0;border-bottom:1px solid var(--hair2);vertical-align:baseline;overflow-wrap:break-word;word-wrap:break-word}
-.mtbl td.val{font-weight:700;font-size:14.5px;color:var(--ink);white-space:normal}
-.mtbl td.val .sub{display:block;margin-top:3px;font:500 11px/1.35 "JetBrains Mono",monospace;color:var(--mut);font-weight:400;overflow-wrap:anywhere}
-.mtbl td.pts{font-weight:600;white-space:normal}
-.mtbl td.scale{font-size:11px;color:var(--mut);font-weight:400}
-.mtbl-gap{margin:4px 0 0;font:500 12px/1.45 "JetBrains Mono",monospace;color:var(--mut)}
-@media (max-width:640px){
-  .crit summary{grid-template-columns:minmax(0,1fr) minmax(0,46%) 14px;gap:8px;padding:12px 10px}
-  .crit .score{white-space:normal;overflow-wrap:anywhere;font-size:16px;min-width:0}
-  .crit .ctags .tag{overflow-wrap:anywhere}
-  .mtbl{font-size:11.5px}
-  .mtbl col.c-name{width:30%}
-  .mtbl col.c-val{width:28%}
-  .mtbl col.c-pts{width:20%}
-  .mtbl col.c-scale{width:22%}
-  .mtbl th,.mtbl td{padding-right:6px}
-  .mtbl td.val{font-size:13px}
-  .mtbl td.val .sub{font-size:10.5px}
-}
-.expl{font-size:14px;color:var(--ink2);margin:10px 0}
-.src{font:500 11.5px "JetBrains Mono",monospace;color:var(--mut);margin-top:8px;word-break:break-word;letter-spacing:.04em}
-.src a{margin-right:12px}
-.spark{margin-top:10px;border:1px solid var(--hair2);padding:8px 8px 4px;background:var(--bg2)}
-.spark .mlabel{font-size:10px;color:var(--mut)}
-.xs{margin-top:12px;border:1px solid var(--hair2);background:var(--bg2);padding:10px 12px;font-size:14px}
-.xs h5{margin:0 0 4px;font:700 11.5px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
-.xs p{margin:4px 0}
-.xs-list{margin:4px 0 0;padding-left:18px;font-size:13.5px}
-.xs-positiv{color:var(--ok);font-weight:700} .xs-negativ{color:var(--bad);font-weight:700}
-.xs-neutral,.xs-gemischt,.xs-keine-Aussage{color:var(--warn);font-weight:700}
-
-.risks{display:grid;gap:10px}
-.risk{position:relative;border:1px solid var(--hair);background:var(--panel);padding:12px 14px 12px 18px;font-size:14px}
-.risk::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--bad)}
-.risk.tagged::before{background:var(--warn)}
-.risk b{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:3px;font:700 13.5px "Space Mono",monospace;letter-spacing:.04em;text-transform:uppercase}
-.risk .rid{font:600 10.5px "JetBrains Mono",monospace;color:var(--red-ink);letter-spacing:.14em}
-.pos{margin-top:12px;font:500 12px "JetBrains Mono",monospace;color:var(--mut)}
-.discl-big{margin-top:26px;border:1px solid var(--bad);background:var(--bad-bg);padding:13px 15px;font-size:14px}
-.discl-big.compact{margin-top:18px;padding:8px 12px;font-size:12px}
-.discl-big .mlabel{color:var(--bad);display:block;margin-bottom:4px}
-.notfound{padding:40px 0 20px}
-.notfound .h-red{font-size:clamp(40px,8vw,72px)}
-
-@media (max-width:820px){
-  .diagram,.diagram.crits{grid-template-columns:1fr;row-gap:22px}
-  .mods::after{display:none}
-  .mod::after,.hub::before{display:none}
-  .hub{order:-1}
-  .mods{padding-left:16px;border-left:1px solid var(--hair)}
-  .mods .mod::before{content:"";position:absolute;right:100%;top:50%;width:16px;border-top:1px solid var(--hair)}
-  .verdict{grid-template-columns:1fr}
-  .verdict>div{border-right:0;border-bottom:1px solid var(--hair2)} .verdict>div:last-child{border-bottom:0}
-}
-@media (max-width:640px){
-  body{font-size:14.5px;background-size:auto,24px 24px,24px 24px}
-  .shell{margin:14px 10px 24px}
-  .topbar{padding:12px 14px;flex-wrap:wrap} main{padding:4px 14px 24px} .footer{padding:0 14px 18px}
-  .brand-t{font-size:14px}
-  .r-head{grid-template-columns:1fr;justify-items:start}
-  .score-hub{width:100%;align-items:center}
-  .ring{width:190px;height:190px} .ring .val b{font-size:56px}
-  .stamp{top:6px}
-  .mod{font-size:11.5px;padding:8px 10px}
-  .mod .ml small{display:none}
-  .seg i{width:5px}
-  .kv .row{display:block}
-  .kv .lead-d{display:none}
-  .kv .v{display:block;text-align:left;max-width:none;padding-left:16px}
-  .kv .k{max-width:none}
-  .btn{padding:0 14px;letter-spacing:.08em}
-  .search input{font-size:17px;padding:14px 8px}
-  .proto-banner{font-size:10.5px;letter-spacing:.08em}
-}
-
-/* Polish */
-.hub .st{font-size:11px;letter-spacing:.08em;line-height:1.35;padding:7px 9px}
-.hub .url{text-transform:uppercase;font-size:11px;letter-spacing:.08em}
-@media (max-width:640px){
-  .watermark{inset:-4px -14px 0}
-  .topbar{flex-wrap:nowrap}
-  .brand{gap:9px} .logo{width:22px;height:22px}
-  .brand-t{font-size:13px;letter-spacing:.05em}
-  .brand-t small{font-size:9.5px;letter-spacing:.08em}
-  .top-r{gap:6px}
-  .badge-proto{font-size:9.5px;letter-spacing:.12em;padding:4px 6px}
-  .theme-tg span{padding:4px 7px;font-size:9.5px}
-  .foot-legal{flex:1 1 100%;text-align:center}
-  .r-head{padding-top:12px}
-  .stamp{top:58px;right:2px;font-size:11px}
-  .st{font-size:10.5px;letter-spacing:.07em;line-height:1.35;padding:7px 9px}
-  .term{font-size:11.5px}
-}
-@media (max-width:380px){ .brand-t small{display:none} }
-.tag.warn,.warnline .tag.warn,.risk .tag.warn{background:var(--warn);color:#111;border-color:var(--warn);font-weight:700}
-[data-theme="dark"] .tag.warn{color:#0a0b0c}
-.warnline{font-weight:600}
-@media (max-width:820px){ .diagram.start .hub{order:0} }
-@media (max-width:640px){ .search input::placeholder{font-size:14px;letter-spacing:.04em} }
-
-/* ---------- v2.1: Rollen, Ersatzwerte, KI-Hook ---------- */
-.tag.est{color:var(--ok);background:var(--ok-bg)} .tag.role{color:var(--red-ink)} .tag.off{color:var(--mut)}
-.roles{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--hair);background:var(--panel)}
-.roles button{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 12px;border:0;border-right:1px solid var(--hair2);background:transparent;color:var(--ink);font:600 12px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
-.roles button:last-child{border-right:0}
-.roles button:hover{background:var(--panel2)}
-.roles button.on{background:var(--ink);color:var(--bg)}
-.roles button[disabled]{cursor:default}
-.roles .em{font-size:16px;line-height:1}
-.role-title{margin-top:12px;font:700 clamp(17px,2.6vw,24px)/1.25 "Space Mono",monospace;letter-spacing:.02em;color:var(--ink2)}
-.role-title .rt-t{color:var(--red)} .role-title .rt-r{color:var(--ink)} .role-title b{color:var(--ink);font-size:1.25em}
-.role-title small{font:500 12px "JetBrains Mono",monospace;color:var(--mut)}
-#dyn-status .st{margin-top:10px}
-.wpanel{display:grid;gap:10px}
-.whint{margin:0;font:500 12.5px "JetBrains Mono",monospace;color:var(--ink2);letter-spacing:.03em}
-.wedit{border:1px solid var(--hair);background:var(--panel)}
-.wedit summary{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;cursor:pointer;list-style:none}
-.wedit summary::-webkit-details-marker{display:none}
-.wedit summary .mlabel:first-child::before{content:"› ";color:var(--red)}
-.wedit[open] summary .mlabel:first-child::before{content:"⌄ "}
-.wrows{border-top:1px dashed var(--hair2);padding:6px 14px 12px}
-.wrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,240px) 52px;gap:12px;align-items:center;padding:6px 0;border-bottom:1px solid var(--hair2);font:500 12px "JetBrains Mono",monospace;letter-spacing:.04em;text-transform:uppercase}
-.wrow.off .wchk span,.wrow.off .wv{color:var(--mut)}
-.wchk{display:flex;align-items:center;gap:8px;cursor:pointer;min-width:0}
-.wchk input{accent-color:var(--red);width:16px;height:16px;flex:none}
-.wrow input[type=range]{width:100%;accent-color:var(--red)}
-.wv{text-align:right;font-weight:700}
-.wfoot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:center;margin-top:10px}
-.wreset{border:1px solid var(--hair);background:transparent;color:var(--ink);font:600 11px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;padding:7px 10px;cursor:pointer}
-.mod .mfx{font-size:11px;color:var(--mut);min-width:34px;text-align:right}
-.mod.off{opacity:.45} .crit.off{opacity:.6}
-.rated{margin:8px 0 0;color:var(--mut)}
-.variant,.kiprev{margin-top:10px;padding:10px 12px;border:1px dashed var(--hair)}
-.variant{border-color:var(--red)}
-.kiprev .tag{margin-right:6px}
-.verdict.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-.kihook{margin-top:22px;border:1px dashed var(--purple);padding:13px 15px;font-size:14px;color:var(--ink2)}
-.kihook .kh-h{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.kihook .kh-h b{font:700 13px "Space Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
-.kihook p{margin:8px 0 10px}
-.kh-in{display:flex;border:1px solid var(--hair2);opacity:.6}
-.kh-in input{flex:1;min-width:0;border:0;background:transparent;padding:10px 12px;font:500 12px "JetBrains Mono",monospace;letter-spacing:.1em;color:var(--ink)}
-.kh-in .btn{cursor:not-allowed;padding:0 16px}
-@media (max-width:820px){
-  .verdict.two{grid-template-columns:1fr}
-  .roles button{flex:1 1 45%;border-bottom:1px solid var(--hair2)}
-  .wrow{grid-template-columns:minmax(0,1fr) 52px;row-gap:4px}
-  .wrow input[type=range]{grid-column:1 / -1;grid-row:2}
-}
-.crit .ctags .tag{white-space:normal;max-width:100%}
-.ring .val small.rn{margin-top:2px;font-size:10px;letter-spacing:.1em}
-/* v2.3: nicht anwendbar (grau) + Deckel */
-.st.na{color:var(--mut);background:color-mix(in srgb,var(--mut) 12%,transparent)} .sq.na{background:var(--mut)}
-.role-title .rt-na{color:var(--mut);text-transform:lowercase}
-.na-box{margin-top:12px;border:1px solid var(--mut);background:color-mix(in srgb,var(--mut) 10%,transparent);padding:10px 12px;font-size:14px;color:var(--ink2);max-width:560px}
-.na-box p{margin:4px 0 0}
-.role-link{border:1px solid var(--hair);background:var(--panel);color:var(--ink);font:600 12px "JetBrains Mono",monospace;letter-spacing:.06em;padding:3px 8px;cursor:pointer;margin:2px 0}
-.role-link:hover{border-color:var(--red);color:var(--red-ink)}
-.cap-box{margin-top:12px;border:1px solid var(--warn);background:var(--warn-bg);padding:8px 12px;font:500 12.5px/1.5 "JetBrains Mono",monospace;color:var(--ink2);max-width:560px}
-/* v3: Aktien-Score + „Passt am besten als“ */
-.role-title .rt-sep{color:var(--mut)} .role-title .rt-fit{color:var(--ink);font-size:.8em} .role-title .rt-fit.keine{color:var(--mut)}
-.fit{border:1px solid var(--ink);background:var(--panel);padding:14px 16px}
-.fit.keine{border-color:var(--mut)}
-.fit-main{font:700 clamp(22px,3.6vw,34px)/1.15 "Space Mono",monospace;letter-spacing:.02em;margin:6px 0 4px;color:var(--ink)}
-.fit.keine .fit-main{color:var(--mut)}
-.fit-sub{margin:0;font:500 12.5px/1.5 "JetBrains Mono",monospace;color:var(--ink2)}
-.fit-list{display:grid;gap:0;margin-top:10px;border:1px solid var(--hair)}
-.fit-row{border-bottom:1px solid var(--hair2);background:var(--panel)}
-.fit-row:last-child{border-bottom:0}
-.fit-row summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(150px,1.2fr) 90px minmax(0,1.4fr);gap:6px 14px;align-items:center;padding:9px 14px;font:500 12.5px "JetBrains Mono",monospace;letter-spacing:.04em}
-.fit-row summary::-webkit-details-marker{display:none}
-.fit-row .fr-n{font-weight:700;text-transform:uppercase;letter-spacing:.08em}
-.fit-row .fr-s{font:700 16px "Space Mono",monospace;display:flex;align-items:center;gap:8px}
-.fit-row .fr-s small{font:500 11px "JetBrains Mono",monospace;color:var(--mut)}
-.fit-row .fr-l{color:var(--ink2)}
-.fit-row .fr-r{grid-column:1 / -1;color:var(--ink2);font-size:12px}
-.fit-row.na{opacity:.75} .fit-row.na .fr-s,.fit-row.na .fr-l{color:var(--mut)}
-.fit-row.best{background:var(--panel2)}
-.fit-row .body{padding:4px 14px 12px;border-top:1px dashed var(--hair2)}
-.fit-row .rw{margin:6px 0 0;color:var(--mut)}
-@media (max-width:820px){ .fit-row summary{grid-template-columns:minmax(0,1fr) auto} .fit-row .fr-l{grid-column:1 / -1} }
-
-
-.brand-t{text-transform:none}
-.watermark{display:none}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:8px 0 12px}
-.tile{display:flex;flex-direction:column;gap:6px;min-height:156px;padding:14px 14px 12px;border:1px solid var(--hair);background:var(--panel);color:inherit;text-decoration:none}
+.tile{display:flex;flex-direction:column;gap:8px;min-height:132px;padding:14px;border:1px solid var(--hair);background:var(--panel);color:inherit;text-decoration:none}
 .tile:hover{background:var(--panel2);text-decoration:none;border-color:var(--ink)}
 .tile-ticker{font:700 22px/1 "Space Mono",monospace;letter-spacing:.08em;color:var(--ink)}
 .tile-name{font:500 12px/1.35 "JetBrains Mono",monospace;color:var(--mut);letter-spacing:.03em}
-.tile-score{margin-top:auto;padding-top:12px;font:700 30px/1 "Space Mono",monospace}
-.tile-score.gruen{color:var(--ok)}
-.tile-score.gelb{color:var(--warn)}
-.tile-score.rot{color:var(--bad)}
-.tile-score.na{color:var(--mut);font-size:18px;letter-spacing:.04em}
-.tile-stand{padding-top:8px;font:500 11px/1.35 "JetBrains Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.tile-stand{margin-top:auto;padding-top:10px;font:500 11px/1.35 "JetBrains Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
 .tile-stand b{display:block;margin-bottom:2px;color:var(--red-ink);font-size:10px;letter-spacing:.12em}
-.gap-note{margin:14px 0 0;border:1px solid var(--warn);background:var(--warn-bg);padding:9px 12px;font:600 12.5px "JetBrains Mono",monospace}
-.ring .val b.long{font-size:42px}
-.page-kicker{margin:22px 0 4px}
+.back{display:inline-block;margin:10px 0 4px;font:600 11.5px "JetBrains Mono",monospace;letter-spacing:.14em;color:var(--ink2);text-transform:uppercase}
+.h-red{font:700 clamp(54px,11vw,104px)/.95 "Space Mono",monospace;color:var(--red);letter-spacing:.01em;margin:8px 0 0;text-transform:uppercase}
+.r-name{font:700 clamp(15px,2.4vw,21px)/1.25 "Space Mono",monospace;letter-spacing:.06em;text-transform:uppercase;margin:8px 0 14px}
+.term{font:500 12.5px/1.75 "JetBrains Mono",monospace;color:var(--ink2)}
+.term b{color:var(--ink);font-weight:700}
+.thesis{font-size:18px;line-height:1.45;max-width:68ch;margin:8px 0 0}
+.thesis.placeholder{color:var(--mut);font-style:italic}
+.wrap{overflow-x:auto;margin-top:18px;border:1px solid var(--hair)}
+table.metrics{width:100%;border-collapse:collapse;font:500 13px/1.45 "JetBrains Mono",monospace}
+table.metrics th{text-align:left;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);padding:10px 12px;border-bottom:1px solid var(--hair);background:var(--panel)}
+table.metrics td{padding:12px;border-bottom:1px solid var(--hair2);vertical-align:top}
+table.metrics tr:last-child td{border-bottom:0}
+table.metrics .val{font:700 15px "Space Mono",monospace;color:var(--ink)}
+table.metrics .sub{display:block;margin-top:4px;color:var(--mut);font:500 11.5px/1.4 "JetBrains Mono",monospace;white-space:normal}
+.facts{margin:14px 0 0;color:var(--ink2);font:500 12.5px "JetBrains Mono",monospace}
 @media (max-width:640px){
+  .shell{margin:14px 10px 24px}
+  .topbar{padding:12px 14px} main{padding:4px 14px 12px} .footer{padding:0 14px 18px}
   .tiles{grid-template-columns:1fr 1fr;gap:8px}
-  .tile{min-height:132px;padding:12px 10px}
+  .tile{min-height:118px;padding:12px 10px}
   .tile-ticker{font-size:16px}
-  .tile-score{font-size:24px}
-  .tile-score.na{font-size:14px}
+  .foot-legal{flex:1 1 100%;text-align:center}
 }
-
   </style>
 </head>
 <body>
@@ -447,7 +118,7 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     <main id="app" tabindex="-1"><p class="mlabel">Daten werden geladen.</p></main>
     <footer class="footer">
       <div class="foot-band">
-        <div class="discl-big compact"><span class="mlabel">KEINE ANLAGEBERATUNG</span>Keine Anlageberatung und keine Kauf- oder Verkaufsempfehlung. Die Scores sind eigene, regelbasierte Einschätzungen: öffentliche Unternehmens- und Marktdaten (u. a. SEC, Yahoo Finance, Nasdaq) werden nach festen Kriterien in Punkte von 0 bis 10 umgerechnet und gemittelt. Sie können unvollständig oder veraltet sein und ersetzen keine eigene Prüfung.</div>
+        <div class="discl-big compact"><span class="mlabel">KEINE ANLAGEBERATUNG</span>Keine Anlageberatung und keine Kauf- oder Verkaufsempfehlung. Die Kennzahlen sind öffentliche Unternehmensdaten mit Quelle und Stand. Sie können unvollständig oder veraltet sein und ersetzen keine eigene Prüfung.</div>
         <nav class="foot-legal" aria-label="Rechtliches">
           <a href="impressum.html">Impressum</a><span class="sep" aria-hidden="true">·</span><a href="datenschutz.html">Datenschutz</a>
         </nav>
@@ -459,17 +130,10 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
   <script>
 (function () {
   "use strict";
-  var TICKERS = ["PLTR","OSS","AMZN","TSLA","HIMS","LMND","IBRX","MU","IREN","GRAB","SIVE","SPCX","PYPL"];
-  var CODES = ["C_01","C_02","C_03","C_04","C_05","C_06","C_07","C_08","C_09"];
-  var CFG = {
-    scoreName: "Aktien-Score",
-    ampelText: {gruen: "Starkes Gesamtprofil", gelb: "Gemischtes Gesamtprofil", rot: "Schwaches Gesamtprofil"},
-    ampel: {gruen: {ab: 7}, gelb: {ab: 5}, na: {label: "nicht anwendbar"}, ko: {label: "Warnsignal"}}
-  };
-
+  var TICKERS = ["PLTR","OSS","AMZN","TSLA","HIMS","LMND","IBRX","MU","IREN","GRAB"];
+  var DASH = "—";
   var app = document.getElementById("app");
   var loaded = [];
-  var profiles = {};
 
   var tg = document.getElementById("theme-tg");
   function setTheme(t) {
@@ -490,433 +154,98 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
     });
   }
   function dDE(iso) {
-    if (!iso) return "–";
+    if (!iso) return DASH;
     var p = String(iso).slice(0, 10).split("-");
     return p.length === 3 ? p[2] + "." + p[1] + "." + p[0] : String(iso);
   }
-  function pad(n) { return (n < 10 ? "0" : "") + n; }
-  function n1(x) {
-    if (x == null || Number.isNaN(Number(x))) return "–";
-    return (Math.round(Number(x) * 10) / 10).toFixed(1).replace(".", ",");
-  }
-  function lvl(p) { return p >= 0.7 ? "gruen" : p >= 0.4 ? "gelb" : "rot"; }
-  function seg(points, max) {
-    var n = 10, known = points != null && !Number.isNaN(Number(points));
-    var on = known ? Math.round(Number(points) / max * n) : 0;
-    var tone = known ? lvl(Number(points) / max) : "na";
-    var h = '<span class="seg ' + tone + '" aria-hidden="true">';
-    for (var i = 0; i < n; i++) h += '<i class="' + (i < on ? "on" : "") + '"></i>';
-    return h + "</span>";
-  }
-  function lightOf(doc) {
-    if (doc.status || doc.score == null) return "na";
-    var map = {green: "gruen", orange: "gelb", red: "rot"};
-    return map[doc.trafficLight] || (doc.score >= 7 ? "gruen" : doc.score >= 5 ? "gelb" : "rot");
-  }
-  function lab(light) {
-    if (light === "na") return CFG.ampel.na.label;
-    return CFG.ampelText[light] || "";
-  }
-  function status(light, ko) {
-    var name = {gruen: "GRÜN", gelb: "GELB", rot: "ROT", na: "GRAU"}[light];
-    var text = light === "na" ? "wenig Daten" : (ko ? CFG.ampel.ko.label + " (K.-O.)" : lab(light));
-    return '<span class="st ' + light + '"><i></i>STATUS: ' + name + " · " + esc(text) + "</span>";
-  }
-  function dateKey(value) {
-    if (value == null || value === "") return null;
-    var iso = String(value).trim().match(/^(\d{4})-(\d{2})-(\d{2})/);
-    return iso ? iso[1] + iso[2] + iso[3] : null;
-  }
-  function latest(values) {
-    var keyed = values.map(function (value) { return {value: value, key: dateKey(value)}; }).filter(function (item) { return item.key; });
-    if (!keyed.length) return null;
-    keyed.sort(function (a, b) { return a.key < b.key ? -1 : a.key > b.key ? 1 : 0; });
-    return keyed[keyed.length - 1].value;
-  }
-  function metricsOf(doc) {
-    var rows = [];
-    doc.criteria.forEach(function (c) { (c.metrics || []).forEach(function (m) { rows.push(m); }); });
-    return rows;
-  }
-  function standOf(doc) {
-    if (doc.asOf) return doc.asOf;
-    if (doc.price && doc.price.date) return doc.price.date;
-    return null;
-  }
-  function standText(doc) {
-    var day = standOf(doc);
-    return day ? dDE(day) : "wenig Daten";
+  function shown(value) {
+    return value == null || value === "" ? DASH : String(value);
   }
   function priceText(doc) {
     var price = doc.price;
-    if (!price || price.close == null || price.close === "") return "wenig Daten";
+    if (!price || price.close == null || price.close === "") return DASH;
     var number = Number(price.close);
-    if (!isFinite(number)) return "wenig Daten";
+    if (!isFinite(number)) return DASH;
     var text = number.toFixed(2).replace(".", ",");
-    if (price.currency) text += "&nbsp;" + esc(price.currency);
+    if (price.currency) text += " " + price.currency;
     return text;
   }
-  function kursDate(doc) {
-    if (doc.price && doc.price.date) return doc.price.date;
-    var c7 = doc.criteria.filter(function (c) { return c.code === "C_07"; })[0];
-    return latest((c7 && c7.metrics || []).map(function (m) { return m.observedAt; }));
-  }
-  function zahlenDate(doc) {
-    var points = [];
-    doc.criteria.forEach(function (c) {
-      if (c.code === "C_07") return;
-      (c.metrics || []).forEach(function (m) { if (m.observedAt) points.push(m.observedAt); });
-    });
-    return latest(points);
-  }
-  function findMetric(doc, id) {
-    var found = null;
-    doc.criteria.forEach(function (c) {
-      (c.metrics || []).forEach(function (m) { if (m.id === id) found = m; });
-    });
-    return found;
-  }
-  function adapt(score) {
-    var role = score.role || {id: "satellit", label: "Satellit", weights: {}, reason: ""};
-    return {
-      ticker: score.ticker,
-      name: score.name || "",
-      score: score.score,
-      status: score.status,
-      trafficLight: score.trafficLight,
-      ko: score.koFlags || [],
-      missingDataNote: score.missingDataNote,
-      asOf: score.asOf,
-      price: score.price || null,
-      profile: score.profile || null,
-      role: role,
-      criteria: (score.criteria || []).map(function (found) {
-        var missing = found.score == null || found.status;
-        var number = parseInt(String(found.id || "").replace(/\D/g, ""), 10);
-        return {
-          id: number,
-          code: found.id,
-          name: found.label || found.id,
-          wert: missing ? null : found.score,
-          bewertet: !missing,
-          status: missing ? (found.status || "wenig Daten") : null,
-          aggregate: found.aggregate || null,
-          capApplied: !!found.capApplied,
-          metrics: found.metrics || [],
-          dataQuality: found.dataQuality || "",
-          summary: found.summary || null
-        };
-      })
-    };
-  }
-  function ring(score, light) {
-    var n = 48, pct = score == null ? 0 : Math.max(0, Math.min(10, Number(score)));
-    var on = Math.round(pct / 10 * n), h = "", tone = {gruen: "ok", gelb: "warn", rot: "bad", na: "mut"}[light];
-    for (var i = 0; i < n; i++) {
-      var a = (i / n) * 2 * Math.PI - Math.PI / 2;
-      var c = Math.cos(a), s = Math.sin(a);
-      h += '<line x1="' + (108 + 86 * c).toFixed(1) + '" y1="' + (108 + 86 * s).toFixed(1) + '" x2="' + (108 + 102 * c).toFixed(1) + '" y2="' + (108 + 102 * s).toFixed(1) + '" stroke="' + (i < on ? "var(--" + tone + ")" : "var(--hair2)") + '" stroke-width="6"/>';
-    }
-    h += '<circle cx="108" cy="108" r="78" fill="none" stroke="var(--hair2)" stroke-width="1"/>';
-    var shown = score == null ? "–" : n1(score);
-    return '<div class="ring" role="img" aria-label="' + esc(CFG.scoreName) + " " + esc(shown) + ' von 10"><svg viewBox="0 0 216 216">' + h +
-      '</svg><div class="val"><div><b class="' + (shown.length > 2 ? "long" : "") + '">' + esc(shown) + '</b><small>/ 10</small><small class="rn">AKTIEN-SCORE</small></div></div></div>';
-  }
-  function legend() {
-    return '<div class="legend"><span><span class="sq gruen"></span> ≥ 7 · ' + esc(lab("gruen")) + '</span><span><span class="sq gelb"></span> 5–6,9 · ' + esc(lab("gelb")) +
-      '</span><span><span class="sq rot"></span> &lt; 5 · ' + esc(lab("rot")) + "</span></div>";
-  }
-  function shownScore(doc) {
-    if (doc.status) return String(doc.status);
-    return n1(doc.score);
-  }
-  function gapLabel(status) {
-    return status || "wenig Daten";
-  }
 
-  function renderTile(score) {
-    var doc = adapt(score);
+  function renderTile(doc) {
     var link = document.createElement("a");
     link.className = "tile";
-    link.href = "#/" + score.ticker;
+    link.href = "#/" + doc.ticker;
     var ticker = document.createElement("span");
     ticker.className = "tile-ticker";
-    ticker.textContent = score.ticker;
+    ticker.textContent = doc.ticker;
     var name = document.createElement("span");
     name.className = "tile-name";
-    name.textContent = score.name || "";
-    var value = document.createElement("span");
-    value.className = "tile-score " + lightOf(doc);
-    value.textContent = shownScore(doc);
+    name.textContent = doc.name || "";
     var stand = document.createElement("span");
     stand.className = "tile-stand";
     var label = document.createElement("b");
     label.textContent = "Stand der Daten";
-    stand.append(label, document.createTextNode(standText(doc)));
-    link.append(ticker, name, value, stand);
+    stand.append(label, document.createTextNode(dDE(doc.asOf)));
+    link.append(ticker, name, stand);
     return link;
   }
 
   function showGrid() {
     document.title = "sidequest";
+    var ready = loaded.filter(function (item) { return item.ok; });
     var grid = document.createElement("div");
     grid.className = "tiles";
-    loaded.forEach(function (item) {
-      if (item.ok) grid.append(renderTile(item.score));
-    });
+    ready.forEach(function (item) { grid.append(renderTile(item.doc)); });
     var kicker = document.createElement("div");
-    kicker.className = "sec-t page-kicker";
-    kicker.innerHTML = "<h2>Übersicht Aktienportfolio</h2><span class=\"mlabel\">" + loaded.length + " TICKER · SCORE 0–10</span>";
+    kicker.className = "sec-t";
+    kicker.innerHTML = "<h2>Übersicht</h2><span class=\"mlabel\">" + ready.length + " Ticker · Kennzahlen, kein Score</span>";
     app.replaceChildren(kicker, grid);
   }
 
-  function matrix(doc) {
-    var light = lightOf(doc);
-    var rated = doc.criteria.filter(function (c) { return c.bewertet; }).length;
-    var h = '<div class="sec-t"><h2>Score_Matrix</h2><span class="mlabel">' + doc.criteria.length + ' PUNKTE · JE 0–10 · FEHLENDE ZÄHLEN NICHT</span></div>';
-    h += '<div class="diagram crits"><div class="mods">' + doc.criteria.map(function (c) {
-      var mark = c.bewertet ? n1(c.wert) : gapLabel(c.status);
-      return '<a class="mod" href="#c' + c.id + '" data-open="c' + c.id + '"><span class="ml">C_' + pad(c.id) + " · " + esc(c.name) + '</span><span class="mr">' + seg(c.wert, 10) + "<span>" + esc(mark) + "</span></span></a>";
-    }).join("") + '</div><div class="hub crit-hub"><div class="hub-h"><span class="mlabel">' + esc(doc.ticker) + ' · AKTIEN-SCORE</span><span class="mlabel">MAX 10</span></div><div class="big">' +
-      esc(shownScore(doc)) + '<small>/10</small></div>' + status(light, doc.ko.length) +
-      '<p class="rated mlabel">' + rated + " VON " + doc.criteria.length + " KRITERIEN MIT DATEN</p>" + legend() + "</div></div>";
-    return h;
+  function metricRows(doc) {
+    return (doc.metrics || []).map(function (metric) {
+      var value = metric.value == null ? DASH : shown(metric.display);
+      var extra = "";
+      if (metric.detail) extra += '<span class="sub">' + esc(metric.detail) + "</span>";
+      if (metric.note) extra += '<span class="sub">' + esc(metric.note) + "</span>";
+      var source = metric.sourceUrl
+        ? '<a href="' + esc(metric.sourceUrl) + '" rel="noopener noreferrer">' + esc(metric.source || "Quelle") + "</a>"
+        : esc(metric.source || DASH);
+      return "<tr><th scope=\"row\">" + esc(metric.label || "") + "</th><td class=\"val\">" + esc(value) + extra +
+        "</td><td>" + esc(shown(metric.period)) + "</td><td>" + source + "</td><td>" + esc(dDE(metric.fetchedAt)) + "</td></tr>";
+    }).join("");
   }
 
-  function metricName(metric) {
-    return metric.label || metric.id;
-  }
-  function pointsText(metric, aggregate) {
-    var text = n1(metric.points);
-    if (aggregate !== "sum" || metric.pointsMax == null) return text;
-    var maxN = Number(metric.pointsMax);
-    var maxText = Math.abs(maxN - Math.round(maxN)) < 1e-9 ? String(Math.round(maxN)) : n1(maxN);
-    return text + " / " + maxText;
-  }
-  function isWithheld(metric) {
-    return metric.points == null && metric.value != null && /Warnhinweis/.test(metric.status || "");
-  }
-  function criteriaDetail(doc) {
-    var h = '<div class="sec-t"><h2>Criteria_Detail</h2><span class="mlabel">ANTIPPEN FÜR DETAILS</span></div>';
-    doc.criteria.forEach(function (c) {
-      var gap = gapLabel(c.status);
-      var excluded = gap === "ausgeblendet, zählt nicht";
-      var tag = c.bewertet
-        ? '<span class="tag daten">Daten</span>'
-        : '<span class="' + (excluded ? "tag off" : "tag bsp") + '">' + esc(gap) + "</span>";
-      var present = [];
-      var notApplicable = [];
-      var withheld = [];
-      var missing = [];
-      (c.metrics || []).forEach(function (metric) {
-        if ((metric.status || "") === "nicht anwendbar") notApplicable.push(metric);
-        else if (isWithheld(metric)) withheld.push(metric);
-        else if (metric.status || metric.points == null) missing.push(metric);
-        else present.push(metric);
-      });
-      var rows = present.map(function (metric) {
-        var tip = sourceTitle(metric);
-        var caption = metric.caption ? '<span class="sub">' + esc(metric.caption) + "</span>" : "";
-        return "<tr><td>" + esc(metricName(metric)) + '</td><td class="val"' + (tip ? ' title="' + esc(tip) + '"' : "") + ">" + esc(String(metric.value)) + caption + '</td><td class="pts">' + esc(pointsText(metric, c.aggregate)) + '</td><td class="scale">' + esc(metric.scale || "") + "</td></tr>";
-      }).join("");
-      var table = present.length
-        ? '<table class="mtbl"><colgroup><col class="c-name"><col class="c-val"><col class="c-pts"><col class="c-scale"></colgroup><thead><tr><th>Metrik</th><th>Wert</th><th>Punkte</th><th>Skala</th></tr></thead><tbody>' + rows + "</tbody></table>"
-        : "";
-      var naLine = notApplicable.length
-        ? '<p class="mtbl-gap">Nicht anwendbar: ' + notApplicable.map(function (metric) {
-          var reason = metric.statusReason || "";
-          return esc(metricName(metric)) + (reason ? " (" + esc(reason) + ")" : "");
-        }).join(", ") + "</p>"
-        : "";
-      var withheldLine = withheld.length
-        ? '<p class="mtbl-gap">Nicht gewertet: ' + withheld.map(function (metric) {
-          return esc(metricName(metric)) + " " + esc(String(metric.value)) + " (" + esc(metric.status) + ")";
-        }).join(", ") + "</p>"
-        : "";
-      var gapLine = missing.length
-        ? '<p class="mtbl-gap">Ohne Daten: ' + missing.map(function (metric) {
-          return esc(metricName(metric)) + (metric.status ? " (" + esc(metric.status) + ")" : "");
-        }).join(", ") + "</p>"
-        : "";
-      var how = c.aggregate === "sum" ? "Summe aus " : "Mittel aus ";
-      var noun = present.length === 1 ? "Wert" : "Werten";
-      var capNote = c.aggregate === "sum" ? " (max. 10)" : "";
-      var meanLine = '<p class="expl">Kriterium = ' + how + present.length + " " + noun + capNote + "</p>";
-      var quality = c.dataQuality ? '<p class="expl">' + esc(c.dataQuality) + "</p>" : "";
-      var summary = c.code === "C_06" ? analystSummary(c.summary) : "";
-      var scoreText = c.bewertet
-        ? esc(n1(c.wert)) + "<small>/10</small>"
-        : (excluded ? '<span class="mlabel">' + esc(gap) + "</span>" : esc(gap) + "<small>/10</small>");
-      h += '<details class="crit" id="c' + c.id + '"><summary><span><span class="cid">CRITERION_' + pad(c.id) + '</span><span class="cn">' + esc(c.name) + '</span><span class="ctags">' + tag + '</span></span><span class="score">' +
-        scoreText + seg(c.wert, 10) + '</span><span class="chev">›</span></summary><div class="body">' + table + naLine + withheldLine + gapLine + meanLine + summary + quality + "</div></details>";
-    });
-    return h;
-  }
-
-  function analystSummary(summary) {
-    if (!summary) return "";
-    function bucket(row) {
-      if (!row) return "wenig Daten";
-      return [
-        ["Strong Buy", row.strongBuy],
-        ["Buy", row.buy],
-        ["Hold", row.hold],
-        ["Sell", row.sell],
-        ["Strong Sell", row.strongSell]
-      ].map(function (part) {
-        return part[0] + " " + (part[1] == null ? "–" : String(part[1]));
-      }).join(" · ");
-    }
-    var target = summary.target || {};
-    var low = target.low == null ? "–" : n1(target.low);
-    var high = target.high == null ? "–" : n1(target.high);
-    var h = '<div class="expl">';
-    h += "<p>Aktuell: " + esc(bucket(summary.current)) + "</p>";
-    h += "<p>Vor 3 Monaten: " + esc(bucket(summary.threeMonthsAgo)) + "</p>";
-    h += "<p>Kursziel Mittel " + esc(target.mean == null ? "wenig Daten" : n1(target.mean));
-    h += " · Median " + esc(target.median == null ? "wenig Daten" : n1(target.median));
-    h += " · Spanne " + esc(low + "–" + high);
-    h += " · " + esc(target.count == null ? "wenig Daten" : String(target.count)) + " Analysten</p>";
-    var changes = summary.changes || [];
-    if (changes.length) {
-      h += "<p>" + changes.slice(0, 5).map(function (row) {
-        var price = row.target == null ? "–" : n1(row.target);
-        return esc((row.date || "–") + " · " + (row.firm || "–") + " · " + (row.grade || "–") + " · " + price);
-      }).join("<br>") + "</p>";
-    }
-    h += "</div>";
-    return h;
-  }
-
-  function sourceTitle(metric) {
-    var parts = [];
-    if (metric.sourceLabel) parts.push(metric.sourceLabel);
-    if (metric.observedAt) parts.push("Stichtag " + dDE(metric.observedAt));
-    if (metric.fetchedAt) parts.push("Abruf " + dDE(metric.fetchedAt));
-    return parts.join(" · ");
-  }
-
-  function sourceBlock(doc) {
-    var buckets = {
-      SEC: {obs: [], fetch: []},
-      "Yahoo Finance": {obs: [], fetch: []},
-      Nasdaq: {obs: [], fetch: []}
-    };
-    function add(label, url, observed, fetched) {
-      var text = (label || "") + " " + (url || "");
-      var names = [];
-      if (/yahoo/i.test(text)) names.push("Yahoo Finance");
-      if (/nasdaq/i.test(text)) names.push("Nasdaq");
-      if (/sec|edgar/i.test(text)) names.push("SEC");
-      names.forEach(function (name) {
-        if (observed) buckets[name].obs.push(observed);
-        if (fetched) buckets[name].fetch.push(fetched);
-      });
-    }
-    metricsOf(doc).forEach(function (metric) {
-      add(metric.sourceLabel, metric.sourceUrl, metric.observedAt, metric.fetchedAt);
-    });
-    if (doc.price) add(doc.price.sourceLabel, doc.price.sourceUrl, doc.price.date, null);
-    if (doc.profile) add(doc.profile.source, null, null, doc.profile.fetchedAt);
-    var lines = [];
-    ["SEC", "Yahoo Finance", "Nasdaq"].forEach(function (name) {
-      var bucket = buckets[name];
-      if (!bucket.obs.length && !bucket.fetch.length) return;
-      var parts = [name];
-      var observed = latest(bucket.obs);
-      var fetched = latest(bucket.fetch);
-      if (observed) parts.push("Stichtag " + dDE(observed));
-      if (fetched) parts.push("Abruf " + dDE(fetched));
-      lines.push(esc(parts.join(" · ")));
-    });
-    if (!lines.length) return "";
-    return '<div class="src">' + lines.join("<br>") + "</div>";
-  }
-
-  function deGrouped(n) {
-    var sign = n < 0 ? "-" : "";
-    var text = String(Math.round(Math.abs(n)));
-    return sign + text.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
-  function deScaled(n, digits) {
-    var text = Number(n).toFixed(digits).replace(".", ",");
-    return text.replace(/,(\d*?)0+$/, function (_, rest) { return rest ? "," + rest : ""; });
-  }
-  function formatEmployees(value) {
-    var n = Number(value);
-    if (!isFinite(n)) return "";
-    return deGrouped(n);
-  }
-  function formatCap(value, currency) {
-    var n = Number(value);
-    if (!isFinite(n)) return "";
-    var abs = Math.abs(n);
-    var div = 1;
-    var unit = "";
-    if (abs >= 1e12) { div = 1e12; unit = " Bio."; }
-    else if (abs >= 1e9) { div = 1e9; unit = " Mrd."; }
-    else if (abs >= 1e6) { div = 1e6; unit = " Mio."; }
-    else if (abs >= 1e3) { div = 1e3; unit = " Tsd."; }
-    var mark = currency === "USD" ? " $" : currency === "EUR" ? " €" : (currency ? " " + currency : "");
-    if (div === 1) return deGrouped(n) + mark;
-    var scaled = n / div;
-    var digits = Math.abs(scaled) >= 10 ? 1 : 2;
-    return deScaled(scaled, digits) + unit + mark;
-  }
-  function factLine(profile, segments) {
+  function factLine(profile) {
     profile = profile || {};
     var bits = [];
-    if (profile.hq) bits.push("Sitz " + esc(profile.hq));
-    if (profile.employees != null && profile.employees !== "") bits.push("Mitarbeiter " + esc(formatEmployees(profile.employees)));
-    if (profile.marketCap != null && profile.marketCap !== "") bits.push("Börsenwert " + esc(formatCap(profile.marketCap, profile.currency)));
-    if (segments && segments.length) bits.push("Segmente " + esc(segments.join(", ")));
+    if (profile.hq) bits.push("Sitz " + profile.hq);
+    if (profile.employeesDisplay) bits.push("Mitarbeiter " + profile.employeesDisplay);
+    if (profile.marketCapDisplay) bits.push("Börsenwert " + profile.marketCapDisplay);
     return bits.join(" · ");
   }
-  function companyBlock(doc) {
-    var entry = profiles[doc.ticker] || {};
-    var block = "";
-    if (entry.text) block += '<p class="expl">' + esc(entry.text) + "</p>";
-    var facts = factLine(doc.profile, entry.segments);
-    if (facts) block += '<p class="expl">' + facts + "</p>";
-    return block;
-  }
 
-  function showDetail(score) {
-    var doc = adapt(score);
-    var light = lightOf(doc);
-    var scoreText = shownScore(doc);
-    document.title = doc.ticker + " · " + CFG.scoreName + " " + scoreText + " · sidequest";
+  function showDetail(doc) {
+    document.title = doc.ticker + " · sidequest";
+    var thesis = doc.thesis || "These folgt";
+    var thesisClass = thesis === "These folgt" ? "thesis placeholder" : "thesis";
+    var price = priceText(doc);
+    var priceDate = doc.price && doc.price.date ? dDE(doc.price.date) : DASH;
+    var facts = factLine(doc.profile);
     var h = '<a class="back" href="#/">← Alle Positionen</a>';
-    h += '<section class="r-head"><div><span class="mlabel">CHECK_RESULT // ' + esc(doc.ticker) + '</span>';
-    h += '<h1 class="h-red" style="margin-top:8px">' + esc(doc.ticker) + "</h1>";
-    h += '<div class="r-name">' + esc(doc.name) + "</div>";
-    h += '<div class="role-title"><span class="rt-t">' + esc(doc.ticker) + '</span> <b>' + esc(scoreText) + '</b><small>/10</small></div>';
-    h += companyBlock(doc);
-    h += '<div id="dyn-status">' + status(light, doc.ko.length) + "</div>";
-    h += '<div class="term" style="margin-top:14px"><span class="p">&gt;</span> STAND DER DATEN <b>' + esc(standText(doc)) + "</b><br>";
-    h += '<span class="p">&gt;</span> KURS <b>' + priceText(doc) + "</b> · VOM <b>" + esc(dDE(kursDate(doc))) + "</b></div></div>";
-    h += '<div class="score-hub">' + ring(doc.status ? null : doc.score, light) + "</div></section>";
-    if (doc.missingDataNote) h += '<p class="gap-note">' + esc(doc.missingDataNote) + "</p>";
-    if (doc.ko.length) {
-      h += '<div class="ko"><span class="mlabel" style="color:var(--bad)">K.-O._FLAG · ' + esc(CFG.ampel.ko.label.toUpperCase()) + "</span><ul>" +
-        doc.ko.map(function (flag) { return "<li>" + esc(flag) + "</li>"; }).join("") + "</ul></div>";
-    }
-    h += matrix(doc) + criteriaDetail(doc);
-    h += sourceBlock(doc);
-    app.innerHTML = '<article class="result">' + h + "</article>";
-    openFromQuery(doc.ticker);
+    h += '<h1 class="h-red">' + esc(doc.ticker) + "</h1>";
+    h += '<div class="r-name">' + esc(doc.name || "") + "</div>";
+    h += '<div class="term">Kurs <b>' + esc(price) + "</b>";
+    if (doc.price && doc.price.date) h += " · Schluss <b>" + esc(priceDate) + "</b>";
+    if (doc.price && doc.price.source) h += " · " + esc(doc.price.source);
+    h += "</div>";
+    h += '<p class="mlabel" style="margin-top:18px">These</p>';
+    h += '<p class="' + thesisClass + '">' + esc(thesis) + "</p>";
+    h += '<div class="wrap"><table class="metrics"><thead><tr><th>Kennzahl</th><th>Wert</th><th>Periode</th><th>Quelle</th><th>Stand</th></tr></thead><tbody>' +
+      metricRows(doc) + "</tbody></table></div>";
+    if (facts) h += '<p class="facts">' + esc(facts) + "</p>";
+    app.innerHTML = h;
     window.scrollTo(0, 0);
-  }
-
-  function openFromQuery(ticker) {
-    var open = new URLSearchParams(location.search).get("open") || "";
-    var parts = open.split("-");
-    if (parts[0] && parts[0].toUpperCase() !== ticker) return;
-    var code = parts.slice(1).join("-");
-    var index = CODES.indexOf(code);
-    if (index < 0) return;
-    var el = document.getElementById("c" + (index + 1));
-    if (el && el.tagName === "DETAILS") el.open = true;
   }
 
   function tickerFromHash() {
@@ -930,56 +259,32 @@ a.mod:hover{text-decoration:none;background:var(--panel2);border-color:var(--ink
   function show() {
     var ticker = tickerFromHash();
     if (!ticker) {
-      var open = new URLSearchParams(location.search).get("open") || "";
-      var fromOpen = open.split("-")[0].toUpperCase();
-      if (TICKERS.indexOf(fromOpen) !== -1 && location.hash.replace(/^#/, "") === "") {
-        location.hash = "#/" + fromOpen;
-        return;
-      }
       showGrid();
       return;
     }
-    var item = loaded.filter(function (row) { return row.ok && row.score.ticker === ticker; })[0];
-    if (item) showDetail(item.score);
+    var item = loaded.filter(function (row) { return row.ok && row.doc.ticker === ticker; })[0];
+    if (item) showDetail(item.doc);
     else showGrid();
   }
 
-  app.addEventListener("click", function (e) {
-    var link = e.target.closest("[data-open]");
-    if (!link) return;
-    e.preventDefault();
-    var el = document.getElementById(link.getAttribute("data-open"));
-    if (!el) return;
-    if (el.tagName === "DETAILS") el.open = true;
-    el.scrollIntoView({behavior: "smooth", block: "start"});
-  });
-
   function loadTicker(ticker) {
-    return fetch("data/" + ticker + "/score.json").then(function (response) {
+    return fetch("data/" + ticker + "/metrics.json").then(function (response) {
       if (!response.ok) throw new Error(String(response.status));
       return response.json();
-    }).then(function (score) {
-      if (!score || score.ticker !== ticker) throw new Error("ticker");
-      return score;
+    }).then(function (doc) {
+      if (!doc || doc.ticker !== ticker || !doc.metrics || doc.metrics.length !== 6) throw new Error("ticker");
+      return doc;
     });
   }
 
-  Promise.all([
-    Promise.all(TICKERS.map(function (ticker) {
-      return loadTicker(ticker).then(function (score) { return {ok: true, score: score}; }, function () { return {ok: false, ticker: ticker}; });
-    })),
-    fetch("config/profiles.json").then(function (response) {
-      if (!response.ok) throw new Error(String(response.status));
-      return response.json();
-    }).then(null, function () { return {}; })
-  ]).then(function (parts) {
-    loaded = parts[0];
-    profiles = parts[1] || {};
+  Promise.all(TICKERS.map(function (ticker) {
+    return loadTicker(ticker).then(function (doc) { return {ok: true, doc: doc}; }, function () { return {ok: false, ticker: ticker}; });
+  })).then(function (rows) {
+    loaded = rows;
     window.addEventListener("hashchange", show);
     show();
   });
 })();
-
   </script>
 </body>
 </html>

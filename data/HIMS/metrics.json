@@ -1,0 +1,111 @@
+{
+  "ticker": "HIMS",
+  "name": "Hims & Hers Health",
+  "yahoo": "HIMS",
+  "currency": "USD",
+  "asOf": "2026-10-29",
+  "thesis": "These folgt",
+  "price": {
+    "close": 28.82,
+    "currency": "USD",
+    "date": "2026-10-29",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/HIMS/history",
+    "fetchedAt": "2026-10-29"
+  },
+  "profile": {
+    "hq": "San Francisco, USA",
+    "employees": 2442,
+    "employeesDisplay": "2.442",
+    "marketCap": 6711400448,
+    "marketCapDisplay": "6,711 Mrd. USD",
+    "currency": "USD",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/HIMS/profile",
+    "fetchedAt": "2026-10-29"
+  },
+  "metrics": [
+    {
+      "id": "revenueGrowthYoy",
+      "label": "Umsatzwachstum y/y",
+      "value": 0.38246766,
+      "display": "+38,2 %",
+      "detail": "0,753 Mrd. USD vs. 0,545 Mrd. USD",
+      "period": "Q2 2026 vs. Q2 2025",
+      "source": "Yahoo Finance quarterly_income_stmt; SEC companyfacts bestätigt",
+      "sourceUrl": "https://finance.yahoo.com/quote/HIMS/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null,
+      "secConcept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+    },
+    {
+      "id": "grossMarginTtm",
+      "label": "Bruttomarge",
+      "value": 0.68425383,
+      "display": "68,4 %",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 30.06.2026)",
+      "source": "Yahoo Finance quarterly_income_stmt",
+      "sourceUrl": "https://finance.yahoo.com/quote/HIMS/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": "Yahoo grossMargins 69,5 % weicht ab, gezeigt ist die Quartalsrechnung"
+    },
+    {
+      "id": "freeCashFlowTtm",
+      "label": "Free Cashflow",
+      "value": 61634000,
+      "display": "+61,6 Mio. USD",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 30.06.2026)",
+      "source": "Yahoo Finance quarterly_cashflow",
+      "sourceUrl": "https://finance.yahoo.com/quote/HIMS/cash-flow",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
+    },
+    {
+      "id": "cashVsDebt",
+      "label": "Cash vs. Schulden",
+      "value": {
+        "cash": 841048000,
+        "debt": 1546239000
+      },
+      "display": "Cash 0,841 Mrd. · Schulden 1,546 Mrd. USD",
+      "detail": "Netto-Schulden 0,705 Mrd. USD",
+      "period": "letzte Bilanz 30.06.2026",
+      "source": "Yahoo Finance quarterly_balance_sheet",
+      "sourceUrl": "https://finance.yahoo.com/quote/HIMS/balance-sheet",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "dilutionYoy",
+      "label": "Verwässerung",
+      "value": 0.0328593,
+      "display": "+3,3 %",
+      "detail": "0,232 Mrd. vs. 0,224 Mrd. Basic Average Shares",
+      "period": "Q2 2026 vs. Q2 2025",
+      "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
+      "sourceUrl": "https://finance.yahoo.com/quote/HIMS/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "nextEarnings",
+      "label": "Nächster Zahlentermin",
+      "value": "2026-11-09T21:00:00+01:00",
+      "display": "09.11.2026, 21:00 MEZ",
+      "detail": null,
+      "period": "Q3 2026",
+      "source": "Yahoo Finance earnings_dates",
+      "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
+      "observedAt": "2026-11-09",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    }
+  ]
+}

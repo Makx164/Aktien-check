@@ -1,0 +1,111 @@
+{
+  "ticker": "PLTR",
+  "name": "Palantir Technologies",
+  "yahoo": "PLTR",
+  "currency": "USD",
+  "asOf": "2026-10-29",
+  "thesis": "These folgt",
+  "price": {
+    "close": 195.27,
+    "currency": "USD",
+    "date": "2026-10-29",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/PLTR/history",
+    "fetchedAt": "2026-10-29"
+  },
+  "profile": {
+    "hq": "Aventura, USA",
+    "employees": 4401,
+    "employeesDisplay": "4.401",
+    "marketCap": 469245231104,
+    "marketCapDisplay": "469,25 Mrd. USD",
+    "currency": "USD",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/PLTR/profile",
+    "fetchedAt": "2026-10-29"
+  },
+  "metrics": [
+    {
+      "id": "revenueGrowthYoy",
+      "label": "Umsatzwachstum y/y",
+      "value": 0.92833495,
+      "display": "+92,8 %",
+      "detail": "1,935 Mrd. USD vs. 1,004 Mrd. USD",
+      "period": "Q2 2026 vs. Q2 2025",
+      "source": "Yahoo Finance quarterly_income_stmt; SEC companyfacts bestätigt",
+      "sourceUrl": "https://finance.yahoo.com/quote/PLTR/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null,
+      "secConcept": "RevenueFromContractWithCustomerExcludingAssessedTax"
+    },
+    {
+      "id": "grossMarginTtm",
+      "label": "Bruttomarge",
+      "value": 0.84796134,
+      "display": "84,8 %",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 30.06.2026)",
+      "source": "Yahoo Finance quarterly_income_stmt",
+      "sourceUrl": "https://finance.yahoo.com/quote/PLTR/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "freeCashFlowTtm",
+      "label": "Free Cashflow",
+      "value": 3358272000,
+      "display": "+3,358 Mrd. USD",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 30.06.2026)",
+      "source": "Yahoo Finance quarterly_cashflow",
+      "sourceUrl": "https://finance.yahoo.com/quote/PLTR/cash-flow",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
+    },
+    {
+      "id": "cashVsDebt",
+      "label": "Cash vs. Schulden",
+      "value": {
+        "cash": 9409099000,
+        "debt": 211400000
+      },
+      "display": "Cash 9,409 Mrd. · Schulden 0,211 Mrd. USD",
+      "detail": "Netto-Cash 9,198 Mrd. USD",
+      "period": "letzte Bilanz 30.06.2026",
+      "source": "Yahoo Finance quarterly_balance_sheet",
+      "sourceUrl": "https://finance.yahoo.com/quote/PLTR/balance-sheet",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "dilutionYoy",
+      "label": "Verwässerung",
+      "value": 0.01611991,
+      "display": "+1,6 %",
+      "detail": "2,400 Mrd. vs. 2,362 Mrd. Basic Average Shares",
+      "period": "Q2 2026 vs. Q2 2025",
+      "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
+      "sourceUrl": "https://finance.yahoo.com/quote/PLTR/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "nextEarnings",
+      "label": "Nächster Zahlentermin",
+      "value": "2026-11-02T21:00:00+01:00",
+      "display": "02.11.2026, 21:00 MEZ",
+      "detail": null,
+      "period": "Q3 2026",
+      "source": "Yahoo Finance earnings_dates",
+      "sourceUrl": "https://finance.yahoo.com/quote/PLTR",
+      "observedAt": "2026-11-02",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    }
+  ]
+}

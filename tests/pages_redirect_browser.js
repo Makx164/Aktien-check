@@ -149,7 +149,7 @@ async function main() {
     [origin + "/", true, "https://yoursidequest.org/"],
     [origin + "/#/PLTR", true, "https://yoursidequest.org/#/PLTR"],
     [origin + "/index.html#/mu", true, "https://yoursidequest.org/#/MU"],
-    [origin + "/?open=HIMS-C_02", true, "https://yoursidequest.org/?open=HIMS-C_02"],
+    [origin + "/?open=HIMS-C_02", true, "https://yoursidequest.org/#/HIMS"],
     [origin + "/impressum", true, "https://yoursidequest.org/impressum"],
     [origin + "/datenschutz.html", true, "https://yoursidequest.org/datenschutz"],
     [origin + "/PLTR", true, "https://yoursidequest.org/#/PLTR"],
@@ -157,7 +157,7 @@ async function main() {
     [origin + "/gibt-es-nicht", true, "https://yoursidequest.org/"],
     [origin + "/#/PLTR", false, "https://yoursidequest.org/"],
     [origin + "/impressum.html", false, "https://yoursidequest.org/impressum"],
-    [origin + "/PYPL.html", false, "https://yoursidequest.org/#/PYPL"],
+    [origin + "/OSS.html", false, "https://yoursidequest.org/#/OSS"],
     [origin + "/unbekannt", false, "https://yoursidequest.org/"]
   ];
   try {

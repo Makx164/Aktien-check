@@ -1,0 +1,110 @@
+{
+  "ticker": "IREN",
+  "name": "IREN Limited",
+  "yahoo": "IREN",
+  "currency": "USD",
+  "asOf": "2026-10-29",
+  "thesis": "These folgt",
+  "price": {
+    "close": 27.12,
+    "currency": "USD",
+    "date": "2026-10-29",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/IREN/history",
+    "fetchedAt": "2026-10-29"
+  },
+  "profile": {
+    "hq": "Sydney, Australia",
+    "employees": 685,
+    "employeesDisplay": "685",
+    "marketCap": 10969073664,
+    "marketCapDisplay": "10,97 Mrd. USD",
+    "currency": "USD",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/IREN/profile",
+    "fetchedAt": "2026-10-29"
+  },
+  "metrics": [
+    {
+      "id": "revenueGrowthYoy",
+      "label": "Umsatzwachstum y/y",
+      "value": -0.26732055,
+      "display": "−26,7 %",
+      "detail": "0,137 Mrd. USD vs. 0,187 Mrd. USD",
+      "period": "Quartal bis 30.06.2026 vs. Quartal bis 30.06.2025",
+      "source": "Yahoo Finance quarterly_income_stmt",
+      "sourceUrl": "https://finance.yahoo.com/quote/IREN/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "grossMarginTtm",
+      "label": "Bruttomarge",
+      "value": 0.62323994,
+      "display": "62,3 %",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 30.06.2026)",
+      "source": "Yahoo Finance quarterly_income_stmt",
+      "sourceUrl": "https://finance.yahoo.com/quote/IREN/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": "Yahoo grossMargins 68,9 % weicht ab, gezeigt ist die Quartalsrechnung"
+    },
+    {
+      "id": "freeCashFlowTtm",
+      "label": "Free Cashflow",
+      "value": -2350426000,
+      "display": "−2,350 Mrd. USD",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 30.06.2026)",
+      "source": "Yahoo Finance quarterly_cashflow",
+      "sourceUrl": "https://finance.yahoo.com/quote/IREN/cash-flow",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
+    },
+    {
+      "id": "cashVsDebt",
+      "label": "Cash vs. Schulden",
+      "value": {
+        "cash": 5895591000,
+        "debt": 7839526000
+      },
+      "display": "Cash 5,896 Mrd. · Schulden 7,840 Mrd. USD",
+      "detail": "Netto-Schulden 1,944 Mrd. USD",
+      "period": "letzte Bilanz 30.06.2026",
+      "source": "Yahoo Finance quarterly_balance_sheet",
+      "sourceUrl": "https://finance.yahoo.com/quote/IREN/balance-sheet",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "dilutionYoy",
+      "label": "Verwässerung",
+      "value": 0.52627105,
+      "display": "+52,6 %",
+      "detail": "0,334 Mrd. vs. 0,219 Mrd. Basic Average Shares",
+      "period": "Quartal bis 31.03.2026 vs. Quartal bis 31.03.2025",
+      "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
+      "sourceUrl": "https://finance.yahoo.com/quote/IREN/financials",
+      "observedAt": "2026-03-31",
+      "fetchedAt": "2026-10-29",
+      "note": "jüngeres Quartal ohne Aktienzahl"
+    },
+    {
+      "id": "nextEarnings",
+      "label": "Nächster Zahlentermin",
+      "value": "2026-11-05T21:00:00+01:00",
+      "display": "05.11.2026, 21:00 MEZ",
+      "detail": null,
+      "period": null,
+      "source": "Yahoo Finance earnings_dates",
+      "sourceUrl": "https://finance.yahoo.com/quote/IREN",
+      "observedAt": "2026-11-05",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    }
+  ]
+}

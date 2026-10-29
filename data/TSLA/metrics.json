@@ -1,0 +1,111 @@
+{
+  "ticker": "TSLA",
+  "name": "Tesla",
+  "yahoo": "TSLA",
+  "currency": "USD",
+  "asOf": "2026-10-29",
+  "thesis": "These folgt",
+  "price": {
+    "close": 404.77,
+    "currency": "USD",
+    "date": "2026-10-29",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/TSLA/history",
+    "fetchedAt": "2026-10-29"
+  },
+  "profile": {
+    "hq": "Austin, USA",
+    "employees": 134785,
+    "employeesDisplay": "134.785",
+    "marketCap": 1600104693760,
+    "marketCapDisplay": "1.600,10 Mrd. USD",
+    "currency": "USD",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/TSLA/profile",
+    "fetchedAt": "2026-10-29"
+  },
+  "metrics": [
+    {
+      "id": "revenueGrowthYoy",
+      "label": "Umsatzwachstum y/y",
+      "value": -0.00174408,
+      "display": "−0,2 %",
+      "detail": "28,05 Mrd. USD vs. 28,09 Mrd. USD",
+      "period": "Q3 2026 vs. Q3 2025",
+      "source": "Yahoo Finance quarterly_income_stmt; SEC companyfacts bestätigt",
+      "sourceUrl": "https://finance.yahoo.com/quote/TSLA/financials",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-10-29",
+      "note": null,
+      "secConcept": "Revenues"
+    },
+    {
+      "id": "grossMarginTtm",
+      "label": "Bruttomarge",
+      "value": 0.19285507,
+      "display": "19,3 %",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 30.09.2026)",
+      "source": "Yahoo Finance quarterly_income_stmt",
+      "sourceUrl": "https://finance.yahoo.com/quote/TSLA/financials",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "freeCashFlowTtm",
+      "label": "Free Cashflow",
+      "value": 3296000000,
+      "display": "+3,296 Mrd. USD",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 30.09.2026)",
+      "source": "Yahoo Finance quarterly_cashflow",
+      "sourceUrl": "https://finance.yahoo.com/quote/TSLA/cash-flow",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-10-29",
+      "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
+    },
+    {
+      "id": "cashVsDebt",
+      "label": "Cash vs. Schulden",
+      "value": {
+        "cash": 45216000000,
+        "debt": 16445000000
+      },
+      "display": "Cash 45,22 Mrd. · Schulden 16,45 Mrd. USD",
+      "detail": "Netto-Cash 28,77 Mrd. USD",
+      "period": "letzte Bilanz 30.09.2026",
+      "source": "Yahoo Finance quarterly_balance_sheet",
+      "sourceUrl": "https://finance.yahoo.com/quote/TSLA/balance-sheet",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "dilutionYoy",
+      "label": "Verwässerung",
+      "value": 0.00402851,
+      "display": "+0,4 %",
+      "detail": "3,240 Mrd. vs. 3,227 Mrd. Basic Average Shares",
+      "period": "Q3 2026 vs. Q3 2025",
+      "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
+      "sourceUrl": "https://finance.yahoo.com/quote/TSLA/financials",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "nextEarnings",
+      "label": "Nächster Zahlentermin",
+      "value": "2027-01-27T21:00:00+01:00",
+      "display": "27.01.2027, 21:00 MEZ",
+      "detail": null,
+      "period": "Q4 2026",
+      "source": "Yahoo Finance earnings_dates",
+      "sourceUrl": "https://finance.yahoo.com/quote/TSLA",
+      "observedAt": "2027-01-27",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    }
+  ]
+}

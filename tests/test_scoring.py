@@ -573,8 +573,8 @@ class KillSwitchTests(unittest.TestCase):
         html = (ROOT / "index.html").read_text(encoding="utf-8")
         self.assertIn("serviceWorker", html)
         self.assertIn("unregister", html)
-        self.assertIn("missingDataNote", html)
-        self.assertIn("gap-note", html)
+        self.assertNotIn("missingDataNote", html)
+        self.assertNotIn("gap-note", html)
         self.assertIn('className = "tiles"', html)
         self.assertIn('className = "tile-stand"', html)
         self.assertNotIn("Ich halte diese Aktien selbst.", html)
@@ -585,11 +585,12 @@ class KillSwitchTests(unittest.TestCase):
         self.assertNotIn("spiegeln keine tatsächlichen Werte wider", html)
         self.assertNotIn("<small>AKTIEN-CHECK</small>", html)
         self.assertNotIn("ZAHLEN BIS", html)
-        self.assertIn('href = "#/" + score.ticker', html)
+        self.assertIn('link.href = "#/" + doc.ticker', html)
         self.assertIn("hashchange", html)
         self.assertIn("Alle Positionen", html)
-        self.assertIn("Übersicht Aktienportfolio", html)
-        self.assertIn("ausgeblendet, zählt nicht", html)
+        self.assertIn("Kennzahlen, kein Score", html)
+        self.assertNotIn("Übersicht Aktienportfolio", html)
+        self.assertNotIn("C_01", html)
 
 
 def metric_map(scored, criterion_id):
@@ -1132,30 +1133,15 @@ class RoundThreeTests(unittest.TestCase):
 
     def test_page_hides_role_and_shows_the_scale(self):
         html = (ROOT / "index.html").read_text(encoding="utf-8")
-        self.assertNotIn("GEWICHTE", html)
-        self.assertNotIn('id="rolle"', html)
-        self.assertIn("Kriterium = ", html)
-        self.assertIn("Mittel aus ", html)
-        self.assertIn("Summe aus ", html)
-        self.assertIn("Ohne Daten:", html)
-        self.assertIn("Nicht anwendbar:", html)
-        self.assertIn("Nicht gewertet:", html)
-        self.assertIn("(max. 10)", html)
-        self.assertIn("pointsMax", html)
-        self.assertIn("table-layout:fixed", html)
-        self.assertIn(">Skala<", html)
-        self.assertNotIn("Eine Metrik ohne Daten zählt nicht als 0.", html)
-        self.assertNotIn("Der Aktien-Score ist der gewichtete Mittelwert", html)
-        self.assertIn("function companyBlock", html)
-        self.assertIn('fetch("config/profiles.json")', html)
+        for banned in (
+            "GEWICHTE", "Kriterium = ", "Aktien-Score", "C_01", "trafficLight",
+            "score.json", "function ring", "function companyBlock", "pointsMax",
+            ">Skala<", "angepasster Score", "gewichtetes Mittel",
+        ):
+            self.assertNotIn(banned, html)
+        self.assertIn('fetch("data/" + ticker + "/metrics.json")', html)
+        self.assertIn("These folgt", html)
         self.assertNotIn("data-x2", html)
-        self.assertNotIn("isCriterionX2", html)
-        self.assertNotIn("angepasster Score", html)
-        self.assertNotIn("x2-reset", html)
-        self.assertNotIn("ac-x2:", html)
-        self.assertNotIn("withVisitorWeights", html)
-        self.assertIn("function sourceBlock", html)
-        self.assertNotIn("gewichtetes Mittel", html)
 
     def test_published_score_stays_standard_until_the_visitor_doubles(self):
         for criterion in CONFIG["criteria"]:
@@ -1163,20 +1149,13 @@ class RoundThreeTests(unittest.TestCase):
                 continue
             for metric in criterion["metrics"]:
                 self.assertNotIn("weight", metric)
-        oss = json.loads((ROOT / "data" / "OSS" / "score.json").read_text(encoding="utf-8"))
-        self.assertEqual(oss["score"], 6.8)
-        growth = next(item for item in oss["criteria"] if item["id"] == "C_02")
-        self.assertEqual(growth["score"], 5.6)
-        present = [item["score"] for item in oss["criteria"] if item.get("score") is not None]
-        self.assertEqual(round(sum(present) / len(present) + 1e-9, 1), 6.8)
-        weighted = 0.0
-        weight_sum = 0.0
-        for item in oss["criteria"]:
-            if item.get("score") is None:
-                continue
-            weighted += item["score"] * item["weight"]
-            weight_sum += item["weight"]
-        self.assertNotEqual(round((weighted / weight_sum) * 10 + 1e-9, 1), oss["score"])
+        self.assertFalse((ROOT / "data" / "OSS" / "score.json").exists())
+        oss = json.loads((ROOT / "data" / "OSS" / "metrics.json").read_text(encoding="utf-8"))
+        self.assertNotIn("score", oss)
+        self.assertEqual(oss["thesis"], "These folgt")
+        self.assertEqual([item["id"] for item in oss["metrics"]], [
+            "revenueGrowthYoy", "grossMarginTtm", "freeCashFlowTtm", "cashVsDebt", "dilutionYoy", "nextEarnings",
+        ])
 
 
 class RoundFiveTests(unittest.TestCase):
@@ -1407,41 +1386,18 @@ class RoundSixTests(unittest.TestCase):
 class ScaleTenTests(unittest.TestCase):
     def test_ring_uses_a_scale_of_ten_and_keeps_forty_eight_ticks(self):
         html = (ROOT / "index.html").read_text(encoding="utf-8")
-        self.assertIn("var n = 48, pct = score == null ? 0 : Math.max(0, Math.min(10, Number(score)));", html)
-        self.assertIn("Math.round(pct / 10 * n)", html)
-        self.assertIn("von 10", html)
-        self.assertIn("<small>/ 10</small>", html)
-        self.assertIn("<small>/10</small>", html)
-        self.assertIn("SCORE 0–10", html)
-        self.assertIn("MAX 10", html)
-        self.assertIn("≥ 7", html)
-        self.assertIn("5–6,9", html)
-        self.assertIn("&lt; 5", html)
-        self.assertNotIn("von 100", html)
-        self.assertNotIn("/ 100", html)
-        self.assertNotIn("SCORE 0–100", html)
-        self.assertNotIn("MAX 100", html)
-        self.assertNotIn("/100", html)
-        self.assertNotIn("≥ 70", html)
-        self.assertNotIn("50–69", html)
-        self.assertNotIn("&lt; 50", html)
-        self.assertNotIn("ab: 70", html)
-        self.assertNotIn("ab: 50", html)
-        self.assertIn("ab: 7", html)
-        self.assertIn("ab: 5", html)
-        self.assertNotIn("score >= 70", html)
-        self.assertNotIn("score >= 50", html)
-        self.assertIn("doc.score >= 7", html)
-        self.assertIn("doc.score >= 5", html)
-        self.assertNotIn("Gewicht", html)
+        for banned in (
+            "SCORE 0–10", "SCORE 0–100", "MAX 10", "MAX 100", "von 10", "von 100",
+            "/ 10", "/10", "/ 100", "/100", "≥ 7", "≥ 70", "ab: 7", "ab: 70",
+            "doc.score", "trafficLight", "Gewicht",
+        ):
+            self.assertNotIn(banned, html)
 
     def test_company_description_renders_and_omits_missing_facts(self):
         import subprocess
         html = (ROOT / "index.html").read_text(encoding="utf-8")
-        self.assertIn("function companyBlock", html)
-        self.assertIn('fetch("config/profiles.json")', html)
-        start = html.index("  function ring(")
-        end = html.index("  function showDetail(")
+        self.assertNotIn("function companyBlock", html)
+        self.assertNotIn('fetch("config/profiles.json")', html)
         profiles = json.loads((ROOT / "config" / "profiles.json").read_text(encoding="utf-8"))
         tickers = json.loads((ROOT / "config" / "tickers.json").read_text(encoding="utf-8"))
         self.assertEqual([item["ticker"] for item in tickers], list(profiles))
@@ -1460,56 +1416,6 @@ class ScaleTenTests(unittest.TestCase):
         iren = profiles["IREN"]["text"]
         self.assertIn("Rechenzentren", iren)
         self.assertIn("KI-Cloud", iren)
-        script = """
-        function esc(s) {
-          return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
-            return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c];
-          });
-        }
-        function n1(x) {
-          if (x == null || Number.isNaN(Number(x))) return "–";
-          return (Math.round(Number(x) * 10) / 10).toFixed(1).replace(".", ",");
-        }
-        var CFG = {scoreName: "Aktien-Score"};
-        var profiles = {AMZN: {text: "TEXT & Co.", segments: ["Nordamerika", "International", "AWS"]}};
-        """ + html[start:end] + """
-        var line = factLine(
-          {hq: "Seattle, USA", employees: 1551000, marketCap: 2830000000000, currency: "USD"},
-          ["Nordamerika", "International", "AWS"]
-        );
-        if (line !== "Sitz Seattle, USA · Mitarbeiter 1.551.000 · Börsenwert 2,83 Bio. $ · Segmente Nordamerika, International, AWS") {
-          throw new Error("line " + line);
-        }
-        var partial = factLine({hq: "Kista, Schweden"}, ["Drahtlos", "Photonik"]);
-        if (partial !== "Sitz Kista, Schweden · Segmente Drahtlos, Photonik") throw new Error("partial " + partial);
-        var block = companyBlock({
-          ticker: "AMZN",
-          profile: {hq: "Seattle, USA", employees: 1551000, marketCap: 2830000000000, currency: "USD"}
-        });
-        if (block.indexOf("TEXT &amp; Co.") < 0) throw new Error("text " + block);
-        if (block.indexOf("2,83 Bio. $") < 0) throw new Error("cap " + block);
-        function ons(markup, tone) {
-          var needle = 'stroke="var(--' + tone + ')"';
-          var count = 0;
-          var from = 0;
-          while (markup.indexOf(needle, from) >= 0) {
-            count += 1;
-            from = markup.indexOf(needle, from) + needle.length;
-          }
-          return count;
-        }
-        var gauge = ring(7.6, "gruen");
-        var lines = (gauge.match(/<line /g) || []).length;
-        if (lines !== 48) throw new Error("lines " + lines);
-        if (ons(gauge, "ok") !== Math.round(7.6 / 10 * 48)) throw new Error("on " + ons(gauge, "ok"));
-        if (gauge.indexOf("7,6") < 0 || gauge.indexOf("von 10") < 0 || gauge.indexOf("/ 10") < 0) throw new Error(gauge);
-        if (gauge.indexOf("von 100") >= 0 || gauge.indexOf("/ 100") >= 0) throw new Error("hundred");
-        var full = ring(10, "gruen");
-        if (ons(full, "ok") !== 48) throw new Error("full " + ons(full, "ok"));
-        """
-        result = subprocess.run(["node", "-e", script], capture_output=True, text=True)
-        if result.returncode != 0:
-            self.fail(result.stderr or result.stdout)
 
     def test_profile_facts_come_from_yahoo_without_filling_gaps(self):
         from scoring.marketdata import YAHOO_MODULES, profile_from_yahoo
@@ -1566,12 +1472,10 @@ class LegalPageTests(unittest.TestCase):
         import subprocess
         disclaimer = (
             "Keine Anlageberatung und keine Kauf- oder Verkaufsempfehlung. "
-            "Die Scores sind eigene, regelbasierte Einschätzungen: öffentliche Unternehmens- "
-            "und Marktdaten (u. a. SEC, Yahoo Finance, Nasdaq) werden nach festen Kriterien "
-            "in Punkte von 0 bis 10 umgerechnet und gemittelt. Sie können unvollständig oder "
-            "veraltet sein und ersetzen keine eigene Prüfung."
+            "Die Kennzahlen sind öffentliche Unternehmensdaten mit Quelle und Stand. "
+            "Sie können unvollständig oder veraltet sein und ersetzen keine eigene Prüfung."
         )
-        short = "Eigene, regelbasierte Aktien-Scores aus öffentlichen Unternehmensdaten. Keine Anlageberatung."
+        short = "Kennzahlen zu ausgewählten Aktien, mit Quelle und Stand. Kein Score, keine Anlageberatung."
         html = (ROOT / "index.html").read_text(encoding="utf-8")
         footer = html.split("<footer", 1)[1].split("</footer>", 1)[0]
         self.assertIn(disclaimer, footer)
@@ -1660,11 +1564,19 @@ class LegalPageTests(unittest.TestCase):
             if (!pageText().includes(disclaimer)) throw new Error("overview missing disclaimer");
             if (document.title !== "sidequest") throw new Error("overview title " + document.title);
             const tiles = app.children.filter((child) => child.className === "tiles")[0];
-            if (!tiles || tiles.children.length < 13) throw new Error("overview tiles " + (tiles && tiles.children.length));
+            if (!tiles || tiles.children.length !== 10) throw new Error("overview tiles " + (tiles && tiles.children.length));
+            const card = tiles.children[0].children.map((child) => child.textContent).join(" | ");
+            if (card.indexOf("PLTR") < 0 || card.indexOf("%") >= 0 || card.indexOf("Mrd") >= 0) {
+              throw new Error("card " + card);
+            }
             location.hash = "#/AMZN";
             listeners.hashchange();
             if (app.innerHTML.indexOf("AMZN") < 0 || app.innerHTML.indexOf("Amazon") < 0) {
               throw new Error("analysis not rendered");
+            }
+            if (app.innerHTML.indexOf("Umsatzwachstum") < 0) throw new Error("metrics missing");
+            if (app.innerHTML.indexOf("Aktien-Score") >= 0 || app.innerHTML.indexOf("C_01") >= 0) {
+              throw new Error("score still visible");
             }
             if (!pageText().includes(disclaimer)) throw new Error("analysis missing disclaimer");
             if (app.innerHTML.includes("spiegeln keine tatsächlichen Werte wider")) {
@@ -1704,7 +1616,7 @@ class LegalPageTests(unittest.TestCase):
     def test_privacy_matches_the_runtime(self):
         html = (ROOT / "datenschutz.html").read_text(encoding="utf-8")
         page = (ROOT / "index.html").read_text(encoding="utf-8")
-        self.assertIn("Stand: 21. Oktober 2026", html)
+        self.assertIn("Stand: 29. Oktober 2026", html)
         self.assertIn("Art. 6 Abs. 1 lit. f DSGVO", html)
         self.assertIn("Vercel Inc.", html)
         self.assertIn("EU-US Data Privacy Framework", html)
@@ -1715,7 +1627,8 @@ class LegalPageTests(unittest.TestCase):
         self.assertIn("nicht eingebunden", html)
         self.assertIn("Speed Insights", html)
         self.assertIn("Der Browser ruft diese Dienste nicht auf", html)
-        self.assertIn("scripts/build_scores.py", html)
+        self.assertIn("scripts/build_metrics.py", html)
+        self.assertNotIn("scripts/build_scores.py", html)
         self.assertIn("Art. 77 DSGVO", html)
         self.assertIn("Sächsische Datenschutz- und Transparenzbeauftragte", html)
         self.assertIn('href="impressum.html"', html)

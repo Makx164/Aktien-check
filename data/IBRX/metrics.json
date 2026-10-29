@@ -1,0 +1,111 @@
+{
+  "ticker": "IBRX",
+  "name": "ImmunityBio",
+  "yahoo": "IBRX",
+  "currency": "USD",
+  "asOf": "2026-10-29",
+  "thesis": "These folgt",
+  "price": {
+    "close": 8.85,
+    "currency": "USD",
+    "date": "2026-10-29",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/IBRX/history",
+    "fetchedAt": "2026-10-29"
+  },
+  "profile": {
+    "hq": "San Diego, USA",
+    "employees": 684,
+    "employeesDisplay": "684",
+    "marketCap": 9379551232,
+    "marketCapDisplay": "9,380 Mrd. USD",
+    "currency": "USD",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/IBRX/profile",
+    "fetchedAt": "2026-10-29"
+  },
+  "metrics": [
+    {
+      "id": "revenueGrowthYoy",
+      "label": "Umsatzwachstum y/y",
+      "value": 0.93907285,
+      "display": "+93,9 %",
+      "detail": "51,2 Mio. USD vs. 26,4 Mio. USD",
+      "period": "Q2 2026 vs. Q2 2025",
+      "source": "Yahoo Finance quarterly_income_stmt; SEC companyfacts bestätigt",
+      "sourceUrl": "https://finance.yahoo.com/quote/IBRX/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null,
+      "secConcept": "Revenues"
+    },
+    {
+      "id": "grossMarginTtm",
+      "label": "Bruttomarge",
+      "value": 0.99339534,
+      "display": "99,3 %",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 30.06.2026)",
+      "source": "Yahoo Finance quarterly_income_stmt",
+      "sourceUrl": "https://finance.yahoo.com/quote/IBRX/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "freeCashFlowTtm",
+      "label": "Free Cashflow",
+      "value": -288514000,
+      "display": "−0,289 Mrd. USD",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 30.06.2026)",
+      "source": "Yahoo Finance quarterly_cashflow",
+      "sourceUrl": "https://finance.yahoo.com/quote/IBRX/cash-flow",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
+    },
+    {
+      "id": "cashVsDebt",
+      "label": "Cash vs. Schulden",
+      "value": {
+        "cash": 357371000,
+        "debt": 813061000
+      },
+      "display": "Cash 0,357 Mrd. · Schulden 0,813 Mrd. USD",
+      "detail": "Netto-Schulden 0,456 Mrd. USD",
+      "period": "letzte Bilanz 30.06.2026",
+      "source": "Yahoo Finance quarterly_balance_sheet",
+      "sourceUrl": "https://finance.yahoo.com/quote/IBRX/balance-sheet",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "dilutionYoy",
+      "label": "Verwässerung",
+      "value": 0.18222369,
+      "display": "+18,2 %",
+      "detail": "1,050 Mrd. vs. 0,888 Mrd. Basic Average Shares",
+      "period": "Q2 2026 vs. Q2 2025",
+      "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
+      "sourceUrl": "https://finance.yahoo.com/quote/IBRX/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "nextEarnings",
+      "label": "Nächster Zahlentermin",
+      "value": "2026-11-03T13:00:00+01:00",
+      "display": "03.11.2026, 13:00 MEZ",
+      "detail": null,
+      "period": "Q3 2026",
+      "source": "Yahoo Finance earnings_dates",
+      "sourceUrl": "https://finance.yahoo.com/quote/IBRX",
+      "observedAt": "2026-11-03",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    }
+  ]
+}

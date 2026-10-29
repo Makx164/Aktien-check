@@ -1,0 +1,110 @@
+{
+  "ticker": "OSS",
+  "name": "One Stop Systems",
+  "yahoo": "OSS",
+  "currency": "USD",
+  "asOf": "2026-10-29",
+  "thesis": "These folgt",
+  "price": {
+    "close": 5.95,
+    "currency": "USD",
+    "date": "2026-10-29",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/OSS/history",
+    "fetchedAt": "2026-10-29"
+  },
+  "profile": {
+    "hq": "Escondido, USA",
+    "employees": 56,
+    "employeesDisplay": "56",
+    "marketCap": 148972784,
+    "marketCapDisplay": "0,149 Mrd. USD",
+    "currency": "USD",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/OSS/profile",
+    "fetchedAt": "2026-10-29"
+  },
+  "metrics": [
+    {
+      "id": "revenueGrowthYoy",
+      "label": "Umsatzwachstum y/y",
+      "value": 0.35854196,
+      "display": "+35,9 %",
+      "detail": "12,6 Mio. USD vs. 9,26 Mio. USD",
+      "period": "Q3 2026 vs. Q3 2025",
+      "source": "SEC companyfacts RevenueFromContractWithCustomerExcludingAssessedTax",
+      "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001394056.json",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "grossMarginTtm",
+      "label": "Bruttomarge",
+      "value": 0.39054587,
+      "display": "39,1 %",
+      "detail": null,
+      "period": "Q2 2026 (TTM unvollständig)",
+      "source": "Yahoo Finance quarterly_income_stmt",
+      "sourceUrl": "https://finance.yahoo.com/quote/OSS/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": "letztes Quartal, keine vier Quartale. Yahoo grossMargins 54,5 % weicht ab, gezeigt ist die Quartalsrechnung"
+    },
+    {
+      "id": "freeCashFlowTtm",
+      "label": "Free Cashflow",
+      "value": -6090899,
+      "display": "−6,09 Mio. USD",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 30.06.2026)",
+      "source": "Yahoo Finance quarterly_cashflow",
+      "sourceUrl": "https://finance.yahoo.com/quote/OSS/cash-flow",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": "Yahoo-Zeile Free Cash Flow; Capital Expenditure nicht in jedem Quartal gefüllt"
+    },
+    {
+      "id": "cashVsDebt",
+      "label": "Cash vs. Schulden",
+      "value": {
+        "cash": 31407756,
+        "debt": 1367134
+      },
+      "display": "Cash 31,4 Mio. · Schulden 1,37 Mio. USD",
+      "detail": "Netto-Cash 30,0 Mio. USD",
+      "period": "letzte Bilanz 30.06.2026",
+      "source": "Yahoo Finance quarterly_balance_sheet",
+      "sourceUrl": "https://finance.yahoo.com/quote/OSS/balance-sheet",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "dilutionYoy",
+      "label": "Verwässerung",
+      "value": 0.14540547,
+      "display": "+14,5 %",
+      "detail": "24,8 Mio. vs. 21,7 Mio. Basic Average Shares",
+      "period": "Q2 2026 vs. Q2 2025",
+      "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
+      "sourceUrl": "https://finance.yahoo.com/quote/OSS/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": "jüngeres Quartal ohne Aktienzahl"
+    },
+    {
+      "id": "nextEarnings",
+      "label": "Nächster Zahlentermin",
+      "value": "2027-03-17T13:00:00+01:00",
+      "display": "17.03.2027, 13:00 MEZ",
+      "detail": null,
+      "period": "Q4 2026",
+      "source": "Yahoo Finance earnings_dates",
+      "sourceUrl": "https://finance.yahoo.com/quote/OSS",
+      "observedAt": "2027-03-17",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    }
+  ]
+}

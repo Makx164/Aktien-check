@@ -1,0 +1,110 @@
+{
+  "ticker": "AMZN",
+  "name": "Amazon",
+  "yahoo": "AMZN",
+  "currency": "USD",
+  "asOf": "2026-10-29",
+  "thesis": "These folgt",
+  "price": {
+    "close": 246.6,
+    "currency": "USD",
+    "date": "2026-10-29",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/AMZN/history",
+    "fetchedAt": "2026-10-29"
+  },
+  "profile": {
+    "hq": "Seattle, USA",
+    "employees": 1595000,
+    "employeesDisplay": "1.595.000",
+    "marketCap": 2658286960640,
+    "marketCapDisplay": "2.658,29 Mrd. USD",
+    "currency": "USD",
+    "source": "Yahoo Finance",
+    "sourceUrl": "https://finance.yahoo.com/quote/AMZN/profile",
+    "fetchedAt": "2026-10-29"
+  },
+  "metrics": [
+    {
+      "id": "revenueGrowthYoy",
+      "label": "Umsatzwachstum y/y",
+      "value": 0.19620517,
+      "display": "+19,6 %",
+      "detail": "200,61 Mrd. USD vs. 167,70 Mrd. USD",
+      "period": "Q2 2026 vs. Q2 2025",
+      "source": "SEC companyfacts RevenueFromContractWithCustomerExcludingAssessedTax",
+      "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "grossMarginTtm",
+      "label": "Bruttomarge",
+      "value": 0.50604085,
+      "display": "50,6 %",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 31.03.2026)",
+      "source": "Yahoo Finance quarterly_income_stmt",
+      "sourceUrl": "https://finance.yahoo.com/quote/AMZN/financials",
+      "observedAt": "2026-03-31",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "freeCashFlowTtm",
+      "label": "Free Cashflow",
+      "value": -2472000000,
+      "display": "−2,472 Mrd. USD",
+      "detail": null,
+      "period": "TTM (4 Quartale bis 31.03.2026)",
+      "source": "Yahoo Finance quarterly_cashflow",
+      "sourceUrl": "https://finance.yahoo.com/quote/AMZN/cash-flow",
+      "observedAt": "2026-03-31",
+      "fetchedAt": "2026-10-29",
+      "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
+    },
+    {
+      "id": "cashVsDebt",
+      "label": "Cash vs. Schulden",
+      "value": {
+        "cash": 143089000000,
+        "debt": 209888000000
+      },
+      "display": "Cash 143,09 Mrd. · Schulden 209,89 Mrd. USD",
+      "detail": "Netto-Schulden 66,80 Mrd. USD",
+      "period": "letzte Bilanz 31.03.2026",
+      "source": "Yahoo Finance quarterly_balance_sheet",
+      "sourceUrl": "https://finance.yahoo.com/quote/AMZN/balance-sheet",
+      "observedAt": "2026-03-31",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "dilutionYoy",
+      "label": "Verwässerung",
+      "value": 0.01240951,
+      "display": "+1,2 %",
+      "detail": "10,77 Mrd. vs. 10,64 Mrd. Basic Average Shares",
+      "period": "Q2 2026 vs. Q2 2025",
+      "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
+      "sourceUrl": "https://finance.yahoo.com/quote/AMZN/financials",
+      "observedAt": "2026-06-30",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    },
+    {
+      "id": "nextEarnings",
+      "label": "Nächster Zahlentermin",
+      "value": "2026-10-29T21:00:00+01:00",
+      "display": "29.10.2026, 21:00 MEZ",
+      "detail": null,
+      "period": "Q3 2026",
+      "source": "Yahoo Finance earnings_dates",
+      "sourceUrl": "https://finance.yahoo.com/quote/AMZN",
+      "observedAt": "2026-10-29",
+      "fetchedAt": "2026-10-29",
+      "note": null
+    }
+  ]
+}

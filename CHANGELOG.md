@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-29
+
+### Kennzahlen statt Score
+
+Die öffentliche Seite zeigt pro Aktie nur noch sechs Kennzahlen mit Quelle und Stand plus einen These-Satz. Scores, Ampeln und C_01 bis C_08 sind aus der Oberfläche und aus `data/` entfernt. Die Kachel nennt Ticker, Namen und den Stand, keine Leitkennzahl. PYPL, SIVE und SPCX sind nicht mehr dabei. Der These-Satz ist „These folgt“, solange keiner eingetragen ist.
+
+Die Zahlen kommen aus Yahoo Finance (`scripts/build_metrics.py`, `yfinance` 1.7.0). Ein neueres US-Quartal in SEC companyfacts ersetzt den Yahoo-Umsatz, statt eine Lücke als aktuelles Quartal zu zeigen. Fehlende Werte bleiben leer. Der Workflow `scores` ist gelöscht. `metrics` startet nur von Hand und öffnet eine Vorschau-PR, ohne auf `main` zu pushen. Finnhub wird nicht verwendet.
+
 ## 2026-10-21
 
 ### Skala 0–10 und Firmenprofil
