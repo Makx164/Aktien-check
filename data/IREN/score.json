@@ -1,32 +1,32 @@
 {
   "ticker": "IREN",
   "name": "IREN Limited",
-  "asOf": "2026-11-04",
-  "score": 6.3,
+  "asOf": "2026-11-06",
+  "score": 6.0,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
   "qualityScore": 6.4,
-  "marketScore": 6.0,
+  "marketScore": 5.5,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 29 von 31 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [
     "Altman Z 0,54 unter 1,8"
   ],
   "price": {
-    "close": 21.71,
+    "close": 21.64,
     "currency": "USD",
-    "date": "2026-11-04",
+    "date": "2026-11-06",
     "sourceLabel": "Nasdaq Historical",
-    "sourceUrl": "https://api.nasdaq.com/api/quote/IREN/historical?assetclass=stocks&fromdate=2024-05-19&todate=2026-11-05&limit=2000"
+    "sourceUrl": "https://api.nasdaq.com/api/quote/IREN/historical?assetclass=stocks&fromdate=2024-05-23&todate=2026-11-09&limit=2000"
   },
   "profile": {
     "hq": "Sydney, Australien",
     "employees": 685,
-    "marketCap": 8784159744,
+    "marketCap": 9183093760,
     "currency": "USD",
     "source": "Yahoo Finance quoteSummary",
-    "fetchedAt": "2026-11-05"
+    "fetchedAt": "2026-11-09"
   },
   "role": {
     "id": "satellit",
@@ -47,24 +47,24 @@
     {
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
-      "score": 5.3,
+      "score": 5.8,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Bruttomarge 68,9 % gegen 24,3 % Computer Services (Damodaran, Stand Januar 2026), Abstand 44,7 Pp · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre bis 2026-06-30, SEC 10-K vom 2026-08-27) · Operatives Ergebnis −1,0 Mrd. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27) · ROIC -8,5 % minus Kapitalkosten 7,8 % Computer Services (Damodaran, Stand Januar 2026), Abstand -16,3 Pp · Größter Kunde 100,0 % (SEC 10-K vom 2026-08-27) · Vertragsbindung 6,6 % des Umsatzes 707,0 Mio. USD",
+      "dataQuality": "4 von 4 Metriken. IREN: Umsatz 666,7 Mio. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-05). TTM bis 2026-09-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Bruttomarge 72,2 % gegen 24,3 % Computer Services (Damodaran, Stand Januar 2026), Abstand 48,0 Pp · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre bis 2026-06-30, SEC 10-K vom 2026-08-27) · Operatives Ergebnis −1,0 Mrd. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27) · ROIC -8,5 % minus Kapitalkosten 7,8 % Computer Services (Damodaran, Stand Januar 2026), Abstand -16,3 Pp · Größter Kunde 100,0 % (SEC 10-K vom 2026-08-27) · Vertragsbindung 19,0 % des Umsatzes 666,7 Mio. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
           "label": "Bruttomarge gegenüber Branche",
-          "value": "44,7 Pp",
-          "raw": 0.446651,
+          "value": "48,0 Pp",
+          "raw": 0.479875,
           "points": 10.0,
           "status": null,
           "scale": "−20 Pp = 0, 0 Pp = 5, +20 Pp = 10; Bruttomarge ≥ 70 % mindestens 8",
           "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Computer Services",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-06-30",
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Bruttomarge 68,9 % gegen 24,3 % Computer Services (Damodaran, Stand Januar 2026), Abstand 44,7 Pp"
+          "fetchedAt": "2026-11-09",
+          "observedAt": "2026-09-30",
+          "note": "IREN: Umsatz 666,7 Mio. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-05). TTM bis 2026-09-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Bruttomarge 72,2 % gegen 24,3 % Computer Services (Damodaran, Stand Januar 2026), Abstand 48,0 Pp"
         },
         {
           "id": "gm_stability",
@@ -76,9 +76,9 @@
           "scale": "Streuung 8 Pp = 0 und 1 Pp = 10, Trend −3 Pp/Jahr = 0 und +3 Pp/Jahr = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": "2026-06-30",
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre bis 2026-06-30, SEC 10-K vom 2026-08-27)"
+          "note": "IREN: Umsatz 666,7 Mio. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-05). TTM bis 2026-09-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Streuung 2,9 Pp, Trend 7,8 Pp pro Jahr (4 Geschäftsjahre bis 2026-06-30, SEC 10-K vom 2026-08-27)"
         },
         {
           "id": "roic_spread",
@@ -90,73 +90,73 @@
           "scale": "−5 Pp = 0, +15 Pp = 10",
           "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Computer Services",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": "2026-06-30",
           "note": "Operatives Ergebnis −1,0 Mrd. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27) · ROIC -8,5 % minus Kapitalkosten 7,8 % Computer Services (Damodaran, Stand Januar 2026), Abstand -16,3 Pp"
         },
         {
           "id": "revenue_quality",
           "label": "Umsatzqualität",
-          "value": "Kunden 100,0 % → 0 · Vertragsbindung 6,6 % → 5,3",
+          "value": "Kunden 100,0 % → 0 · Vertragsbindung 19,0 % → 9,7",
           "raw": null,
-          "points": 2.7,
+          "points": 4.8,
           "status": null,
           "scale": "Kunden: unter 10 % = 8, bis 15 % = 6, bis 25 % = 4, bis 40 % = 2, darüber = 0; Vertragsbindung 0 % = 3, ≥ 20 % = 10",
           "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Computer Services",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": "2026-06-30",
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Größter Kunde 100,0 % (SEC 10-K vom 2026-08-27) · Vertragsbindung 6,6 % des Umsatzes 707,0 Mio. USD"
+          "note": "IREN: Umsatz 666,7 Mio. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-05). TTM bis 2026-09-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Größter Kunde 100,0 % (SEC 10-K vom 2026-08-27) · Vertragsbindung 19,0 % des Umsatzes 666,7 Mio. USD"
         }
       ]
     },
     {
       "id": "C_02",
       "label": "Wachstum",
-      "score": 6.4,
+      "score": 7.9,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "7 von 7 Metriken verfügbar. TTM bis 2026-06-30 · Quartal bis 2026-06-30 · Analystenschätzung, nächstes Jahr · Differenz auf ±30 Pp gekappt · aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte",
+      "dataQuality": "7 von 7 Metriken verfügbar. TTM bis 2026-09-30 · Quartal bis 2026-09-30 · Analystenschätzung, nächstes Jahr · Differenz auf ±30 Pp gekappt · aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
           "label": "Umsatzwachstum, TTM",
-          "value": "41,1 %",
-          "raw": 0.411127,
+          "value": "46,4 %",
+          "raw": 0.464467,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30"
+          "fetchedAt": "2026-11-09",
+          "observedAt": "2026-09-30",
+          "note": "TTM bis 2026-09-30"
         },
         {
           "id": "revenue_quarter_yoy",
           "label": "Umsatzwachstum, letztes Quartal zum Vorjahresquartal",
-          "value": "-26,7 %",
-          "raw": -0.267321,
-          "points": 0.0,
+          "value": "2757,1 %",
+          "raw": 27.571429,
+          "points": 10.0,
           "status": null,
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-06-30",
-          "note": "Quartal bis 2026-06-30"
+          "fetchedAt": "2026-11-09",
+          "observedAt": "2026-09-30",
+          "note": "Quartal bis 2026-09-30"
         },
         {
           "id": "revenue_estimate_yoy",
           "label": "Umsatzwachstum, Analystenschätzung nächstes Jahr",
-          "value": "164,0 %",
-          "raw": 1.6397,
+          "value": "194,7 %",
+          "raw": 1.9473,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary, Analystenschätzung",
           "sourceUrl": "https://finance.yahoo.com/quote/IREN",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null,
           "note": "Analystenschätzung, nächstes Jahr"
         },
@@ -170,7 +170,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": "2026-06-30"
         },
         {
@@ -183,7 +183,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": "2026-06-30"
         },
         {
@@ -196,7 +196,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null,
           "statusReason": "Verlust bzw. negativer Wert in der Basisperiode"
         },
@@ -210,7 +210,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null,
           "statusReason": "Verlust bzw. negativer Wert in der Basisperiode"
         },
@@ -224,32 +224,32 @@
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30 · Differenz auf ±30 Pp gekappt · aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte"
+          "fetchedAt": "2026-11-09",
+          "observedAt": "2026-09-30",
+          "note": "TTM bis 2026-09-30 · Differenz auf ±30 Pp gekappt · aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte"
         },
         {
           "id": "operating_margin_change_yoy",
           "label": "Operative Marge gegenüber Vorjahr",
-          "value": "-151,5 Pp",
-          "raw": -1.515069,
+          "value": "-170,9 Pp",
+          "raw": -1.708894,
           "points": 0.0,
           "status": null,
           "scale": "≥ 10 Pp = 10, -5 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-06-30"
+          "fetchedAt": "2026-11-09",
+          "observedAt": "2026-09-30"
         }
       ]
     },
     {
       "id": "C_03",
       "label": "Markt & Zukunftsmarkt",
-      "score": 8.3,
+      "score": 8.4,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "3 von 4 Metriken. IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Geschäftsjahr bis 2026-06-30 (SEC 10-K vom 2026-08-27) · 18,2 % AI Cloud Services (Computer Services), Segmentumsatz 128,8 Mio. USD, Umsatzwachstum 27,1 %; 81,8 % Bitcoin Mining (Computer Services), Segmentumsatz 578,2 Mio. USD, Umsatzwachstum 27,1 % · Damodaran, Stand Januar 2026 · 18,2 % AI Cloud Services (Computer Services), Segmentumsatz 128,8 Mio. USD, EBIT-Wachstum 11,7 %; 81,8 % Bitcoin Mining (Computer Services), Segmentumsatz 578,2 Mio. USD, EBIT-Wachstum 11,7 % · ResearchAndDevelopmentExpense n/a (SEC 10-K vom 2026-08-27) · log10 2,77 · US-Pool CY2025: 18,2 % Computer Services 417,2 Mrd. USD; 81,8 % Computer Services 417,2 Mrd. USD",
+      "dataQuality": "3 von 4 Metriken. IREN: Umsatz 666,7 Mio. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-05). TTM bis 2026-09-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Geschäftsjahr bis 2026-06-30 (SEC 10-K vom 2026-08-27) · 18,2 % AI Cloud Services (Computer Services), Segmentumsatz 128,8 Mio. USD, Umsatzwachstum 27,1 %; 81,8 % Bitcoin Mining (Computer Services), Segmentumsatz 578,2 Mio. USD, Umsatzwachstum 27,1 % · Damodaran, Stand Januar 2026 · 18,2 % AI Cloud Services (Computer Services), Segmentumsatz 128,8 Mio. USD, EBIT-Wachstum 11,7 %; 81,8 % Bitcoin Mining (Computer Services), Segmentumsatz 578,2 Mio. USD, EBIT-Wachstum 11,7 % · ResearchAndDevelopmentExpense n/a (SEC 10-Q vom 2026-11-05) · log10 2,80 · US-Pool CY2025: 18,2 % Computer Services 417,2 Mrd. USD; 81,8 % Computer Services 417,2 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -261,9 +261,9 @@
           "scale": "3 % = 0, 25 % = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Computer Services",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null,
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Geschäftsjahr bis 2026-06-30 (SEC 10-K vom 2026-08-27) · 18,2 % AI Cloud Services (Computer Services), Segmentumsatz 128,8 Mio. USD, Umsatzwachstum 27,1 %; 81,8 % Bitcoin Mining (Computer Services), Segmentumsatz 578,2 Mio. USD, Umsatzwachstum 27,1 % · Damodaran, Stand Januar 2026"
+          "note": "IREN: Umsatz 666,7 Mio. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-05). TTM bis 2026-09-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Geschäftsjahr bis 2026-06-30 (SEC 10-K vom 2026-08-27) · 18,2 % AI Cloud Services (Computer Services), Segmentumsatz 128,8 Mio. USD, Umsatzwachstum 27,1 %; 81,8 % Bitcoin Mining (Computer Services), Segmentumsatz 578,2 Mio. USD, Umsatzwachstum 27,1 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -275,9 +275,9 @@
           "scale": "0 % = 0, 20 % = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Computer Services",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null,
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Geschäftsjahr bis 2026-06-30 (SEC 10-K vom 2026-08-27) · 18,2 % AI Cloud Services (Computer Services), Segmentumsatz 128,8 Mio. USD, EBIT-Wachstum 11,7 %; 81,8 % Bitcoin Mining (Computer Services), Segmentumsatz 578,2 Mio. USD, EBIT-Wachstum 11,7 % · Damodaran, Stand Januar 2026"
+          "note": "IREN: Umsatz 666,7 Mio. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-05). TTM bis 2026-09-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · Geschäftsjahr bis 2026-06-30 (SEC 10-K vom 2026-08-27) · 18,2 % AI Cloud Services (Computer Services), Segmentumsatz 128,8 Mio. USD, EBIT-Wachstum 11,7 %; 81,8 % Bitcoin Mining (Computer Services), Segmentumsatz 578,2 Mio. USD, EBIT-Wachstum 11,7 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
@@ -289,60 +289,60 @@
           "scale": "Faktor 0 = 0, 1 = 6, ab 2 = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null,
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · ResearchAndDevelopmentExpense n/a (SEC 10-K vom 2026-08-27)"
+          "note": "IREN: Umsatz 666,7 Mio. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-05). TTM bis 2026-09-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · ResearchAndDevelopmentExpense n/a (SEC 10-Q vom 2026-11-05)"
         },
         {
           "id": "headroom",
           "label": "Kopfraum",
-          "value": "2,77",
-          "raw": 2.770882,
-          "points": 9.1,
+          "value": "2,80",
+          "raw": 2.796367,
+          "points": 9.2,
           "status": null,
           "scale": "log10 0,5 = 0, log10 3 = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Computer Services",
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-06-30",
-          "note": "IREN: Umsatz 707,0 Mio. USD bis 2026-06-30 (SEC 10-K vom 2026-08-27). TTM bis 2026-06-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · log10 2,77 · US-Pool CY2025: 18,2 % Computer Services 417,2 Mrd. USD; 81,8 % Computer Services 417,2 Mrd. USD"
+          "fetchedAt": "2026-11-09",
+          "observedAt": "2026-09-30",
+          "note": "IREN: Umsatz 666,7 Mio. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-05). TTM bis 2026-09-30. Bitcoin-Mining und AI Cloud sind Computer Services (Damodaran, Stand Januar 2026), nicht Software. · log10 2,80 · US-Pool CY2025: 18,2 % Computer Services 417,2 Mrd. USD; 81,8 % Computer Services 417,2 Mrd. USD"
         }
       ]
     },
     {
       "id": "C_04",
       "label": "Profitabilität & Finanzkraft",
-      "score": 5.0,
+      "score": 2.8,
       "status": null,
       "weight": 0.75,
-      "dataQuality": "6 von 6 Metriken verfügbar. TTM bis 2026-06-30",
+      "dataQuality": "6 von 6 Metriken verfügbar. TTM bis 2026-09-30 · financialData, Stichtag nicht ausgewiesen",
       "metrics": [
         {
           "id": "operating_margin_fin",
           "label": "Operative Marge",
-          "value": "-148,0 %",
-          "raw": -1.480486,
+          "value": "-173,4 %",
+          "raw": -1.734346,
           "points": 0.0,
           "status": null,
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-06-30"
+          "fetchedAt": "2026-11-09",
+          "observedAt": "2026-09-30"
         },
         {
           "id": "ocf_margin",
           "label": "Operative Cashflow-Marge",
-          "value": "297,1 %",
-          "raw": 2.970859,
+          "value": "373,1 %",
+          "raw": 3.730873,
           "points": 10.0,
           "status": null,
           "scale": "≥ 20 % = 10, 0 % = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30"
+          "sourceLabel": "Yahoo Finance quoteSummary financialData",
+          "sourceUrl": "https://finance.yahoo.com/quote/IREN",
+          "fetchedAt": "2026-11-09",
+          "observedAt": null,
+          "note": "TTM bis 2026-09-30 · financialData, Stichtag nicht ausgewiesen"
         },
         {
           "id": "fcf_margin_3y",
@@ -354,7 +354,7 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": "2026-06-30"
         },
         {
@@ -367,21 +367,21 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null
         },
         {
           "id": "cash_runway_months",
           "label": "Cash Runway",
-          "value": "> 36 Monate",
-          "raw": null,
-          "points": 10.0,
+          "value": "4,8 Monate",
+          "raw": 4.813164,
+          "points": 0.0,
           "status": null,
           "scale": "≥ 36 Monate = 10, 12 Monate = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-06-30"
+          "fetchedAt": "2026-11-09",
+          "observedAt": "2026-09-30"
         },
         {
           "id": "net_debt_to_ebitda",
@@ -393,22 +393,22 @@
           "scale": "≤ 0,00 = 10, 4,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null,
           "statusReason": "EBITDA negativ"
         },
         {
           "id": "current_ratio",
           "label": "Current Ratio",
-          "value": "3,55",
-          "raw": 3.550572,
-          "points": 10.0,
+          "value": "1,60",
+          "raw": 1.596047,
+          "points": 6.6,
           "status": null,
           "scale": "≥ 2,00 = 10, 0,80 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-06-30"
+          "fetchedAt": "2026-11-09",
+          "observedAt": "2026-09-30"
         },
         {
           "id": "dilution_3y",
@@ -420,7 +420,7 @@
           "scale": "≤ 0 % = 10, 10 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": "2026-06-30"
         }
       ]
@@ -443,7 +443,7 @@
           "scale": "über 10 % = 5, 3–10 % = 3, unter 3 % = 1",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/IREN/holders",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null,
           "pointsMax": 5
         },
@@ -457,7 +457,7 @@
           "scale": "Netto-Käufe = 3, neutral = 2, Netto-Verkäufe = 0",
           "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": "2026-07-01",
           "pointsMax": 3,
           "caption": "0 Käufe / 1 Verkäufe · unter 0,1 % der Marktkapitalisierung",
@@ -474,14 +474,14 @@
         {
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
-          "value": "61,2 %",
-          "raw": 0.61197,
+          "value": "61,1 %",
+          "raw": 0.61067,
           "points": 2.0,
           "status": null,
           "scale": "über 40 % = 2, bis 40 % = 0",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/IREN/holders",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null,
           "pointsMax": 2
         }
@@ -506,87 +506,93 @@
           "scale": "≥ 80 % = 10, 30 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/IREN",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null
         },
         {
           "id": "target_upside",
           "label": "Abstand zum mittleren Kursziel",
-          "value": "247,4 %",
-          "raw": 2.473822,
+          "value": "183,5 %",
+          "raw": 1.834663,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/IREN",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null
         },
         {
           "id": "eps_revision_90d",
           "label": "EPS-Revision, 90 Tage",
-          "value": "-1891,3 %",
-          "raw": -18.9132,
+          "value": "-1871,2 %",
+          "raw": -18.7125,
           "points": 0.0,
           "status": null,
           "scale": "≥ 10 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/IREN",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null
         }
       ],
       "summary": {
         "current": {
-          "strongBuy": 3.0,
-          "buy": 13.0,
+          "strongBuy": 2.0,
+          "buy": 14.0,
           "hold": 4.0,
           "sell": 0.0,
           "strongSell": 0.0
         },
-        "threeMonthsAgo": null,
+        "threeMonthsAgo": {
+          "strongBuy": 1.0,
+          "buy": 12.0,
+          "hold": 3.0,
+          "sell": 0.0,
+          "strongSell": 1.0
+        },
         "target": {
-          "mean": 75.41667,
-          "median": 76.5,
-          "low": 37.0,
+          "mean": 61.34211,
+          "median": 56.0,
+          "low": 23.0,
           "high": 139.0,
           "count": 20
         },
         "changes": [
           {
-            "date": "2026-10-30",
-            "firm": "B. Riley Securities",
-            "grade": "Buy",
-            "target": 64.0
+            "date": "2026-11-07",
+            "firm": "Macquarie",
+            "grade": "Outperform",
+            "target": 55.0
           },
           {
-            "date": "2026-09-29",
-            "firm": "B. Riley Securities",
+            "date": "2026-11-07",
+            "firm": "Jones Trading",
             "grade": "Buy",
-            "target": 91.0
-          },
-          {
-            "date": "2026-09-21",
-            "firm": "Rothschild & Co",
-            "grade": "Neutral",
             "target": 40.0
           },
           {
-            "date": "2026-09-18",
-            "firm": "Northland Capital Markets",
-            "grade": "Outperform",
-            "target": 99.0
+            "date": "2026-11-06",
+            "firm": "HC Wainwright & Co.",
+            "grade": "Buy",
+            "target": 56.0
           },
           {
-            "date": "2026-09-14",
-            "firm": "JP Morgan",
+            "date": "2026-11-06",
+            "firm": "Cantor Fitzgerald",
             "grade": "Overweight",
-            "target": 65.0
+            "target": 47.0
+          },
+          {
+            "date": "2026-11-04",
+            "firm": "Bernstein",
+            "grade": "Outperform",
+            "target": 55.0
           }
         ],
         "sourceLabel": "Yahoo Finance quoteSummary",
         "sourceUrl": "https://finance.yahoo.com/quote/IREN",
-        "fetchedAt": "2026-11-05"
+        "fetchedAt": "2026-11-09"
       }
     },
     {
@@ -600,15 +606,15 @@
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
-          "value": "-53,1 Pp",
-          "raw": -53.082169,
+          "value": "-67,5 Pp",
+          "raw": -67.485003,
           "points": 0.0,
           "status": null,
           "scale": "≥ 30 Pp = 10, 0 Pp = 5, ≤ -50 Pp = 0",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/IREN/historical?assetclass=stocks&fromdate=2024-05-19&todate=2026-11-05&limit=2000",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-11-04"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/IREN/historical?assetclass=stocks&fromdate=2024-05-23&todate=2026-11-09&limit=2000",
+          "fetchedAt": "2026-11-09",
+          "observedAt": "2026-11-06"
         },
         {
           "id": "above_sma_200",
@@ -619,45 +625,45 @@
           "status": null,
           "scale": "über dem 200-Tage-Schnitt = 10, darunter = 5",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/IREN/historical?assetclass=stocks&fromdate=2024-05-19&todate=2026-11-05&limit=2000",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-11-04"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/IREN/historical?assetclass=stocks&fromdate=2024-05-23&todate=2026-11-09&limit=2000",
+          "fetchedAt": "2026-11-09",
+          "observedAt": "2026-11-06"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "71,8 %",
-          "raw": 0.717575,
+          "value": "71,4 %",
+          "raw": 0.714474,
           "points": null,
           "status": "Warnhinweis: mehr als 60 % unter dem 52-Wochen-Hoch",
           "scale": "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/IREN/historical?assetclass=stocks&fromdate=2024-05-19&todate=2026-11-05&limit=2000",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-11-04"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/IREN/historical?assetclass=stocks&fromdate=2024-05-23&todate=2026-11-09&limit=2000",
+          "fetchedAt": "2026-11-09",
+          "observedAt": "2026-11-06"
         }
       ]
     },
     {
       "id": "C_08",
       "label": "Bewertung",
-      "score": 8.4,
+      "score": 6.8,
       "status": null,
       "weight": 0.5,
-      "dataQuality": "1 von 1 Metriken verfügbar",
+      "dataQuality": "1 von 1 Metriken verfügbar. financialData, Stichtag nicht ausgewiesen",
       "metrics": [
         {
           "id": "valuation_primary",
           "label": "(EV/Umsatz) / Umsatzwachstum",
-          "value": "0,33",
-          "raw": 0.325319,
-          "points": 8.4,
+          "value": "0,46",
+          "raw": 0.455609,
+          "points": 6.8,
           "status": null,
           "scale": "≤ 0,20 = 10, 1,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
-          "observedAt": "2026-11-04"
+          "fetchedAt": "2026-11-09",
+          "observedAt": "2026-11-06"
         },
         {
           "id": "fcf_yield",
@@ -667,10 +673,11 @@
           "points": null,
           "status": "nicht anwendbar",
           "scale": "≥ 8 % = 10, 0 % = 0",
-          "sourceLabel": "SEC EDGAR companyfacts",
-          "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
-          "observedAt": null
+          "sourceLabel": "Yahoo Finance quoteSummary financialData",
+          "sourceUrl": "https://finance.yahoo.com/quote/IREN",
+          "fetchedAt": "2026-11-09",
+          "observedAt": null,
+          "note": "financialData, Stichtag nicht ausgewiesen"
         },
         {
           "id": "ev_to_ebitda",
@@ -682,7 +689,7 @@
           "scale": "≤ 8,00 = 10, 30,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts; Nasdaq Historical",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json",
-          "fetchedAt": "2026-11-05",
+          "fetchedAt": "2026-11-09",
           "observedAt": null,
           "statusReason": "EBITDA negativ"
         }
