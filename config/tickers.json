@@ -61,12 +61,5 @@
     "sec": true,
     "yahoo": "IREN",
     "currency": "USD"
-  },
-  {
-    "ticker": "GRAB",
-    "name": "Grab Holdings",
-    "sec": true,
-    "yahoo": "GRAB",
-    "currency": "USD"
   }
 ]

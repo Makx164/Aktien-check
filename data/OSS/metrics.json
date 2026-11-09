@@ -3,26 +3,90 @@
   "name": "One Stop Systems",
   "yahoo": "OSS",
   "currency": "USD",
-  "asOf": "2026-10-29",
-  "thesis": "These folgt",
+  "asOf": "2026-11-09",
+  "thesis": "These wackelt: Wachstum +35,9 % und Prognose ~+40 %, aber ein ATM über bis zu 50 Mio. $ entspricht beim aktuellen Kurs fast der Hälfte des Börsenwerts.",
+  "verdict": {
+    "asOf": "2026-11-09",
+    "status": "wackelt",
+    "statusReason": "Q3-Umsatz 12,6 Mio. $ (+35,9 %), Jahresprognose von 25–30 % auf rund +40 % angehoben – aber seit 28.10. darf OSS neue Aktien für bis zu 50 Mio. $ am Markt verkaufen (ATM über Piper Sandler). Bei 4,31 $ wären das rund 11,6 Mio. neue Aktien, gut 46 % mehr als die 25,0 Mio. ausstehenden (eigene Rechnung). Möglichkeit, noch keine erfolgte Ausgabe.",
+    "role": "beobachten",
+    "roleNote": "Satellit halten, aber nicht weiter aufstocken, bis klar ist, ob und zu welchen Kursen das ATM genutzt wird.",
+    "keyFacts": [
+      {
+        "text": "Seit Jahresbeginn 1,46-mal so viele Aufträge wie Umsatz",
+        "source": "OSS-Pressemitteilung",
+        "date": "28.10.2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435175/oss-ex99_1.htm"
+      },
+      {
+        "text": "Bruttomarge Q3 42,6 %, Jahresprognose 40–42 %",
+        "source": "OSS 10-Q / Pressemitteilung",
+        "date": "28.10.2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435152/oss-20260930.htm"
+      },
+      {
+        "text": "Keine Schulden, Cash nur noch 18,9 Mio. $ (Ende 2025: 31,2 Mio. $); 12,4 Mio. $ operativer Abfluss in 9 Monaten, davon 6,25 Mio. $ Vergleichszahlung und 7,8 Mio. $ Lageraufbau",
+        "source": "OSS-Pressemitteilung",
+        "date": "28.10.2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435175/oss-ex99_1.htm"
+      },
+      {
+        "text": "ATM bis 50 Mio. $; 25.037.445 Aktien ausstehend (30.09.)",
+        "source": "SEC 424B5",
+        "date": "28.10.2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435254/oss-20261028.htm"
+      }
+    ],
+    "breaksIf": "Die angekündigten großen Q4-Aufträge (mehrere Millionen $ je Auftrag) bleiben aus, OSS verkauft über das ATM in großem Stil Aktien unter etwa 5 $, oder die Bruttomarge fällt unter 40 %.",
+    "chart": {
+      "close": 4.31,
+      "date": "2026-11-06",
+      "sma50": 7.76,
+      "sma200": 11.1,
+      "rsi14": 27.2,
+      "text": "4,31 $, weit unter der 50-Tage-Linie (7,76) und der 200-Tage-Linie (11,10), RSI 27 – überverkauft, aber klarer Abwärtstrend."
+    },
+    "sources": [
+      {
+        "label": "OSS-Pressemitteilung Q3",
+        "date": "28.10.2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435175/oss-ex99_1.htm"
+      },
+      {
+        "label": "OSS 10-Q",
+        "date": "28.10.2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435152/oss-20260930.htm"
+      },
+      {
+        "label": "SEC 424B5 (ATM)",
+        "date": "28.10.2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435254/oss-20261028.htm"
+      },
+      {
+        "label": "yfinance",
+        "date": "06.11.2026",
+        "url": "https://finance.yahoo.com/quote/OSS/history"
+      }
+    ]
+  },
   "price": {
-    "close": 5.95,
+    "close": 4.31,
     "currency": "USD",
-    "date": "2026-10-29",
+    "date": "2026-11-06",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/OSS/history",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "profile": {
     "hq": "Escondido, USA",
     "employees": 56,
     "employeesDisplay": "56",
-    "marketCap": 148972784,
-    "marketCapDisplay": "0,149 Mrd. USD",
+    "marketCap": 107911384,
+    "marketCapDisplay": "0,108 Mrd. USD",
     "currency": "USD",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/OSS/profile",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "metrics": [
     {
@@ -32,78 +96,82 @@
       "display": "+35,9 %",
       "detail": "12,6 Mio. USD vs. 9,26 Mio. USD",
       "period": "Q3 2026 vs. Q3 2025",
-      "source": "SEC companyfacts RevenueFromContractWithCustomerExcludingAssessedTax",
-      "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001394056.json",
+      "source": "Yahoo Finance quarterly_income_stmt; SEC companyfacts bestätigt",
+      "sourceUrl": "https://finance.yahoo.com/quote/OSS/financials",
       "observedAt": "2026-09-30",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "fetchedAt": "2026-11-09",
+      "note": null,
+      "secConcept": "RevenueFromContractWithCustomerExcludingAssessedTax"
     },
     {
       "id": "grossMarginTtm",
       "label": "Bruttomarge",
-      "value": 0.39054587,
-      "display": "39,1 %",
+      "value": 0.426,
+      "display": "42,6 %",
       "detail": null,
-      "period": "Q2 2026 (TTM unvollständig)",
-      "source": "Yahoo Finance quarterly_income_stmt",
-      "sourceUrl": "https://finance.yahoo.com/quote/OSS/financials",
-      "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
-      "note": "letztes Quartal, keine vier Quartale. Yahoo grossMargins 54,5 % weicht ab, gezeigt ist die Quartalsrechnung"
+      "period": "Q3 2026",
+      "source": "OSS 10-Q",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435152/oss-20260930.htm",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
+      "note": "9 Monate: 43,9 %.",
+      "sourceDate": "28.10.2026"
     },
     {
       "id": "freeCashFlowTtm",
       "label": "Free Cashflow",
-      "value": -6090899,
-      "display": "−6,09 Mio. USD",
+      "value": -13985361,
+      "display": "−14,0 Mio. USD",
       "detail": null,
-      "period": "TTM (4 Quartale bis 30.06.2026)",
+      "period": "TTM (4 Quartale bis 30.09.2026)",
       "source": "Yahoo Finance quarterly_cashflow",
       "sourceUrl": "https://finance.yahoo.com/quote/OSS/cash-flow",
-      "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
-      "note": "Yahoo-Zeile Free Cash Flow; Capital Expenditure nicht in jedem Quartal gefüllt"
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
+      "note": "Yahoo-Zeile Free Cash Flow; Capital Expenditure nicht in jedem Quartal gefüllt Bekannt aus der Pressemitteilung: operativer Abfluss 9 Monate −12,4 Mio. $."
     },
     {
       "id": "cashVsDebt",
       "label": "Cash vs. Schulden",
       "value": {
-        "cash": 31407756,
-        "debt": 1367134
+        "cash": 18900000,
+        "debt": 0
       },
-      "display": "Cash 31,4 Mio. · Schulden 1,37 Mio. USD",
-      "detail": "Netto-Cash 30,0 Mio. USD",
-      "period": "letzte Bilanz 30.06.2026",
-      "source": "Yahoo Finance quarterly_balance_sheet",
-      "sourceUrl": "https://finance.yahoo.com/quote/OSS/balance-sheet",
-      "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "display": "Cash 18,9 Mio. · keine Schulden",
+      "detail": null,
+      "period": "letzte Bilanz 30.09.2026",
+      "source": "OSS-Pressemitteilung",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435175/oss-ex99_1.htm",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
+      "note": null,
+      "sourceDate": "28.10.2026"
     },
     {
       "id": "dilutionYoy",
       "label": "Verwässerung",
-      "value": 0.14540547,
-      "display": "+14,5 %",
-      "detail": "24,8 Mio. vs. 21,7 Mio. Basic Average Shares",
-      "period": "Q2 2026 vs. Q2 2025",
-      "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
-      "sourceUrl": "https://finance.yahoo.com/quote/OSS/financials",
-      "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
-      "note": "jüngeres Quartal ohne Aktienzahl"
+      "value": 0.139,
+      "display": "+13,9 %",
+      "detail": "24,99 vs. 21,95 Mio. Basic Shares",
+      "period": "Q3 2026 vs. Q3 2025",
+      "source": "OSS 10-Q / 424B5",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435254/oss-20261028.htm",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
+      "note": "ATM bis 50 Mio. $ seit 28.10.",
+      "sourceDate": "28.10.2026"
     },
     {
       "id": "nextEarnings",
       "label": "Nächster Zahlentermin",
-      "value": "2027-03-17T13:00:00+01:00",
-      "display": "17.03.2027, 13:00 MEZ",
+      "value": "2027-03-17T14:00:00+01:00",
+      "display": "17.03.2027, 14:00 MEZ",
       "detail": null,
       "period": "Q4 2026",
       "source": "Yahoo Finance earnings_dates",
       "sourceUrl": "https://finance.yahoo.com/quote/OSS",
       "observedAt": "2027-03-17",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": null
     }
   ]

@@ -3,108 +3,161 @@
   "name": "Amazon",
   "yahoo": "AMZN",
   "currency": "USD",
-  "asOf": "2026-10-29",
-  "thesis": "These folgt",
+  "asOf": "2026-11-09",
+  "thesis": "These intakt: AWS +39 % trägt rund zwei Drittel des Betriebsergebnisses; Gegenpol ist der negative Free Cashflow durch den KI-Ausbau.",
+  "verdict": {
+    "asOf": "2026-11-09",
+    "status": "intakt",
+    "statusReason": "AWS-Umsatz Q3 46,0 Mrd. $ (+39 %), AWS-Betriebsergebnis 17,8 Mrd. $ – rund 63 % des gesamten Betriebsergebnisses von 28,1 Mrd. $ (eigene Rechnung).",
+    "role": "Satellit",
+    "roleNote": "Qualitätsanker, kein Moonshot.",
+    "keyFacts": [
+      {
+        "text": "Konzernumsatz 201,9 Mrd. $ (+12 %); operativer Cashflow 168,3 Mrd. $ in 12 Monaten (+29 %)",
+        "source": "Amazon-Pressemitteilung",
+        "date": "29.10.2026",
+        "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx"
+      },
+      {
+        "text": "Free Cashflow 12 Monate −42,4 Mrd. $, Investitionen netto 210,7 Mrd. $ in 12 Monaten, vor allem KI",
+        "source": "Amazon-Pressemitteilung",
+        "date": "29.10.2026",
+        "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx"
+      },
+      {
+        "text": "Langfristige Schulden seit Jahresende von 65,6 auf 173,1 Mrd. $ gestiegen",
+        "source": "Amazon-Pressemitteilung",
+        "date": "29.10.2026",
+        "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx"
+      }
+    ],
+    "breaksIf": "AWS-Wachstum fällt deutlich unter 30 %, während die Investitionen auf dem Niveau von rund 220 Mrd. $ (Prognose 2026) bleiben – dann zahlt sich der Ausbau nicht aus und der Free Cashflow bleibt negativ.",
+    "chart": {
+      "close": 259.3,
+      "date": "2026-11-06",
+      "sma50": 253.95,
+      "sma200": 243.94,
+      "rsi14": 54.2,
+      "text": "259,30 $, über der 50-Tage-Linie (253,95) und der 200-Tage-Linie (243,94), RSI 54."
+    },
+    "sources": [
+      {
+        "label": "Amazon-Pressemitteilung Q3",
+        "date": "29.10.2026",
+        "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx"
+      },
+      {
+        "label": "yfinance",
+        "date": "06.11.2026",
+        "url": "https://finance.yahoo.com/quote/AMZN/history"
+      }
+    ]
+  },
   "price": {
-    "close": 246.6,
+    "close": 259.3,
     "currency": "USD",
-    "date": "2026-10-29",
+    "date": "2026-11-06",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/AMZN/history",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "profile": {
     "hq": "Seattle, USA",
-    "employees": 1595000,
-    "employeesDisplay": "1.595.000",
-    "marketCap": 2658286960640,
-    "marketCapDisplay": "2.658,29 Mrd. USD",
+    "employees": 1638000,
+    "employeesDisplay": "1.638.000",
+    "marketCap": 2803846610944,
+    "marketCapDisplay": "2.803,85 Mrd. USD",
     "currency": "USD",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/AMZN/profile",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "metrics": [
     {
       "id": "revenueGrowthYoy",
       "label": "Umsatzwachstum y/y",
-      "value": 0.19620517,
-      "display": "+19,6 %",
-      "detail": "200,61 Mrd. USD vs. 167,70 Mrd. USD",
-      "period": "Q2 2026 vs. Q2 2025",
-      "source": "SEC companyfacts RevenueFromContractWithCustomerExcludingAssessedTax",
-      "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
-      "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "value": 0.12082922,
+      "display": "+12,1 %",
+      "detail": "201,94 vs. 180,17 Mrd. USD",
+      "period": "Q3 2026 vs. Q3 2025",
+      "source": "Amazon-Pressemitteilung",
+      "sourceUrl": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
+      "note": null,
+      "secConcept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+      "sourceDate": "29.10.2026"
     },
     {
       "id": "grossMarginTtm",
       "label": "Bruttomarge",
-      "value": 0.50604085,
-      "display": "50,6 %",
+      "value": 0.531687,
+      "display": "53,2 %",
       "detail": null,
-      "period": "TTM (4 Quartale bis 31.03.2026)",
-      "source": "Yahoo Finance quarterly_income_stmt",
-      "sourceUrl": "https://finance.yahoo.com/quote/AMZN/financials",
-      "observedAt": "2026-03-31",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "period": "Q3 2026",
+      "source": "Amazon-Pressemitteilung",
+      "sourceUrl": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
+      "note": "Quartal: (201,944 − 94,573) / 201,944.",
+      "sourceDate": "29.10.2026"
     },
     {
       "id": "freeCashFlowTtm",
       "label": "Free Cashflow",
-      "value": -2472000000,
-      "display": "−2,472 Mrd. USD",
+      "value": -42360000000,
+      "display": "−42,36 Mrd. USD",
       "detail": null,
-      "period": "TTM (4 Quartale bis 31.03.2026)",
-      "source": "Yahoo Finance quarterly_cashflow",
-      "sourceUrl": "https://finance.yahoo.com/quote/AMZN/cash-flow",
-      "observedAt": "2026-03-31",
-      "fetchedAt": "2026-10-29",
-      "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
+      "period": "TTM bis 30.09.2026",
+      "source": "Amazon-Pressemitteilung",
+      "sourceUrl": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
+      "note": "Amazon-Definition, TTM bis 30.09.2026.",
+      "sourceDate": "29.10.2026"
     },
     {
       "id": "cashVsDebt",
       "label": "Cash vs. Schulden",
       "value": {
-        "cash": 143089000000,
-        "debt": 209888000000
+        "cash": 114220000000,
+        "debt": 173130000000
       },
-      "display": "Cash 143,09 Mrd. · Schulden 209,89 Mrd. USD",
-      "detail": "Netto-Schulden 66,80 Mrd. USD",
-      "period": "letzte Bilanz 31.03.2026",
-      "source": "Yahoo Finance quarterly_balance_sheet",
-      "sourceUrl": "https://finance.yahoo.com/quote/AMZN/balance-sheet",
-      "observedAt": "2026-03-31",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "display": "Cash 55,78 Mrd. · Wertpapiere 58,44 Mrd. (zusammen 114,2 Mrd.) · langfristige Schulden 173,13 Mrd. USD",
+      "detail": null,
+      "period": "letzte Bilanz 30.09.2026",
+      "source": "Amazon-Pressemitteilung",
+      "sourceUrl": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
+      "note": "Langfristige Schulden ohne Leasing.",
+      "sourceDate": "29.10.2026"
     },
     {
       "id": "dilutionYoy",
       "label": "Verwässerung",
-      "value": 0.01240951,
+      "value": 0.01152333,
       "display": "+1,2 %",
-      "detail": "10,77 Mrd. vs. 10,64 Mrd. Basic Average Shares",
-      "period": "Q2 2026 vs. Q2 2025",
+      "detail": "10,80 Mrd. vs. 10,67 Mrd. Basic Average Shares",
+      "period": "Q3 2026 vs. Q3 2025",
       "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
       "sourceUrl": "https://finance.yahoo.com/quote/AMZN/financials",
-      "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
       "note": null
     },
     {
       "id": "nextEarnings",
       "label": "Nächster Zahlentermin",
-      "value": "2026-10-29T21:00:00+01:00",
-      "display": "29.10.2026, 21:00 MEZ",
+      "value": null,
+      "display": null,
       "detail": null,
-      "period": "Q3 2026",
+      "period": null,
       "source": "Yahoo Finance earnings_dates",
       "sourceUrl": "https://finance.yahoo.com/quote/AMZN",
-      "observedAt": "2026-10-29",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "observedAt": "2027-02-04",
+      "fetchedAt": "2026-11-09",
+      "note": "Termin 29.10.2026 ist vorbei."
     }
   ]
 }

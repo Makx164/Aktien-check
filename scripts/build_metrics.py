@@ -40,9 +40,11 @@ from metricsbuild.compute import (  # noqa: E402
     STI_ROWS,
     THESIS_PLACEHOLDER,
     BERLIN,
+    align_statement_dates,
     cash_vs_debt,
     close_point,
     dilution,
+    filing_periods_from_rows,
     finite,
     format_percent,
     free_cash_flow,
@@ -151,7 +153,7 @@ def fiscal_month(info):
         return None
 
 
-def confirm_or_replace_growth(yahoo_points, facts, currency, fetched_at, yahoo_url, sec_url, fiscal):
+def confirm_or_replace_growth(yahoo_points, facts, currency, fetched_at, yahoo_url, sec_url, fiscal, labels=None):
     sec_points, concept = quarterly_points_from_rows(sec_quarter_rows(facts, SEC_REVENUE))
     series, origin = prefer_newer_series(yahoo_points, sec_points)
     if origin == "alternate":
@@ -162,6 +164,7 @@ def confirm_or_replace_growth(yahoo_points, facts, currency, fetched_at, yahoo_u
             sec_url,
             source="SEC companyfacts " + (concept or ""),
             fiscal_month=fiscal if fiscal is not None else 0,
+            labels=labels,
         )
         return metric
     metric = revenue_growth(
@@ -170,6 +173,7 @@ def confirm_or_replace_growth(yahoo_points, facts, currency, fetched_at, yahoo_u
         fetched_at,
         yahoo_url,
         fiscal_month=fiscal if fiscal is not None else 0,
+        labels=labels,
     )
     inputs = metric.get("inputs") or {}
     if metric.get("value") is None or not metric.get("observedAt") or not inputs.get("priorEnd"):
@@ -290,13 +294,27 @@ def pick_profile(info, symbol, fetched_at, fallback):
     return fallback
 
 
-def build_document(row, bundle, info, earnings, price, profile, fetched_at, facts, thesis):
+def align_bundle(bundle, facts):
+    records = filing_periods_from_rows(sec_quarter_rows(facts, SEC_REVENUE)) if facts else []
+    labels = {}
+    years = {}
+    aligned = {}
+    for key, points in bundle.items():
+        points, point_labels, point_years = align_statement_dates(points, records)
+        aligned[key] = points
+        labels.update(point_labels)
+        years.update(point_years)
+    return aligned, labels, years
+
+
+def build_document(row, bundle, info, earnings, price, profile, fetched_at, facts, thesis, verdict):
     symbol = row.get("yahoo") or row["ticker"]
     currency = (info or {}).get("financialCurrency") or (info or {}).get("currency") or (price or {}).get("currency") or "USD"
     financials = quote_url(symbol, "financials")
     cashflow_url = quote_url(symbol, "cash-flow")
     balance_url = quote_url(symbol, "balance-sheet")
     label_month = fiscal_month(info) or 0
+    bundle, labels, years = align_bundle(bundle, facts)
     if row.get("sec", True) and facts:
         cik = facts.get("cik")
         sec_url = (
@@ -304,24 +322,28 @@ def build_document(row, bundle, info, earnings, price, profile, fetched_at, fact
             if cik else financials
         )
         growth = confirm_or_replace_growth(
-            bundle["revenue"], facts, currency, fetched_at, financials, sec_url, label_month
+            bundle["revenue"], facts, currency, fetched_at, financials, sec_url, label_month, labels
         )
     else:
         growth = revenue_growth(
-            bundle["revenue"], currency, fetched_at, financials, fiscal_month=label_month
+            bundle["revenue"], currency, fetched_at, financials, fiscal_month=label_month, labels=labels
         )
     margin = gross_margin(
         bundle["revenue"], bundle["gross"], (info or {}).get("grossMargins"),
-        currency, fetched_at, financials, fiscal_month=label_month,
+        currency, fetched_at, financials, fiscal_month=label_month, labels=labels, year_labels=years,
     )
-    cash = free_cash_flow(bundle["ocf"], bundle["capex"], bundle["fcf"], currency, fetched_at, cashflow_url)
-    balance = cash_vs_debt(bundle["cash"], bundle["cash_only"], bundle["sti"], bundle["debt"], currency, fetched_at, balance_url)
+    cash = free_cash_flow(
+        bundle["ocf"], bundle["capex"], bundle["fcf"], currency, fetched_at, cashflow_url, year_labels=years
+    )
+    balance = cash_vs_debt(
+        bundle["cash"], bundle["cash_only"], bundle["sti"], bundle["debt"], currency, fetched_at, balance_url
+    )
     last_end = date.fromisoformat(growth["observedAt"]) if growth.get("observedAt") else None
     period = growth.get("period") or ""
     last_label = period.split(" vs. ")[0] if " vs. " in period else (quarter_label(last_end, label_month) if last_end else None)
     shares = dilution(
         bundle["basic"], bundle["diluted"], fetched_at, financials,
-        fiscal_month=label_month, anchor=last_end,
+        fiscal_month=label_month, anchor=last_end, labels=labels,
     )
     moment, source_name = earnings
     upcoming = next_earnings(moment, fetched_at, quote_url(symbol, ""), last_label, source_name, last_end)
@@ -338,10 +360,52 @@ def build_document(row, bundle, info, earnings, price, profile, fetched_at, fact
         "currency": currency,
         "asOf": fetched_at,
         "thesis": thesis or THESIS_PLACEHOLDER,
+        "verdict": verdict,
         "price": price,
         "profile": profile,
-        "metrics": metrics,
+        "metrics": apply_metric_corrections(row["ticker"], metrics, fetched_at),
     }
+
+
+def load_verdicts():
+    path = ROOT / "config" / "verdicts.json"
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def load_metric_corrections():
+    path = ROOT / "config" / "metric_corrections.json"
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def apply_metric_corrections(ticker, metrics, fetched_at):
+    """Freigegebene Korrekturen aus Abschnitt 4 bleiben bei jedem Neuaufbau stehen."""
+    patches = (load_metric_corrections().get(ticker) or {})
+    by_id = {metric["id"]: metric for metric in metrics}
+    for metric_id, patch in patches.items():
+        metric = by_id.get(metric_id)
+        if metric is None:
+            continue
+        extra = patch.get("addNote")
+        for key, value in patch.items():
+            if key == "addNote":
+                continue
+            metric[key] = value
+        if extra:
+            metric["note"] = (metric.get("note") + " " if metric.get("note") else "") + extra
+        if metric.get("sourceDate") and "fetchedAt" not in patch:
+            metric["fetchedAt"] = fetched_at
+    return metrics
+
+
+def judgement_for(ticker, previous):
+    stored = load_verdicts().get(ticker) or {}
+    thesis = stored.get("thesis") or previous.get("thesis") or THESIS_PLACEHOLDER
+    verdict = stored.get("verdict") if "verdict" in stored else previous.get("verdict")
+    return thesis, verdict
 
 
 def write_document(document):
@@ -370,7 +434,7 @@ def refresh(rows, today=None):
         print(f"== {ticker} ({symbol})")
         try:
             previous = previous_document(ticker)
-            thesis = previous.get("thesis") or THESIS_PLACEHOLDER
+            thesis, verdict = judgement_for(ticker, previous)
             instrument = yf.Ticker(symbol)
             income = instrument.quarterly_income_stmt
             cashflow = instrument.quarterly_cashflow
@@ -399,6 +463,7 @@ def refresh(rows, today=None):
                 fetched_at,
                 facts,
                 thesis,
+                verdict,
             )
             path = write_document(document)
             for metric in document["metrics"]:

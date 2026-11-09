@@ -3,26 +3,79 @@
   "name": "Hims & Hers Health",
   "yahoo": "HIMS",
   "currency": "USD",
-  "asOf": "2026-10-29",
-  "thesis": "These folgt",
+  "asOf": "2026-11-09",
+  "thesis": "These intakt, Prüfstein Q3 am 09.11.: Wachstum +38 % und Lilly-Zugang seit 06.11., aber die Bruttomarge ist von 76 % auf 64 % gefallen.",
+  "verdict": {
+    "asOf": "2026-11-09",
+    "status": "intakt",
+    "statusReason": "Q2-Umsatz 753 Mio. $ (+38 %), 2,89 Mio. Abonnenten (+19 %); seit 06.11. bietet Hims Lillys Zepbound (ab 299 $/Monat) und Foundayo (ab 149 $/Monat) direkt auf der Plattform an und verzichtet auf Nachbauten von Lilly-Präparaten.",
+    "role": "Satellit",
+    "roleNote": "Nach den Q3-Zahlen (09.11. nach US-Schluss) neu prüfen.",
+    "keyFacts": [
+      {
+        "text": "Q3-Prognose 880–900 Mio. $ Umsatz (+47–50 %)",
+        "source": "Hims-Pressemitteilung Q2",
+        "date": "10.08.2026",
+        "url": "https://investors.hims.com/news/news-details/2026/Hims--Hers-Health-Inc--Reports-Second-Quarter-2026-Financial-Results/default.aspx"
+      },
+      {
+        "text": "Bruttomarge 64 % (Vorjahr 76 %) durch Markenpräparate; Q2-Nettoverlust 86,3 Mio. $, Free Cashflow −68,2 Mio. $",
+        "source": "Hims-Pressemitteilung Q2",
+        "date": "10.08.2026",
+        "url": "https://investors.hims.com/news/news-details/2026/Hims--Hers-Health-Inc--Reports-Second-Quarter-2026-Financial-Results/default.aspx"
+      },
+      {
+        "text": "Lilly-Deal: wirtschaftlicher Beitrag für Hims nicht beziffert",
+        "source": "Lilly-Pressemitteilung",
+        "date": "06.11.2026",
+        "url": "https://investor.lilly.com/news-releases/news-release-details/lilly-and-hims-hers-expand-access-fda-approved-lilly-medicines"
+      }
+    ],
+    "breaksIf": "Q3 verfehlt die eigene Prognose, die Bruttomarge sinkt weiter Richtung 55 %, oder die Abonnentenzahl stagniert trotz Lilly-Zugang.",
+    "chart": {
+      "close": 26.0,
+      "date": "2026-11-06",
+      "sma50": 28.43,
+      "sma200": 26.91,
+      "rsi14": 43.8,
+      "text": "26,00 $, unter der 50-Tage-Linie (28,43) und knapp unter der 200-Tage-Linie (26,91), RSI 44."
+    },
+    "sources": [
+      {
+        "label": "Hims-Pressemitteilung Q2",
+        "date": "10.08.2026",
+        "url": "https://investors.hims.com/news/news-details/2026/Hims--Hers-Health-Inc--Reports-Second-Quarter-2026-Financial-Results/default.aspx"
+      },
+      {
+        "label": "Lilly-Pressemitteilung",
+        "date": "06.11.2026",
+        "url": "https://investor.lilly.com/news-releases/news-release-details/lilly-and-hims-hers-expand-access-fda-approved-lilly-medicines"
+      },
+      {
+        "label": "yfinance",
+        "date": "06.11.2026",
+        "url": "https://finance.yahoo.com/quote/HIMS/history"
+      }
+    ]
+  },
   "price": {
-    "close": 28.82,
+    "close": 26.0,
     "currency": "USD",
-    "date": "2026-10-29",
+    "date": "2026-11-06",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/HIMS/history",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "profile": {
     "hq": "San Francisco, USA",
     "employees": 2442,
     "employeesDisplay": "2.442",
-    "marketCap": 6711400448,
-    "marketCapDisplay": "6,711 Mrd. USD",
+    "marketCap": 6066148352,
+    "marketCapDisplay": "6,066 Mrd. USD",
     "currency": "USD",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/HIMS/profile",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "metrics": [
     {
@@ -35,7 +88,7 @@
       "source": "Yahoo Finance quarterly_income_stmt; SEC companyfacts bestätigt",
       "sourceUrl": "https://finance.yahoo.com/quote/HIMS/financials",
       "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": null,
       "secConcept": "RevenueFromContractWithCustomerExcludingAssessedTax"
     },
@@ -49,7 +102,7 @@
       "source": "Yahoo Finance quarterly_income_stmt",
       "sourceUrl": "https://finance.yahoo.com/quote/HIMS/financials",
       "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": "Yahoo grossMargins 69,5 % weicht ab, gezeigt ist die Quartalsrechnung"
     },
     {
@@ -62,7 +115,7 @@
       "source": "Yahoo Finance quarterly_cashflow",
       "sourceUrl": "https://finance.yahoo.com/quote/HIMS/cash-flow",
       "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
     },
     {
@@ -78,7 +131,7 @@
       "source": "Yahoo Finance quarterly_balance_sheet",
       "sourceUrl": "https://finance.yahoo.com/quote/HIMS/balance-sheet",
       "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": null
     },
     {
@@ -91,20 +144,20 @@
       "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
       "sourceUrl": "https://finance.yahoo.com/quote/HIMS/financials",
       "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": null
     },
     {
       "id": "nextEarnings",
       "label": "Nächster Zahlentermin",
-      "value": "2026-11-09T21:00:00+01:00",
-      "display": "09.11.2026, 21:00 MEZ",
+      "value": "2026-11-09T22:00:00+01:00",
+      "display": "09.11.2026, 22:00 MEZ",
       "detail": null,
       "period": "Q3 2026",
       "source": "Yahoo Finance earnings_dates",
       "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
       "observedAt": "2026-11-09",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": null
     }
   ]

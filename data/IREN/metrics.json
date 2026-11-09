@@ -3,40 +3,89 @@
   "name": "IREN Limited",
   "yahoo": "IREN",
   "currency": "USD",
-  "asOf": "2026-10-29",
-  "thesis": "These folgt",
+  "asOf": "2026-11-09",
+  "thesis": "These wackelt: KI-Cloud-Umsatz +182 % zum Vorquartal, aber das 4-Mrd.-ARR-Ziel rutscht auf Januar/Februar und der Ausbau wird zunehmend mit Schulden und neuen Aktien bezahlt.",
+  "verdict": {
+    "asOf": "2026-11-09",
+    "status": "wackelt",
+    "statusReason": "KI-Cloud-Umsatz Q1 FY27 200 Mio. $ (+182 % zum Vorquartal), Auftragsbestand 20,3 Mrd. $ (zwei Drittel Investment-Grade). Aber das Ziel von über 4 Mrd. $ ARR rutscht von Jahresende auf Januar, eventuell Ende Februar 2027, und der Ausbau wird zunehmend mit Schulden und neuen Aktien bezahlt.",
+    "role": "beobachten",
+    "roleNote": "Halten, nicht aufstocken.",
+    "keyFacts": [
+      {
+        "text": "Nettoschulden 4,43 Mrd. $ (Vorquartal 0,22 Mrd. $); neue Aktien für 498 Mio. $ im Quartal; Nettoverlust 263 Mio. $",
+        "source": "IREN-Pressemitteilung Q1 FY27",
+        "date": "05.11.2026",
+        "url": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results"
+      },
+      {
+        "text": "Von 15 Mrd. $ geplanten Investitionen im GJ 27 sind 6 Mrd. $ noch nicht finanziert",
+        "source": "IREN-Pressemitteilung Q1 FY27",
+        "date": "05.11.2026",
+        "url": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results"
+      },
+      {
+        "text": "IREN nennt selbst die vom texanischen Gouverneur angeordnete Prüfung aller Rechenzentren im ERCOT-Anschlussverfahren als Risiko (Sweetwater 2 GW)",
+        "source": "IREN-Pressemitteilung Q1 FY27 (Risikohinweise)",
+        "date": "05.11.2026",
+        "url": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results"
+      }
+    ],
+    "breaksIf": "Die 4 Mrd. $ ARR sind Ende Februar 2027 nicht in Betrieb, weitere Kapitalerhöhungen auf diesem Kursniveau, oder Verzögerungen beim ERCOT-Anschluss für Sweetwater.",
+    "chart": {
+      "close": 21.64,
+      "date": "2026-11-06",
+      "sma50": 35.87,
+      "sma200": 43.55,
+      "rsi14": 36.3,
+      "text": "21,64 $, weit unter der 50-Tage-Linie (35,87) und der 200-Tage-Linie (43,55), RSI 36; 52-Wochen-Tief 18,03 $ am 05.11."
+    },
+    "sources": [
+      {
+        "label": "IREN-Pressemitteilung Q1 FY27",
+        "date": "05.11.2026",
+        "url": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results"
+      },
+      {
+        "label": "yfinance",
+        "date": "06.11.2026",
+        "url": "https://finance.yahoo.com/quote/IREN/history"
+      }
+    ]
+  },
   "price": {
-    "close": 27.12,
+    "close": 21.64,
     "currency": "USD",
-    "date": "2026-10-29",
+    "date": "2026-11-06",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/IREN/history",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "profile": {
     "hq": "Sydney, Australia",
     "employees": 685,
     "employeesDisplay": "685",
-    "marketCap": 10969073664,
-    "marketCapDisplay": "10,97 Mrd. USD",
+    "marketCap": 9183093760,
+    "marketCapDisplay": "9,183 Mrd. USD",
     "currency": "USD",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/IREN/profile",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "metrics": [
     {
       "id": "revenueGrowthYoy",
       "label": "Umsatzwachstum y/y",
-      "value": -0.26732055,
-      "display": "−26,7 %",
-      "detail": "0,137 Mrd. USD vs. 0,187 Mrd. USD",
-      "period": "Quartal bis 30.06.2026 vs. Quartal bis 30.06.2025",
-      "source": "Yahoo Finance quarterly_income_stmt",
-      "sourceUrl": "https://finance.yahoo.com/quote/IREN/financials",
-      "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "value": -0.05,
+      "display": "−5,0 %",
+      "detail": "228 vs. 240 Mio. USD",
+      "period": "Q1 FY27 (bis 30.09.2026) vs. Vorjahresquartal",
+      "source": "IREN-Pressemitteilung Q1 FY27",
+      "sourceUrl": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
+      "note": "Mix-Wechsel: KI-Cloud 200 Mio., Bitcoin nur noch 28 Mio.; zum Vorquartal +66 %.",
+      "sourceDate": "05.11.2026"
     },
     {
       "id": "grossMarginTtm",
@@ -44,12 +93,12 @@
       "value": 0.62323994,
       "display": "62,3 %",
       "detail": null,
-      "period": "TTM (4 Quartale bis 30.06.2026)",
+      "period": "GJ 2026 bis 30.06.2026",
       "source": "Yahoo Finance quarterly_income_stmt",
       "sourceUrl": "https://finance.yahoo.com/quote/IREN/financials",
       "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
-      "note": "Yahoo grossMargins 68,9 % weicht ab, gezeigt ist die Quartalsrechnung"
+      "fetchedAt": "2026-11-09",
+      "note": "Yahoo grossMargins 73,4 % weicht ab, gezeigt ist die Quartalsrechnung"
     },
     {
       "id": "freeCashFlowTtm",
@@ -57,28 +106,29 @@
       "value": -2350426000,
       "display": "−2,350 Mrd. USD",
       "detail": null,
-      "period": "TTM (4 Quartale bis 30.06.2026)",
+      "period": "GJ 2026 bis 30.06.2026",
       "source": "Yahoo Finance quarterly_cashflow",
       "sourceUrl": "https://finance.yahoo.com/quote/IREN/cash-flow",
       "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
     },
     {
       "id": "cashVsDebt",
       "label": "Cash vs. Schulden",
       "value": {
-        "cash": 5895591000,
-        "debt": 7839526000
+        "cash": 5778000000,
+        "debt": 10208000000
       },
-      "display": "Cash 5,896 Mrd. · Schulden 7,840 Mrd. USD",
-      "detail": "Netto-Schulden 1,944 Mrd. USD",
-      "period": "letzte Bilanz 30.06.2026",
-      "source": "Yahoo Finance quarterly_balance_sheet",
-      "sourceUrl": "https://finance.yahoo.com/quote/IREN/balance-sheet",
-      "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "display": "Cash 3,522 Mrd. · gebundene Mittel 2,256 Mrd. · Schulden inkl. Finanzierungsleasing 10,208 Mrd. USD",
+      "detail": "Nettoschulden 4,43 Mrd. USD",
+      "period": "letzte Bilanz 30.09.2026",
+      "source": "IREN-Pressemitteilung Q1 FY27",
+      "sourceUrl": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
+      "note": null,
+      "sourceDate": "05.11.2026"
     },
     {
       "id": "dilutionYoy",
@@ -90,20 +140,20 @@
       "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
       "sourceUrl": "https://finance.yahoo.com/quote/IREN/financials",
       "observedAt": "2026-03-31",
-      "fetchedAt": "2026-10-29",
-      "note": "jüngeres Quartal ohne Aktienzahl"
+      "fetchedAt": "2026-11-09",
+      "note": "Jüngeres Quartal ohne Aktienzahl. Bekannt: 498 Mio. $ neue Aktien in Q1 FY27, 2,11 Mrd. $ in Q4 FY26."
     },
     {
       "id": "nextEarnings",
       "label": "Nächster Zahlentermin",
-      "value": "2026-11-05T21:00:00+01:00",
-      "display": "05.11.2026, 21:00 MEZ",
+      "value": "2027-02-04T22:00:00+01:00",
+      "display": "04.02.2027, 22:00 MEZ",
       "detail": null,
       "period": null,
       "source": "Yahoo Finance earnings_dates",
       "sourceUrl": "https://finance.yahoo.com/quote/IREN",
-      "observedAt": "2026-11-05",
-      "fetchedAt": "2026-10-29",
+      "observedAt": "2027-02-04",
+      "fetchedAt": "2026-11-09",
       "note": null
     }
   ]

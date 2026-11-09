@@ -1152,7 +1152,9 @@ class RoundThreeTests(unittest.TestCase):
         self.assertFalse((ROOT / "data" / "OSS" / "score.json").exists())
         oss = json.loads((ROOT / "data" / "OSS" / "metrics.json").read_text(encoding="utf-8"))
         self.assertNotIn("score", oss)
-        self.assertEqual(oss["thesis"], "These folgt")
+        self.assertTrue(oss["thesis"].startswith("These wackelt:"))
+        self.assertEqual(oss["verdict"]["status"], "wackelt")
+        self.assertEqual(oss["verdict"]["role"], "beobachten")
         self.assertEqual([item["id"] for item in oss["metrics"]], [
             "revenueGrowthYoy", "grossMarginTtm", "freeCashFlowTtm", "cashVsDebt", "dilutionYoy", "nextEarnings",
         ])
@@ -1564,7 +1566,7 @@ class LegalPageTests(unittest.TestCase):
             if (!pageText().includes(disclaimer)) throw new Error("overview missing disclaimer");
             if (document.title !== "sidequest") throw new Error("overview title " + document.title);
             const tiles = app.children.filter((child) => child.className === "tiles")[0];
-            if (!tiles || tiles.children.length !== 10) throw new Error("overview tiles " + (tiles && tiles.children.length));
+            if (!tiles || tiles.children.length !== 9) throw new Error("overview tiles " + (tiles && tiles.children.length));
             const card = tiles.children[0].children.map((child) => child.textContent).join(" | ");
             if (card.indexOf("PLTR") < 0 || card.indexOf("%") >= 0 || card.indexOf("Mrd") >= 0) {
               throw new Error("card " + card);

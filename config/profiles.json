@@ -34,9 +34,5 @@
   "IREN": {
     "text": "IREN betreibt Rechenzentren und bietet KI-Cloud-Kapazität an. Kunden nutzen die Infrastruktur, um Modelle zu trainieren und zu betreiben. IREN plant, baut und betreibt die Standorte samt Stromversorgung und Kühlung.",
     "segments": ["KI-Cloud", "Rechenzentren"]
-  },
-  "GRAB": {
-    "text": "Grab betreibt eine Plattform für Mobilität, Lieferdienste und Finanzangebote in Südostasien. Nutzer bestellen darüber Fahrten und Lieferungen, Partner bieten ihre Dienste an. Ergänzend umfasst das Angebot Zahlungen und weitere Finanzdienste.",
-    "segments": ["Mobilität", "Lieferdienste", "Finanzdienste"]
   }
 }

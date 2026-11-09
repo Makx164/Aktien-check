@@ -10,13 +10,13 @@ GitHub Pages unter https://makx164.github.io/Aktien-check/ leitet auf yoursidequ
 
 ## Was die Seite zeigt
 
-Nur diese Ticker, in dieser Reihenfolge: PLTR, OSS, AMZN, TSLA, HIMS, LMND, IBRX, MU, IREN, GRAB.
+Nur diese Ticker, in dieser Reihenfolge: PLTR, OSS, AMZN, TSLA, HIMS, LMND, IBRX, MU, IREN.
 
-Nicht dabei: PYPL, SIVE, SPCX.
+Nicht dabei: PYPL, SIVE, SPCX, GRAB.
 
 Die Startseite ist ein Kachelraster. Eine Kachel zeigt Ticker, Namen und den Stand der Daten. Keine Leitkennzahl, kein Score. Ein Klick öffnet `#/TICKER`, zum Beispiel `#/PLTR`.
 
-Die Aktie zeigt den Schlusskurs, den These-Satz, die sechs Kennzahlen und, soweit vorhanden, Sitz, Mitarbeiter und Börsenwert. Fehlt ein Wert, steht „—“. Nichts wird geschätzt. Der These-Satz ist „These folgt“, solange kein Satz aus dem Depotbericht eingetragen ist.
+Die Aktie zeigt den Schlusskurs, den These-Satz, das Urteil (Status, Rolle, tragende Kennzahlen, was die These kippen würde, Chartblick) und darunter die sechs Kennzahlen. Soweit vorhanden auch Sitz, Mitarbeiter und Börsenwert. Fehlt ein Wert, steht „—“. Die Urteile liegen in `config/verdicts.json` und bleiben bei jedem Lauf von `scripts/build_metrics.py` erhalten.
 
 | Kennzahl | Definition |
 | --- | --- |

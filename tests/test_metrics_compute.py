@@ -6,6 +6,7 @@ from zoneinfo import ZoneInfo
 
 from metricsbuild.compute import (
     THESIS_PLACEHOLDER,
+    align_statement_dates,
     cash_vs_debt,
     dilution,
     format_money,
@@ -26,6 +27,8 @@ class FormatTests(unittest.TestCase):
         self.assertEqual(format_money(1_003_697_000, "USD"), "1,004 Mrd. USD")
         self.assertEqual(format_money(211_400_000, "USD"), "0,211 Mrd. USD")
         self.assertEqual(format_money(3_358_272_000, "USD"), "3,358 Mrd. USD")
+        self.assertEqual(format_money(11_315_000_000, "USD"), "11,32 Mrd. USD")
+        self.assertEqual(format_money(54_229_000_000, "USD"), "54,23 Mrd. USD")
         self.assertEqual(format_percent(1_935_464_000 / 1_003_697_000 - 1, signed=True), "+92,8 %")
         self.assertEqual(format_percent(0.84796), "84,8 %")
 
@@ -118,6 +121,21 @@ class PltrFixtureTests(unittest.TestCase):
         cash = free_cash_flow(self.ocf[:2], self.capex[:2], None, "USD", "2026-10-29", "https://example.test")
         self.assertIsNone(cash["value"])
         self.assertNotEqual(cash["display"], "0")
+
+    def test_fifty_two_week_period_is_not_labeled_as_month_end(self):
+        records = [
+            {"end": date(2026, 9, 3), "val": 133_188_000_000, "fp": "FY", "fy": 2026},
+            {"end": date(2025, 8, 28), "val": 37_378_000_000, "fp": "FY", "fy": 2025},
+        ]
+        points = [(date(2026, 8, 31), 54_229_000_000), (date(2025, 8, 31), 11_315_000_000)]
+        aligned, labels, years = align_statement_dates(points, records)
+        self.assertEqual(aligned[0][0], date(2026, 9, 3))
+        self.assertEqual(aligned[1][0], date(2025, 8, 28))
+        self.assertEqual(aligned[0][1], 54_229_000_000)
+        growth = revenue_growth(aligned, "USD", "2026-11-09", "https://example.test", labels=labels)
+        self.assertEqual(growth["period"], "FQ4-26 (bis 03.09.2026) vs. FQ4-25 (bis 28.08.2025)")
+        self.assertEqual(growth["detail"], "54,23 Mrd. USD vs. 11,32 Mrd. USD")
+        self.assertEqual(years[date(2026, 9, 3)], "GJ 2026 bis 03.09.2026")
 
     def test_placeholder_constant(self):
         self.assertEqual(THESIS_PLACEHOLDER, "These folgt")

@@ -28,13 +28,13 @@
 :root,[data-theme="light"]{
   --bg:#c6c7c1; --bg2:#cfd0ca; --panel:#d3d4ce; --panel2:#dcddd7; --ink:#111214; --ink2:#3a3c40; --mut:#5f625f;
   --hair:rgba(17,18,20,.55); --hair2:rgba(17,18,20,.22); --grid:rgba(17,18,20,.045);
-  --red:#e8305a; --red-ink:#c41c45; --blue:#2b55e0; --bad:#c41c3a; --bad-bg:rgba(196,28,58,.10);
+  --red:#e8305a; --red-ink:#c41c45; --blue:#2b55e0; --ok:#0e7a3b; --warn:#a35f00; --bad:#c41c3a; --bad-bg:rgba(196,28,58,.10);
   --scan:none; color-scheme:light;
 }
 [data-theme="dark"]{
   --bg:#0a0b0c; --bg2:#0f1012; --panel:#111316; --panel2:#171a1e; --ink:#eceeee; --ink2:#c3c6c8; --mut:#8a8f93;
   --hair:rgba(236,238,238,.42); --hair2:rgba(236,238,238,.16); --grid:rgba(236,238,238,.035);
-  --red:#ff3b63; --red-ink:#ff5a7c; --blue:#6f93ff; --bad:#ff4d66; --bad-bg:rgba(255,77,102,.10);
+  --red:#ff3b63; --red-ink:#ff5a7c; --blue:#6f93ff; --ok:#36e07a; --warn:#ffb21f; --bad:#ff4d66; --bad-bg:rgba(255,77,102,.10);
   --scan:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px);
   color-scheme:dark;
 }
@@ -84,6 +84,18 @@ main{position:relative;padding:8px 26px 30px;outline:none}
 .term b{color:var(--ink);font-weight:700}
 .thesis{font-size:18px;line-height:1.45;max-width:68ch;margin:8px 0 0}
 .thesis.placeholder{color:var(--mut);font-style:italic}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px}
+.badge{display:inline-block;font:700 13px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;border:1px solid currentColor}
+.badge.intakt{color:var(--ok)} .badge.wackelt{color:var(--warn)} .badge.gebrochen{color:var(--bad)} .badge.role{color:var(--ink)}
+.reason{margin:8px 0 0;max-width:68ch}
+.role-note{margin:4px 0 0;color:var(--ink2)}
+.keyfacts{margin:12px 0 0;padding-left:18px;max-width:72ch}
+.keyfacts li{margin:0 0 8px}
+.src,a.src{color:var(--mut);font:500 11.5px "JetBrains Mono",monospace;text-decoration:none}
+a.src:hover{text-decoration:underline}
+.chart{margin:4px 0 0;max-width:68ch}
+.tile-status{align-self:flex-start;font:700 10px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;padding:3px 6px;border:1px solid currentColor}
+.tile-status.intakt{color:var(--ok)} .tile-status.wackelt{color:var(--warn)} .tile-status.gebrochen{color:var(--bad)}
 .wrap{overflow-x:auto;margin-top:18px;border:1px solid var(--hair)}
 table.metrics{width:100%;border-collapse:collapse;font:500 13px/1.45 "JetBrains Mono",monospace}
 table.metrics th{text-align:left;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);padding:10px 12px;border-bottom:1px solid var(--hair);background:var(--panel)}
@@ -130,7 +142,7 @@ table.metrics .sub{display:block;margin-top:4px;color:var(--mut);font:500 11.5px
   <script>
 (function () {
   "use strict";
-  var TICKERS = ["PLTR","OSS","AMZN","TSLA","HIMS","LMND","IBRX","MU","IREN","GRAB"];
+  var TICKERS = ["PLTR","OSS","AMZN","TSLA","HIMS","LMND","IBRX","MU","IREN"];
   var DASH = "—";
   var app = document.getElementById("app");
   var loaded = [];
@@ -186,7 +198,14 @@ table.metrics .sub{display:block;margin-top:4px;color:var(--mut);font:500 11.5px
     var label = document.createElement("b");
     label.textContent = "Stand der Daten";
     stand.append(label, document.createTextNode(dDE(doc.asOf)));
-    link.append(ticker, name, stand);
+    link.append(ticker, name);
+    if (doc.verdict && doc.verdict.status) {
+      var badge = document.createElement("span");
+      badge.className = "tile-status " + doc.verdict.status;
+      badge.textContent = doc.verdict.status;
+      link.append(badge);
+    }
+    link.append(stand);
     return link;
   }
 
@@ -208,14 +227,48 @@ table.metrics .sub{display:block;margin-top:4px;color:var(--mut);font:500 11.5px
       var extra = "";
       if (metric.detail) extra += '<span class="sub">' + esc(metric.detail) + "</span>";
       if (metric.note) extra += '<span class="sub">' + esc(metric.note) + "</span>";
-      var source = metric.sourceUrl
-        ? '<a href="' + esc(metric.sourceUrl) + '" rel="noopener noreferrer">' + esc(metric.source || "Quelle") + "</a>"
-        : esc(metric.source || DASH);
+      var source = sourceLine(metric.source, metric.sourceDate || dDE(metric.fetchedAt), metric.sourceUrl);
       return "<tr><th scope=\"row\">" + esc(metric.label || "") + "</th><td class=\"val\">" + esc(value) + extra +
         "</td><td>" + esc(shown(metric.period)) + "</td><td>" + source + "</td><td>" + esc(dDE(metric.fetchedAt)) + "</td></tr>";
     }).join("");
   }
 
+  function sourceLine(source, date, url) {
+    var text = esc(source || "Quelle");
+    if (date) text += " · " + esc(date);
+    if (url) return '<a class="src" href="' + esc(url) + '" rel="noopener noreferrer">' + text + "</a>";
+    return '<span class="src">' + text + "</span>";
+  }
+  function verdictBlock(verdict) {
+    if (!verdict) return "";
+    var h = '<div class="badges"><span class="badge ' + esc(verdict.status || "") + '">' + esc(verdict.status || DASH) + "</span>";
+    h += '<span class="badge role">' + esc(verdict.role || DASH) + "</span></div>";
+    if (verdict.statusReason) h += '<p class="reason">' + esc(verdict.statusReason) + "</p>";
+    if (verdict.roleNote) h += '<p class="role-note">' + esc(verdict.roleNote) + "</p>";
+    var facts = verdict.keyFacts || [];
+    if (facts.length) {
+      h += '<ul class="keyfacts">';
+      facts.forEach(function (fact) {
+        h += "<li>" + esc(fact.text || "") + "<br>" + sourceLine(fact.source, fact.date, fact.url) + "</li>";
+      });
+      h += "</ul>";
+    }
+    if (verdict.breaksIf) {
+      h += '<p class="mlabel" style="margin-top:14px">Was die These kippen würde</p>';
+      h += "<p>" + esc(verdict.breaksIf) + "</p>";
+    }
+    if (verdict.chart && verdict.chart.text) {
+      h += '<p class="mlabel">Chartblick</p>';
+      h += '<p class="chart">' + esc(verdict.chart.text) + "</p>";
+    }
+    var sources = verdict.sources || [];
+    if (sources.length) {
+      h += '<p class="src">';
+      h += sources.map(function (item) { return sourceLine(item.label, item.date, item.url); }).join(" · ");
+      h += "</p>";
+    }
+    return h;
+  }
   function factLine(profile) {
     profile = profile || {};
     var bits = [];
@@ -241,6 +294,7 @@ table.metrics .sub{display:block;margin-top:4px;color:var(--mut);font:500 11.5px
     h += "</div>";
     h += '<p class="mlabel" style="margin-top:18px">These</p>';
     h += '<p class="' + thesisClass + '">' + esc(thesis) + "</p>";
+    h += verdictBlock(doc.verdict);
     h += '<div class="wrap"><table class="metrics"><thead><tr><th>Kennzahl</th><th>Wert</th><th>Periode</th><th>Quelle</th><th>Stand</th></tr></thead><tbody>' +
       metricRows(doc) + "</tbody></table></div>";
     if (facts) h += '<p class="facts">' + esc(facts) + "</p>";

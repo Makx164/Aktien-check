@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-09
+
+### Urteile und Q3-Korrekturen
+
+Jede Aktie außer den entfernten zeigt Status und Rolle aus `config/verdicts.json`. GRAB ist raus. Micron steht als FQ4-26 bis 03.09.2026, nicht als Monatsultimo. Ein Neuaufbau behält die Urteile.
+
 ## 2026-10-29
 
 ### Kennzahlen statt Score

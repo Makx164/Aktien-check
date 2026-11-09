@@ -3,54 +3,97 @@
   "name": "Lemonade",
   "yahoo": "LMND",
   "currency": "USD",
-  "asOf": "2026-10-29",
-  "thesis": "These folgt",
+  "asOf": "2026-11-09",
+  "thesis": "These intakt: Umsatz +73 %, Prämien +34 % (12. Beschleunigung in Folge), erstes positives bereinigtes EBITDA für Q4 angekündigt.",
+  "verdict": {
+    "asOf": "2026-11-09",
+    "status": "intakt",
+    "statusReason": "Q3-Umsatz 336 Mio. $ (+73 %), versicherte Prämien (IFP) 1,55 Mrd. $ (+34 %, zwölftes Quartal in Folge mit Beschleunigung); für Q4 erstmals positives bereinigtes EBITDA von 5–9 Mio. $ angekündigt.",
+    "role": "Satellit",
+    "roleNote": null,
+    "keyFacts": [
+      {
+        "text": "Prämie pro Kunde 440 $ (+9 %) bei 3,52 Mio. Kunden (+23 %); Kundentreue (ADR) 86 %",
+        "source": "Lemonade-Aktionärsbrief Q3",
+        "date": "05.11.2026",
+        "url": "https://www.lemonade.com/investor-relations-bo/wp-content/uploads/docs/LMND-Shareholder-Letter-Q3-2026.pdf"
+      },
+      {
+        "text": "Brutto-Schadenquote auf 65 % gestiegen (Vorquartal 60 %), Europa 104 %",
+        "source": "Lemonade-Aktionärsbrief Q3",
+        "date": "05.11.2026",
+        "url": "https://www.lemonade.com/investor-relations-bo/wp-content/uploads/docs/LMND-Shareholder-Letter-Q3-2026.pdf"
+      }
+    ],
+    "breaksIf": "Q4 bringt kein positives bereinigtes EBITDA, die Brutto-Schadenquote steigt über etwa 70 %, oder die Marketingausgaben wachsen weiter schneller als die Prämien.",
+    "chart": {
+      "close": 39.55,
+      "date": "2026-11-06",
+      "sma50": 46.67,
+      "sma200": 57.36,
+      "rsi14": 36.7,
+      "text": "39,55 $, unter der 50-Tage-Linie (46,67) und der 200-Tage-Linie (57,36), RSI 37 – Schlusskurs am 52-Wochen-Tief. Investor Day am 17.11."
+    },
+    "sources": [
+      {
+        "label": "Lemonade-Aktionärsbrief Q3",
+        "date": "05.11.2026",
+        "url": "https://www.lemonade.com/investor-relations-bo/wp-content/uploads/docs/LMND-Shareholder-Letter-Q3-2026.pdf"
+      },
+      {
+        "label": "yfinance",
+        "date": "06.11.2026",
+        "url": "https://finance.yahoo.com/quote/LMND/history"
+      }
+    ]
+  },
   "price": {
-    "close": 45.5,
+    "close": 39.55,
     "currency": "USD",
-    "date": "2026-10-29",
+    "date": "2026-11-06",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/LMND/history",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "profile": {
     "hq": "New York, USA",
     "employees": 1282,
     "employeesDisplay": "1.282",
-    "marketCap": 3521778176,
-    "marketCapDisplay": "3,522 Mrd. USD",
+    "marketCap": 3081784064,
+    "marketCapDisplay": "3,082 Mrd. USD",
     "currency": "USD",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/LMND/profile",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "metrics": [
     {
       "id": "revenueGrowthYoy",
       "label": "Umsatzwachstum y/y",
-      "value": 0.79402803,
-      "display": "+79,4 %",
-      "detail": "0,294 Mrd. USD vs. 0,164 Mrd. USD",
-      "period": "Q2 2026 vs. Q2 2025",
-      "source": "Yahoo Finance quarterly_income_stmt; SEC companyfacts bestätigt",
-      "sourceUrl": "https://finance.yahoo.com/quote/LMND/financials",
-      "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
+      "value": 0.72802057,
+      "display": "+72,8 %",
+      "detail": "336,1 vs. 194,5 Mio. USD",
+      "period": "Q3 2026 vs. Q3 2025",
+      "source": "Lemonade-Aktionärsbrief Q3",
+      "sourceUrl": "https://www.lemonade.com/investor-relations-bo/wp-content/uploads/docs/LMND-Shareholder-Letter-Q3-2026.pdf",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
       "note": null,
-      "secConcept": "Revenues"
+      "sourceDate": "05.11.2026"
     },
     {
       "id": "grossMarginTtm",
       "label": "Bruttomarge",
-      "value": 0.51651,
-      "display": "51,7 %",
+      "value": 0.35,
+      "display": "35 %",
       "detail": null,
-      "period": "TTM",
-      "source": "Yahoo Finance grossMargins",
-      "sourceUrl": "https://finance.yahoo.com/quote/LMND/financials",
-      "observedAt": null,
-      "fetchedAt": "2026-10-29",
-      "note": "kein Gross Profit in den Quartalen; Yahoo-Feld grossMargins"
+      "period": "Q3 2026",
+      "source": "Lemonade-Aktionärsbrief Q3",
+      "sourceUrl": "https://www.lemonade.com/investor-relations-bo/wp-content/uploads/docs/LMND-Shareholder-Letter-Q3-2026.pdf",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
+      "note": "Lemonade: Bruttomarge Q3 35 %, 9 Monate 37 %.",
+      "sourceDate": "05.11.2026"
     },
     {
       "id": "freeCashFlowTtm",
@@ -62,49 +105,51 @@
       "source": "Yahoo Finance quarterly_cashflow",
       "sourceUrl": "https://finance.yahoo.com/quote/LMND/cash-flow",
       "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
     },
     {
       "id": "cashVsDebt",
       "label": "Cash vs. Schulden",
       "value": {
-        "cash": 559900000,
-        "debt": 226400000
+        "cash": 1178900000,
+        "debt": 231600000
       },
-      "display": "Cash 0,560 Mrd. · Schulden 0,226 Mrd. USD",
-      "detail": "Netto-Cash 0,334 Mrd. USD",
-      "period": "letzte Bilanz 30.06.2026",
-      "source": "Yahoo Finance quarterly_balance_sheet",
-      "sourceUrl": "https://finance.yahoo.com/quote/LMND/balance-sheet",
-      "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "display": "Cash 385,2 Mio. · Kapitalanlagen 793,7 Mio. (rund 1,2 Mrd., davon ~350 Mio. regulatorisch gebunden) · Finanzierungsverbindlichkeit 231,6 Mio. USD",
+      "detail": null,
+      "period": "letzte Bilanz 30.09.2026",
+      "source": "Lemonade-Aktionärsbrief Q3",
+      "sourceUrl": "https://www.lemonade.com/investor-relations-bo/wp-content/uploads/docs/LMND-Shareholder-Letter-Q3-2026.pdf",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
+      "note": null,
+      "sourceDate": "05.11.2026"
     },
     {
       "id": "dilutionYoy",
       "label": "Verwässerung",
-      "value": 0.04834992,
-      "display": "+4,8 %",
-      "detail": "77,0 Mio. vs. 73,4 Mio. Basic Average Shares",
-      "period": "Q2 2026 vs. Q2 2025",
-      "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
-      "sourceUrl": "https://finance.yahoo.com/quote/LMND/financials",
-      "observedAt": "2026-06-30",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "value": 0.04515433,
+      "display": "+4,5 %",
+      "detail": "77,54 vs. 74,19 Mio. Basic Shares",
+      "period": "Q3 2026 vs. Q3 2025",
+      "source": "Lemonade-Aktionärsbrief Q3",
+      "sourceUrl": "https://www.lemonade.com/investor-relations-bo/wp-content/uploads/docs/LMND-Shareholder-Letter-Q3-2026.pdf",
+      "observedAt": "2026-09-30",
+      "fetchedAt": "2026-11-09",
+      "note": null,
+      "sourceDate": "05.11.2026"
     },
     {
       "id": "nextEarnings",
       "label": "Nächster Zahlentermin",
-      "value": "2026-11-05T13:00:00+01:00",
-      "display": "05.11.2026, 13:00 MEZ",
+      "value": "2027-02-18T14:00:00+01:00",
+      "display": "18.02.2027, 14:00 MEZ",
       "detail": null,
-      "period": "Q3 2026",
+      "period": "Q4 2026",
       "source": "Yahoo Finance earnings_dates",
       "sourceUrl": "https://finance.yahoo.com/quote/LMND",
-      "observedAt": "2026-11-05",
-      "fetchedAt": "2026-10-29",
+      "observedAt": "2027-02-18",
+      "fetchedAt": "2026-11-09",
       "note": null
     }
   ]

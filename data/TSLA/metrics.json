@@ -3,26 +3,79 @@
   "name": "Tesla",
   "yahoo": "TSLA",
   "currency": "USD",
-  "asOf": "2026-10-29",
-  "thesis": "These folgt",
+  "asOf": "2026-11-09",
+  "thesis": "These intakt, hängt aber fast nur an Autonomie: Kerngeschäft stagniert, Cybercab fährt seit September im Robotaxi-Dienst in Austin.",
+  "verdict": {
+    "asOf": "2026-11-09",
+    "status": "intakt",
+    "statusReason": "Das Kerngeschäft steht (Q3-Umsatz 28,05 Mrd. $, −0,2 %; Autoumsatz −3 %, Energie −16 %), die These ist Robotaxi: Seit 03.09. fahren Cybercabs im Robotaxi-Dienst in Austin, fast 2 Mio. kumulierte fahrerlose Meilen, achtmal so viele wie im Vorquartal.",
+    "role": "Satellit",
+    "roleNote": null,
+    "keyFacts": [
+      {
+        "text": "Operative Marge 2,6 % (Vorjahr 5,8 %); Forschungskosten +69 % auf 2,76 Mrd. $",
+        "source": "Tesla 10-Q / Q3-Update",
+        "date": "21.10.2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm"
+      },
+      {
+        "text": "Auto-Bruttomarge ohne CO₂-Zertifikate 18,1 % (eigene Rechnung aus 10-Q)",
+        "source": "Tesla 10-Q",
+        "date": "Q3 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm"
+      },
+      {
+        "text": "Free Cashflow 1,53 Mrd. $ (−62 %), Cash und kurzfristige Anlagen 45,4 Mrd. $",
+        "source": "Tesla Q3-Update",
+        "date": "21.10.2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066738/exhibit9914.htm"
+      }
+    ],
+    "breaksIf": "Der Robotaxi-Dienst kommt 2027 nicht über Austin und wenige Städte hinaus oder braucht wieder Sicherheitsfahrer, während das Autogeschäft weiter schrumpft und der Free Cashflow negativ wird.",
+    "chart": {
+      "close": 358.22,
+      "date": "2026-11-06",
+      "sma50": 372.14,
+      "sma200": 383.87,
+      "rsi14": 42.4,
+      "text": "358,22 $, unter der 50-Tage-Linie (372,14) und der 200-Tage-Linie (383,87), RSI 42."
+    },
+    "sources": [
+      {
+        "label": "Tesla Q3-Update",
+        "date": "21.10.2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066738/exhibit9914.htm"
+      },
+      {
+        "label": "Tesla 10-Q Q3",
+        "date": "2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm"
+      },
+      {
+        "label": "yfinance",
+        "date": "06.11.2026",
+        "url": "https://finance.yahoo.com/quote/TSLA/history"
+      }
+    ]
+  },
   "price": {
-    "close": 404.77,
+    "close": 358.22,
     "currency": "USD",
-    "date": "2026-10-29",
+    "date": "2026-11-06",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/TSLA/history",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "profile": {
     "hq": "Austin, USA",
     "employees": 134785,
     "employeesDisplay": "134.785",
-    "marketCap": 1600104693760,
-    "marketCapDisplay": "1.600,10 Mrd. USD",
+    "marketCap": 1415956922368,
+    "marketCapDisplay": "1.415,96 Mrd. USD",
     "currency": "USD",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/TSLA/profile",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "metrics": [
     {
@@ -30,12 +83,12 @@
       "label": "Umsatzwachstum y/y",
       "value": -0.00174408,
       "display": "−0,2 %",
-      "detail": "28,05 Mrd. USD vs. 28,09 Mrd. USD",
+      "detail": "28,05 Mrd. USD vs. 28,10 Mrd. USD",
       "period": "Q3 2026 vs. Q3 2025",
       "source": "Yahoo Finance quarterly_income_stmt; SEC companyfacts bestätigt",
       "sourceUrl": "https://finance.yahoo.com/quote/TSLA/financials",
       "observedAt": "2026-09-30",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": null,
       "secConcept": "Revenues"
     },
@@ -49,7 +102,7 @@
       "source": "Yahoo Finance quarterly_income_stmt",
       "sourceUrl": "https://finance.yahoo.com/quote/TSLA/financials",
       "observedAt": "2026-09-30",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": null
     },
     {
@@ -62,7 +115,7 @@
       "source": "Yahoo Finance quarterly_cashflow",
       "sourceUrl": "https://finance.yahoo.com/quote/TSLA/cash-flow",
       "observedAt": "2026-09-30",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
     },
     {
@@ -78,7 +131,7 @@
       "source": "Yahoo Finance quarterly_balance_sheet",
       "sourceUrl": "https://finance.yahoo.com/quote/TSLA/balance-sheet",
       "observedAt": "2026-09-30",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": null
     },
     {
@@ -91,20 +144,20 @@
       "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
       "sourceUrl": "https://finance.yahoo.com/quote/TSLA/financials",
       "observedAt": "2026-09-30",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": null
     },
     {
       "id": "nextEarnings",
       "label": "Nächster Zahlentermin",
-      "value": "2027-01-27T21:00:00+01:00",
-      "display": "27.01.2027, 21:00 MEZ",
+      "value": "2027-01-27T22:00:00+01:00",
+      "display": "27.01.2027, 22:00 MEZ",
       "detail": null,
       "period": "Q4 2026",
       "source": "Yahoo Finance earnings_dates",
       "sourceUrl": "https://finance.yahoo.com/quote/TSLA",
       "observedAt": "2027-01-27",
-      "fetchedAt": "2026-10-29",
+      "fetchedAt": "2026-11-09",
       "note": null
     }
   ]

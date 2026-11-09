@@ -3,26 +3,74 @@
   "name": "Micron Technology",
   "yahoo": "MU",
   "currency": "USD",
-  "asOf": "2026-10-29",
-  "thesis": "These folgt",
+  "asOf": "2026-11-09",
+  "thesis": "These intakt, Zyklusrisiko steigt: Umsatz +379 % zum Vorjahresquartal und 86,8 % Bruttomarge, Kurs aber unter der 200-Tage-Linie.",
+  "verdict": {
+    "asOf": "2026-11-09",
+    "status": "intakt",
+    "statusReason": "FQ4-26-Umsatz 54,23 Mrd. $ (+379 % zum Vorjahresquartal, +31 % zum Vorquartal), Prognose FQ1-27 61,5 Mrd. $ ± 1,5 Mrd.",
+    "role": "Satellit",
+    "roleNote": "Halten, nicht nachkaufen.",
+    "keyFacts": [
+      {
+        "text": "GAAP-Bruttomarge 86,8 % (Vorjahresquartal 44,7 %)",
+        "source": "Micron-Pressemitteilung",
+        "date": "30.09.2026",
+        "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx"
+      },
+      {
+        "text": "12,7 Mrd. $ Kunden-Vorauszahlungen für langfristige Lieferverträge im Geschäftsjahr",
+        "source": "Micron-Pressemitteilung (Cashflow-Rechnung)",
+        "date": "30.09.2026",
+        "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx"
+      },
+      {
+        "text": "Cash, Wertpapiere und gebundene Mittel 73,5 Mrd. $ bei 5,2 Mrd. $ Schulden",
+        "source": "Micron-Pressemitteilung",
+        "date": "30.09.2026",
+        "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx"
+      }
+    ],
+    "breaksIf": "Die FQ1-Zahlen (Termin laut Yahoo 23.12., nicht bestätigt) verfehlen 60 Mrd. $ oder die Bruttomarge fällt unter etwa 80 % – das wäre das Signal, dass die Speicherpreise drehen.",
+    "chart": {
+      "close": 690.0,
+      "date": "2026-11-06",
+      "sma50": 961.64,
+      "sma200": 756.73,
+      "rsi14": 31.3,
+      "text": "690,00 $, weit unter der 50-Tage-Linie (961,64) und inzwischen auch unter der 200-Tage-Linie (756,73), RSI 31."
+    },
+    "sources": [
+      {
+        "label": "Micron-Pressemitteilung FQ4-26",
+        "date": "30.09.2026",
+        "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx"
+      },
+      {
+        "label": "yfinance",
+        "date": "06.11.2026",
+        "url": "https://finance.yahoo.com/quote/MU/history"
+      }
+    ]
+  },
   "price": {
-    "close": 959.7,
+    "close": 690.0,
     "currency": "USD",
-    "date": "2026-10-29",
+    "date": "2026-11-06",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/MU/history",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "profile": {
     "hq": "Boise, USA",
     "employees": 61000,
     "employeesDisplay": "61.000",
-    "marketCap": 1086381293568,
-    "marketCapDisplay": "1.086,38 Mrd. USD",
+    "marketCap": 780682002432,
+    "marketCapDisplay": "780,68 Mrd. USD",
     "currency": "USD",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/MU/profile",
-    "fetchedAt": "2026-10-29"
+    "fetchedAt": "2026-11-09"
   },
   "metrics": [
     {
@@ -30,13 +78,14 @@
       "label": "Umsatzwachstum y/y",
       "value": 3.7926646,
       "display": "+379,3 %",
-      "detail": "54,23 Mrd. USD vs. 11,31 Mrd. USD",
-      "period": "Quartal bis 31.08.2026 vs. Quartal bis 31.08.2025",
-      "source": "Yahoo Finance quarterly_income_stmt",
-      "sourceUrl": "https://finance.yahoo.com/quote/MU/financials",
-      "observedAt": "2026-08-31",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "detail": "54,23 vs. 11,32 Mrd. USD",
+      "period": "FQ4-26 (bis 03.09.2026) vs. FQ4-25 (bis 28.08.2025)",
+      "source": "Micron-Pressemitteilung",
+      "sourceUrl": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx",
+      "observedAt": "2026-09-03",
+      "fetchedAt": "2026-11-09",
+      "note": null,
+      "sourceDate": "30.09.2026"
     },
     {
       "id": "grossMarginTtm",
@@ -44,12 +93,13 @@
       "value": 0.8071598,
       "display": "80,7 %",
       "detail": null,
-      "period": "TTM (4 Quartale bis 31.08.2026)",
-      "source": "Yahoo Finance quarterly_income_stmt",
-      "sourceUrl": "https://finance.yahoo.com/quote/MU/financials",
-      "observedAt": "2026-08-31",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "period": "GJ 2026 bis 03.09.2026",
+      "source": "Micron-Pressemitteilung",
+      "sourceUrl": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx",
+      "observedAt": "2026-09-03",
+      "fetchedAt": "2026-11-09",
+      "note": null,
+      "sourceDate": "30.09.2026"
     },
     {
       "id": "freeCashFlowTtm",
@@ -57,12 +107,13 @@
       "value": 58963000000,
       "display": "+58,96 Mrd. USD",
       "detail": null,
-      "period": "TTM (4 Quartale bis 31.08.2026)",
-      "source": "Yahoo Finance quarterly_cashflow",
-      "sourceUrl": "https://finance.yahoo.com/quote/MU/cash-flow",
-      "observedAt": "2026-08-31",
-      "fetchedAt": "2026-10-29",
-      "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
+      "period": "GJ 2026 bis 03.09.2026",
+      "source": "Micron-Pressemitteilung",
+      "sourceUrl": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx",
+      "observedAt": "2026-09-03",
+      "fetchedAt": "2026-11-09",
+      "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein",
+      "sourceDate": "30.09.2026"
     },
     {
       "id": "cashVsDebt",
@@ -73,12 +124,13 @@
       },
       "display": "Cash 43,43 Mrd. · Schulden 5,179 Mrd. USD",
       "detail": "Netto-Cash 38,26 Mrd. USD",
-      "period": "letzte Bilanz 31.08.2026",
-      "source": "Yahoo Finance quarterly_balance_sheet",
-      "sourceUrl": "https://finance.yahoo.com/quote/MU/balance-sheet",
-      "observedAt": "2026-08-31",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "period": "letzte Bilanz 03.09.2026",
+      "source": "Micron-Pressemitteilung",
+      "sourceUrl": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx",
+      "observedAt": "2026-09-03",
+      "fetchedAt": "2026-11-09",
+      "note": "Nur kurzfristig (38,364 + 5,070). Dazu kommen 30,02 Mrd. langfristige Wertpapiere; Micron nennt insgesamt 73,48 Mrd. $ inkl. gebundener Mittel. Schulden 5,179 Mrd. ok.",
+      "sourceDate": "30.09.2026"
     },
     {
       "id": "dilutionYoy",
@@ -86,25 +138,26 @@
       "value": 0.00892857,
       "display": "+0,9 %",
       "detail": "1,130 Mrd. vs. 1,120 Mrd. Basic Average Shares",
-      "period": "Quartal bis 31.08.2026 vs. Quartal bis 31.08.2025",
-      "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
-      "sourceUrl": "https://finance.yahoo.com/quote/MU/financials",
-      "observedAt": "2026-08-31",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "period": "FQ4-26 vs. FQ4-25",
+      "source": "Micron-Pressemitteilung",
+      "sourceUrl": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx",
+      "observedAt": "2026-09-03",
+      "fetchedAt": "2026-11-09",
+      "note": null,
+      "sourceDate": "30.09.2026"
     },
     {
       "id": "nextEarnings",
       "label": "Nächster Zahlentermin",
-      "value": "2026-12-23T21:00:00+01:00",
-      "display": "23.12.2026, 21:00 MEZ",
+      "value": "2026-12-23T22:00:00+01:00",
+      "display": "23.12.2026, 22:00 MEZ",
       "detail": null,
       "period": null,
       "source": "Yahoo Finance earnings_dates",
       "sourceUrl": "https://finance.yahoo.com/quote/MU",
       "observedAt": "2026-12-23",
-      "fetchedAt": "2026-10-29",
-      "note": null
+      "fetchedAt": "2026-11-09",
+      "note": "Termin laut Yahoo, von Micron nicht bestätigt."
     }
   ]
 }

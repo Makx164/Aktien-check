@@ -7,6 +7,7 @@ geschätzt: fehlt eine Reihe, bleibt der Wert leer.
 from __future__ import annotations
 
 from datetime import date, datetime, timedelta
+from decimal import Decimal, ROUND_HALF_UP
 from zoneinfo import ZoneInfo
 
 BERLIN = ZoneInfo("Europe/Berlin")
@@ -57,8 +58,13 @@ def clean_number(value):
     return round(number, 8)
 
 
+def _half_up(value, digits):
+    quant = Decimal("1") if digits == 0 else Decimal("1").scaleb(-digits)
+    return Decimal(str(value)).quantize(quant, rounding=ROUND_HALF_UP)
+
+
 def de_grouped(value, digits):
-    number = float(value)
+    number = _half_up(value, digits)
     sign = "−" if number < 0 else ""
     text = f"{abs(number):.{digits}f}"
     whole, _, frac = text.partition(".")
@@ -72,19 +78,30 @@ def de_grouped(value, digits):
     return sign + whole + "," + frac
 
 
-def format_money(amount, currency):
+def _scaled_amount(amount):
+    """Ganzzahlige Beträge bleiben exakt, damit 11,315 Mrd. nicht zu 11,31 wird."""
     number = finite(amount)
+    if number is None:
+        return None
+    nearest = round(number)
+    if abs(number - nearest) < 1e-6:
+        return Decimal(int(nearest))
+    return Decimal(str(number))
+
+
+def format_money(amount, currency):
+    number = _scaled_amount(amount)
     if number is None:
         return None
     code = currency or ""
     sign = "−" if number < 0 else ""
     absolute = abs(number)
-    if absolute >= 1e8:
-        scaled = absolute / 1e9
+    if absolute >= Decimal("100000000"):
+        scaled = absolute / Decimal("1000000000")
         digits = 2 if scaled >= 10 else 3
         body = de_grouped(scaled, digits) + " Mrd."
-    elif absolute >= 1e6:
-        scaled = absolute / 1e6
+    elif absolute >= Decimal("1000000"):
+        scaled = absolute / Decimal("1000000")
         digits = 1 if scaled >= 10 else 2
         body = de_grouped(scaled, digits) + " Mio."
     else:
@@ -114,6 +131,96 @@ def quarter_label(day, fiscal_month=12):
     if fiscal_month == 12 and day.month in (3, 6, 9, 12) and day.day >= 28:
         return f"Q{day.month // 3} {day.year}"
     return "Quartal bis " + day.strftime("%d.%m.%Y")
+
+
+def _calendar_quarter_end(day):
+    return (day.month, day.day) in ((3, 31), (6, 30), (9, 30), (12, 31))
+
+
+def fiscal_period_label(record):
+    """FQ4-26 (bis 03.09.2026) für ein 52/53-Wochen-Ende, nicht der Monatsultimo."""
+    if not record:
+        return None
+    end = record.get("end")
+    if end is None or _calendar_quarter_end(end):
+        return None
+    fp = str(record.get("fp") or "").upper()
+    try:
+        year = int(record.get("fy"))
+    except (TypeError, ValueError):
+        return None
+    short = year % 100
+    bis = end.strftime("%d.%m.%Y")
+    if fp in ("Q1", "Q2", "Q3", "Q4"):
+        return f"F{fp}-{short:02d} (bis {bis})"
+    if fp == "FY":
+        return f"FQ4-{short:02d} (bis {bis})"
+    return None
+
+
+def fiscal_year_label(record):
+    if not record or str(record.get("fp") or "").upper() != "FY":
+        return None
+    try:
+        year = int(record.get("fy"))
+    except (TypeError, ValueError):
+        return None
+    end = record.get("end")
+    if end is None:
+        return None
+    return f"GJ {year} bis {end.strftime('%d.%m.%Y')}"
+
+
+def match_filing_period(day, value, records, window=7):
+    """Yahoo legt 52/53-Wochen-Enden auf den Monatsultimo. Das Filing-Ende in derselben Woche gilt."""
+    if not records or day is None:
+        return None
+    candidates = [record for record in records if abs((record["end"] - day).days) <= window]
+    if not candidates:
+        return None
+    number = finite(value)
+    if number is not None:
+        close = [
+            record for record in candidates
+            if finite(record.get("val")) is not None
+            and abs(finite(record["val"]) - number) <= max(1_000_000, abs(number) * 0.02)
+        ]
+        if close:
+            candidates = close
+    candidates.sort(key=lambda record: (abs((record["end"] - day).days), 0 if str(record.get("fp") or "").upper().startswith("Q") else 1))
+    return candidates[0]
+
+
+def align_statement_dates(points, records, window=7):
+    """Ersetzt Monatsultimo-Daten durch das echte Periodenende aus dem Filing."""
+    labels = {}
+    years = {}
+    aligned = []
+    for day, value in points or []:
+        record = match_filing_period(day, value, records, window)
+        used = day
+        if record is not None:
+            used = record["end"]
+            label = fiscal_period_label(record)
+            year_label = fiscal_year_label(record)
+            if label:
+                labels[used] = label
+            if year_label:
+                years[used] = year_label
+        aligned.append((used, value))
+    return aligned, labels, years
+
+
+def describe_period(day, fiscal_month=12, labels=None):
+    if labels and day in labels:
+        return labels[day]
+    return quarter_label(day, fiscal_month)
+
+
+def short_fiscal_label(label):
+    if label and label.startswith("FQ"):
+        return label.split(" ", 1)[0]
+    return label
 
 
 def next_quarter_label(label):
@@ -239,7 +346,7 @@ def _filled(**fields):
     return fields
 
 
-def revenue_growth(revenue, currency, fetched_at, source_url, source=None, fiscal_month=12):
+def revenue_growth(revenue, currency, fetched_at, source_url, source=None, fiscal_month=12, labels=None):
     label = "Umsatzwachstum y/y"
     source = source or "Yahoo Finance quarterly_income_stmt"
     current = latest_point(revenue or [])
@@ -264,7 +371,7 @@ def revenue_growth(revenue, currency, fetched_at, source_url, source=None, fisca
         value=clean_number(ratio),
         display=format_percent(ratio, signed=True),
         detail=f"{current_text} vs. {prior_text}",
-        period=f"{quarter_label(current[0], fiscal_month)} vs. {quarter_label(prior[0], fiscal_month)}",
+        period=f"{describe_period(current[0], fiscal_month, labels)} vs. {describe_period(prior[0], fiscal_month, labels)}",
         source=source,
         sourceUrl=source_url,
         observedAt=current[0].isoformat(),
@@ -274,7 +381,7 @@ def revenue_growth(revenue, currency, fetched_at, source_url, source=None, fisca
     )
 
 
-def gross_margin(revenue, gross, info_margin, currency, fetched_at, source_url, fiscal_month=12):
+def gross_margin(revenue, gross, info_margin, currency, fetched_at, source_url, fiscal_month=12, labels=None, year_labels=None):
     label = "Bruttomarge"
     source = "Yahoo Finance quarterly_income_stmt"
     window = aligned_ttm(revenue or [], gross or [])
@@ -286,7 +393,7 @@ def gross_margin(revenue, gross, info_margin, currency, fetched_at, source_url, 
         if revenue_sum <= 0:
             return _blank(METRIC_ORDER[1], label, fetched_at, source, source_url, "kein Umsatz für die TTM-Marge")
         ratio = gross_sum / revenue_sum
-        period = "TTM (4 Quartale bis " + window[0][0].strftime("%d.%m.%Y") + ")"
+        period = (year_labels or {}).get(window[0][0]) or ("TTM (4 Quartale bis " + window[0][0].strftime("%d.%m.%Y") + ")")
         observed = window[0][0]
         note = None
     else:
@@ -334,7 +441,7 @@ def gross_margin(revenue, gross, info_margin, currency, fetched_at, source_url, 
     )
 
 
-def free_cash_flow(operating, capex, yahoo_fcf, currency, fetched_at, source_url):
+def free_cash_flow(operating, capex, yahoo_fcf, currency, fetched_at, source_url, year_labels=None):
     label = "Free Cashflow"
     source = "Yahoo Finance quarterly_cashflow"
     capex_by_day = {day: value for day, value in (capex or [])}
@@ -365,7 +472,7 @@ def free_cash_flow(operating, capex, yahoo_fcf, currency, fetched_at, source_url
         value=clean_number(total),
         display=("+" if total > 0 else "") + format_money(total, currency),
         detail=None,
-        period="TTM (4 Quartale bis " + window[0][0].strftime("%d.%m.%Y") + ")",
+        period=(year_labels or {}).get(window[0][0]) or ("TTM (4 Quartale bis " + window[0][0].strftime("%d.%m.%Y") + ")"),
         source=source,
         sourceUrl=source_url,
         observedAt=window[0][0].isoformat(),
@@ -378,7 +485,7 @@ def _latest_named(rows):
     return latest_point(rows or [])
 
 
-def cash_vs_debt(cash_combined, cash_only, short_term, debt, currency, fetched_at, source_url):
+def cash_vs_debt(cash_combined, cash_only, short_term, debt, currency, fetched_at, source_url, labels=None):
     label = "Cash vs. Schulden"
     source = "Yahoo Finance quarterly_balance_sheet"
     combined = _latest_named(cash_combined)
@@ -440,7 +547,7 @@ def _share_pair(series):
     return current, prior
 
 
-def dilution(basic, diluted, fetched_at, source_url, fiscal_month=12, anchor=None):
+def dilution(basic, diluted, fetched_at, source_url, fiscal_month=12, anchor=None, labels=None):
     label = "Verwässerung"
     basic_pair = _share_pair(basic)
     diluted_pair = _share_pair(diluted)
@@ -471,7 +578,7 @@ def dilution(basic, diluted, fetched_at, source_url, fiscal_month=12, anchor=Non
         value=clean_number(ratio),
         display=format_percent(ratio, signed=True),
         detail=f"{format_shares(current[1])} vs. {format_shares(prior[1])} {kind}",
-        period=f"{quarter_label(current[0], fiscal_month)} vs. {quarter_label(prior[0], fiscal_month)}",
+        period=f"{short_fiscal_label(describe_period(current[0], fiscal_month, labels))} vs. {short_fiscal_label(describe_period(prior[0], fiscal_month, labels))}",
         source=source + " " + kind,
         sourceUrl=source_url,
         observedAt=current[0].isoformat(),
@@ -570,6 +677,40 @@ def headquarters(city, country):
 def quote_url(symbol, path):
     suffix = "/" + path if path else ""
     return f"https://finance.yahoo.com/quote/{symbol}{suffix}"
+
+
+def filing_periods_from_rows(rows):
+    """Quartals- und Jahresenden aus dem Filing, jüngstes Filing je Stichtag."""
+    best = {}
+    for row in rows or []:
+        end = row.get("end")
+        start = row.get("start")
+        if not end or not start:
+            continue
+        try:
+            end_day = date.fromisoformat(end)
+            span = (end_day - date.fromisoformat(start)).days
+        except ValueError:
+            continue
+        if not (80 <= span <= 100 or 330 <= span <= 380):
+            continue
+        if (row.get("form") or "") not in ("10-Q", "10-K", "10-Q/A", "10-K/A"):
+            continue
+        filed = row.get("filed") or ""
+        record = {
+            "end": end_day,
+            "val": finite(row.get("val")),
+            "fp": row.get("fp"),
+            "fy": row.get("fy"),
+            "span": span,
+            "filed": filed,
+        }
+        current = best.get(end_day)
+        if current is None or filed > current["filed"]:
+            best[end_day] = record
+        elif filed == current["filed"] and str(row.get("fp") or "").upper().startswith("Q"):
+            best[end_day] = record
+    return list(best.values())
 
 
 def quarterly_points_from_rows(rows):
