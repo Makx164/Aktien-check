@@ -3,14 +3,14 @@
   "name": "ImmunityBio",
   "yahoo": "IBRX",
   "currency": "USD",
-  "asOf": "2026-11-09",
-  "thesis": "These intakt, aber der Umsatz stockt: klinisch starke Fortschritte, Q3-Produktumsatz erstmals unter dem Vorquartal.",
+  "asOf": "2026-11-10",
+  "thesis": "These wackelt: klinisch stark (Phase 3 BCG-naiv erfolgreich), aber Umsatz verfehlt und Going-Concern-Hinweis im Quartalsbericht.",
   "verdict": {
-    "asOf": "2026-11-09",
-    "status": "intakt",
-    "statusReason": "Klinisch läuft es: FDA-Erweiterung am 14.10. (papillär-only, BCG-unresponsive NMIBC), QUILT-2.005 bei BCG-naiven Patienten hat den Hauptendpunkt erreicht, Antrag noch 2026, erste Patienten in Europa behandelt. Kommerziell: Q3-Produktumsatz 48,7 Mio. $ (+53 % zum Vorjahr), aber erstmals unter dem Vorquartal (50,7 Mio. $, −3,8 %).",
+    "asOf": "2026-11-10",
+    "status": "wackelt",
+    "statusReason": "Q3-Umsatz 48,8 Mio. $ statt erwarteter 59,2 Mio. $ und erstmals unter dem Vorquartal; im Quartalsbericht steht ein Going-Concern-Hinweis (334,3 Mio. $ Cash und Wertpapiere bei rund 217 Mio. $ Mittelabfluss in neun Monaten). Positiv: QUILT-2.005 bei BCG-naiven Patienten hat den Hauptendpunkt erreicht.",
     "role": "Satellit",
-    "roleNote": "Klein halten.",
+    "roleNote": "Klein halten, nicht aufstocken; neue Aktienausgabe wahrscheinlicher.",
     "keyFacts": [
       {
         "text": "Cash und Wertpapiere 334,3 Mio. $ (30.06.: 357,4 Mio. $); bereinigter Nettoverlust 97,9 Mio. $ im Quartal",
@@ -19,20 +19,26 @@
         "url": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000097/ibrx-2026119x8kexhibit991.htm"
       },
       {
+        "text": "Umsatz 48,8 Mio. $ vs. 59,2 Mio. $ erwartet; Going-Concern-Hinweis",
+        "source": "Proactive Investors",
+        "date": "09.11.2026",
+        "url": "https://www.proactiveinvestors.com/companies/news/1101446/immunitybio-shares-slump-19-as-revenue-misses-and-going-concern-warning-hits-sentiment-1101446.html"
+      },
+      {
         "text": "Wandelanleihe der Gründer-Gruppe 834,9 Mio. $ (Marktwert) und Umsatzbeteiligungs-Verbindlichkeit 426,3 Mio. $",
         "source": "ImmunityBio-Pressemitteilung Q3 (8-K)",
         "date": "09.11.2026",
         "url": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000097/ibrx-2026119x8kexhibit991.htm"
       }
     ],
-    "breaksIf": "Q4-Umsatz bleibt trotz erweitertem Label unter 50 Mio. $, der BCG-naive Antrag geht nicht bis Jahresende raus, oder eine neue Finanzierung verwässert stark.",
+    "breaksIf": "Eine Finanzierung verwässert stark, Q4-Umsatz bleibt trotz erweitertem Label unter 50 Mio. $, oder der BCG-naive Zulassungsantrag geht nicht bis Jahresende raus.",
     "chart": {
-      "close": 8.64,
-      "date": "2026-11-06",
-      "sma50": 8.74,
+      "close": 7.11,
+      "date": "2026-11-09",
+      "sma50": 8.72,
       "sma200": 7.96,
-      "rsi14": 49.4,
-      "text": "8,64 $, knapp unter der 50-Tage-Linie (8,74), über der 200-Tage-Linie (7,96), RSI 49. Reaktion auf die Q3-Zahlen vom 09.11. noch nicht enthalten."
+      "rsi14": 38.6,
+      "text": "7,11 $ nach -17,7 % am 09.11., unter der 50-Tage-Linie (8,72) und jetzt auch unter der 200-Tage-Linie (7,96), RSI 39."
     },
     "sources": [
       {
@@ -46,30 +52,35 @@
         "url": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000091/ibrx-20261198xkexhibit991.htm"
       },
       {
+        "label": "Proactive Investors",
+        "date": "09.11.2026",
+        "url": "https://www.proactiveinvestors.com/companies/news/1101446/immunitybio-shares-slump-19-as-revenue-misses-and-going-concern-warning-hits-sentiment-1101446.html"
+      },
+      {
         "label": "yfinance",
-        "date": "06.11.2026",
+        "date": "09.11.2026",
         "url": "https://finance.yahoo.com/quote/IBRX/history"
       }
     ]
   },
   "price": {
-    "close": 8.64,
+    "close": 7.11,
     "currency": "USD",
-    "date": "2026-11-06",
+    "date": "2026-11-09",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/IBRX/history",
-    "fetchedAt": "2026-11-09"
+    "fetchedAt": "2026-11-10"
   },
   "profile": {
     "hq": "San Diego, USA",
     "employees": 684,
     "employeesDisplay": "684",
-    "marketCap": 9151686656,
-    "marketCapDisplay": "9,152 Mrd. USD",
+    "marketCap": 7535436288,
+    "marketCapDisplay": "7,535 Mrd. USD",
     "currency": "USD",
     "source": "Yahoo Finance",
     "sourceUrl": "https://finance.yahoo.com/quote/IBRX/profile",
-    "fetchedAt": "2026-11-09"
+    "fetchedAt": "2026-11-10"
   },
   "metrics": [
     {
@@ -82,7 +93,7 @@
       "source": "ImmunityBio-Pressemitteilung Q3 (8-K)",
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000097/ibrx-2026119x8kexhibit991.htm",
       "observedAt": "2026-09-30",
-      "fetchedAt": "2026-11-09",
+      "fetchedAt": "2026-11-10",
       "note": "Gesamtumsatz.",
       "sourceDate": "09.11.2026"
     },
@@ -96,7 +107,7 @@
       "source": "Yahoo Finance quarterly_income_stmt",
       "sourceUrl": "https://finance.yahoo.com/quote/IBRX/financials",
       "observedAt": "2026-06-30",
-      "fetchedAt": "2026-11-09",
+      "fetchedAt": "2026-11-10",
       "note": "Q3-Quartal 97,4 % (Herstellkosten 1,3 Mio. bei 48,8 Mio. Umsatz), wenig aussagekräftig."
     },
     {
@@ -109,7 +120,7 @@
       "source": "Yahoo Finance quarterly_cashflow",
       "sourceUrl": "https://finance.yahoo.com/quote/IBRX/cash-flow",
       "observedAt": "2026-06-30",
-      "fetchedAt": "2026-11-09",
+      "fetchedAt": "2026-11-10",
       "note": "GAAP: Operating Cash Flow − Capital Expenditure. Yahoo-Zeile Free Cash Flow stimmt überein"
     },
     {
@@ -125,7 +136,7 @@
       "source": "ImmunityBio-Pressemitteilung Q3 (8-K)",
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000097/ibrx-2026119x8kexhibit991.htm",
       "observedAt": "2026-09-30",
-      "fetchedAt": "2026-11-09",
+      "fetchedAt": "2026-11-10",
       "note": "Wandelanleihe zum Marktwert.",
       "sourceDate": "09.11.2026"
     },
@@ -139,7 +150,7 @@
       "source": "Yahoo Finance quarterly_income_stmt Basic Average Shares",
       "sourceUrl": "https://finance.yahoo.com/quote/IBRX/financials",
       "observedAt": "2026-06-30",
-      "fetchedAt": "2026-11-09",
+      "fetchedAt": "2026-11-10",
       "note": "jüngeres Quartal ohne Aktienzahl"
     },
     {
@@ -151,8 +162,8 @@
       "period": null,
       "source": "Yahoo Finance earnings_dates",
       "sourceUrl": "https://finance.yahoo.com/quote/IBRX",
-      "observedAt": "2026-11-09",
-      "fetchedAt": "2026-11-09",
+      "observedAt": null,
+      "fetchedAt": "2026-11-10",
       "note": "03.11.2026 war falsch, Q3 kam am 09.11.; nächster Termin offen."
     }
   ]

@@ -60,22 +60,23 @@ main{position:relative;padding:8px 26px 18px;outline:none}
 .legal p{color:var(--ink2);max-width:68ch;margin:8px 0}
 .legal address{font-style:normal;color:var(--ink);margin:0}
 .footer{padding:0 26px 22px}
-.foot-band{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 18px}
-.discl-big.compact{flex:1 1 320px;margin-top:12px;border:1px solid var(--bad);background:var(--bad-bg);padding:8px 12px;font-size:12px}
-.discl-big .mlabel{color:var(--bad);display:block;margin-bottom:4px}
-.foot-legal{flex:0 0 auto;margin:12px 0 0;text-align:right;font:500 11px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:16px 28px;align-items:center;margin-top:22px;padding-top:16px;border-top:1px solid var(--hair2)}
+.discl-big.compact{margin:0;border:0;border-left:2px solid var(--hair);background:transparent;padding:2px 0 2px 12px;font-size:12.5px;line-height:1.45;color:var(--ink2)}
+.discl-big .mlabel{color:var(--ink);display:block;margin-bottom:4px}
+.foot-legal{margin:0;text-align:right;font:500 11px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
 .foot-legal a{color:var(--ink2)}
 .foot-legal a:hover{color:var(--ink)}
 .foot-legal .sep{margin:0 8px;color:var(--mut)}
 .foot-legal a[aria-current="page"]{color:var(--ink)}
-.foot-url{text-align:center;font:500 11px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--ink2);margin:12px 0 0}
+.foot-url{margin:0;text-align:right;font:500 11px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--ink2)}
 @media (max-width:640px){
   body{font-size:14.5px;background-size:auto,24px 24px,24px 24px}
   .shell{margin:14px 10px 24px}
   .topbar{padding:12px 14px} main{padding:4px 14px 12px} .footer{padding:0 14px 18px}
   .brand-t{font-size:13px} .logo{width:22px;height:22px}
   .theme-tg span{padding:4px 7px;font-size:9.5px}
-  .foot-legal{flex:1 1 100%;text-align:center}
+  .foot-grid{grid-template-columns:1fr;gap:14px;align-items:start}
+  .foot-legal,.foot-url{text-align:left}
 }
   </style>
 </head>
@@ -132,13 +133,13 @@ main{position:relative;padding:8px 26px 18px;outline:none}
       <p>Außerdem besteht ein Beschwerderecht bei einer Aufsichtsbehörde (Art. 77 DSGVO). Zuständig ist insbesondere die Sächsische Datenschutz- und Transparenzbeauftragte, Maternistraße 17, 01067 Dresden, <a href="https://www.datenschutz.sachsen.de/">www.datenschutz.sachsen.de</a>.</p>
     </main>
     <footer class="footer">
-      <div class="foot-band">
+      <div class="foot-grid">
         <div class="discl-big compact"><span class="mlabel">KEINE ANLAGEBERATUNG</span>Keine Anlageberatung und keine Kauf- oder Verkaufsempfehlung. Die Kennzahlen sind öffentliche Unternehmensdaten mit Quelle und Stand. Sie können unvollständig oder veraltet sein und ersetzen keine eigene Prüfung.</div>
         <nav class="foot-legal" aria-label="Rechtliches">
           <a href="impressum.html">Impressum</a><span class="sep" aria-hidden="true">·</span><a href="datenschutz.html" aria-current="page">Datenschutz</a>
         </nav>
+        <p class="foot-url">sidequest</p>
       </div>
-      <p class="foot-url">sidequest</p>
     </footer>
     <i class="cx tl"></i><i class="cx tr"></i><i class="cx bl"></i><i class="cx br"></i>
   </div>

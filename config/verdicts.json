@@ -8,15 +8,45 @@
       "role": "Satellit",
       "roleNote": null,
       "keyFacts": [
-        {"text": "Bereinigte operative Marge 62 % (GAAP 47 %), bereinigter Free Cashflow 1,216 Mrd. $ im Quartal", "source": "Palantir-Pressemitteilung", "date": "02.11.2026", "url": "https://investors.palantir.com/news-details/2026/Palantir-Reports-Q3-2026-U-S"},
-        {"text": "Cash und US-Staatsanleihen 10,4 Mrd. $", "source": "Palantir-Pressemitteilung", "date": "02.11.2026", "url": "https://investors.palantir.com/news-details/2026/Palantir-Reports-Q3-2026-U-S"},
-        {"text": "Warnsignal: US-Unternehmens-TCV nur +11 % (1,463 Mrd. $), Gesamt-TCV +6 %, US-RDV 6,517 Mrd. $ nur +4 % zum Vorquartal", "source": "Palantir-Pressemitteilung", "date": "02.11.2026", "url": "https://investors.palantir.com/news-details/2026/Palantir-Reports-Q3-2026-U-S"}
+        {
+          "text": "Bereinigte operative Marge 62 % (GAAP 47 %), bereinigter Free Cashflow 1,216 Mrd. $ im Quartal",
+          "source": "Palantir-Pressemitteilung",
+          "date": "02.11.2026",
+          "url": "https://investors.palantir.com/news-details/2026/Palantir-Reports-Q3-2026-U-S"
+        },
+        {
+          "text": "Cash und US-Staatsanleihen 10,4 Mrd. $",
+          "source": "Palantir-Pressemitteilung",
+          "date": "02.11.2026",
+          "url": "https://investors.palantir.com/news-details/2026/Palantir-Reports-Q3-2026-U-S"
+        },
+        {
+          "text": "Warnsignal: US-Unternehmens-TCV nur +11 % (1,463 Mrd. $), Gesamt-TCV +6 %, US-RDV 6,517 Mrd. $ nur +4 % zum Vorquartal",
+          "source": "Palantir-Pressemitteilung",
+          "date": "02.11.2026",
+          "url": "https://investors.palantir.com/news-details/2026/Palantir-Reports-Q3-2026-U-S"
+        }
       ],
       "breaksIf": "TCV und RDV bleiben auch in Q4 und Q1 schwach – dann folgt das Umsatzwachstum mit Verzögerung nach unten; oder das US-Unternehmenswachstum fällt unter etwa 80 %.",
-      "chart": {"close": 160.38, "date": "2026-11-06", "sma50": 185.88, "sma200": 153.53, "rsi14": 31.2, "text": "160,38 $, unter der 50-Tage-Linie (185,88), knapp über der 200-Tage-Linie (153,53), RSI 31."},
+      "chart": {
+        "close": 160.38,
+        "date": "2026-11-06",
+        "sma50": 185.88,
+        "sma200": 153.53,
+        "rsi14": 31.2,
+        "text": "160,38 $, unter der 50-Tage-Linie (185,88), knapp über der 200-Tage-Linie (153,53), RSI 31."
+      },
       "sources": [
-        {"label": "Palantir-Pressemitteilung Q3", "date": "02.11.2026", "url": "https://investors.palantir.com/news-details/2026/Palantir-Reports-Q3-2026-U-S"},
-        {"label": "yfinance", "date": "06.11.2026", "url": "https://finance.yahoo.com/quote/PLTR/history"}
+        {
+          "label": "Palantir-Pressemitteilung Q3",
+          "date": "02.11.2026",
+          "url": "https://investors.palantir.com/news-details/2026/Palantir-Reports-Q3-2026-U-S"
+        },
+        {
+          "label": "yfinance",
+          "date": "06.11.2026",
+          "url": "https://finance.yahoo.com/quote/PLTR/history"
+        }
       ]
     }
   },
@@ -29,18 +59,61 @@
       "role": "beobachten",
       "roleNote": "Satellit halten, aber nicht weiter aufstocken, bis klar ist, ob und zu welchen Kursen das ATM genutzt wird.",
       "keyFacts": [
-        {"text": "Seit Jahresbeginn 1,46-mal so viele Aufträge wie Umsatz", "source": "OSS-Pressemitteilung", "date": "28.10.2026", "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435175/oss-ex99_1.htm"},
-        {"text": "Bruttomarge Q3 42,6 %, Jahresprognose 40–42 %", "source": "OSS 10-Q / Pressemitteilung", "date": "28.10.2026", "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435152/oss-20260930.htm"},
-        {"text": "Keine Schulden, Cash nur noch 18,9 Mio. $ (Ende 2025: 31,2 Mio. $); 12,4 Mio. $ operativer Abfluss in 9 Monaten, davon 6,25 Mio. $ Vergleichszahlung und 7,8 Mio. $ Lageraufbau", "source": "OSS-Pressemitteilung", "date": "28.10.2026", "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435175/oss-ex99_1.htm"},
-        {"text": "ATM bis 50 Mio. $; 25.037.445 Aktien ausstehend (30.09.)", "source": "SEC 424B5", "date": "28.10.2026", "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435254/oss-20261028.htm"}
+        {
+          "text": "Seit Jahresbeginn 1,46-mal so viele Aufträge wie Umsatz",
+          "source": "OSS-Pressemitteilung",
+          "date": "28.10.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435175/oss-ex99_1.htm"
+        },
+        {
+          "text": "Bruttomarge Q3 42,6 %, Jahresprognose 40–42 %",
+          "source": "OSS 10-Q / Pressemitteilung",
+          "date": "28.10.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435152/oss-20260930.htm"
+        },
+        {
+          "text": "Keine Schulden, Cash nur noch 18,9 Mio. $ (Ende 2025: 31,2 Mio. $); 12,4 Mio. $ operativer Abfluss in 9 Monaten, davon 6,25 Mio. $ Vergleichszahlung und 7,8 Mio. $ Lageraufbau",
+          "source": "OSS-Pressemitteilung",
+          "date": "28.10.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435175/oss-ex99_1.htm"
+        },
+        {
+          "text": "ATM bis 50 Mio. $; 25.037.445 Aktien ausstehend (30.09.)",
+          "source": "SEC 424B5",
+          "date": "28.10.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435254/oss-20261028.htm"
+        }
       ],
       "breaksIf": "Die angekündigten großen Q4-Aufträge (mehrere Millionen $ je Auftrag) bleiben aus, OSS verkauft über das ATM in großem Stil Aktien unter etwa 5 $, oder die Bruttomarge fällt unter 40 %.",
-      "chart": {"close": 4.31, "date": "2026-11-06", "sma50": 7.76, "sma200": 11.10, "rsi14": 27.2, "text": "4,31 $, weit unter der 50-Tage-Linie (7,76) und der 200-Tage-Linie (11,10), RSI 27 – überverkauft, aber klarer Abwärtstrend."},
+      "chart": {
+        "close": 4.31,
+        "date": "2026-11-06",
+        "sma50": 7.76,
+        "sma200": 11.1,
+        "rsi14": 27.2,
+        "text": "4,31 $, weit unter der 50-Tage-Linie (7,76) und der 200-Tage-Linie (11,10), RSI 27 – überverkauft, aber klarer Abwärtstrend."
+      },
       "sources": [
-        {"label": "OSS-Pressemitteilung Q3", "date": "28.10.2026", "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435175/oss-ex99_1.htm"},
-        {"label": "OSS 10-Q", "date": "28.10.2026", "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435152/oss-20260930.htm"},
-        {"label": "SEC 424B5 (ATM)", "date": "28.10.2026", "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435254/oss-20261028.htm"},
-        {"label": "yfinance", "date": "06.11.2026", "url": "https://finance.yahoo.com/quote/OSS/history"}
+        {
+          "label": "OSS-Pressemitteilung Q3",
+          "date": "28.10.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435175/oss-ex99_1.htm"
+        },
+        {
+          "label": "OSS 10-Q",
+          "date": "28.10.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435152/oss-20260930.htm"
+        },
+        {
+          "label": "SEC 424B5 (ATM)",
+          "date": "28.10.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1394056/000119312526435254/oss-20261028.htm"
+        },
+        {
+          "label": "yfinance",
+          "date": "06.11.2026",
+          "url": "https://finance.yahoo.com/quote/OSS/history"
+        }
       ]
     }
   },
@@ -53,15 +126,45 @@
       "role": "Satellit",
       "roleNote": "Qualitätsanker, kein Moonshot.",
       "keyFacts": [
-        {"text": "Konzernumsatz 201,9 Mrd. $ (+12 %); operativer Cashflow 168,3 Mrd. $ in 12 Monaten (+29 %)", "source": "Amazon-Pressemitteilung", "date": "29.10.2026", "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx"},
-        {"text": "Free Cashflow 12 Monate −42,4 Mrd. $, Investitionen netto 210,7 Mrd. $ in 12 Monaten, vor allem KI", "source": "Amazon-Pressemitteilung", "date": "29.10.2026", "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx"},
-        {"text": "Langfristige Schulden seit Jahresende von 65,6 auf 173,1 Mrd. $ gestiegen", "source": "Amazon-Pressemitteilung", "date": "29.10.2026", "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx"}
+        {
+          "text": "Konzernumsatz 201,9 Mrd. $ (+12 %); operativer Cashflow 168,3 Mrd. $ in 12 Monaten (+29 %)",
+          "source": "Amazon-Pressemitteilung",
+          "date": "29.10.2026",
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx"
+        },
+        {
+          "text": "Free Cashflow 12 Monate −42,4 Mrd. $, Investitionen netto 210,7 Mrd. $ in 12 Monaten, vor allem KI",
+          "source": "Amazon-Pressemitteilung",
+          "date": "29.10.2026",
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx"
+        },
+        {
+          "text": "Langfristige Schulden seit Jahresende von 65,6 auf 173,1 Mrd. $ gestiegen",
+          "source": "Amazon-Pressemitteilung",
+          "date": "29.10.2026",
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx"
+        }
       ],
       "breaksIf": "AWS-Wachstum fällt deutlich unter 30 %, während die Investitionen auf dem Niveau von rund 220 Mrd. $ (Prognose 2026) bleiben – dann zahlt sich der Ausbau nicht aus und der Free Cashflow bleibt negativ.",
-      "chart": {"close": 259.30, "date": "2026-11-06", "sma50": 253.95, "sma200": 243.94, "rsi14": 54.2, "text": "259,30 $, über der 50-Tage-Linie (253,95) und der 200-Tage-Linie (243,94), RSI 54."},
+      "chart": {
+        "close": 259.3,
+        "date": "2026-11-06",
+        "sma50": 253.95,
+        "sma200": 243.94,
+        "rsi14": 54.2,
+        "text": "259,30 $, über der 50-Tage-Linie (253,95) und der 200-Tage-Linie (243,94), RSI 54."
+      },
       "sources": [
-        {"label": "Amazon-Pressemitteilung Q3", "date": "29.10.2026", "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx"},
-        {"label": "yfinance", "date": "06.11.2026", "url": "https://finance.yahoo.com/quote/AMZN/history"}
+        {
+          "label": "Amazon-Pressemitteilung Q3",
+          "date": "29.10.2026",
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx"
+        },
+        {
+          "label": "yfinance",
+          "date": "06.11.2026",
+          "url": "https://finance.yahoo.com/quote/AMZN/history"
+        }
       ]
     }
   },
@@ -74,38 +177,101 @@
       "role": "Satellit",
       "roleNote": null,
       "keyFacts": [
-        {"text": "Operative Marge 2,6 % (Vorjahr 5,8 %); Forschungskosten +69 % auf 2,76 Mrd. $", "source": "Tesla 10-Q / Q3-Update", "date": "21.10.2026", "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm"},
-        {"text": "Auto-Bruttomarge ohne CO₂-Zertifikate 18,1 % (eigene Rechnung aus 10-Q)", "source": "Tesla 10-Q", "date": "Q3 2026", "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm"},
-        {"text": "Free Cashflow 1,53 Mrd. $ (−62 %), Cash und kurzfristige Anlagen 45,4 Mrd. $", "source": "Tesla Q3-Update", "date": "21.10.2026", "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066738/exhibit9914.htm"}
+        {
+          "text": "Operative Marge 2,6 % (Vorjahr 5,8 %); Forschungskosten +69 % auf 2,76 Mrd. $",
+          "source": "Tesla 10-Q / Q3-Update",
+          "date": "21.10.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm"
+        },
+        {
+          "text": "Auto-Bruttomarge ohne CO₂-Zertifikate 18,1 % (eigene Rechnung aus 10-Q)",
+          "source": "Tesla 10-Q",
+          "date": "Q3 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm"
+        },
+        {
+          "text": "Free Cashflow 1,53 Mrd. $ (−62 %), Cash und kurzfristige Anlagen 45,4 Mrd. $",
+          "source": "Tesla Q3-Update",
+          "date": "21.10.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066738/exhibit9914.htm"
+        }
       ],
       "breaksIf": "Der Robotaxi-Dienst kommt 2027 nicht über Austin und wenige Städte hinaus oder braucht wieder Sicherheitsfahrer, während das Autogeschäft weiter schrumpft und der Free Cashflow negativ wird.",
-      "chart": {"close": 358.22, "date": "2026-11-06", "sma50": 372.14, "sma200": 383.87, "rsi14": 42.4, "text": "358,22 $, unter der 50-Tage-Linie (372,14) und der 200-Tage-Linie (383,87), RSI 42."},
+      "chart": {
+        "close": 358.22,
+        "date": "2026-11-06",
+        "sma50": 372.14,
+        "sma200": 383.87,
+        "rsi14": 42.4,
+        "text": "358,22 $, unter der 50-Tage-Linie (372,14) und der 200-Tage-Linie (383,87), RSI 42."
+      },
       "sources": [
-        {"label": "Tesla Q3-Update", "date": "21.10.2026", "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066738/exhibit9914.htm"},
-        {"label": "Tesla 10-Q Q3", "date": "2026", "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm"},
-        {"label": "yfinance", "date": "06.11.2026", "url": "https://finance.yahoo.com/quote/TSLA/history"}
+        {
+          "label": "Tesla Q3-Update",
+          "date": "21.10.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066738/exhibit9914.htm"
+        },
+        {
+          "label": "Tesla 10-Q Q3",
+          "date": "2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm"
+        },
+        {
+          "label": "yfinance",
+          "date": "06.11.2026",
+          "url": "https://finance.yahoo.com/quote/TSLA/history"
+        }
       ]
     }
   },
   "HIMS": {
-    "thesis": "These intakt, Prüfstein Q3 am 09.11.: Wachstum +38 % und Lilly-Zugang seit 06.11., aber die Bruttomarge ist von 76 % auf 64 % gefallen.",
+    "thesis": "These wackelt: Q3-Umsatz +49 %, aber die Bruttomarge ist auf 57 % gefallen und die EBITDA-Prognose für das Jahr wurde gesenkt.",
     "verdict": {
-      "asOf": "2026-11-09",
-      "status": "intakt",
-      "statusReason": "Q2-Umsatz 753 Mio. $ (+38 %), 2,89 Mio. Abonnenten (+19 %); seit 06.11. bietet Hims Lillys Zepbound (ab 299 $/Monat) und Foundayo (ab 149 $/Monat) direkt auf der Plattform an und verzichtet auf Nachbauten von Lilly-Präparaten.",
-      "role": "Satellit",
-      "roleNote": "Nach den Q3-Zahlen (09.11. nach US-Schluss) neu prüfen.",
+      "asOf": "2026-11-10",
+      "status": "wackelt",
+      "statusReason": "Q3-Umsatz 890 Mio. $ (+49 %, Prognose 880-900 Mio. $ getroffen), aber Nettoverlust 33 Mio. $ und Bruttomarge 57 % (Vorjahr 74 %) durch den Wechsel zu Marken-Abnehmspritzen; Jahres-EBITDA-Prognose auf 257-277 Mio. $ gesenkt.",
+      "role": "beobachten",
+      "roleNote": "Halten, aber nicht nachkaufen, bis sich die Marge stabilisiert.",
       "keyFacts": [
-        {"text": "Q3-Prognose 880–900 Mio. $ Umsatz (+47–50 %)", "source": "Hims-Pressemitteilung Q2", "date": "10.08.2026", "url": "https://investors.hims.com/news/news-details/2026/Hims--Hers-Health-Inc--Reports-Second-Quarter-2026-Financial-Results/default.aspx"},
-        {"text": "Bruttomarge 64 % (Vorjahr 76 %) durch Markenpräparate; Q2-Nettoverlust 86,3 Mio. $, Free Cashflow −68,2 Mio. $", "source": "Hims-Pressemitteilung Q2", "date": "10.08.2026", "url": "https://investors.hims.com/news/news-details/2026/Hims--Hers-Health-Inc--Reports-Second-Quarter-2026-Financial-Results/default.aspx"},
-        {"text": "Lilly-Deal: wirtschaftlicher Beitrag für Hims nicht beziffert", "source": "Lilly-Pressemitteilung", "date": "06.11.2026", "url": "https://investor.lilly.com/news-releases/news-release-details/lilly-and-hims-hers-expand-access-fda-approved-lilly-medicines"}
+        {
+          "text": "Q3-Umsatz 890 Mio. $ (+49 %), Ausland +321 %",
+          "source": "Hims-Pressemitteilung Q3",
+          "date": "09.11.2026",
+          "url": "https://investors.hims.com/news/news-details/2026/Hims--Hers-Health-Inc--Reports-Third-Quarter-2026-Financial-Results/default.aspx"
+        },
+        {
+          "text": "Bruttomarge 57 % (Vorjahr 74 %), Nettoverlust 33 Mio. $",
+          "source": "Hims-Pressemitteilung Q3",
+          "date": "09.11.2026",
+          "url": "https://investors.hims.com/news/news-details/2026/Hims--Hers-Health-Inc--Reports-Third-Quarter-2026-Financial-Results/default.aspx"
+        },
+        {
+          "text": "Bereinigtes EBITDA 2026 nun 257-277 Mio. $ erwartet (gesenkt)",
+          "source": "Hims-Pressemitteilung Q3",
+          "date": "09.11.2026",
+          "url": "https://investors.hims.com/news/news-details/2026/Hims--Hers-Health-Inc--Reports-Third-Quarter-2026-Financial-Results/default.aspx"
+        }
       ],
-      "breaksIf": "Q3 verfehlt die eigene Prognose, die Bruttomarge sinkt weiter Richtung 55 %, oder die Abonnentenzahl stagniert trotz Lilly-Zugang.",
-      "chart": {"close": 26.00, "date": "2026-11-06", "sma50": 28.43, "sma200": 26.91, "rsi14": 43.8, "text": "26,00 $, unter der 50-Tage-Linie (28,43) und knapp unter der 200-Tage-Linie (26,91), RSI 44."},
+      "breaksIf": "Die Bruttomarge fällt in Q4 weiter unter 55 %, oder das Umsatzwachstum sinkt unter etwa 30 %, ohne dass die Lilly- und Novo-Angebote die Marge tragen.",
+      "chart": {
+        "close": 22.94,
+        "date": "2026-11-09",
+        "sma50": 28.31,
+        "sma200": 26.87,
+        "rsi14": 36.3,
+        "text": "22,94 $ nach -11,8 % am 09.11., unter der 50-Tage-Linie (28,31) und der 200-Tage-Linie (26,87), RSI 36."
+      },
       "sources": [
-        {"label": "Hims-Pressemitteilung Q2", "date": "10.08.2026", "url": "https://investors.hims.com/news/news-details/2026/Hims--Hers-Health-Inc--Reports-Second-Quarter-2026-Financial-Results/default.aspx"},
-        {"label": "Lilly-Pressemitteilung", "date": "06.11.2026", "url": "https://investor.lilly.com/news-releases/news-release-details/lilly-and-hims-hers-expand-access-fda-approved-lilly-medicines"},
-        {"label": "yfinance", "date": "06.11.2026", "url": "https://finance.yahoo.com/quote/HIMS/history"}
+        {
+          "label": "Hims-Pressemitteilung Q3",
+          "date": "09.11.2026",
+          "url": "https://investors.hims.com/news/news-details/2026/Hims--Hers-Health-Inc--Reports-Third-Quarter-2026-Financial-Results/default.aspx"
+        },
+        {
+          "label": "yfinance",
+          "date": "09.11.2026",
+          "url": "https://finance.yahoo.com/quote/HIMS/history"
+        }
       ]
     }
   },
@@ -118,35 +284,100 @@
       "role": "Satellit",
       "roleNote": null,
       "keyFacts": [
-        {"text": "Prämie pro Kunde 440 $ (+9 %) bei 3,52 Mio. Kunden (+23 %); Kundentreue (ADR) 86 %", "source": "Lemonade-Aktionärsbrief Q3", "date": "05.11.2026", "url": "https://www.lemonade.com/investor-relations-bo/wp-content/uploads/docs/LMND-Shareholder-Letter-Q3-2026.pdf"},
-        {"text": "Brutto-Schadenquote auf 65 % gestiegen (Vorquartal 60 %), Europa 104 %", "source": "Lemonade-Aktionärsbrief Q3", "date": "05.11.2026", "url": "https://www.lemonade.com/investor-relations-bo/wp-content/uploads/docs/LMND-Shareholder-Letter-Q3-2026.pdf"}
+        {
+          "text": "Prämie pro Kunde 440 $ (+9 %) bei 3,52 Mio. Kunden (+23 %); Kundentreue (ADR) 86 %",
+          "source": "Lemonade-Aktionärsbrief Q3",
+          "date": "05.11.2026",
+          "url": "https://www.lemonade.com/investor-relations-bo/wp-content/uploads/docs/LMND-Shareholder-Letter-Q3-2026.pdf"
+        },
+        {
+          "text": "Brutto-Schadenquote auf 65 % gestiegen (Vorquartal 60 %), Europa 104 %",
+          "source": "Lemonade-Aktionärsbrief Q3",
+          "date": "05.11.2026",
+          "url": "https://www.lemonade.com/investor-relations-bo/wp-content/uploads/docs/LMND-Shareholder-Letter-Q3-2026.pdf"
+        }
       ],
       "breaksIf": "Q4 bringt kein positives bereinigtes EBITDA, die Brutto-Schadenquote steigt über etwa 70 %, oder die Marketingausgaben wachsen weiter schneller als die Prämien.",
-      "chart": {"close": 39.55, "date": "2026-11-06", "sma50": 46.67, "sma200": 57.36, "rsi14": 36.7, "text": "39,55 $, unter der 50-Tage-Linie (46,67) und der 200-Tage-Linie (57,36), RSI 37 – Schlusskurs am 52-Wochen-Tief. Investor Day am 17.11."},
+      "chart": {
+        "close": 39.55,
+        "date": "2026-11-06",
+        "sma50": 46.67,
+        "sma200": 57.36,
+        "rsi14": 36.7,
+        "text": "39,55 $, unter der 50-Tage-Linie (46,67) und der 200-Tage-Linie (57,36), RSI 37 – Schlusskurs am 52-Wochen-Tief. Investor Day am 17.11."
+      },
       "sources": [
-        {"label": "Lemonade-Aktionärsbrief Q3", "date": "05.11.2026", "url": "https://www.lemonade.com/investor-relations-bo/wp-content/uploads/docs/LMND-Shareholder-Letter-Q3-2026.pdf"},
-        {"label": "yfinance", "date": "06.11.2026", "url": "https://finance.yahoo.com/quote/LMND/history"}
+        {
+          "label": "Lemonade-Aktionärsbrief Q3",
+          "date": "05.11.2026",
+          "url": "https://www.lemonade.com/investor-relations-bo/wp-content/uploads/docs/LMND-Shareholder-Letter-Q3-2026.pdf"
+        },
+        {
+          "label": "yfinance",
+          "date": "06.11.2026",
+          "url": "https://finance.yahoo.com/quote/LMND/history"
+        }
       ]
     }
   },
   "IBRX": {
-    "thesis": "These intakt, aber der Umsatz stockt: klinisch starke Fortschritte, Q3-Produktumsatz erstmals unter dem Vorquartal.",
+    "thesis": "These wackelt: klinisch stark (Phase 3 BCG-naiv erfolgreich), aber Umsatz verfehlt und Going-Concern-Hinweis im Quartalsbericht.",
     "verdict": {
-      "asOf": "2026-11-09",
-      "status": "intakt",
-      "statusReason": "Klinisch läuft es: FDA-Erweiterung am 14.10. (papillär-only, BCG-unresponsive NMIBC), QUILT-2.005 bei BCG-naiven Patienten hat den Hauptendpunkt erreicht, Antrag noch 2026, erste Patienten in Europa behandelt. Kommerziell: Q3-Produktumsatz 48,7 Mio. $ (+53 % zum Vorjahr), aber erstmals unter dem Vorquartal (50,7 Mio. $, −3,8 %).",
+      "asOf": "2026-11-10",
+      "status": "wackelt",
+      "statusReason": "Q3-Umsatz 48,8 Mio. $ statt erwarteter 59,2 Mio. $ und erstmals unter dem Vorquartal; im Quartalsbericht steht ein Going-Concern-Hinweis (334,3 Mio. $ Cash und Wertpapiere bei rund 217 Mio. $ Mittelabfluss in neun Monaten). Positiv: QUILT-2.005 bei BCG-naiven Patienten hat den Hauptendpunkt erreicht.",
       "role": "Satellit",
-      "roleNote": "Klein halten.",
+      "roleNote": "Klein halten, nicht aufstocken; neue Aktienausgabe wahrscheinlicher.",
       "keyFacts": [
-        {"text": "Cash und Wertpapiere 334,3 Mio. $ (30.06.: 357,4 Mio. $); bereinigter Nettoverlust 97,9 Mio. $ im Quartal", "source": "ImmunityBio-Pressemitteilung Q3 (8-K)", "date": "09.11.2026", "url": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000097/ibrx-2026119x8kexhibit991.htm"},
-        {"text": "Wandelanleihe der Gründer-Gruppe 834,9 Mio. $ (Marktwert) und Umsatzbeteiligungs-Verbindlichkeit 426,3 Mio. $", "source": "ImmunityBio-Pressemitteilung Q3 (8-K)", "date": "09.11.2026", "url": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000097/ibrx-2026119x8kexhibit991.htm"}
+        {
+          "text": "Cash und Wertpapiere 334,3 Mio. $ (30.06.: 357,4 Mio. $); bereinigter Nettoverlust 97,9 Mio. $ im Quartal",
+          "source": "ImmunityBio-Pressemitteilung Q3 (8-K)",
+          "date": "09.11.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000097/ibrx-2026119x8kexhibit991.htm"
+        },
+        {
+          "text": "Umsatz 48,8 Mio. $ vs. 59,2 Mio. $ erwartet; Going-Concern-Hinweis",
+          "source": "Proactive Investors",
+          "date": "09.11.2026",
+          "url": "https://www.proactiveinvestors.com/companies/news/1101446/immunitybio-shares-slump-19-as-revenue-misses-and-going-concern-warning-hits-sentiment-1101446.html"
+        },
+        {
+          "text": "Wandelanleihe der Gründer-Gruppe 834,9 Mio. $ (Marktwert) und Umsatzbeteiligungs-Verbindlichkeit 426,3 Mio. $",
+          "source": "ImmunityBio-Pressemitteilung Q3 (8-K)",
+          "date": "09.11.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000097/ibrx-2026119x8kexhibit991.htm"
+        }
       ],
-      "breaksIf": "Q4-Umsatz bleibt trotz erweitertem Label unter 50 Mio. $, der BCG-naive Antrag geht nicht bis Jahresende raus, oder eine neue Finanzierung verwässert stark.",
-      "chart": {"close": 8.64, "date": "2026-11-06", "sma50": 8.74, "sma200": 7.96, "rsi14": 49.4, "text": "8,64 $, knapp unter der 50-Tage-Linie (8,74), über der 200-Tage-Linie (7,96), RSI 49. Reaktion auf die Q3-Zahlen vom 09.11. noch nicht enthalten."},
+      "breaksIf": "Eine Finanzierung verwässert stark, Q4-Umsatz bleibt trotz erweitertem Label unter 50 Mio. $, oder der BCG-naive Zulassungsantrag geht nicht bis Jahresende raus.",
+      "chart": {
+        "close": 7.11,
+        "date": "2026-11-09",
+        "sma50": 8.72,
+        "sma200": 7.96,
+        "rsi14": 38.6,
+        "text": "7,11 $ nach -17,7 % am 09.11., unter der 50-Tage-Linie (8,72) und jetzt auch unter der 200-Tage-Linie (7,96), RSI 39."
+      },
       "sources": [
-        {"label": "ImmunityBio-Pressemitteilung Q3 (8-K)", "date": "09.11.2026", "url": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000097/ibrx-2026119x8kexhibit991.htm"},
-        {"label": "ImmunityBio QUILT-2.005 (8-K)", "date": "09.11.2026", "url": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000091/ibrx-20261198xkexhibit991.htm"},
-        {"label": "yfinance", "date": "06.11.2026", "url": "https://finance.yahoo.com/quote/IBRX/history"}
+        {
+          "label": "ImmunityBio-Pressemitteilung Q3 (8-K)",
+          "date": "09.11.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000097/ibrx-2026119x8kexhibit991.htm"
+        },
+        {
+          "label": "ImmunityBio QUILT-2.005 (8-K)",
+          "date": "09.11.2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1326110/000132611026000091/ibrx-20261198xkexhibit991.htm"
+        },
+        {
+          "label": "Proactive Investors",
+          "date": "09.11.2026",
+          "url": "https://www.proactiveinvestors.com/companies/news/1101446/immunitybio-shares-slump-19-as-revenue-misses-and-going-concern-warning-hits-sentiment-1101446.html"
+        },
+        {
+          "label": "yfinance",
+          "date": "09.11.2026",
+          "url": "https://finance.yahoo.com/quote/IBRX/history"
+        }
       ]
     }
   },
@@ -159,15 +390,45 @@
       "role": "Satellit",
       "roleNote": "Halten, nicht nachkaufen.",
       "keyFacts": [
-        {"text": "GAAP-Bruttomarge 86,8 % (Vorjahresquartal 44,7 %)", "source": "Micron-Pressemitteilung", "date": "30.09.2026", "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx"},
-        {"text": "12,7 Mrd. $ Kunden-Vorauszahlungen für langfristige Lieferverträge im Geschäftsjahr", "source": "Micron-Pressemitteilung (Cashflow-Rechnung)", "date": "30.09.2026", "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx"},
-        {"text": "Cash, Wertpapiere und gebundene Mittel 73,5 Mrd. $ bei 5,2 Mrd. $ Schulden", "source": "Micron-Pressemitteilung", "date": "30.09.2026", "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx"}
+        {
+          "text": "GAAP-Bruttomarge 86,8 % (Vorjahresquartal 44,7 %)",
+          "source": "Micron-Pressemitteilung",
+          "date": "30.09.2026",
+          "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx"
+        },
+        {
+          "text": "12,7 Mrd. $ Kunden-Vorauszahlungen für langfristige Lieferverträge im Geschäftsjahr",
+          "source": "Micron-Pressemitteilung (Cashflow-Rechnung)",
+          "date": "30.09.2026",
+          "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx"
+        },
+        {
+          "text": "Cash, Wertpapiere und gebundene Mittel 73,5 Mrd. $ bei 5,2 Mrd. $ Schulden",
+          "source": "Micron-Pressemitteilung",
+          "date": "30.09.2026",
+          "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx"
+        }
       ],
       "breaksIf": "Die FQ1-Zahlen (Termin laut Yahoo 23.12., nicht bestätigt) verfehlen 60 Mrd. $ oder die Bruttomarge fällt unter etwa 80 % – das wäre das Signal, dass die Speicherpreise drehen.",
-      "chart": {"close": 690.00, "date": "2026-11-06", "sma50": 961.64, "sma200": 756.73, "rsi14": 31.3, "text": "690,00 $, weit unter der 50-Tage-Linie (961,64) und inzwischen auch unter der 200-Tage-Linie (756,73), RSI 31."},
+      "chart": {
+        "close": 690.0,
+        "date": "2026-11-06",
+        "sma50": 961.64,
+        "sma200": 756.73,
+        "rsi14": 31.3,
+        "text": "690,00 $, weit unter der 50-Tage-Linie (961,64) und inzwischen auch unter der 200-Tage-Linie (756,73), RSI 31."
+      },
       "sources": [
-        {"label": "Micron-Pressemitteilung FQ4-26", "date": "30.09.2026", "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx"},
-        {"label": "yfinance", "date": "06.11.2026", "url": "https://finance.yahoo.com/quote/MU/history"}
+        {
+          "label": "Micron-Pressemitteilung FQ4-26",
+          "date": "30.09.2026",
+          "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx"
+        },
+        {
+          "label": "yfinance",
+          "date": "06.11.2026",
+          "url": "https://finance.yahoo.com/quote/MU/history"
+        }
       ]
     }
   },
@@ -180,15 +441,45 @@
       "role": "beobachten",
       "roleNote": "Halten, nicht aufstocken.",
       "keyFacts": [
-        {"text": "Nettoschulden 4,43 Mrd. $ (Vorquartal 0,22 Mrd. $); neue Aktien für 498 Mio. $ im Quartal; Nettoverlust 263 Mio. $", "source": "IREN-Pressemitteilung Q1 FY27", "date": "05.11.2026", "url": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results"},
-        {"text": "Von 15 Mrd. $ geplanten Investitionen im GJ 27 sind 6 Mrd. $ noch nicht finanziert", "source": "IREN-Pressemitteilung Q1 FY27", "date": "05.11.2026", "url": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results"},
-        {"text": "IREN nennt selbst die vom texanischen Gouverneur angeordnete Prüfung aller Rechenzentren im ERCOT-Anschlussverfahren als Risiko (Sweetwater 2 GW)", "source": "IREN-Pressemitteilung Q1 FY27 (Risikohinweise)", "date": "05.11.2026", "url": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results"}
+        {
+          "text": "Nettoschulden 4,43 Mrd. $ (Vorquartal 0,22 Mrd. $); neue Aktien für 498 Mio. $ im Quartal; Nettoverlust 263 Mio. $",
+          "source": "IREN-Pressemitteilung Q1 FY27",
+          "date": "05.11.2026",
+          "url": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results"
+        },
+        {
+          "text": "Von 15 Mrd. $ geplanten Investitionen im GJ 27 sind 6 Mrd. $ noch nicht finanziert",
+          "source": "IREN-Pressemitteilung Q1 FY27",
+          "date": "05.11.2026",
+          "url": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results"
+        },
+        {
+          "text": "IREN nennt selbst die vom texanischen Gouverneur angeordnete Prüfung aller Rechenzentren im ERCOT-Anschlussverfahren als Risiko (Sweetwater 2 GW)",
+          "source": "IREN-Pressemitteilung Q1 FY27 (Risikohinweise)",
+          "date": "05.11.2026",
+          "url": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results"
+        }
       ],
       "breaksIf": "Die 4 Mrd. $ ARR sind Ende Februar 2027 nicht in Betrieb, weitere Kapitalerhöhungen auf diesem Kursniveau, oder Verzögerungen beim ERCOT-Anschluss für Sweetwater.",
-      "chart": {"close": 21.64, "date": "2026-11-06", "sma50": 35.87, "sma200": 43.55, "rsi14": 36.3, "text": "21,64 $, weit unter der 50-Tage-Linie (35,87) und der 200-Tage-Linie (43,55), RSI 36; 52-Wochen-Tief 18,03 $ am 05.11."},
+      "chart": {
+        "close": 21.64,
+        "date": "2026-11-06",
+        "sma50": 35.87,
+        "sma200": 43.55,
+        "rsi14": 36.3,
+        "text": "21,64 $, weit unter der 50-Tage-Linie (35,87) und der 200-Tage-Linie (43,55), RSI 36; 52-Wochen-Tief 18,03 $ am 05.11."
+      },
       "sources": [
-        {"label": "IREN-Pressemitteilung Q1 FY27", "date": "05.11.2026", "url": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results"},
-        {"label": "yfinance", "date": "06.11.2026", "url": "https://finance.yahoo.com/quote/IREN/history"}
+        {
+          "label": "IREN-Pressemitteilung Q1 FY27",
+          "date": "05.11.2026",
+          "url": "https://iren.gcs-web.com/news-releases/news-release-details/iren-reports-q1-fy27-results"
+        },
+        {
+          "label": "yfinance",
+          "date": "06.11.2026",
+          "url": "https://finance.yahoo.com/quote/IREN/history"
+        }
       ]
     }
   }
