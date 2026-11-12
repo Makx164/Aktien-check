@@ -1,30 +1,30 @@
 {
   "ticker": "HIMS",
   "name": "Hims & Hers Health",
-  "asOf": "2026-11-06",
-  "score": 5.5,
+  "asOf": "2026-11-11",
+  "score": 5.6,
   "status": null,
   "criteriaWithData": 8,
   "trafficLight": "orange",
-  "qualityScore": 5.3,
-  "marketScore": 5.7,
+  "qualityScore": 5.2,
+  "marketScore": 6.2,
   "dataQuality": "Kurse von Nasdaq, Stooq hat den Abruf abgelehnt. 32 von 32 Metriken verfügbar",
   "missingDataNote": null,
   "koFlags": [],
   "price": {
-    "close": 26.0,
+    "close": 20.81,
     "currency": "USD",
-    "date": "2026-11-06",
+    "date": "2026-11-11",
     "sourceLabel": "Nasdaq Historical",
-    "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-23&todate=2026-11-09&limit=2000"
+    "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-26&todate=2026-11-12&limit=2000"
   },
   "profile": {
     "hq": "San Francisco, USA",
     "employees": 2442,
-    "marketCap": 6066148352,
+    "marketCap": 4878122496,
     "currency": "USD",
     "source": "Yahoo Finance quoteSummary",
-    "fetchedAt": "2026-11-09"
+    "fetchedAt": "2026-11-12"
   },
   "role": {
     "id": "satellit",
@@ -45,24 +45,24 @@
     {
       "id": "C_01",
       "label": "Geschäftsmodell & Burggraben",
-      "score": 7.0,
+      "score": 6.7,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Bruttomarge 68,4 % gegen 48,3 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Abstand 20,1 Pp · Streuung 2,9 Pp, Trend -0,1 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-23) · Operatives Ergebnis 105,6 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · ROIC 13,8 % minus Kapitalkosten 8,2 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Abstand 5,6 Pp. Steuersatz außerhalb −0,5 bis 1, daher 21 % · Im 10-K vom 2026-02-23 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 5,5 % des Umsatzes 2,6 Mrd. USD",
+      "dataQuality": "4 von 4 Metriken. HIMS: Umsatz 2,9 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-09). TTM bis 2026-09-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Bruttomarge 63,8 % gegen 48,3 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Abstand 15,5 Pp · Streuung 2,9 Pp, Trend -0,1 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-23) · Operatives Ergebnis 105,6 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · ROIC 13,8 % minus Kapitalkosten 8,2 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Abstand 5,6 Pp. Steuersatz außerhalb −0,5 bis 1, daher 21 % · Im 10-K vom 2026-02-23 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 5,0 % des Umsatzes 2,9 Mrd. USD",
       "metrics": [
         {
           "id": "gm_vs_industry",
           "label": "Bruttomarge gegenüber Branche",
-          "value": "20,1 Pp",
-          "raw": 0.201071,
-          "points": 10.0,
+          "value": "15,5 Pp",
+          "raw": 0.154983,
+          "points": 8.9,
           "status": null,
           "scale": "−20 Pp = 0, 0 Pp = 5, +20 Pp = 10; Bruttomarge ≥ 70 % mindestens 8",
           "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Heathcare Information and Technology",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-06-30",
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Bruttomarge 68,4 % gegen 48,3 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Abstand 20,1 Pp"
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-09-30",
+          "note": "HIMS: Umsatz 2,9 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-09). TTM bis 2026-09-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Bruttomarge 63,8 % gegen 48,3 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Abstand 15,5 Pp"
         },
         {
           "id": "gm_stability",
@@ -74,9 +74,9 @@
           "scale": "Streuung 8 Pp = 0 und 1 Pp = 10, Trend −3 Pp/Jahr = 0 und +3 Pp/Jahr = 10",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": "2025-12-31",
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Streuung 2,9 Pp, Trend -0,1 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-23)"
+          "note": "HIMS: Umsatz 2,9 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-09). TTM bis 2026-09-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Streuung 2,9 Pp, Trend -0,1 Pp pro Jahr (5 Geschäftsjahre bis 2025-12-31, SEC 10-K vom 2026-02-23)"
         },
         {
           "id": "roic_spread",
@@ -88,23 +88,23 @@
           "scale": "−5 Pp = 0, +15 Pp = 10",
           "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Heathcare Information and Technology",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": "2025-12-31",
           "note": "Operatives Ergebnis 105,6 Mio. USD bis 2025-12-31 (SEC 10-K vom 2026-02-23) · ROIC 13,8 % minus Kapitalkosten 8,2 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Abstand 5,6 Pp. Steuersatz außerhalb −0,5 bis 1, daher 21 %"
         },
         {
           "id": "revenue_quality",
           "label": "Umsatzqualität",
-          "value": "kein Großkunde ≥ 10 % gemeldet · Vertragsbindung 5,5 % → 4,9",
+          "value": "kein Großkunde ≥ 10 % gemeldet · Vertragsbindung 5,0 % → 4,8",
           "raw": null,
-          "points": 6.5,
+          "points": 6.4,
           "status": null,
           "scale": "Kunden: unter 10 % = 8, bis 15 % = 6, bis 25 % = 4, bis 40 % = 2, darüber = 0; Vertragsbindung 0 % = 3, ≥ 20 % = 10",
           "sourceLabel": "SEC EDGAR companyfacts; Damodaran, Stand Januar 2026 · Heathcare Information and Technology",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-06-30",
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Im 10-K vom 2026-02-23 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 5,5 % des Umsatzes 2,6 Mrd. USD"
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-09-30",
+          "note": "HIMS: Umsatz 2,9 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-09). TTM bis 2026-09-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Im 10-K vom 2026-02-23 fehlt ConcentrationRiskPercentage1 (kein Großkunde ≥ 10 % gemeldet) · Vertragsbindung 5,0 % des Umsatzes 2,9 Mrd. USD"
         }
       ]
     },
@@ -114,47 +114,47 @@
       "score": 7.1,
       "status": null,
       "weight": 2.0,
-      "dataQuality": "8 von 8 Metriken verfügbar. TTM bis 2026-06-30 · Quartal bis 2026-06-30 · Analystenschätzung, nächstes Jahr · 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist · Differenz auf ±30 Pp gekappt · aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte",
+      "dataQuality": "8 von 8 Metriken verfügbar. TTM bis 2026-09-30 · Quartal bis 2026-09-30 · Analystenschätzung, nächstes Jahr · 2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist · Differenz auf ±30 Pp gekappt · aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte",
       "metrics": [
         {
           "id": "revenue_ttm_yoy",
           "label": "Umsatzwachstum, TTM",
-          "value": "28,0 %",
-          "raw": 0.280389,
-          "points": 9.3,
+          "value": "29,8 %",
+          "raw": 0.297858,
+          "points": 9.9,
           "status": null,
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30"
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-09-30",
+          "note": "TTM bis 2026-09-30"
         },
         {
           "id": "revenue_quarter_yoy",
           "label": "Umsatzwachstum, letztes Quartal zum Vorjahresquartal",
-          "value": "38,2 %",
-          "raw": 0.382468,
+          "value": "48,6 %",
+          "raw": 0.486492,
           "points": 10.0,
           "status": null,
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-06-30",
-          "note": "Quartal bis 2026-06-30"
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-09-30",
+          "note": "Quartal bis 2026-09-30"
         },
         {
           "id": "revenue_estimate_yoy",
           "label": "Umsatzwachstum, Analystenschätzung nächstes Jahr",
-          "value": "24,6 %",
-          "raw": 0.2459,
-          "points": 8.2,
+          "value": "23,1 %",
+          "raw": 0.2308,
+          "points": 7.7,
           "status": null,
           "scale": "≥ 30 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary, Analystenschätzung",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null,
           "note": "Analystenschätzung, nächstes Jahr"
         },
@@ -168,7 +168,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": "2025-12-31"
         },
         {
@@ -181,7 +181,7 @@
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": "2025-12-31"
         },
         {
@@ -194,7 +194,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null,
           "statusReason": "Verlust bzw. negativer Wert in der Basisperiode"
         },
@@ -208,7 +208,7 @@
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": "2025-12-31",
           "note": "2-Jahres-CAGR, weil die 3-Jahres-Basis nicht positiv ist"
         },
@@ -222,22 +222,22 @@
           "scale": "≥ 10 Pp = 10, -10 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-06-30",
-          "note": "TTM bis 2026-06-30 · Differenz auf ±30 Pp gekappt · aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte"
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-09-30",
+          "note": "TTM bis 2026-09-30 · Differenz auf ±30 Pp gekappt · aktuelles Wachstum mindestens 20 %, deshalb mindestens 5 Punkte"
         },
         {
           "id": "operating_margin_change_yoy",
           "label": "Operative Marge gegenüber Vorjahr",
-          "value": "-12,2 Pp",
-          "raw": -0.122309,
+          "value": "-13,3 Pp",
+          "raw": -0.13304,
           "points": 0.0,
           "status": null,
           "scale": "≥ 10 Pp = 10, -5 Pp = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-06-30"
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-09-30"
         }
       ]
     },
@@ -247,7 +247,7 @@
       "score": 3.6,
       "status": null,
       "weight": 1.0,
-      "dataQuality": "4 von 4 Metriken. HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · 100,0 % Heathcare Information and Technology, Umsatzwachstum 7,9 % · Damodaran, Stand Januar 2026 · 100,0 % Heathcare Information and Technology, EBIT-Wachstum 1,7 % · Forschungsquote 7,1 % gegen R&D/Sales 6,9 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Faktor 1,03 · log10 1,80 · US-Pool CY2025: 100,0 % Heathcare Information and Technology 164,0 Mrd. USD",
+      "dataQuality": "4 von 4 Metriken. HIMS: Umsatz 2,9 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-09). TTM bis 2026-09-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · 100,0 % Heathcare Information and Technology, Umsatzwachstum 7,9 % · Damodaran, Stand Januar 2026 · 100,0 % Heathcare Information and Technology, EBIT-Wachstum 1,7 % · Forschungsquote 7,4 % gegen R&D/Sales 6,9 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Faktor 1,07 · log10 1,76 · US-Pool CY2025: 100,0 % Heathcare Information and Technology 164,0 Mrd. USD",
       "metrics": [
         {
           "id": "industry_growth",
@@ -259,9 +259,9 @@
           "scale": "3 % = 0, 25 % = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Heathcare Information and Technology",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null,
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · 100,0 % Heathcare Information and Technology, Umsatzwachstum 7,9 % · Damodaran, Stand Januar 2026"
+          "note": "HIMS: Umsatz 2,9 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-09). TTM bis 2026-09-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · 100,0 % Heathcare Information and Technology, Umsatzwachstum 7,9 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "ebit_pool",
@@ -273,74 +273,74 @@
           "scale": "0 % = 0, 20 % = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Heathcare Information and Technology",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null,
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · 100,0 % Heathcare Information and Technology, EBIT-Wachstum 1,7 % · Damodaran, Stand Januar 2026"
+          "note": "HIMS: Umsatz 2,9 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-09). TTM bis 2026-09-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · 100,0 % Heathcare Information and Technology, EBIT-Wachstum 1,7 % · Damodaran, Stand Januar 2026"
         },
         {
           "id": "rd_vs_industry",
           "label": "Forschungsquote, Technology and development",
-          "value": "7,1 %",
-          "raw": 0.071128,
-          "points": 6.1,
+          "value": "7,4 %",
+          "raw": 0.073945,
+          "points": 6.3,
           "status": null,
           "scale": "Faktor 0 = 0, 1 = 6, ab 2 = 10",
           "sourceLabel": "SEC EDGAR, Technology and development",
           "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-06-30",
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Forschungsquote 7,1 % gegen R&D/Sales 6,9 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Faktor 1,03"
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-09-30",
+          "note": "HIMS: Umsatz 2,9 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-09). TTM bis 2026-09-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · Forschungsquote 7,4 % gegen R&D/Sales 6,9 % Heathcare Information and Technology (Damodaran, Stand Januar 2026), Faktor 1,07"
         },
         {
           "id": "headroom",
           "label": "Kopfraum",
-          "value": "1,80",
-          "raw": 1.803422,
-          "points": 5.2,
+          "value": "1,76",
+          "raw": 1.756916,
+          "points": 5.0,
           "status": null,
           "scale": "log10 0,5 = 0, log10 3 = 10",
           "sourceLabel": "Damodaran, Stand Januar 2026 · Heathcare Information and Technology",
           "sourceUrl": "https://data.sec.gov/api/xbrl/frames/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax/USD/CY2025.json",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-06-30",
-          "note": "HIMS: Umsatz 2,6 Mrd. USD bis 2026-06-30 (SEC 10-Q vom 2026-08-10). TTM bis 2026-06-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · log10 1,80 · US-Pool CY2025: 100,0 % Heathcare Information and Technology 164,0 Mrd. USD"
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-09-30",
+          "note": "HIMS: Umsatz 2,9 Mrd. USD bis 2026-09-30 (SEC 10-Q vom 2026-11-09). TTM bis 2026-09-30. Telehealth- und Abo-Plattform. Branche Heathcare Information and Technology (Damodaran, Stand Januar 2026). Healthcare Support Services mit 12,1 % Bruttomarge passt nicht. · log10 1,76 · US-Pool CY2025: 100,0 % Heathcare Information and Technology 164,0 Mrd. USD"
         }
       ]
     },
     {
       "id": "C_04",
       "label": "Profitabilität & Finanzkraft",
-      "score": 1.8,
+      "score": 1.5,
       "status": null,
       "weight": 0.75,
-      "dataQuality": "6 von 6 Metriken verfügbar. TTM bis 2026-06-30 · financialData, Stichtag nicht ausgewiesen",
+      "dataQuality": "6 von 6 Metriken verfügbar. TTM bis 2026-09-30 · financialData, Stichtag nicht ausgewiesen",
       "metrics": [
         {
           "id": "operating_margin_fin",
           "label": "Operative Marge",
-          "value": "-6,0 %",
-          "raw": -0.059936,
+          "value": "-8,1 %",
+          "raw": -0.081016,
           "points": 0.0,
           "status": null,
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-06-30"
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-09-30"
         },
         {
           "id": "ocf_margin",
           "label": "Operative Cashflow-Marge",
-          "value": "10,2 %",
-          "raw": 0.102187,
-          "points": 5.1,
+          "value": "6,3 %",
+          "raw": 0.062771,
+          "points": 3.1,
           "status": null,
           "scale": "≥ 20 % = 10, 0 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary financialData",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null,
-          "note": "TTM bis 2026-06-30 · financialData, Stichtag nicht ausgewiesen"
+          "note": "TTM bis 2026-09-30 · financialData, Stichtag nicht ausgewiesen"
         },
         {
           "id": "fcf_margin_3y",
@@ -352,20 +352,20 @@
           "scale": "≥ 15 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": "2025-12-31"
         },
         {
           "id": "roe",
           "label": "Eigenkapitalrendite",
-          "value": "-35,5 %",
-          "raw": -0.354726,
+          "value": "-45,9 %",
+          "raw": -0.458752,
           "points": 0.0,
           "status": null,
           "scale": "≥ 25 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": "2025-12-31"
         },
         {
@@ -378,7 +378,7 @@
           "scale": "≥ 36 Monate = 10, 12 Monate = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null
         },
         {
@@ -391,22 +391,22 @@
           "scale": "≤ 0,00 = 10, 4,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null,
           "statusReason": "EBITDA negativ"
         },
         {
           "id": "current_ratio",
           "label": "Current Ratio",
-          "value": "0,93",
-          "raw": 0.933511,
-          "points": 1.1,
+          "value": "0,92",
+          "raw": 0.920021,
+          "points": 1.0,
           "status": null,
           "scale": "≥ 2,00 = 10, 0,80 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-06-30"
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-09-30"
         },
         {
           "id": "dilution_3y",
@@ -418,7 +418,7 @@
           "scale": "≤ 0 % = 10, 10 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": "2025-12-31"
         }
       ]
@@ -435,13 +435,13 @@
           "id": "insider_ownership",
           "label": "Insider-Anteil",
           "value": "4,9 %",
-          "raw": 0.04944,
+          "raw": 0.0492,
           "points": 3.0,
           "status": null,
           "scale": "über 10 % = 5, 3–10 % = 3, unter 3 % = 1",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS/holders",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null,
           "pointsMax": 5
         },
@@ -455,7 +455,7 @@
           "scale": "Netto-Käufe = 3, neutral = 2, Netto-Verkäufe = 0",
           "sourceLabel": "SEC EDGAR Form 4, offene Marktgeschäfte, 6 Monate",
           "sourceUrl": "https://data.sec.gov/submissions/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": "2026-10-28",
           "pointsMax": 3,
           "caption": "1 Käufe / 24 Verkäufe, davon 24 im 10b5-1-Plan · unter 0,1 % der Marktkapitalisierung",
@@ -472,14 +472,14 @@
         {
           "id": "institutional_ownership",
           "label": "Institutioneller Anteil",
-          "value": "71,4 %",
-          "raw": 0.71413,
+          "value": "71,8 %",
+          "raw": 0.71759,
           "points": 2.0,
           "status": null,
           "scale": "über 40 % = 2, bis 40 % = 0",
           "sourceLabel": "Yahoo Finance, Anteil Insider und Institutionen",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS/holders",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null,
           "pointsMax": 2
         }
@@ -489,7 +489,7 @@
     {
       "id": "C_06",
       "label": "Analysten & Stimmung",
-      "score": 2.5,
+      "score": 3.3,
       "status": null,
       "weight": 0.75,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -504,33 +504,33 @@
           "scale": "≥ 80 % = 10, 30 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null
         },
         {
           "id": "target_upside",
           "label": "Abstand zum mittleren Kursziel",
-          "value": "19,8 %",
-          "raw": 0.198225,
-          "points": 7.5,
+          "value": "38,6 %",
+          "raw": 0.386168,
+          "points": 10.0,
           "status": null,
           "scale": "≥ 30 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null
         },
         {
           "id": "eps_revision_90d",
           "label": "EPS-Revision, 90 Tage",
-          "value": "-32,0 %",
-          "raw": -0.320414,
+          "value": "-74,1 %",
+          "raw": -0.741302,
           "points": 0.0,
           "status": null,
           "scale": "≥ 10 % = 10, -10 % = 0",
           "sourceLabel": "Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null
         }
       ],
@@ -542,55 +542,61 @@
           "sell": 0.0,
           "strongSell": 0.0
         },
-        "threeMonthsAgo": null,
+        "threeMonthsAgo": {
+          "strongBuy": 2.0,
+          "buy": 1.0,
+          "hold": 11.0,
+          "sell": 0.0,
+          "strongSell": 1.0
+        },
         "target": {
-          "mean": 31.15385,
-          "median": 31.0,
+          "mean": 28.84615,
+          "median": 26.0,
           "low": 23.0,
           "high": 42.0,
           "count": 15
         },
         "changes": [
           {
-            "date": "2026-08-24",
-            "firm": "Truist Securities",
+            "date": "2026-11-10",
+            "firm": "Jefferies",
             "grade": "Hold",
+            "target": 24.0
+          },
+          {
+            "date": "2026-11-10",
+            "firm": "Morgan Stanley",
+            "grade": "Equal-Weight",
+            "target": 25.0
+          },
+          {
+            "date": "2026-11-10",
+            "firm": "Evercore ISI Group",
+            "grade": "In-Line",
+            "target": 27.0
+          },
+          {
+            "date": "2026-11-10",
+            "firm": "Needham",
+            "grade": "Buy",
             "target": 32.0
           },
           {
-            "date": "2026-08-21",
-            "firm": "Barclays",
-            "grade": "Overweight",
-            "target": 35.0
-          },
-          {
-            "date": "2026-08-11",
-            "firm": "Citigroup",
-            "grade": "Neutral",
-            "target": 33.0
-          },
-          {
-            "date": "2026-08-11",
-            "firm": "Deutsche Bank",
+            "date": "2026-08-24",
+            "firm": "Truist Securities",
             "grade": "Hold",
-            "target": 26.0
-          },
-          {
-            "date": "2026-08-11",
-            "firm": "B of A Securities",
-            "grade": "Neutral",
             "target": 32.0
           }
         ],
         "sourceLabel": "Yahoo Finance quoteSummary",
         "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-        "fetchedAt": "2026-11-09"
+        "fetchedAt": "2026-11-12"
       }
     },
     {
       "id": "C_07",
       "label": "Kursverlauf & Momentum",
-      "score": 4.7,
+      "score": 5.3,
       "status": null,
       "weight": 0.25,
       "dataQuality": "3 von 3 Metriken verfügbar",
@@ -598,15 +604,15 @@
         {
           "id": "excess_return_12_1",
           "label": "12-1-Monats-Rendite gegen SPY (S&P-500-ETF)",
-          "value": "-50,1 Pp",
-          "raw": -50.053247,
-          "points": 0.0,
+          "value": "-41,8 Pp",
+          "raw": -41.796308,
+          "points": 0.8,
           "status": null,
           "scale": "≥ 30 Pp = 10, 0 Pp = 5, ≤ -50 Pp = 0",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-23&todate=2026-11-09&limit=2000",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-11-06"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-26&todate=2026-11-12&limit=2000",
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-11-11"
         },
         {
           "id": "above_sma_200",
@@ -617,22 +623,22 @@
           "status": null,
           "scale": "über dem 200-Tage-Schnitt = 10, darunter = 5",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-23&todate=2026-11-09&limit=2000",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-11-06"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-26&todate=2026-11-12&limit=2000",
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-11-11"
         },
         {
           "id": "distance_52w_high",
           "label": "Abstand zum 52-Wochen-Hoch",
-          "value": "40,9 %",
-          "raw": 0.409091,
-          "points": 9.1,
+          "value": "49,6 %",
+          "raw": 0.495882,
+          "points": 10.0,
           "status": null,
           "scale": "0–20 % unter dem Hoch = 10; darüber nach der Fondsmanager-Regel",
           "sourceLabel": "Nasdaq Historical",
-          "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-23&todate=2026-11-09&limit=2000",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-11-06"
+          "sourceUrl": "https://api.nasdaq.com/api/quote/HIMS/historical?assetclass=stocks&fromdate=2024-05-26&todate=2026-11-12&limit=2000",
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-11-11"
         }
       ]
     },
@@ -647,15 +653,15 @@
         {
           "id": "valuation_primary",
           "label": "(EV/Umsatz) / Umsatzwachstum",
-          "value": "0,09",
-          "raw": 0.091355,
+          "value": "0,06",
+          "raw": 0.063947,
           "points": 10.0,
           "status": null,
           "scale": "≤ 0,20 = 10, 1,00 = 0",
           "sourceLabel": "SEC EDGAR companyfacts",
           "sourceUrl": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001773751.json",
-          "fetchedAt": "2026-11-09",
-          "observedAt": "2026-11-06"
+          "fetchedAt": "2026-11-12",
+          "observedAt": "2026-11-11"
         },
         {
           "id": "fcf_yield",
@@ -667,7 +673,7 @@
           "scale": "≥ 8 % = 10, 0 % = 0",
           "sourceLabel": "SEC EDGAR companyfacts; Aktienzahl Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null
         },
         {
@@ -680,7 +686,7 @@
           "scale": "≤ 8,00 = 10, 30,00 = 0",
           "sourceLabel": "Aktienzahl Yahoo Finance quoteSummary",
           "sourceUrl": "https://finance.yahoo.com/quote/HIMS",
-          "fetchedAt": "2026-11-09",
+          "fetchedAt": "2026-11-12",
           "observedAt": null,
           "statusReason": "EBITDA negativ"
         }
