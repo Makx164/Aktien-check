@@ -150,13 +150,13 @@ async function main() {
     [origin + "/#/PLTR", true, "https://yoursidequest.org/"],
     [origin + "/index.html#/mu", true, "https://yoursidequest.org/"],
     [origin + "/?open=HIMS-C_02", true, "https://yoursidequest.org/"],
-    [origin + "/impressum", true, "https://yoursidequest.org/impressum"],
+    [origin + "/impressum", true, "https://yoursidequest.org/"],
     [origin + "/datenschutz.html", true, "https://yoursidequest.org/datenschutz"],
     [origin + "/PLTR", true, "https://yoursidequest.org/"],
     [origin + "/data/PLTR/score.json", true, "https://yoursidequest.org/"],
     [origin + "/gibt-es-nicht", true, "https://yoursidequest.org/"],
     [origin + "/#/PLTR", false, "https://yoursidequest.org/"],
-    [origin + "/impressum.html", false, "https://yoursidequest.org/impressum"],
+    [origin + "/impressum.html", false, "https://yoursidequest.org/"],
     [origin + "/PYPL.html", false, "https://yoursidequest.org/"],
     [origin + "/unbekannt", false, "https://yoursidequest.org/"]
   ];

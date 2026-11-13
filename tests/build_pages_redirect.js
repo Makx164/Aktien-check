@@ -62,10 +62,10 @@ function writePages(dir) {
       link: "yoursidequest.org"
     }],
     ["impressum.html", {
-      href: "https://yoursidequest.org/impressum",
-      title: "Impressum",
-      text: "Impressum:",
-      link: "yoursidequest.org/impressum"
+      href: "https://yoursidequest.org/",
+      title: "yoursidequest",
+      text: "Weiter unter",
+      link: "yoursidequest.org"
     }],
     ["datenschutz.html", {
       href: "https://yoursidequest.org/datenschutz",

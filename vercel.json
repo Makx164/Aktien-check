@@ -2,6 +2,9 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
+    { "source": "/impressum", "destination": "/", "permanent": false },
+    { "source": "/impressum.html", "destination": "/", "permanent": false },
+    { "source": "/Impressum", "destination": "/", "permanent": false },
     { "source": "/data/:path*", "destination": "/", "permanent": false },
     { "source": "/config/:path*", "destination": "/", "permanent": false },
     { "source": "/scoring/:path*", "destination": "/", "permanent": false },

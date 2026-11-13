@@ -28,7 +28,6 @@ function sidequestNormalizePath(pathname) {
 
 function sidequestTarget(loc) {
   var path = sidequestNormalizePath(loc && loc.pathname);
-  if (path === "/impressum") return SIDEQUEST_ORIGIN + "/impressum";
   if (path === "/datenschutz") return SIDEQUEST_ORIGIN + "/datenschutz";
   return SIDEQUEST_ORIGIN + "/";
 }

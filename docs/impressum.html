@@ -28,7 +28,6 @@ function sidequestNormalizePath(pathname) {
 
 function sidequestTarget(loc) {
   var path = sidequestNormalizePath(loc && loc.pathname);
-  if (path === "/impressum") return SIDEQUEST_ORIGIN + "/impressum";
   if (path === "/datenschutz") return SIDEQUEST_ORIGIN + "/datenschutz";
   return SIDEQUEST_ORIGIN + "/";
 }
@@ -48,9 +47,9 @@ function sidequestTarget(loc) {
     location.replace(target);
   })();
   </script>
-  <title>Impressum</title>
-  <meta http-equiv="refresh" content="0; url=https://yoursidequest.org/impressum">
-  <link rel="canonical" href="https://yoursidequest.org/impressum">
+  <title>yoursidequest</title>
+  <meta http-equiv="refresh" content="0; url=https://yoursidequest.org/">
+  <link rel="canonical" href="https://yoursidequest.org/">
   <meta name="robots" content="noindex">
   <style>
     body{margin:0;min-height:100vh;display:grid;place-items:center;background:#c6c7c1;color:#111214;font:16px/1.5 system-ui,sans-serif}
@@ -61,7 +60,7 @@ function sidequestTarget(loc) {
 <body>
   <main>
     <h1>Diese Seite ist umgezogen</h1>
-    <p>Impressum: <a href="https://yoursidequest.org/impressum">yoursidequest.org/impressum</a></p>
+    <p>Weiter unter <a href="https://yoursidequest.org/">yoursidequest.org</a></p>
   </main>
 </body>
 </html>

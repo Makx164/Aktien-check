@@ -22,11 +22,14 @@ test("public pages do not render stock routes", function () {
   tickers.forEach(function (ticker) {
     assert.strictEqual(html.indexOf(ticker), -1, ticker);
   });
-  ["impressum.html", "datenschutz.html"].forEach(function (name) {
-    var legal = fs.readFileSync(path.join(root, name), "utf8");
-    tickers.forEach(function (ticker) {
-      assert.strictEqual(legal.indexOf(ticker), -1, name + " " + ticker);
-    });
+  assert.strictEqual(fs.existsSync(path.join(root, "impressum.html")), false);
+  assert.strictEqual(html.toLowerCase().indexOf("impressum"), -1);
+  var privacy = fs.readFileSync(path.join(root, "datenschutz.html"), "utf8");
+  assert.strictEqual(privacy.toLowerCase().indexOf("impressum"), -1);
+  assert.ok(privacy.indexOf("Löschung") !== -1);
+  assert.ok(privacy.indexOf("Aufsichtsbehörde") !== -1);
+  tickers.forEach(function (ticker) {
+    assert.strictEqual(privacy.indexOf(ticker), -1, ticker);
   });
 });
 
@@ -47,9 +50,9 @@ test("home, hash routes and open query land on the homepage", function () {
 });
 
 test("legal pages stay up, every other path goes home", function () {
-  assert.strictEqual(at("/Aktien-check/impressum.html"), "https://yoursidequest.org/impressum");
-  assert.strictEqual(at("/Aktien-check/impressum"), "https://yoursidequest.org/impressum");
-  assert.strictEqual(at("/Aktien-check/Impressum/"), "https://yoursidequest.org/impressum");
+  assert.strictEqual(at("/Aktien-check/impressum.html"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/Aktien-check/impressum"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/Aktien-check/Impressum/"), "https://yoursidequest.org/");
   assert.strictEqual(at("/Aktien-check/datenschutz.html"), "https://yoursidequest.org/datenschutz");
   assert.strictEqual(at("/Aktien-check/datenschutz"), "https://yoursidequest.org/datenschutz");
   assert.strictEqual(at("/Aktien-check/PLTR"), "https://yoursidequest.org/");
@@ -105,7 +108,8 @@ test("docs pages redirect home and do not name tickers", function () {
   var home = fs.readFileSync(path.join(docs, "index.html"), "utf8");
   assert.ok(home.indexOf("https://yoursidequest.org/") !== -1);
   var impressum = fs.readFileSync(path.join(docs, "impressum.html"), "utf8");
-  assert.ok(impressum.indexOf('content="0; url=https://yoursidequest.org/impressum"') !== -1);
+  assert.ok(impressum.indexOf('content="0; url=https://yoursidequest.org/"') !== -1);
+  assert.strictEqual(impressum.indexOf("/impressum"), -1);
   var pltr = fs.readFileSync(path.join(docs, "PLTR.html"), "utf8");
   assert.ok(pltr.indexOf('content="0; url=https://yoursidequest.org/"') !== -1);
   assert.strictEqual(fs.existsSync(path.join(root, "index.html")), true);
