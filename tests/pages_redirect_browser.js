@@ -147,17 +147,17 @@ async function main() {
   var origin = "http://127.0.0.1:" + started.port + base;
   var cases = [
     [origin + "/", true, "https://yoursidequest.org/"],
-    [origin + "/#/PLTR", true, "https://yoursidequest.org/#/PLTR"],
-    [origin + "/index.html#/mu", true, "https://yoursidequest.org/#/MU"],
-    [origin + "/?open=HIMS-C_02", true, "https://yoursidequest.org/?open=HIMS-C_02"],
-    [origin + "/impressum", true, "https://yoursidequest.org/impressum"],
+    [origin + "/#/PLTR", true, "https://yoursidequest.org/"],
+    [origin + "/index.html#/mu", true, "https://yoursidequest.org/"],
+    [origin + "/?open=HIMS-C_02", true, "https://yoursidequest.org/"],
+    [origin + "/impressum", true, "https://yoursidequest.org/"],
     [origin + "/datenschutz.html", true, "https://yoursidequest.org/datenschutz"],
-    [origin + "/PLTR", true, "https://yoursidequest.org/#/PLTR"],
+    [origin + "/PLTR", true, "https://yoursidequest.org/"],
     [origin + "/data/PLTR/score.json", true, "https://yoursidequest.org/"],
     [origin + "/gibt-es-nicht", true, "https://yoursidequest.org/"],
     [origin + "/#/PLTR", false, "https://yoursidequest.org/"],
-    [origin + "/impressum.html", false, "https://yoursidequest.org/impressum"],
-    [origin + "/PYPL.html", false, "https://yoursidequest.org/#/PYPL"],
+    [origin + "/impressum.html", false, "https://yoursidequest.org/"],
+    [origin + "/PYPL.html", false, "https://yoursidequest.org/"],
     [origin + "/unbekannt", false, "https://yoursidequest.org/"]
   ];
   try {
@@ -166,8 +166,7 @@ async function main() {
       for (var i = 0; i < cases.length; i++) {
         var item = cases[i];
         var href = await finalHref(ws, item[0], item[1]);
-        var extra = href.indexOf(item[2]) === 0 ? href.slice(item[2].length) : null;
-        var ok = href === item[2] || (extra !== null && /^#\/[A-Z0-9]+$/.test(extra));
+        var ok = href === item[2];
         console.log((ok ? "OK  " : "FAIL") + " js=" + item[1] + " " + item[0].replace(origin, "") + " -> " + href);
         if (!ok) throw new Error("expected " + item[2] + " got " + href);
       }

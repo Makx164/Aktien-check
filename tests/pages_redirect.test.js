@@ -7,49 +7,59 @@ var build = require("./build_pages_redirect.js");
 
 var root = path.join(__dirname, "..");
 var target = logic.sidequestTarget;
+var tickers = JSON.parse(fs.readFileSync(path.join(root, "config/tickers.json"), "utf8"))
+  .map(function (row) { return row.ticker; });
 
 function at(pathname, search, hash) {
   return target({ pathname: pathname, search: search || "", hash: hash || "" });
 }
 
-test("ticker list matches config/tickers.json and the live page", function () {
-  var configured = JSON.parse(fs.readFileSync(path.join(root, "config/tickers.json"), "utf8"))
-    .map(function (row) { return row.ticker; });
-  assert.deepStrictEqual(logic.SIDEQUEST_TICKERS, configured);
+test("public pages do not render stock routes", function () {
   var html = fs.readFileSync(path.join(root, "index.html"), "utf8");
-  var match = html.match(/var CODES = \[([^\]]+)\]/);
-  assert.ok(match, "CODES array");
-  var codes = match[1].match(/C_\d+/g);
-  assert.deepStrictEqual(logic.SIDEQUEST_CODES, codes);
+  assert.strictEqual(html.indexOf("location.replace(target)"), -1);
+  assert.ok(html.indexOf(">Coming soon<") !== -1);
+  assert.ok(html.indexOf("<title>yoursidequest</title>") !== -1);
+  tickers.forEach(function (ticker) {
+    assert.strictEqual(html.indexOf(ticker), -1, ticker);
+  });
+  assert.strictEqual(fs.existsSync(path.join(root, "impressum.html")), false);
+  assert.strictEqual(html.toLowerCase().indexOf("impressum"), -1);
+  var privacy = fs.readFileSync(path.join(root, "datenschutz.html"), "utf8");
+  assert.strictEqual(privacy.toLowerCase().indexOf("impressum"), -1);
+  assert.ok(privacy.indexOf("Löschung") !== -1);
+  assert.ok(privacy.indexOf("Aufsichtsbehörde") !== -1);
+  tickers.forEach(function (ticker) {
+    assert.strictEqual(privacy.indexOf(ticker), -1, ticker);
+  });
 });
 
-test("home, hash routes and open query keep the matching page", function () {
+test("home, hash routes and open query land on the homepage", function () {
   assert.strictEqual(at("/Aktien-check/"), "https://yoursidequest.org/");
   assert.strictEqual(at("/Aktien-check"), "https://yoursidequest.org/");
   assert.strictEqual(at("/Aktien-check/index.html"), "https://yoursidequest.org/");
-  assert.strictEqual(at("/Aktien-check/index.html", "", "#/PLTR"), "https://yoursidequest.org/#/PLTR");
-  assert.strictEqual(at("/Aktien-check/", "", "#/pltr"), "https://yoursidequest.org/#/PLTR");
+  assert.strictEqual(at("/Aktien-check/index.html", "", "#/PLTR"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/Aktien-check/", "", "#/pltr"), "https://yoursidequest.org/");
   assert.strictEqual(at("/Aktien-check/", "", "#/NOPE"), "https://yoursidequest.org/");
-  assert.strictEqual(at("/Aktien-check/", "", "#/PLTR/extra"), "https://yoursidequest.org/#/PLTR");
-  assert.strictEqual(at("/Aktien-check/", "?open=TSLA-C_05"), "https://yoursidequest.org/?open=TSLA-C_05");
-  assert.strictEqual(at("/Aktien-check/", "?open=hims-c_02"), "https://yoursidequest.org/?open=HIMS-C_02");
-  assert.strictEqual(at("/Aktien-check/", "?open=TSLA-C_99"), "https://yoursidequest.org/?open=TSLA");
-  assert.strictEqual(at("/Aktien-check/", "?evil=https://evil.example&open=MU-C_01", "#/MU"), "https://yoursidequest.org/?open=MU-C_01#/MU");
+  assert.strictEqual(at("/Aktien-check/", "", "#/PLTR/extra"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/Aktien-check/", "?open=TSLA-C_05"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/Aktien-check/", "?open=hims-c_02"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/Aktien-check/", "?open=TSLA-C_99"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/Aktien-check/", "?evil=https://evil.example&open=MU-C_01", "#/MU"), "https://yoursidequest.org/");
   assert.strictEqual(at("/Aktien-check/", "?open=https://evil.example"), "https://yoursidequest.org/");
-  assert.strictEqual(at("/", "", "#/SIVE"), "https://yoursidequest.org/#/SIVE");
+  assert.strictEqual(at("/", "", "#/SIVE"), "https://yoursidequest.org/");
 });
 
-test("legal pages, ticker paths and unknown paths", function () {
-  assert.strictEqual(at("/Aktien-check/impressum.html"), "https://yoursidequest.org/impressum");
-  assert.strictEqual(at("/Aktien-check/impressum"), "https://yoursidequest.org/impressum");
-  assert.strictEqual(at("/Aktien-check/Impressum/"), "https://yoursidequest.org/impressum");
+test("legal pages stay up, every other path goes home", function () {
+  assert.strictEqual(at("/Aktien-check/impressum.html"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/Aktien-check/impressum"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/Aktien-check/Impressum/"), "https://yoursidequest.org/");
   assert.strictEqual(at("/Aktien-check/datenschutz.html"), "https://yoursidequest.org/datenschutz");
   assert.strictEqual(at("/Aktien-check/datenschutz"), "https://yoursidequest.org/datenschutz");
-  assert.strictEqual(at("/Aktien-check/PLTR"), "https://yoursidequest.org/#/PLTR");
-  assert.strictEqual(at("/Aktien-check/pltr.html"), "https://yoursidequest.org/#/PLTR");
-  assert.strictEqual(at("/Aktien-check/PLTR/"), "https://yoursidequest.org/#/PLTR");
-  assert.strictEqual(at("/Aktien-check/ticker/AMZN"), "https://yoursidequest.org/#/AMZN");
-  assert.strictEqual(at("/Aktien-check/aktie/IREN/"), "https://yoursidequest.org/#/IREN");
+  assert.strictEqual(at("/Aktien-check/PLTR"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/Aktien-check/pltr.html"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/Aktien-check/PLTR/"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/Aktien-check/ticker/AMZN"), "https://yoursidequest.org/");
+  assert.strictEqual(at("/Aktien-check/aktie/IREN/"), "https://yoursidequest.org/");
   assert.strictEqual(at("/Aktien-check/data/PLTR/score.json"), "https://yoursidequest.org/");
   assert.strictEqual(at("/Aktien-check/fonts/space-grotesk.woff2"), "https://yoursidequest.org/");
   assert.strictEqual(at("/Aktien-check/config/tickers.json"), "https://yoursidequest.org/");
@@ -69,11 +79,11 @@ test("targets stay on yoursidequest.org", function () {
   });
 });
 
-test("docs pages are generated from the mapper and do not touch the Vercel site", function () {
+test("docs pages redirect home and do not name tickers", function () {
   var docs = path.join(root, "docs");
   var expected = [
     "index.html", "impressum.html", "datenschutz.html", "404.html", ".nojekyll", "sw.js", "service-worker.js"
-  ].concat(logic.SIDEQUEST_TICKERS.map(function (ticker) { return ticker + ".html"; }));
+  ].concat(tickers.map(function (ticker) { return ticker + ".html"; }));
   var actual = fs.readdirSync(docs).sort();
   assert.deepStrictEqual(actual, expected.slice().sort());
   assert.strictEqual(fs.readFileSync(path.join(docs, "sw.js"), "utf8"), fs.readFileSync(path.join(root, "sw.js"), "utf8"));
@@ -90,15 +100,19 @@ test("docs pages are generated from the mapper and do not touch the Vercel site"
     assert.ok(html.indexOf("location.replace(target);") !== -1);
     assert.ok(html.indexOf("<a href=\"") !== -1);
     assert.ok(html.indexOf("function sidequestTarget") !== -1);
+    tickers.forEach(function (ticker) {
+      assert.strictEqual(html.indexOf(ticker), -1, name + " " + ticker);
+    });
+    assert.strictEqual(html.indexOf("#/"), -1);
   });
   var home = fs.readFileSync(path.join(docs, "index.html"), "utf8");
   assert.ok(home.indexOf("https://yoursidequest.org/") !== -1);
   var impressum = fs.readFileSync(path.join(docs, "impressum.html"), "utf8");
-  assert.ok(impressum.indexOf('content="0; url=https://yoursidequest.org/impressum"') !== -1);
+  assert.ok(impressum.indexOf('content="0; url=https://yoursidequest.org/"') !== -1);
+  assert.strictEqual(impressum.indexOf("/impressum"), -1);
   var pltr = fs.readFileSync(path.join(docs, "PLTR.html"), "utf8");
-  assert.ok(pltr.indexOf('content="0; url=https://yoursidequest.org/#/PLTR"') !== -1);
+  assert.ok(pltr.indexOf('content="0; url=https://yoursidequest.org/"') !== -1);
   assert.strictEqual(fs.existsSync(path.join(root, "index.html")), true);
-  assert.ok(fs.readFileSync(path.join(root, "index.html"), "utf8").indexOf("location.replace(target)") === -1);
 });
 
 test("builder is deterministic", function () {

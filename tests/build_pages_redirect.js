@@ -5,7 +5,8 @@ var path = require("path");
 var root = path.join(__dirname, "..");
 var logicPath = path.join(__dirname, "pages_redirect_logic.js");
 var logic = fs.readFileSync(logicPath, "utf8").replace(/\n*if \(typeof module[\s\S]*$/, "\n");
-var tickers = require(logicPath).SIDEQUEST_TICKERS;
+var tickers = JSON.parse(fs.readFileSync(path.join(root, "config/tickers.json"), "utf8"))
+  .map(function (row) { return row.ticker; });
 
 function page(opts) {
   var href = opts.href;
@@ -56,35 +57,35 @@ function writePages(dir) {
   var pages = [
     ["index.html", {
       href: "https://yoursidequest.org/",
-      title: "Weiterleitung · sidequest",
-      text: "sidequest liegt jetzt unter",
+      title: "yoursidequest",
+      text: "Weiter unter",
       link: "yoursidequest.org"
     }],
     ["impressum.html", {
-      href: "https://yoursidequest.org/impressum",
-      title: "Impressum · Weiterleitung · sidequest",
-      text: "Das Impressum liegt jetzt unter",
-      link: "yoursidequest.org/impressum"
+      href: "https://yoursidequest.org/",
+      title: "yoursidequest",
+      text: "Weiter unter",
+      link: "yoursidequest.org"
     }],
     ["datenschutz.html", {
       href: "https://yoursidequest.org/datenschutz",
-      title: "Datenschutz · Weiterleitung · sidequest",
-      text: "Die Datenschutzerklärung liegt jetzt unter",
+      title: "Datenschutz",
+      text: "Datenschutz:",
       link: "yoursidequest.org/datenschutz"
     }],
     ["404.html", {
       href: "https://yoursidequest.org/",
-      title: "Seite nicht gefunden · Weiterleitung · sidequest",
-      text: "Diese Adresse gibt es hier nicht mehr. Weiter geht es auf",
+      title: "yoursidequest",
+      text: "Weiter unter",
       link: "yoursidequest.org"
     }]
   ];
   tickers.forEach(function (ticker) {
     pages.push([ticker + ".html", {
-      href: "https://yoursidequest.org/#/" + ticker,
-      title: ticker + " · Weiterleitung · sidequest",
-      text: ticker + " liegt jetzt unter",
-      link: "yoursidequest.org/#/" + ticker
+      href: "https://yoursidequest.org/",
+      title: "yoursidequest",
+      text: "Weiter unter",
+      link: "yoursidequest.org"
     }]);
   });
   pages.forEach(function (entry) {

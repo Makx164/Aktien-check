@@ -1,8 +1,6 @@
 name: scores
 
 on:
-  schedule:
-    - cron: "0 5 * * 1,4"
   workflow_dispatch:
 
 permissions:
