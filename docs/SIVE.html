@@ -5,23 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script>
 /* Zielzuordnung für die alte GitHub-Pages-Adresse.
-   Nur https://yoursidequest.org, nur bekannte Ticker und Seiten. */
+   Nur https://yoursidequest.org. Jeder andere Pfad endet auf der Startseite. */
 
 var SIDEQUEST_ORIGIN = "https://yoursidequest.org";
-var SIDEQUEST_TICKERS = ["PLTR", "OSS", "AMZN", "TSLA", "HIMS", "LMND", "IBRX", "MU", "IREN", "GRAB", "SIVE", "SPCX", "PYPL"];
-var SIDEQUEST_CODES = ["C_01", "C_02", "C_03", "C_04", "C_05", "C_06", "C_07", "C_08", "C_09"];
-
-function sidequestTickerMap() {
-  var map = {};
-  for (var i = 0; i < SIDEQUEST_TICKERS.length; i++) map[SIDEQUEST_TICKERS[i]] = 1;
-  return map;
-}
-
-function sidequestCodeMap() {
-  var map = {};
-  for (var i = 0; i < SIDEQUEST_CODES.length; i++) map[SIDEQUEST_CODES[i]] = 1;
-  return map;
-}
 
 function sidequestNormalizePath(pathname) {
   var path = String(pathname || "/");
@@ -40,55 +26,10 @@ function sidequestNormalizePath(pathname) {
   return lower;
 }
 
-function sidequestHash(loc, tickers) {
-  var raw = String(loc && loc.hash || "");
-  if (raw.charAt(0) === "#") raw = raw.slice(1);
-  try { raw = decodeURIComponent(raw); } catch (e) { return ""; }
-  var part = raw.split("/").filter(Boolean)[0] || "";
-  var ticker = part.toUpperCase();
-  if (!tickers[ticker]) return "";
-  return "#/" + ticker;
-}
-
-function sidequestSearch(loc, tickers, codes) {
-  var raw = String(loc && loc.search || "");
-  if (raw.charAt(0) === "?") raw = raw.slice(1);
-  if (!raw) return "";
-  var open = "";
-  var pairs = raw.split("&");
-  for (var i = 0; i < pairs.length; i++) {
-    var pair = pairs[i];
-    var eq = pair.indexOf("=");
-    var key = eq === -1 ? pair : pair.slice(0, eq);
-    var value = eq === -1 ? "" : pair.slice(eq + 1);
-    if (key !== "open") continue;
-    try { open = decodeURIComponent(value.replace(/\+/g, " ")); } catch (e) { open = ""; }
-  }
-  if (!open) return "";
-  var bits = open.split("-");
-  var ticker = String(bits[0] || "").trim().toUpperCase();
-  if (!tickers[ticker]) return "";
-  var code = bits.slice(1).join("-").trim().toUpperCase();
-  if (code && !codes[code]) return "?open=" + ticker;
-  return "?open=" + ticker + (code ? "-" + code : "");
-}
-
 function sidequestTarget(loc) {
-  var tickers = sidequestTickerMap();
-  var codes = sidequestCodeMap();
   var path = sidequestNormalizePath(loc && loc.pathname);
-  if (path === "/") {
-    return SIDEQUEST_ORIGIN + "/" + sidequestSearch(loc, tickers, codes) + sidequestHash(loc, tickers);
-  }
   if (path === "/impressum") return SIDEQUEST_ORIGIN + "/impressum";
   if (path === "/datenschutz") return SIDEQUEST_ORIGIN + "/datenschutz";
-  var segs = path.split("/").filter(Boolean);
-  if (segs.length === 1 && tickers[segs[0].toUpperCase()]) {
-    return SIDEQUEST_ORIGIN + "/#/" + segs[0].toUpperCase();
-  }
-  if (segs.length === 2 && (segs[0] === "ticker" || segs[0] === "aktie") && tickers[segs[1].toUpperCase()]) {
-    return SIDEQUEST_ORIGIN + "/#/" + segs[1].toUpperCase();
-  }
   return SIDEQUEST_ORIGIN + "/";
 }
   (function () {
@@ -107,9 +48,9 @@ function sidequestTarget(loc) {
     location.replace(target);
   })();
   </script>
-  <title>SIVE · Weiterleitung · sidequest</title>
-  <meta http-equiv="refresh" content="0; url=https://yoursidequest.org/#/SIVE">
-  <link rel="canonical" href="https://yoursidequest.org/#/SIVE">
+  <title>yoursidequest</title>
+  <meta http-equiv="refresh" content="0; url=https://yoursidequest.org/">
+  <link rel="canonical" href="https://yoursidequest.org/">
   <meta name="robots" content="noindex">
   <style>
     body{margin:0;min-height:100vh;display:grid;place-items:center;background:#c6c7c1;color:#111214;font:16px/1.5 system-ui,sans-serif}
@@ -120,7 +61,7 @@ function sidequestTarget(loc) {
 <body>
   <main>
     <h1>Diese Seite ist umgezogen</h1>
-    <p>SIVE liegt jetzt unter <a href="https://yoursidequest.org/#/SIVE">yoursidequest.org/#/SIVE</a></p>
+    <p>Weiter unter <a href="https://yoursidequest.org/">yoursidequest.org</a></p>
   </main>
 </body>
 </html>

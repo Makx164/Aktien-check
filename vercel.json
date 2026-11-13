@@ -1,6 +1,19 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/data/:path*", "destination": "/", "permanent": false },
+    { "source": "/config/:path*", "destination": "/", "permanent": false },
+    { "source": "/scoring/:path*", "destination": "/", "permanent": false },
+    { "source": "/scripts/:path*", "destination": "/", "permanent": false },
+    { "source": "/ticker/:path*", "destination": "/", "permanent": false },
+    { "source": "/aktie/:path*", "destination": "/", "permanent": false },
+    {
+      "source": "/:file(PLTR|pltr|OSS|oss|AMZN|amzn|TSLA|tsla|HIMS|hims|LMND|lmnd|IBRX|ibrx|MU|mu|IREN|iren|GRAB|grab|SIVE|sive|SPCX|spcx|PYPL|pypl)",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/sw.js",
